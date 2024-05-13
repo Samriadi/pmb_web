@@ -1,14 +1,9 @@
 <?php
-
-// File: config.php
 return [
     'db' => [
         'host' => 'localhost',
-        'dbname' => 'hewi',
-        'username' => 'root',
-        'password' => '',
+		'dbname' => "pmb",
+        'username' => "root",
+        'password' => ""
     ]
 ];
-
-
-?>

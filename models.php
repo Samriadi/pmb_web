@@ -1,20 +1,24 @@
 <?php
-// File: example.php
-require 'Database.php';
-
-// Get database instance
-$pdo = Database::getInstance();
+require_once 'database.php';
 
 class dataModel {
-    public function getPeriode($jenjang) {
+    public function getPeriode() {
 		$db = Database::getInstance();
 		
-        $query = "SELECT * FROM edu_periode WHERE status='OPEN' AND Jenjang=? AND CURDATE() BETWEEN fromDate AND toDate";
+        $query = "SELECT * FROM edu_periode";
         $stmt = $db->prepare($query);
-        $stmt->execute([$jenjang]);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function getTagihan() {
+		$db = Database::getInstance();
+		
+        $query = "SELECT * FROM tagihan";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }	
     public function getJurusan() {
 		$db = Database::getInstance();
 		
@@ -23,16 +27,13 @@ class dataModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-	
-    public function saveMahasiswa($nim, $nama, $programstudi) {
-       $db = Database::getInstance();
-
-	   $sql = "INSERT INTO Mahasiswa VALUES(?, ?, ?)";
-       $stmt = $db->prepare($sql);
-    
-       $stmt->execute([$nim, $nama, $programstudi]);
-       
-	   return "Saved!";
+    public function getPendaftaran() {
+		$db = Database::getInstance();
+		
+        $query = "SELECT * FROM pendaftaranmahasiswa";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
     public function getInvoice($id_pendaftaran) {
 		$db = Database::getInstance();
@@ -53,11 +54,12 @@ class dataModel {
         ORDER BY 
         tagihan.ID 
         DESC LIMIT 1";
-    
+    ;
         $stmt = $db->prepare($query);
         $stmt->execute([$id_pendaftaran]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    
     public function getVaroption($recid) {
 		$db = Database::getInstance();
 		
@@ -66,6 +68,7 @@ class dataModel {
         $stmt->execute([$recid]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function getCard($member_id) {
         $db = Database::getInstance();
 
@@ -81,9 +84,11 @@ class dataModel {
         $stmt->execute([$member_id]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-  
+
+    
 }
-$data = new dataModel();
-$data = $model->getInvoice(56);
-var_dump($data);
+    $model = new dataModel();
+    $data = $model->getInvoice(56);
+    // var_dump($data);
+
 ?>

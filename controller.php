@@ -1,13 +1,9 @@
 <?php
-include 'models.php';
-class mainController {
-    private $setup;
+require_once 'models.php';
 
-    // public function __construct() {
-    //     $this->setup = getSetup();
-    // }
-	
-    public function index() {		
+class mainController {
+
+	public function index() {		
         $models = new dataModel();
         $data = $models->getPeriode("S1");
 		
@@ -16,27 +12,17 @@ class mainController {
 			$periode = $dt->Periode;
 		endforeach;
 	
-		include __DIR__ . "page.php";
+		include __DIR__ . "/page.php";
+		// echo "tes";
     }
-	
+
 	public function hotNews() {
-		$models = new dataModel();
-				   
+		$models = new dataModel();   
         $jurusan = $models->getJurusan();
 		include __DIR__ . "page_jurusan.php";
     }
-	
-    public function save() {
-	   $model = new dataModel();
-	   
-	   $nim = $_POST["nim"];
-	   $nama = $_POST["nama"];
-	   $programstudi = $_POST["programStudi"];
-		  	
-	   $result = $model->saveMahasiswa($nim, $nama, $programstudi);	
-	   echo "Status = ".$result;
-	}
-	public function invoice() {		
+
+    public function invoice() {		
         $models = new dataModel();
         $data = $models->getInvoice(56);
 		foreach ($data as $dt): 
@@ -46,11 +32,10 @@ class mainController {
 			$tagihan = $dt->jumlah_tagihan;
 		endforeach;
 	
-		include __DIR__ . "page_invoice.php";
+		include __DIR__ . "/invoice.php";
 		
-		return $data;
-    }
 
+    }
 	public function testCard() {		
         $models = new dataModel();
         $data = $models->getCard(56);
@@ -136,16 +121,10 @@ class mainController {
 
 		endforeach;
 	
-		include __DIR__ . "page_kartu_ujian.php";
+		include __DIR__ . "/page_kartu_ujian.php";
 		
     }
-	
 }
-   	$models = new dataModel();
-    $data = $models->getCard(56);
-		foreach ($data as $dt): 
-		
-		endforeach;
-
-	
+    $controller = new mainController();
+    // var_dump($controller->invoice());
 ?>

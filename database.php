@@ -1,13 +1,31 @@
-<?php 
-class Database {
-    private static $instance = null;
+<?php
+    class Database {
+        private static $instance;
+        private $connection;
+        private $host = 'localhost';
+        private $username = 'root';
+        private $password = '';
+        private $database = 'pmb';
 
-    public static function getInstance() {
-        if (self::$instance === null) {
-            $config = require 'config.php';
-            self::$instance = new PDO('mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['dbname'], $config['db']['username'], $config['db']['password']);
+        private function __construct() {
+            try {
+                $dsn = "mysql:host={$this->host};dbname={$this->database}";
+                $this->connection = new PDO($dsn, $this->username, $this->password);
+                $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                die("Koneksi database gagal: " . $e->getMessage());
+            }
         }
-        return self::$instance;
+
+        public static function getInstance() {
+            if (!self::$instance) {
+                self::$instance = new self();
+            }
+            return self::$instance;
+        }
+
+        public function prepare($sql) {
+            return $this->connection->prepare($sql);
+        }
     }
-}
 ?>
