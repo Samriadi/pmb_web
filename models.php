@@ -5,13 +5,6 @@ require 'Database.php';
 // Get database instance
 $pdo = Database::getInstance();
 
-// Example query
-// $stmt = $pdo->query('SELECT * FROM tagihan');
-// while ($row = $stmt->fetch()) {
-//     echo $row['nomor_va'] . "<br>";
-//     // Output row data
-//     var_dump($row);
-// }
 class dataModel {
     public function getPeriode($jenjang) {
 		$db = Database::getInstance();
@@ -88,4 +81,9 @@ class dataModel {
         $stmt->execute([$member_id]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+  
 }
+$data = new dataModel();
+$data = $model->getInvoice(56);
+var_dump($data);
+?>
