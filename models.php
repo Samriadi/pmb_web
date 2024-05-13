@@ -59,7 +59,7 @@ class dataModel {
         $stmt->execute([$id_pendaftaran]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-    
+
     public function getVaroption($recid) {
 		$db = Database::getInstance();
 		
@@ -88,7 +88,7 @@ class dataModel {
     
 }
     $model = new dataModel();
-    $data = $model->getInvoice(56);
+    $data = $model->getCard(56);
     // var_dump($data);
 
 ?>

@@ -32,7 +32,7 @@ class mainController {
 			$tagihan = $dt->jumlah_tagihan;
 		endforeach;
 	
-		include __DIR__ . "/invoice.php";
+		include __DIR__ . "/page_invoice.php";
 		
 
     }
