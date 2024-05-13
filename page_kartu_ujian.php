@@ -57,7 +57,6 @@
 			<td>
 				<div class="tentang">
 				<p style="font-size : 25px;">HEWI UNIVERSITY</p>
-				<p style="font-size : 20px;">Fakultas <?=$fakultas?></p>
 				<p>jl. Pendalaman II Kec. Bustamani Sudiang 90121, Telp : 0411-637276767</p>
 				<p>Email : pmbhewi@gmail.co.id</p>
 				<p>Website : Https://hewi.co.id/campus</p><br>
