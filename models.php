@@ -85,10 +85,28 @@ class dataModel {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    
+    public function getSchedule($member_id){
+        $db = Database::getInstance();
+
+        $query = "SELECT 
+        jadwal_tes.*, tagihan.*, pendaftaranmahasiswa.ID, pendaftaranmahasiswa.NamaLengkap, pendaftaranmahasiswa.photo 
+        FROM jadwal_tes 
+        JOIN tagihan
+        ON jadwal_tes.member_id = tagihan.member_id
+        JOIN pendaftaranmahasiswa
+        ON jadwal_tes.member_id= pendaftaranmahasiswa.ID
+        WHERE jadwal_tes.member_id = ?
+        ORDER BY jadwal_tes.tanggal";
+
+        $stmt = $db->prepare($query);
+        $stmt->execute([$member_id]);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+
+    }
 }
-    $model = new dataModel();
-    $data = $model->getCard(56);
+
+    // $model = new dataModel();
+    // $data = $model->getSchedule(56);
     // var_dump($data);
 
 ?>
