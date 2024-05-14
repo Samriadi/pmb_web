@@ -103,10 +103,17 @@ class dataModel {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
 
     }
+
+    public function getBukti($member_id) {
+		$db = Database::getInstance();
+		
+        $query = "SELECT * FROM upload WHERE member_id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$member_id]);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }	
 }
 
-    // $model = new dataModel();
-    // $data = $model->getSchedule(56);
-    // var_dump($data);
+ 
 
 ?>

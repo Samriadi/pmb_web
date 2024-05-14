@@ -1,129 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Print Modal Content</title>
-    <style>
-        /* Gaya untuk modal */
-        .modal {
-            display: none; /* Sembunyikan modal secara default */
-            position: fixed; /* Posisi tetap untuk tumpuan */
-            z-index: 1; /* Lokasi modal */
-            left: 0;
-            top: 0;
-            width: 100%; /* Lebar modal */
-            height: 100%; /* Tinggi modal */
-            overflow: auto; /* Aktifkan gulir */
-            background-color: rgba(0,0,0,0.4); /* Warna latar belakang dengan transparansi */
-        }
-
-        /* Konten modal */
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* Posisikan jendela modal ke tengah */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* Lebar konten modal */
-        }
-        @media print {
-            @page {
-                size: auto; 
-				margin: 0mm;
-			}
-        }
-    </style>
-</head>
-<body>
-
 <!-- Tombol untuk membuka modal -->
-<button onclick="openModal()">Buka Modal</button>
+<a href="#" id="openModalBtn">Lihat Gambar</a>
 
 <!-- Modal -->
 <div id="myModal" class="modal">
   <!-- Konten modal -->
   <div class="modal-content">
-    <span onclick="closeModal()" style="float: right; cursor: pointer;">&times;</span>
-	<?php include 'page_kartu_ujian.php' ?>
+    <span class="close">&times;</span>
+    <?php if ($bukti): ?>
+      <img id="modalImg" src="./asset/<?= htmlspecialchars($bukti); ?>"><br>
 
-    <!-- Tombol untuk mencetak -->
-    <button onclick="printModal()">Cetak Modal</button>
+      <form id="uploadForm" action="upload_image.php" method="post" enctype="multipart/form-data">
+        <br><label for="fileToUpload">Ganti gambar:</label><br>
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="hidden" name="member_id" value="<?= $member_id; ?>"><br>
+        <br>
+        <input type="submit" value="Simpan" name="submit">
+      </form>
+
+      <?php else: ?>
+      <form id="uploadForm" action="upload_image.php" method="post" enctype="multipart/form-data">
+        <p>Tidak ada gambar.</p><br>
+        <label for="fileToUpload">Unggah gambar:</label><br>
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="hidden" name="member_id" value="<?= $member_id; ?>"><br>
+        <br>
+        <input type="submit" value="Simpan" name="submit">
+      </form>
+    <?php endif; ?>
   </div>
 </div>
+   
+<style>
+    .modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    }
+
+    .modal-content {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    margin: auto;
+    width: 50%;
+    max-width: 700px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 5px;
+    }
+
+    #modalImg {
+    max-width: 100%; 
+    max-height: 80vh; 
+    }
+
+    .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    align-self: flex-end;
+    }
+
+    .close:hover,
+    .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    }
+
+</style>
 
 <script>
-// Ambil modal
-var modal = document.getElementById('myModal');
+    var modalBtn = document.getElementById("openModalBtn");
+    var modal = document.getElementById("myModal");
+    var closeBtn = document.getElementsByClassName("close")[0];
 
-// Saat pengguna mengklik tombol, buka modal
-function openModal() {
+    modalBtn.onclick = function() {
     modal.style.display = "block";
-}
-
-// Saat pengguna mengklik ikon "x", tutup modal
-function closeModal() {
+    }
+    closeBtn.onclick = function() {
     modal.style.display = "none";
-}
-
-// Saat pengguna mengklik tombol cetak modal
-function printModal() {
-    // Simpan isi modal
-    var modalContent = document.querySelector('.modal-content').innerHTML;
-    // Buka jendela baru
-    var printWindow = window.open('', '', 'height=400,width=600');
-    // Tulis konten modal ke jendela baru
-    printWindow.document.write('<html><head><title>Cetak Modal</title>');
-    printWindow.document.write('</head><body>');
-    printWindow.document.write('<h1>Isi Modal</h1>');
-    printWindow.document.write(modalContent);
-    printWindow.document.write('</body></html>');
-    // Cetak
-    printWindow.print();
-    printWindow.close();
-}
+    }
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    }
 </script>
-
-</body>
-</html>
-
-<style>
-        table {
-            height: 200px;
-			padding-top: 20px;
-			padding-bottom: 20px;
-            width: 800px;
-        }
-		tr, td, th{
-			padding: 1px;
-			margin: auto;
-			border: none;
-		}
-		p {
-			margin: 5px;
-		}
-		img {
-			width: 70%;
-			display: block;
-			margin: auto;
-		}
-		.prodi {
-			text-align: center;
-		}
-		.data {
-			text-align: center;
-			font-weight: bold;
-		}
-		.keterangan {
-			text-align: center;
-		}
-		.tentang{
-			font-weight: bold;
-			
-		}
-		@media print {
-            @page {
-                size: auto; 
-				margin: 0mm;
-			}
-        }
-    </style>

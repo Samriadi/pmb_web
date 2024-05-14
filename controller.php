@@ -33,9 +33,8 @@ class mainController {
 		endforeach;
 	
 		include __DIR__ . "/page_invoice.php";
-		
-
     }
+
 	public function testCard() {		
         $models = new dataModel();
         $data = $models->getSchedule(56);
@@ -143,6 +142,18 @@ class mainController {
 		include __DIR__ . "/page_kartu_ujian.php";
 		
     }
+
+	public function bukti() {
+		$models = new dataModel();   
+        $data = $models->getBukti(56);
+
+		foreach ($data as $dt): 
+			$bukti = $dt->bukti;
+		endforeach;
+
+		include __DIR__ . "/modal.php";
+    }
+	
 }
     
 

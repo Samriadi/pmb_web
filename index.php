@@ -26,7 +26,7 @@ if (strpos($requestUri, $subdirectory) === 0) {
 // Lanjutkan dengan memproses URI yang sudah dimodifikasi
 $requestUri = trim($requestUri, '/');
 
-$router->add('', 'mainController', 'testCard');
+$router->add('', 'mainController', 'bukti');
 
 
 $router->dispatch($requestUri);
