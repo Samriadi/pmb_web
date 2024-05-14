@@ -74,7 +74,7 @@
 				<P>KARTU PESERTA UJIAN SARINGAN MASUK </P>
 				<P><?= $nama_lengkap?></P>
 				<P>Nomer peserta ujian : <?= $no_ujian?></P>
-				<P>Program Kuliah <?= $jenjang?></P><br>
+				<P>Program Kuliah <?= $kategori?></P><br>
 				</div>
 			</td>
 		</tr>
@@ -88,26 +88,15 @@
 				</div>
 			</td>
 			<td>
-				<div class="keterangan">
-				<p>Tes Kemampuan Dasar</p>
-				<p><?= $hari_tes?>. <?= $tanggal_tes?>. (08:30 - 10:00) WIB</p>
-				<p>Tempat : Kampus II Ruang 101</p>
-				<p>keterangan : Jadwal Tes 25 - 26 Juni 2024 (Sesuai sesi masing-masing)</p>
-				</div><br>
+				<?php foreach ($jadwal as $data) : ?>
+					<div class="keterangan">
+					<p><?= $data["nama_tes"] ?></p>
+					<p><?= $data["hari_tes"] ?>. <?= $data["tanggal_tes"]?>. (<?= $data["waktu_tes"]?> - Selesai)</p>
+					<p>Tempat : <?= $data["tempat_tes"] ?></p>
+					<p><?= $data["keterangan"] ?></p>
+					</div><br>
+				<?php endforeach ?>
 
-				<div class="keterangan">
-				<p>Tes Wawancara</p>
-				<p><?= $hari_tes?>. <?= $tanggal_tes?>. (08:30 - 10:00) WIB</p>
-				<p>Tempat : Kampus II Ruang 101</p>
-				<p>keterangan : Sesuai sesi masing-masing</p>
-				</div><br>
-
-				<div class="keterangan">
-				<p>Tes Kesehatan</p>
-				<p><?= $hari_tes?>. <?= $tanggal_tes?>. (08:30 - 10:00) WIB</p>
-				<p>Tempat : Kampus II Ruang 101</p>
-				<p>keterangan : Sesuai sesi masing-masing</p>
-				</div><br>
 			</td>
 		</tr>
 	</table>

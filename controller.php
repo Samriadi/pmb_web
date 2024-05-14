@@ -38,16 +38,23 @@ class mainController {
     }
 	public function testCard() {		
         $models = new dataModel();
-        $data = $models->getCard(56);
+        $data = $models->getSchedule(56);
 		foreach ($data as $dt): 
 			$nama_lengkap = $dt->NamaLengkap;
 			$no_ujian = $dt->no_ujian;
-			$nomor_va = $dt->nomor_va;
 			$jenjang = $dt->jenjang;
+			$kategori = $dt->kategori;
 			$foto_peserta = $dt->photo;
-
+		
+			//get data using array
+			$nama_tes[] = $dt->nama_tes;
+			$time = $dt->waktu;
+			$waktu[] = date("H:i", strtotime($time)) . " WITA";
+			$tempat[] = $dt->tempat;
+			$keterangan[] = $dt->keterangan;
+		
 			//get hari dan tanggal tes
-			$test_date = $dt->test_date;
+			$test_date = $dt->tanggal;
 			$timestamp = strtotime($test_date);
 			$dayOfWeekNumber = date("N", $timestamp);
 			$daysInIndonesian = array(
@@ -60,7 +67,7 @@ class mainController {
 				7 => "Minggu"
 			);
 			$dayOfWeekIndonesian = $daysInIndonesian[$dayOfWeekNumber];
-
+		
 			$formattedDate = date("d F Y", $timestamp);
 			$monthsInEnglish = array(
 				"January", 
@@ -90,11 +97,11 @@ class mainController {
 				"November", 
 				"Desember"
 			);
-
+		
 			$formattedDate = str_replace($monthsInEnglish, $monthsInIndonesian, $formattedDate);
-
-			$hari_tes = $dayOfWeekIndonesian;
-			$tanggal_tes = $formattedDate;
+		
+			$hari_tes[] = $dayOfWeekIndonesian;
+			$tanggal_tes[] = $formattedDate;
 			
 			//get pilihan prodi
 			$varoption = $models->getVaroption($dt->PilihanPertama);
@@ -102,29 +109,42 @@ class mainController {
 				$pilihan_1 = $var->var_value;
 				$parent = $var->parent;
 			endforeach;
-
+		
 			$varoption = $models->getVaroption($dt->PilihanKedua);
 			foreach ($varoption as $var): 
 				$pilihan_2 = $var->var_value;
 			endforeach;
-
+		
 			$varoption = $models->getVaroption($dt->PilihanKetiga);
 			foreach ($varoption as $var): 
 				$pilihan_3 = $var->var_value;
 			endforeach;
-
+		
 			//get fakultas
 			$varoption = $models->getVaroption($parent);
 			foreach ($varoption as $var): 
 				$fakultas = $var->var_value;
 			endforeach;
-
+		
 		endforeach;
+		
+		$jadwal = array();
+		for ($i = 0; $i < count($nama_tes); $i++) {
+			$jadwal[] = array(
+				"nama_tes" => $nama_tes[$i],
+				"hari_tes" => $hari_tes[$i],
+				"tanggal_tes" => $tanggal_tes[$i],
+				"waktu_tes" => $waktu[$i],
+				"tempat_tes" => $tempat[$i],
+				"keterangan" => $keterangan[$i],
+			);
+		}
 	
 		include __DIR__ . "/page_kartu_ujian.php";
 		
     }
 }
-    $controller = new mainController();
-    // var_dump($controller->invoice());
+    
+
+
 ?>
