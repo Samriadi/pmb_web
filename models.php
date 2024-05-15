@@ -189,6 +189,16 @@ class dataModel {
 
         return false; // Kembalikan false jika upload gagal
     }
+    public function getAllMaba() {
+		$db = Database::getInstance();
+        $query = "SELECT vw_maba.*, jur1.var_value AS Prodi1, jur2.var_value AS Prodi2, jur3.var_value AS Prodi3 
+		FROM vw_maba INNER JOIN varoption AS jur1 ON PilihanPertama=jur1.recid 
+		LEFT JOIN varoption AS jur2 ON PilihanKedua=jur2.recid LEFT JOIN varoption AS jur3 ON PilihanKetiga=jur3.recid 
+		";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+		return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }
 
  
