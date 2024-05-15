@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Status Toggle</title>
     <style>
-        /* Add some basic styling for the modal */
         body, html {
             height: 100%;
             margin: 0;
@@ -19,7 +17,6 @@
             font-size: 16px;
         }
 
-        /* Add some basic styling for the modal */
         #confirmationModal {
             display: none;
             position: fixed;
@@ -80,18 +77,17 @@
             const cancelButton = document.getElementById('cancelButton');
             const confirmButton = document.getElementById('confirmButton');
             const newStatusText = document.getElementById('newStatus');
-            let currentStatus = 'Unverified'; // Initial status
-            let newStatus; // Variable to store the new status
+            let currentStatus = 'Unverified'; 
+            let newStatus; 
 
-            button.textContent = currentStatus; // Set initial status text on button
+            button.textContent = currentStatus; 
 
             button.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default action
+                event.preventDefault(); 
 
-                // Toggle status
                 newStatus = currentStatus === 'Verified' ? 'Unverified' : 'Verified';
                 console.log(newStatus);
-                newStatusText.textContent = newStatus; // Update status text in modal
+                newStatusText.textContent = newStatus; 
                 modal.style.display = 'block';
             });
 
@@ -104,12 +100,9 @@
             }
 
             confirmButton.onclick = function() {
-                // Perform the status change here
                 console.log(`Changing status to ${newStatus}`);
-                button.textContent = newStatus; // Update status text on button
-                currentStatus = newStatus; // Update current status
-                // Example: Submit a form or make an AJAX call
-                // For demonstration purposes, we close the modal
+                button.textContent = newStatus; 
+                currentStatus = newStatus;
                 modal.style.display = 'none';
             }
 
