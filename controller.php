@@ -148,7 +148,8 @@ class mainController {
         $data = $models->getBukti(56);
 
 		foreach ($data as $dt): 
-			$bukti = $dt->bukti;
+			$file_path = $dt->file_path;
+			$member_id = $dt->member_id;
 		endforeach;
 
 		include __DIR__ . "/modal.php";

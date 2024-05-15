@@ -6,25 +6,26 @@
   <!-- Konten modal -->
   <div class="modal-content">
     <span class="close">&times;</span>
-    <?php if ($bukti): ?>
-      <img id="modalImg" src="./asset/<?= htmlspecialchars($bukti); ?>"><br>
+    <?php if ($file_path): ?>
+      <img id="modalImg" src="<?= htmlspecialchars($file_path); ?>"><br>
 
-      <form id="uploadForm" action="upload_image.php" method="post" enctype="multipart/form-data">
-        <br><label for="fileToUpload">Ganti gambar:</label><br>
-        <input type="file" name="fileToUpload" id="fileToUpload">
-        <input type="hidden" name="member_id" value="<?= $member_id; ?>"><br>
-        <br>
-        <input type="submit" value="Simpan" name="submit">
+      <form id="uploadForm" action="upload_bukti.php" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="member_id" value="<?=$member_id?>" required>
+
+        <label for="file">Pilih jika ingin mengganti gambar</label>
+        <input type="file" name="file" id="file" required><br><br>
+
+        <input type="submit" name="submit" value="Upload">
       </form>
 
       <?php else: ?>
-      <form id="uploadForm" action="upload_image.php" method="post" enctype="multipart/form-data">
-        <p>Tidak ada gambar.</p><br>
-        <label for="fileToUpload">Unggah gambar:</label><br>
-        <input type="file" name="fileToUpload" id="fileToUpload">
-        <input type="hidden" name="member_id" value="<?= $member_id; ?>"><br>
-        <br>
-        <input type="submit" value="Simpan" name="submit">
+      <form id="uploadForm" action="upload_bukti.php" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="member_id" value="<?=$member_id?>" required>
+
+        <label for="file">Pilih gambar untuk diupload</label>
+        <input type="file" name="file" id="file" required><br><br>
+
+        <input type="submit" name="submit" value="Upload">
       </form>
     <?php endif; ?>
   </div>
