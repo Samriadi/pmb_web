@@ -154,6 +154,15 @@ class mainController {
 
 		include __DIR__ . "/modal.php";
     }
+
+	public function maba() {
+		$models = new dataModel();
+		$daftarMaba = $models->getAllMaba();
+				
+		include 'view.php';
+    }
+	
+	
 	
 }
     
