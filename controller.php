@@ -152,7 +152,7 @@ class mainController {
 			$member_id = $dt->member_id;
 		endforeach;
 
-		include __DIR__ . "/modal.php";
+		include __DIR__ . "/popup.php";
     }
 
 	public function maba() {

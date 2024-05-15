@@ -112,15 +112,14 @@ class dataModel {
         $stmt->execute([$member_id]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }	
+
     public function uploadBukti($file, $member_id) {
-        // Folder tujuan untuk menyimpan gambar yang diunggah
         $targetDir = "asset/";
         $uniqueName = uniqid() . '_' . basename($file["name"]);
         $targetFile = $targetDir . $uniqueName;
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-        // Memeriksa apakah file adalah gambar asli
         $check = getimagesize($file["tmp_name"]);
         if ($check !== false) {
             $uploadOk = 1;
@@ -129,55 +128,48 @@ class dataModel {
             $uploadOk = 0;
         }
 
-        // Memeriksa ukuran file
         if ($file["size"] > 500000) {
             echo "Maaf, file terlalu besar.";
             $uploadOk = 0;
         }
 
-        // Memeriksa format file
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
             && $imageFileType != "gif") {
             echo "Maaf, hanya file JPG, JPEG, PNG & GIF yang diperbolehkan.";
             $uploadOk = 0;
         }
 
-        // Memeriksa apakah $uploadOk di set ke 0 oleh error
         if ($uploadOk == 0) {
             echo "Maaf, file Anda tidak dapat diupload.";
         } else {
-            // Jika semua pemeriksaan lulus, coba untuk mengupload file
             if (move_uploaded_file($file["tmp_name"], $targetFile)) {
                 $db = Database::getInstance();
 
-                // Cek apakah ada file yang sudah diupload untuk member_id ini
                 $query = "SELECT file_path FROM upload WHERE member_id = ?";
                 $stmt = $db->prepare($query);
                 $stmt->execute([$member_id]);
                 $existingFile = $stmt->fetch(PDO::FETCH_OBJ);
 
                 if ($existingFile) {
-                    // Hapus file yang lama
                     if (file_exists($existingFile->file_path)) {
                         unlink($existingFile->file_path);
                     }
 
-                    // Update informasi file di database
                     $query = "UPDATE upload SET file_path = ? WHERE member_id = ?";
                     $stmt = $db->prepare($query);
                     if ($stmt->execute([$targetFile, $member_id])) {
                         echo "File ". basename($file["name"]). " telah diupload dan informasi diperbarui di database.";
-                        return $targetFile; // Kembalikan path file yang diupload
+                        return $targetFile; 
                     } else {
                         echo "Maaf, terjadi kesalahan saat memperbarui informasi file di database.";
                     }
                 } else {
-                    // Simpan informasi file baru di database
+                    
                     $query = "INSERT INTO upload (member_id, file_path) VALUES (?, ?)";
                     $stmt = $db->prepare($query);
                     if ($stmt->execute([$member_id, $targetFile])) {
                         echo "File ". basename($file["name"]). " telah diupload dan informasi disimpan di database.";
-                        return $targetFile; // Kembalikan path file yang diupload
+                        return $targetFile;
                     } else {
                         echo "Maaf, terjadi kesalahan saat menyimpan informasi file ke database.";
                     }
@@ -187,8 +179,9 @@ class dataModel {
             }
         }
 
-        return false; // Kembalikan false jika upload gagal
+        return false;
     }
+    
     public function getAllMaba() {
 		$db = Database::getInstance();
         $query = "SELECT vw_maba.*, jur1.var_value AS Prodi1, jur2.var_value AS Prodi2, jur3.var_value AS Prodi3 
