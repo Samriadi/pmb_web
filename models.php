@@ -237,6 +237,21 @@ class dataModel {
             echo "Error: " . $e->getMessage();
         }
     }
+
+     public function getVarById($recid) {
+        $db = Database::getInstance();
+        $stmt = $db->prepare("SELECT * FROM var_option WHERE recid = ?");
+        $stmt->execute([$recid]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateVar($recid, $varname, $varvalue, $varothers, $catatan, $parent) {
+        $db = Database::getInstance();
+
+        $stmt = $db->prepare("UPDATE var_option SET var_name = ?, var_value = ?, var_others = ?, catatan = ?, parent = ? WHERE recid = ?");
+        $stmt->execute([$varname, $varvalue, $varothers, $catatan, $parent, $recid]);
+    }
+
     	
 }
 
