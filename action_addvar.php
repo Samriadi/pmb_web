@@ -19,9 +19,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "New record created successfully";
 }
 
-// DELETE
-$recid = $_GET['recid'];
-$dataModel->deleteVar($recid);
-
-header('Location: ' . $_SERVER['HTTP_REFERER']);
 ?>

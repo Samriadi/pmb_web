@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 
   <body>
@@ -168,6 +168,17 @@
                 var modal = document.getElementById('exampleModal');
                 var modalInstance = bootstrap.Modal.getInstance(modal);
                 modalInstance.hide();
+                    
+                Swal.fire({
+                        title: 'Success!',
+                        text: xhr.responseText,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Refresh halaman
+                        window.location.reload();
+                    });
+
             }
         };
 
@@ -221,6 +232,16 @@
                 var modal = document.getElementById('editModal');
                 var modalInstance = bootstrap.Modal.getInstance(modal);
                 modalInstance.hide();
+
+                 Swal.fire({
+                        title: 'Success!',
+                        text: xhr.responseText,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Refresh halaman
+                        window.location.reload();
+                    });
             }
         };
 

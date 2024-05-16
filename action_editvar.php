@@ -15,10 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Panggil metode updateVar() melalui objek DataModel
     $dataModel->updateVar($recid, $varname, $varvalue, $varothers, $catatan, $parent);
 
-    echo "Record updated successfully";
-    
+    echo "Data Berhasil Diupdate";
 }
 ?>
-<script>
-     window.location.reload();
-</script>

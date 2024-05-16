@@ -155,12 +155,6 @@ class mainController {
 		include __DIR__ . "/popup.php";
     }
 
-	public function maba() {
-		$models = new dataModel();
-		$daftarMaba = $models->getAllMaba();
-				
-		include 'view.php';
-    }
 
 	public function var_option() {
 		$models = new dataModel();   
