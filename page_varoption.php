@@ -87,7 +87,7 @@
                             <td><?=$dt->catatan?></td>
                             <td><?=$dt->parent?></td>
                             <td>
-                                 <a class="btn btn-danger" href="action_var.php?recid=<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')">hapus</a></td>
+                                 <a class="btn btn-danger" href="action_delvar.php?recid=<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')">hapus</a></td>
                         </tr>
                         <?php endforeach ?>
                     </tbody>
@@ -113,7 +113,7 @@
 
         console.log(recid);
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'action_var.php', true);
+        xhr.open('POST', 'action_addvar.php', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
