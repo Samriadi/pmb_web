@@ -249,5 +249,10 @@
         var data = "recid=" + encodeURIComponent(recid) + "&varname=" + encodeURIComponent(varname) + "&varvalue=" + encodeURIComponent(varvalue) + "&varothers=" + encodeURIComponent(varothers) + "&catatan=" + encodeURIComponent(catatan) + "&parent=" + encodeURIComponent(parent);
         xhr.send(data);
     });
+
+    var modalElement = document.getElementById('editModal');
+    modalElement.addEventListener('hidden.bs.modal', function () {
+        window.location.reload();
+    });
 </script>
 
