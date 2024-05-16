@@ -179,7 +179,6 @@ class mainController {
     }
 
 	public function saveVar() {
-
         $dataModel = new DataModel();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -196,7 +195,6 @@ class mainController {
             echo "New record created successfully";
         }
     }
-
 
 	
 }

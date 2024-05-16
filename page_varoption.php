@@ -70,6 +70,7 @@
                         <th scope="col">Var Others</th>
                         <th scope="col">Catatan</th>
                         <th scope="col">Parent</th>
+                        <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,6 +86,8 @@
                             <td><?=$dt->var_others?></td>
                             <td><?=$dt->catatan?></td>
                             <td><?=$dt->parent?></td>
+                            <td>
+                                 <a class="btn btn-danger" href="action_var.php?recid=<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')">hapus</a></td>
                         </tr>
                         <?php endforeach ?>
                     </tbody>
@@ -110,7 +113,7 @@
 
         console.log(recid);
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'save_var.php', true);
+        xhr.open('POST', 'action_var.php', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {

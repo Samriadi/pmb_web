@@ -1,10 +1,10 @@
 
 <?php
-
 include 'models.php';
-
 $dataModel = new DataModel();
 
+
+// ADD
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $recid = $_POST['recid'];
     $varname = $_POST['varname'];
@@ -19,4 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "New record created successfully";
 }
 
+// DELETE
+$recid = $_GET['recid'];
+$dataModel->deleteVar($recid);
+
+header('Location: ' . $_SERVER['HTTP_REFERER']);
 ?>

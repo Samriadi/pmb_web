@@ -212,21 +212,31 @@ class dataModel {
 
    public function addVar($recid, $varname, $varvalue, $varothers, $catatan, $parent) {
 		$db = Database::getInstance();
+
+        $query = "INSERT INTO var_option (recid, var_name, var_value, var_others, catatan, parent) VALUES (?, ?, ?, ?, ?, ?)";
+
         try {
-            // Menyiapkan pernyataan SQL
-            $stmt = $db->prepare("INSERT INTO var_option VALUES (?, ?, ?, ?, ?, ?)");
-
-            // Mengeksekusi pernyataan dengan parameter yang telah diikat
+            $stmt = $db->prepare($query);
             $stmt->execute([$recid, $varname, $varvalue, $varothers, $catatan, $parent]);
-
-            // Tambahkan logika tambahan di sini jika perlu
-        } catch(PDOException $e) {
-            // Tangani kesalahan jika terjadi
+        } 
+        catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
 
+    public function deleteVar($recid) {
+        $db = Database::getInstance();
 
+        $query = "DELETE FROM var_option WHERE recid = ?";
+
+        try {
+        $stmt = $db->prepare($query);
+        $stmt->execute([$recid]);
+        } 
+        catch(PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
     	
 }
 
