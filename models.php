@@ -192,8 +192,21 @@ class dataModel {
         $stmt->execute();
 		return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-}
 
+      public function getVar() {
+		$db = Database::getInstance();
+        $query = "SELECT * FROM var_option";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    	
+}
+        $model = new dataModel();   
+        $data = $model->getVar();
+
+        // var_dump($data);
  
 
 ?>

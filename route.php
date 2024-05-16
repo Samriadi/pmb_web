@@ -10,7 +10,7 @@ class Router {
 
   public function dispatch($requestUri) {
       // Menghapus path proyek dari URI
-      $projectPath = '/hewi-edu/hewi';
+      $projectPath = '/hewi';
       $uri = str_replace($projectPath, '', $requestUri);
       $uri = '/' . trim($uri, '/'); // Pastikan URI dimulai dengan '/'
 

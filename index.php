@@ -11,7 +11,7 @@ $stmt = $db->prepare($query);
 $stmt->execute();
 $router = new Router();
 
-$router->add('/', 'MainController', 'bukti'); 
+$router->add('/', 'MainController', 'var_option'); 
 
 
 

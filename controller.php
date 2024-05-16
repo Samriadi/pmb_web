@@ -161,6 +161,25 @@ class mainController {
 				
 		include 'view.php';
     }
+
+	public function var_option() {
+		$models = new dataModel();   
+        $data = $models->getVar();
+
+		// foreach ($data as $dt): 
+		// 	$recid = $dt->recid;
+		// 	$var_name = $dt->var_name;
+		// 	$var_value = $dt->var_value;
+		// 	$var_others = $dt->var_others;
+		// 	$catatan = $dt->catatan;
+		// 	$parent = $dt->parent;
+		// endforeach;
+
+		include __DIR__ . "/page_varoption.php";
+    }
+
+
+
 	
 	
 	
