@@ -201,12 +201,33 @@ class dataModel {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function getParent() {
+		$db = Database::getInstance();
+		
+        $query = "SELECT * FROM var_option WHERE recid = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+   public function addVar($recid, $varname, $varvalue, $varothers, $catatan, $parent) {
+		$db = Database::getInstance();
+        try {
+            // Menyiapkan pernyataan SQL
+            $stmt = $db->prepare("INSERT INTO var_option VALUES (?, ?, ?, ?, ?, ?)");
+
+            // Mengeksekusi pernyataan dengan parameter yang telah diikat
+            $stmt->execute([$recid, $varname, $varvalue, $varothers, $catatan, $parent]);
+
+            // Tambahkan logika tambahan di sini jika perlu
+        } catch(PDOException $e) {
+            // Tangani kesalahan jika terjadi
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
+
     	
 }
-        $model = new dataModel();   
-        $data = $model->getVar();
-
-        // var_dump($data);
- 
 
 ?>

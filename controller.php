@@ -166,25 +166,41 @@ class mainController {
 		$models = new dataModel();   
         $data = $models->getVar();
 
-		// foreach ($data as $dt): 
-		// 	$recid = $dt->recid;
-		// 	$var_name = $dt->var_name;
-		// 	$var_value = $dt->var_value;
-		// 	$var_others = $dt->var_others;
-		// 	$catatan = $dt->catatan;
-		// 	$parent = $dt->parent;
-		// endforeach;
+		foreach ($data as $dt): 
+			$recid = $dt->recid;
+			$var_name = $dt->var_name;
+			$var_value = $dt->var_value;
+			$var_others = $dt->var_others;
+			$catatan = $dt->catatan;
+			$parent = $dt->parent;
+		endforeach;
 
 		include __DIR__ . "/page_varoption.php";
     }
 
+	public function saveVar() {
+
+        $dataModel = new DataModel();
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $recid = $_POST['recid'];
+            $varname = $_POST['varname'];
+            $varvalue = $_POST['varvalue'];
+            $varothers = $_POST['varothers'];
+            $catatan = $_POST['catatan'];
+            $parent = $_POST['parent'];
+
+            // Panggil metode addVar() melalui objek DataModel
+            $dataModel->addVar($recid, $varname, $varvalue, $varothers, $catatan, $parent);
+
+            echo "New record created successfully";
+        }
+    }
 
 
-	
-	
 	
 }
-    
+   
 
 
 ?>
