@@ -254,6 +254,64 @@ class dataModel {
             echo "Error: " . $e->getMessage();
         }
     }
+
+    //get gelombang
+    public function getGelombang() {
+		$db = Database::getInstance();
+        $query = "SELECT * FROM edu_periode WHERE status='Open'";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    //get ruang
+    public function getRuang() {
+		$db = Database::getInstance();
+        $query = "SELECT * FROM var_option where var_name='Ruang'";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+     //get jenis ujian
+     public function getUjian() {
+		$db = Database::getInstance();
+        $query = "SELECT * FROM var_option where var_name='Ujian'";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function showGelombang($recid){
+		$db = Database::getInstance();
+        $query = "SELECT Jenjang, Keterangan FROM edu_periode where recid = :recid";
+
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':recid', $recid);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function showRuang($recid){
+		$db = Database::getInstance();
+        $query = "SELECT var_value FROM var_option where var_name='Ruang' AND  recid = :recid";
+
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':recid', $recid);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function showUjian($recid){
+		$db = Database::getInstance();
+        $query = "SELECT var_value FROM var_option where var_name='Ujian' AND  recid = :recid";
+
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':recid', $recid);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
 }
 
 ?>

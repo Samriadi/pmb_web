@@ -211,6 +211,11 @@ class mainController {
 	
 }
    
+		$models = new dataModel();   
+        // $data = $models->showGelombangTest(6);
 
+		// foreach ($data as $key => $dt) {
+			// var_dump($dt->Jenjang);
+		// }
 
-?>
+// 

@@ -11,7 +11,7 @@
   </head>
 
   <body>
-    <div class="container-sm" style="padding: 30px;">
+    <div class="container-fluid" style="padding: 50px;">
             <!-- Button trigger modal -->
         <div class="card">
             <div class="card-body">
@@ -36,12 +36,29 @@
 		                <?php 
                         $no = 1;
                         foreach ($data as $dt): 
+                        error_reporting(0);
+                            $periodes = $models->showGelombang($dt->gelombang);
+                            foreach ($periodes as $periode) {
+                                $d_jenjang=$periode->Jenjang;
+                                $d_keterangan=$periode->Keterangan;
+                            }
+
+                            $ruangs = $models->showRuang($dt->ruang);
+                            foreach ($ruangs as $periode) {
+                                $d_ruang=$periode->var_value;
+                            }
+
+                            $ujians = $models->showUjian($dt->jenis_ujian);
+                            foreach ($ujians as $ujian) {
+                                $d_ujian=$ujian->var_value;
+                            }
+
                         ?>
                         <tr>
                             <th scope="row"><?=$no++?></th>
-                            <td><?=$dt->gelombang?></td>
-                            <td><?=$dt->ruang?></td>
-                            <td><?=$dt->jenis_ujian?></td>
+                            <td><?=$d_jenjang?> - <?=$d_keterangan?></td>
+                            <td><?=$d_ruang?></td>
+                            <td><?=$d_ujian?></td>
                             <td><?=$dt->tgl_ujian?></td>
                             <td><?=$dt->jam_mulai?></td>
                             <td><?=$dt->jam_selesai?></td>
@@ -63,6 +80,13 @@
 
 
   <!-- Modal Add -->
+  <?php
+  require_once 'models.php';
+  $models = new dataModel();  
+  $gelombang = $models->getGelombang(); 
+  $ruang = $models->getRuang(); 
+  $jenis_ujian = $models->getUjian(); 
+  ?>
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -72,16 +96,28 @@
                 </div>
                 <div class="modal-body">
                  <div class="form-group">
-                    <label for="gelombang">Gelombang</label>
-                    <input type="number" class="form-control" id="gelombang" name="gelombang" required>
+                 <label for="gelombang">Gelombang</label>
+                 <select  class="form-control" id="gelombang" name="gelombang">
+                 <?php foreach ($gelombang as $dt): ?>
+                    <option value="<?=$dt->recid?>"><?= $dt->Jenjang?> - <?= $dt->Keterangan?></option>
+                <?php endforeach; ?>
+                </select>
                 </div>
                 <div class="form-group">
-                    <label for="ruang">Ruang</label>
-                    <input type="text" class="form-control" id="ruang" name="ruang" required>
+                <label for="ruang">Ruang</label>
+                 <select  class="form-control" id="ruang" name="ruang">
+                 <?php foreach ($ruang as $dt): ?>
+                    <option value="<?=$dt->recid?>"><?= $dt->var_value?></option>
+                <?php endforeach; ?>
+                </select>
                 </div>
                 <div class="form-group">
-                    <label for="jenis_ujian">Jenis Ujian</label>
-                    <input type="text" class="form-control" id="jenis_ujian" name="jenis_ujian" required>
+                <label for="jenis_ujian">Jenis Ujian</label>
+                 <select  class="form-control" id="jenis_ujian" name="jenis_ujian">
+                 <?php foreach ($jenis_ujian as $dt): ?>
+                    <option value="<?=$dt->recid?>"><?= $dt->var_value?></option>
+                <?php endforeach; ?>
+                </select>
                 </div>
                 <div class="form-group">
                     <label for="tgl_ujian">Tanggal Ujian</label>
