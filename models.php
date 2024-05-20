@@ -19,14 +19,6 @@ class dataModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }	
-    public function getJurusan() {
-		$db = Database::getInstance();
-		
-        $query = "SELECT * FROM TabelJurusan";
-        $stmt = $db->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
-    }
     public function getPendaftaran() {
 		$db = Database::getInstance();
 		
