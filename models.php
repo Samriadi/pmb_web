@@ -232,7 +232,28 @@ class dataModel {
         $stmt->execute([$varname, $varvalue, $varothers, $catatan, $parent, $recid]);
     }
 
-    	
+    //jadwal test	
+    public function getTest() {
+		$db = Database::getInstance();
+        $query = "SELECT * FROM edu_test";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function addTest($gelombang, $ruang, $jenis_ujian, $tgl_ujian, $jam_mulai, $jam_selesai, $keterangn) {
+		$db = Database::getInstance();
+
+        $query = "INSERT INTO edu_test (gelombang, ruang, jenis_ujian, tgl_ujian, jam_mulai, jam_selesai, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->execute([$gelombang, $ruang, $jenis_ujian, $tgl_ujian, $jam_mulai, $jam_selesai, $keterangn]);
+        } 
+        catch(PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
 }
 
 ?>

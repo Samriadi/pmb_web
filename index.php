@@ -11,7 +11,7 @@ $stmt = $db->prepare($query);
 $stmt->execute();
 $router = new Router();
 
-$router->add('/', 'MainController', 'var_option'); 
+$router->add('/', 'MainController', 'edu_test'); 
 
 
 

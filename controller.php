@@ -172,22 +172,40 @@ class mainController {
 		include __DIR__ . "/page_varoption.php";
     }
 
-	public function saveVar() {
-        $dataModel = new DataModel();
+	// public function saveVar() {
+    //     $dataModel = new DataModel();
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $recid = $_POST['recid'];
-            $varname = $_POST['varname'];
-            $varvalue = $_POST['varvalue'];
-            $varothers = $_POST['varothers'];
-            $catatan = $_POST['catatan'];
-            $parent = $_POST['parent'];
+    //     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //         $recid = $_POST['recid'];
+    //         $varname = $_POST['varname'];
+    //         $varvalue = $_POST['varvalue'];
+    //         $varothers = $_POST['varothers'];
+    //         $catatan = $_POST['catatan'];
+    //         $parent = $_POST['parent'];
 
-            // Panggil metode addVar() melalui objek DataModel
-            $dataModel->addVar($recid, $varname, $varvalue, $varothers, $catatan, $parent);
+    //         // Panggil metode addVar() melalui objek DataModel
+    //         $dataModel->addVar($recid, $varname, $varvalue, $varothers, $catatan, $parent);
 
-            echo "New record created successfully";
-        }
+    //         echo "New record created successfully";
+    //     }
+    // }
+
+	public function edu_test() {
+		$models = new dataModel();   
+        $data = $models->getTest();
+
+		foreach ($data as $dt): 
+			$id = $dt->id;
+			$gelombang = $dt->gelombang;
+			$ruang = $dt->ruang;
+			$jenis_ujian = $dt->jenis_ujian;
+			$tgl_ujian = $dt->tgl_ujian;
+			$jam_mulai = $dt->jam_mulai;
+			$jam_selesai = $dt->jam_selesai;
+			$keterangan = $dt->keterangan;
+		endforeach;
+
+		include __DIR__ . "/page_jadwal_test.php";
     }
 
 	
