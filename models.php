@@ -282,6 +282,7 @@ class dataModel {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
+    
     public function showGelombang($recid){
 		$db = Database::getInstance();
         $query = "SELECT Jenjang, Keterangan FROM edu_periode where recid = :recid";
@@ -312,6 +313,35 @@ class dataModel {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function deleteTest($id) {
+        $db = Database::getInstance();
+
+        $query = "DELETE FROM edu_test WHERE id = ?";
+
+        try {
+        $stmt = $db->prepare($query);
+        $stmt->execute([$id]);
+        } 
+        catch(PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
+    public function getTestById($id) {
+        $db = Database::getInstance();
+        $stmt = $db->prepare("SELECT * FROM edu_test WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function updateTest($id, $gelombang, $ruang, $jenis_ujian, $tgl_ujian, $jam_mulai, $jam_selesai, $keterangan) {
+        $db = Database::getInstance();
+    
+        // Menggunakan prepared statement dengan placeholder ?
+        $stmt = $db->prepare("UPDATE edu_test SET gelombang = ?, ruang = ?, jenis_ujian = ?, tgl_ujian = ?, jam_mulai = ?, jam_selesai = ?, keterangan = ? WHERE id = ?");
+        // Urutan parameter dalam execute harus sesuai dengan urutan placeholder ?
+        $stmt->execute([$gelombang, $ruang, $jenis_ujian, $tgl_ujian, $jam_mulai, $jam_selesai, $keterangan, $id]);
+    }
+    
 }
 
 ?>
