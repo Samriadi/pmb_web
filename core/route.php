@@ -25,7 +25,7 @@ class Router {
                 echo "Error: Method $actionName not found in controller $controllerName";
             }
         } else {
-            echo "404 Not Found";
+            echo "404";
         }
     }
 }

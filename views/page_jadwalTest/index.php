@@ -15,9 +15,8 @@
             <!-- Button trigger modal -->
         <div class="card">
             <div class="card-body">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Tambah Data
-            </button>
+            <td><a class="btn btn-primary" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal">Add</a>
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -80,13 +79,7 @@
 
 
   <!-- Modal Add -->
-  <?php
-  require_once './models/models.php';
-  $models = new dataModel();  
-  $gelombang = $models->getGelombang(); 
-  $ruang = $models->getRuang(); 
-  $jenis_ujian = $models->getUjian(); 
-  ?>
+
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -96,28 +89,24 @@
                 </div>
                 <div class="modal-body">
                  <div class="form-group">
-                 <label for="gelombang">Gelombang</label>
-                 <select  class="form-control" id="gelombang" name="gelombang">
-                 <?php foreach ($gelombang as $dt): ?>
-                    <option value="<?=$dt['recid']?>"><?= $dt['jenjang_keterangan']?></option>
-                <?php endforeach; ?>
-                </select>
+                 <div class="form-group">
+                    <label for="gelombang">Gelombang</label>
+                        <select class="form-control" id="gelombang" name="gelombang">
+                            <!-- Options will be filled dynamically -->
+                        </select>
+                </div>
                 </div>
                 <div class="form-group">
                 <label for="ruang">Ruang</label>
-                 <select  class="form-control" id="ruang" name="ruang">
-                 <?php foreach ($ruang as $dt): ?>
-                    <option value="<?=$dt['recid']?>"><?= $dt['ruangan']?></option>
-                <?php endforeach; ?>
-                </select>
+                        <select class="form-control" id="ruang" name="ruang">
+                            <!-- Options will be filled dynamically -->
+                        </select>
                 </div>
                 <div class="form-group">
                 <label for="jenis_ujian">Jenis Ujian</label>
-                 <select  class="form-control" id="jenis_ujian" name="jenis_ujian">
-                 <?php foreach ($jenis_ujian as $dt): ?>
-                    <option value="<?=$dt['recid']?>"><?= $dt['jenis_ujian']?></option>
-                <?php endforeach; ?>
-                </select>
+                        <select class="form-control" id="jenis_ujian" name="jenis_ujian">
+                            <!-- Options will be filled dynamically -->
+                        </select>
                 </div>
                 <div class="form-group">
                     <label for="tgl_ujian">Tanggal Ujian</label>
@@ -201,6 +190,57 @@
 </html>
 
 <script>
+  function add() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/hewi-edu/hewi/public/test/add', true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
+
+            // Mengisi opsi select untuk gelombang
+            var gelombangSelect = document.getElementById('gelombang');
+            response.gelombangValues.forEach(function(item) {
+                var option = document.createElement('option');
+                option.value = item.recid;
+                option.text = item.jenjang_keterangan;
+                if (!Array.from(gelombangSelect.options).some(opt => opt.value == item.recid)) {
+                    gelombangSelect.appendChild(option);
+                }
+            });
+            gelombangSelect.value = response.gelombang;
+
+            // Mengisi opsi select untuk ruang
+            var ruangSelect = document.getElementById('ruang');
+            response.ruangValues.forEach(function(item) {
+                var option = document.createElement('option');
+                option.value = item.recid;
+                option.text = item.ruangan;
+                if (!Array.from(ruangSelect.options).some(opt => opt.value == item.recid)) {
+                    ruangSelect.appendChild(option);
+                }
+            });
+            ruangSelect.value = response.ruang;
+
+            // Mengisi opsi select untuk jenis ujian
+            var jenisUjianSelect = document.getElementById('jenis_ujian');
+            response.ujianValues.forEach(function(item) {
+                var option = document.createElement('option');
+                option.value = item.recid;
+                option.text = item.jenis_ujian;
+                if (!Array.from(jenisUjianSelect.options).some(opt => opt.value == item.recid)) {
+                    jenisUjianSelect.appendChild(option);
+                }
+            });
+            jenisUjianSelect.value = response.jenis_ujian;
+
+            var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            exampleModal.show();
+        }
+    };
+    xhr.send();
+
+}
+
     document.getElementById('save').addEventListener('click', function() {
         var gelombang = document.getElementById('gelombang').value;
         var ruang = document.getElementById('ruang').value;
@@ -212,7 +252,7 @@
 
         console.log(gelombang);
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'action_addtest.php', true);
+        xhr.open('POST', '/hewi-edu/hewi/public/test/save', true); // Ubah URL di sini
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -231,26 +271,31 @@
                         // Refresh halaman
                         window.location.reload();
                     });
-
             }
         };
 
         // Kirim data yang ingin Anda kirimkan
         var data = 
-        "&gelombang=" + encodeURIComponent(gelombang) + "&ruang=" + encodeURIComponent(ruang) + "&jenis_ujian=" + encodeURIComponent(jenis_ujian) + "&tgl_ujian=" + encodeURIComponent(tgl_ujian) + "&jam_mulai=" + encodeURIComponent(jam_mulai) + "&jam_selesai=" + encodeURIComponent(jam_selesai)+ "&keterangan=" + encodeURIComponent(keterangan);
+        "gelombang=" + encodeURIComponent(gelombang) + 
+        "&ruang=" + encodeURIComponent(ruang) + 
+        "&jenis_ujian=" + encodeURIComponent(jenis_ujian) + 
+        "&tgl_ujian=" + encodeURIComponent(tgl_ujian) + 
+        "&jam_mulai=" + encodeURIComponent(jam_mulai) + 
+        "&jam_selesai=" + encodeURIComponent(jam_selesai) + 
+        "&keterangan=" + encodeURIComponent(keterangan);
         xhr.send(data);
-
     });
+
 </script>
 
 <script>
     // Fungsi untuk menampilkan data di modal edit
     function edit(id) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'action_gettest.php?id=' + id, true);
+    xhr.open('GET', '/hewi-edu/hewi/public/test/edit/'+id, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            var response = JSON.parse(xhr.responseText);
+            var response = JSON.parse(xhr.responseText.trim());
 
             document.getElementById('id').value = response.id;
             document.getElementById('editTglUjian').value = response.tgl_ujian;

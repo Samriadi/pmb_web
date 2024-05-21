@@ -10,7 +10,11 @@ $router->add('/', 'mainController', 'index');
 
 //edu test
 $router->add('/test', 'eduTestController', 'index');
+$router->add('/test/add', 'eduTestController', 'add');
+$router->add('/test/save', 'eduTestController', 'save');
+$router->add('/test/edit', 'eduTestController', 'edit');
 
+//
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
 
 $router->dispatch($url);
