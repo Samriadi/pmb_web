@@ -156,7 +156,9 @@
             <input type="hidden" name="id" id="id">
                 <div class="form-group">
                     <label for="editGelombang">Gelombang</label>
-                    <input type="number" class="form-control" id="editGelombang" name="gelombang" required>
+                    <select class="form-control" id="editGelombang" name="gelombang" required>
+                        <!-- Options will be added here dynamically -->
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="editRuang">Ruang</label>
@@ -256,6 +258,16 @@
                 document.getElementById('editJamSelesai').value = response.jam_selesai;
                 document.getElementById('editKeterangan').value = response.keterangan;
 
+                var selectGelombang = document.getElementById('editGelombang');
+                selectGelombang.innerHTML = '';
+                response.gelombangValues.forEach(function(dt) {
+                    var option = document.createElement('option');
+                    option.value = dt.recid;
+                    option.text = dt.Jenjang + ' - ' + dt.Keterangan;
+                    selectGelombang.appendChild(option);
+                });
+
+                
                 var editModal = new bootstrap.Modal(document.getElementById('editModal'));
                 editModal.show();
             }
