@@ -261,7 +261,16 @@ class dataModel {
         $query = "SELECT * FROM edu_periode WHERE status='Open'";
         $stmt = $db->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        $data = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        $values = [];
+        foreach ($data as $item) {
+            $values[] = [
+				'recid' => $item->recid,
+                'jenjang_keterangan' => $item->Jenjang . ' - ' . $item->Keterangan
+            ];
+        }
+        return $values;
     }
 
     //get ruang
@@ -270,7 +279,16 @@ class dataModel {
         $query = "SELECT * FROM var_option where var_name='Ruang'";
         $stmt = $db->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        $data = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        $values = [];
+        foreach ($data as $item) {
+            $values[] = [
+				'recid' => $item->recid,
+                'ruangan' => $item->var_value
+            ];
+        }
+        return $values;
     }
 
      //get jenis ujian
@@ -279,7 +297,16 @@ class dataModel {
         $query = "SELECT * FROM var_option where var_name='Ujian'";
         $stmt = $db->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        $data = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        $values = [];
+        foreach ($data as $item) {
+            $values[] = [
+				'recid' => $item->recid,
+                'jenis_ujian' => $item->var_value
+            ];
+        }
+        return $values;
     }
 
     

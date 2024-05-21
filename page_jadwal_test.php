@@ -99,7 +99,7 @@
                  <label for="gelombang">Gelombang</label>
                  <select  class="form-control" id="gelombang" name="gelombang">
                  <?php foreach ($gelombang as $dt): ?>
-                    <option value="<?=$dt->recid?>"><?= $dt->Jenjang?> - <?= $dt->Keterangan?></option>
+                    <option value="<?=$dt['recid']?>"><?= $dt['jenjang_keterangan']?></option>
                 <?php endforeach; ?>
                 </select>
                 </div>
@@ -107,7 +107,7 @@
                 <label for="ruang">Ruang</label>
                  <select  class="form-control" id="ruang" name="ruang">
                  <?php foreach ($ruang as $dt): ?>
-                    <option value="<?=$dt->recid?>"><?= $dt->var_value?></option>
+                    <option value="<?=$dt['recid']?>"><?= $dt['ruangan']?></option>
                 <?php endforeach; ?>
                 </select>
                 </div>
@@ -115,7 +115,7 @@
                 <label for="jenis_ujian">Jenis Ujian</label>
                  <select  class="form-control" id="jenis_ujian" name="jenis_ujian">
                  <?php foreach ($jenis_ujian as $dt): ?>
-                    <option value="<?=$dt->recid?>"><?= $dt->var_value?></option>
+                    <option value="<?=$dt['recid']?>"><?= $dt['jenis_ujian']?></option>
                 <?php endforeach; ?>
                 </select>
                 </div>
@@ -155,18 +155,22 @@
             <div class="modal-body">
             <input type="hidden" name="id" id="id">
                 <div class="form-group">
-                    <label for="editGelombang">Gelombang</label>
+                <label for="editGelombang">Gelombang</label>
                     <select class="form-control" id="editGelombang" name="gelombang" required>
-                        <!-- Options will be added here dynamically -->
+                        <!-- Options will be filled dynamically -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="editRuang">Ruang</label>
-                    <input type="number" class="form-control" id="editRuang" name="ruang" required>
+                    <select class="form-control" id="editRuang" name="ruang" required>
+                        <!-- Options will be filled dynamically -->
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="editJenisUjian">Jenis Ujian</label>
-                    <input type="number" class="form-control" id="editJenisUjian" name="jenis_ujian" required>
+                    <select class="form-control" id="editJenisUjian" name="jenis_ujian" required>
+                        <!-- Options will be filled dynamically -->
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="editTglUjian">Tanggal Ujian</label>
@@ -242,38 +246,60 @@
 <script>
     // Fungsi untuk menampilkan data di modal edit
     function edit(id) {
-        // Lakukan request AJAX untuk mengambil data berdasarkan recid
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'action_gettest.php?id=' + id, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                var response = JSON.parse(xhr.responseText);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'action_gettest.php?id=' + id, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
 
-                document.getElementById('id').value = response.id;
-                document.getElementById('editGelombang').value = response.gelombang;
-                document.getElementById('editRuang').value = response.ruang;
-                document.getElementById('editJenisUjian').value = response.jenis_ujian;
-                document.getElementById('editTglUjian').value = response.tgl_ujian;
-                document.getElementById('editJamMulai').value = response.jam_mulai;
-                document.getElementById('editJamSelesai').value = response.jam_selesai;
-                document.getElementById('editKeterangan').value = response.keterangan;
+            document.getElementById('id').value = response.id;
+            document.getElementById('editTglUjian').value = response.tgl_ujian;
+            document.getElementById('editJamMulai').value = response.jam_mulai;
+            document.getElementById('editJamSelesai').value = response.jam_selesai;
+            document.getElementById('editKeterangan').value = response.keterangan;
 
-                var selectGelombang = document.getElementById('editGelombang');
-                selectGelombang.innerHTML = '';
-                response.gelombangValues.forEach(function(dt) {
-                    var option = document.createElement('option');
-                    option.value = dt.recid;
-                    option.text = dt.Jenjang + ' - ' + dt.Keterangan;
-                    selectGelombang.appendChild(option);
-                });
+            // Mengisi opsi select untuk gelombang
+            var gelombangSelect = document.getElementById('editGelombang');
+            response.gelombangValues.forEach(function(item) {
+                var option = document.createElement('option');
+                option.value = item.recid;
+                option.text = item.jenjang_keterangan;
+                if (!Array.from(gelombangSelect.options).some(opt => opt.value == item.recid)) {
+                    gelombangSelect.appendChild(option);
+                }
+            });
+            gelombangSelect.value = response.gelombang;
 
-                
-                var editModal = new bootstrap.Modal(document.getElementById('editModal'));
-                editModal.show();
-            }
-        };
-        xhr.send();
-    }
+            // Mengisi opsi select untuk ruang
+            var ruangSelect = document.getElementById('editRuang');
+            response.ruangValues.forEach(function(item) {
+                var option = document.createElement('option');
+                option.value = item.recid;
+                option.text = item.ruangan;
+                if (!Array.from(ruangSelect.options).some(opt => opt.value == item.recid)) {
+                    ruangSelect.appendChild(option);
+                }
+            });
+            ruangSelect.value = response.ruang;
+
+            // Mengisi opsi select untuk jenis ujian
+            var jenisUjianSelect = document.getElementById('editJenisUjian');
+            response.ujianValues.forEach(function(item) {
+                var option = document.createElement('option');
+                option.value = item.recid;
+                option.text = item.jenis_ujian;
+                if (!Array.from(jenisUjianSelect.options).some(opt => opt.value == item.recid)) {
+                    jenisUjianSelect.appendChild(option);
+                }
+            });
+            jenisUjianSelect.value = response.jenis_ujian;
+
+            var editModal = new bootstrap.Modal(document.getElementById('editModal'));
+            editModal.show();
+        }
+    };
+    xhr.send();
+}
 
     document.getElementById('update').addEventListener('click', function() {
     var id = document.getElementById('id').value;
