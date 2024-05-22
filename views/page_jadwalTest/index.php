@@ -63,7 +63,8 @@
                             <td><?=$dt->jam_selesai?></td>
                             <td><?=$dt->keterangan?></td>
                             <td><a class="btn btn-warning" href="#" onclick="edit(<?= $dt->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal">Edit</a>
-                                 <a class="btn btn-danger" href="action_deltest.php?id=<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')">hapus</a></td>
+                            <a class="btn btn-danger" href="/hewi-edu/hewi/public/test/delete/<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')">hapus</a>
+                            </td>
                         </tr>
                         <?php endforeach ?>
                     </tbody>
@@ -359,7 +360,7 @@
     console.log(gelombang);
     
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'action_edittest.php', true);
+    xhr.open('POST', '/hewi-edu/hewi/public/test/update', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {

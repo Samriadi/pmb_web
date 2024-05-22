@@ -79,9 +79,46 @@ class eduTestController {
 			'ujianValues' => $ujianValues
 		];
 		
-		// header('Content-Type: application/json');
         echo json_encode($response);
 		exit;
 	}
+
+	public function update() {
+        $models = new eduTestModel();   
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+   			$id = $_POST['id'] ?? '';
+			$gelombang = $_POST['gelombang'] ?? '';
+            $ruang = $_POST['ruang'] ?? '';
+            $jenis_ujian = $_POST['jenis_ujian'] ?? '';
+            $tgl_ujian = $_POST['tgl_ujian'] ?? '';
+            $jam_mulai = $_POST['jam_mulai'] ?? '';
+            $jam_selesai = $_POST['jam_selesai'] ?? '';
+            $keterangan = $_POST['keterangan'] ?? '';
+
+            $models->updateTest($id, $gelombang, $ruang, $jenis_ujian, $tgl_ujian, $jam_mulai, $jam_selesai, $keterangan);
+
+            echo json_encode(['status' => 'success', 'message' => 'New Record Updated']);
+        } 
+		else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
+
+	public function delete($id) {
+		$models = new DataModel();
+		
+		$id = filter_var($id, FILTER_VALIDATE_INT);
+		if ($id === false) {
+			echo "Invalid ID";
+			return;
+		}
+	
+		$models->deleteTest($id);
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
+	
+		exit();
+	}
 	
 }
+
+

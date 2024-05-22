@@ -13,6 +13,8 @@ $router->add('/test', 'eduTestController', 'index');
 $router->add('/test/add', 'eduTestController', 'add');
 $router->add('/test/save', 'eduTestController', 'save');
 $router->add('/test/edit/{id}', 'eduTestController', 'edit');
+$router->add('/test/update', 'eduTestController', 'update');
+$router->add('/test/delete/{id}', 'eduTestController', 'delete');
 
 //
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';

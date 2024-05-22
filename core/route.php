@@ -12,21 +12,25 @@ class Router {
     }
 
     public function dispatch($url) {
-        if (array_key_exists($url, $this->routes)) {
-            $controllerName = $this->routes[$url]['controller'];
-            $actionName = $this->routes[$url]['action'];
+        foreach ($this->routes as $route => $target) {
+            $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([a-zA-Z0-9_]+)', $route);
+            if (preg_match("#^$pattern$#", $url, $matches)) {
+                array_shift($matches); // Remove the full match
+                $controllerName = $target['controller'];
+                $actionName = $target['action'];
 
-            require_once __DIR__ . '/../controllers/' . $controllerName . '.php';
+                require_once __DIR__ . '/../controllers/' . $controllerName . '.php';
 
-            $controller = new $controllerName();
-            if (method_exists($controller, $actionName)) {
-                $controller->$actionName();
-            } else {
-                echo "Error: Method $actionName not found in controller $controllerName";
+                $controller = new $controllerName();
+                if (method_exists($controller, $actionName)) {
+                    call_user_func_array([$controller, $actionName], $matches);
+                } else {
+                    echo "Error: Method $actionName not found in controller $controllerName";
+                }
+                return;
             }
-        } else {
-            echo "404";
         }
+        echo "404";
     }
 }
 ?>
