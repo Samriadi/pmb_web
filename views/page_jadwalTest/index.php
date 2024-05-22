@@ -1,34 +1,41 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<?php include '../views/layouts/header.php'; ?>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  </head>
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-  <body>
-    <div class="container-fluid" style="padding: 50px;">
+<?php include '../views/layouts/sidebar.php'; ?>
+       
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+<?php include '../views/layouts/topbar.php'; ?>
+                <!-- End of Topbar -->
+    <div class="container-fluid">
             <!-- Button trigger modal -->
-        <div class="card">
+        <div class="card shadow mb-4">
+        <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Data Jadwal Test</h6>
+         </div>
             <div class="card-body">
-            <td><a class="btn btn-primary" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal">Add</a>
+            <a class="btn btn-primary" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;">Add</a>
 
-                <table class="table">
+            <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Gelombang</th>
-                        <th scope="col">Ruang</th>
-                        <th scope="col">Jenis Ujian</th>
-                        <th scope="col">Tanggal Ujian</th>
-                        <th scope="col">Jam Mulai</th>
-                        <th scope="col">Jam Selesai</th>
-                        <th scope="col">Keterangan</th>
-                        <th scope="col">Action</th>
+                        <th>No</th>
+                        <th>Gelombang</th>
+                        <th>Ruang</th>
+                        <th>Jenis Ujian</th>
+                        <th>Tanggal Ujian</th>
+                        <th>Jam Mulai</th>
+                        <th>Jam Selesai</th>
+                        <th>Keterangan</th>
+                        <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,7 +61,7 @@
 
                         ?>
                         <tr>
-                            <th scope="row"><?=$no++?></th>
+                            <td><?=$no++?></td>
                             <td><?=$d_jenjang?> - <?=$d_keterangan?></td>
                             <td><?=$d_ruang?></td>
                             <td><?=$d_ujian?></td>
@@ -188,7 +195,10 @@
 </div>
 
 
-</html>
+
+<?php include '../views/layouts/footer.php'; ?>
+
+
 
 <script>
 function add() {

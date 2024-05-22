@@ -6,7 +6,7 @@ require_once __DIR__ . '/../controllers/eduTestController.php';
 
 $router = new Router();
 
-$router->add('/', 'mainController', 'index');
+$router->add('/', 'mainController', 'dashboard');
 
 //edu test
 $router->add('/test', 'eduTestController', 'index');
