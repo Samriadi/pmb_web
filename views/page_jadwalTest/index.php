@@ -18,10 +18,13 @@
             <!-- Button trigger modal -->
         <div class="card shadow mb-4">
         <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Data Jadwal Test</h6>
+              <h6 class="m-0 font-weight-bold text-primary">DATA JADWAL TEST</h6>
          </div>
             <div class="card-body">
-            <a class="btn btn-primary" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;">Add</a>
+            <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50">
+                                            <i class="fas fa-plus"></i>
+                                        </span>
+                                        <span class="text">Add Data</span></a>
 
             <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -69,8 +72,8 @@
                             <td><?=$dt->jam_mulai?></td>
                             <td><?=$dt->jam_selesai?></td>
                             <td><?=$dt->keterangan?></td>
-                            <td><a class="btn btn-warning" href="#" onclick="edit(<?= $dt->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal">Edit</a>
-                            <a class="btn btn-danger" href="/hewi/public/test/delete/<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')">hapus</a>
+                            <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
+                            <a class="btn btn-danger" href="/hewi/public/test/delete/<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                         <?php endforeach ?>
@@ -79,10 +82,10 @@
             </div>
         </div>
     </div>  
-    <!-- Optional JavaScript; choose one of the two! -->
-
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   </body>
 
 
@@ -99,20 +102,20 @@
                  <div class="form-group">
                  <div class="form-group">
                     <label for="gelombang">Gelombang</label>
-                        <select class="form-control" id="gelombang" name="gelombang">
+                        <select class="form-control" id="gelombang" name="gelombang" required>
                             <!-- Options will be filled dynamically -->
                         </select>
                 </div>
                 </div>
                 <div class="form-group">
                 <label for="ruang">Ruang</label>
-                        <select class="form-control" id="ruang" name="ruang">
+                        <select class="form-control" id="ruang" name="ruang" required>
                             <!-- Options will be filled dynamically -->
                         </select>
                 </div>
                 <div class="form-group">
                 <label for="jenis_ujian">Jenis Ujian</label>
-                        <select class="form-control" id="jenis_ujian" name="jenis_ujian">
+                        <select class="form-control" id="jenis_ujian" name="jenis_ujian" required>
                             <!-- Options will be filled dynamically -->
                         </select>
                 </div>
@@ -386,14 +389,22 @@ function add() {
             modalInstance.hide();
 
             Swal.fire({
-                title: 'Success!',
-                text: xhr.responseText,
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                // Refresh halaman
-                window.location.reload();
-            });
+            title: 'Success!',
+            text: xhr.responseText,
+            icon: 'success',
+            confirmButtonText: 'OK',
+            showCancelButton: false // Hide the cancel button
+        }).then((result) => {
+            // Check if the "OK" button was clicked
+            if (result.isConfirmed) {
+                // Add a delay before refreshing the page
+                setTimeout(() => {
+                    // Refresh the page
+                    window.location.reload();
+                }, 2000); // Adjust the delay time (in milliseconds) as needed
+            }
+        });
+
         }
     };
 
