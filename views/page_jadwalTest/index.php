@@ -191,7 +191,7 @@
 </html>
 
 <script>
-  function add() {
+function add() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/hewi-edu/hewi/public/test/add', true);
     xhr.onreadystatechange = function() {
@@ -234,12 +234,17 @@
             });
             jenisUjianSelect.value = response.jenis_ujian;
 
+            // Tampilkan modal
             var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
             exampleModal.show();
         }
     };
     xhr.send();
 
+    var exampleModal = document.getElementById('exampleModal');
+    exampleModal.addEventListener('hidden.bs.modal', function () {
+        window.location.reload();
+    });
 }
 
     document.getElementById('save').addEventListener('click', function() {
