@@ -63,7 +63,7 @@
                             <td><?=$dt->jam_selesai?></td>
                             <td><?=$dt->keterangan?></td>
                             <td><a class="btn btn-warning" href="#" onclick="edit(<?= $dt->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal">Edit</a>
-                            <a class="btn btn-danger" href="/hewi-edu/hewi/public/test/delete/<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')">hapus</a>
+                            <a class="btn btn-danger" href="/hewi/public/test/delete/<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')">hapus</a>
                             </td>
                         </tr>
                         <?php endforeach ?>
@@ -193,7 +193,7 @@
 <script>
 function add() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/hewi-edu/hewi/public/test/add', true);
+    xhr.open('GET', '/hewi/public/test/add', true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText);
@@ -258,7 +258,7 @@ function add() {
 
         console.log(gelombang);
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/hewi-edu/hewi/public/test/save', true); // Ubah URL di sini
+        xhr.open('POST', '/hewi/public/test/save', true); // Ubah URL di sini
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -298,7 +298,7 @@ function add() {
     // Fungsi untuk menampilkan data di modal edit
     function edit(id) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/hewi-edu/hewi/public/test/edit/'+id, true);
+    xhr.open('GET', '/hewi/public/test/edit/'+id, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText.trim());
@@ -365,7 +365,7 @@ function add() {
     console.log(gelombang);
     
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/hewi-edu/hewi/public/test/update', true);
+    xhr.open('POST', '/hewi/public/test/update', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
