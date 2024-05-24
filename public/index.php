@@ -21,9 +21,9 @@ $router->add('/test/delete/{id}', 'eduTestController', 'delete');
 //var option
 $router->add('/var', 'varOptionController', 'index');
 $router->add('/var/add', 'varOptionController', 'add');
-// $router->add('/test/edit/{id}', 'varOptionController', 'edit');
-// $router->add('/test/update', 'varOptionController', 'update');
-// $router->add('/test/delete/{id}', 'varOptionController', 'delete');
+// $router->add('/var/edit/{id}', 'varOptionController', 'edit');
+// $router->add('/var/update', 'varOptionController', 'update');
+$router->add('/var/delete/{id}', 'varOptionController', 'delete');
 
 //
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';

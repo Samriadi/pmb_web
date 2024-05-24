@@ -105,7 +105,7 @@ class eduTestController {
     }
 
 	public function delete($id) {
-		$models = new DataModel();
+		$models = new eduTestModel();
 		
 		$id = filter_var($id, FILTER_VALIDATE_INT);
 		if ($id === false) {

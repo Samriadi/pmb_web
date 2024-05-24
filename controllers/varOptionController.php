@@ -39,5 +39,20 @@ class varOptionController {
         }
     }
 
+	public function delete($id) {
+		$models = new DataModel();
+		
+		$id = filter_var($id, FILTER_VALIDATE_INT);
+		if ($id === false) {
+			echo "Invalid ID";
+			return;
+		}
+	
+		$models->deleteVar($id);
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
+	
+		exit();
+	}
+
 }
    
