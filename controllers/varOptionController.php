@@ -1,9 +1,9 @@
 <?php
-require_once __DIR__ . '/../models/eduTestModel.php';
+require_once __DIR__ . '/../models/varOptionModel.php';
 
 
 class varOptionController {
-	public function var_option() {
+	public function index() {
 		$models = new dataModel();   
         $data = $models->getVar();
 
