@@ -20,8 +20,7 @@ $router->add('/test/delete/{id}', 'eduTestController', 'delete');
 
 //var option
 $router->add('/var', 'varOptionController', 'index');
-// $router->add('/test/add', 'varOptionController', 'add');
-// $router->add('/test/save', 'varOptionController', 'save');
+$router->add('/var/add', 'varOptionController', 'add');
 // $router->add('/test/edit/{id}', 'varOptionController', 'edit');
 // $router->add('/test/update', 'varOptionController', 'update');
 // $router->add('/test/delete/{id}', 'varOptionController', 'delete');

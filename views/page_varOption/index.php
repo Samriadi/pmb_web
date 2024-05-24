@@ -18,7 +18,7 @@
             <!-- Button trigger modal -->
         <div class="card shadow mb-4">
         <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">DATA JADWAL TEST</h6>
+              <h6 class="m-0 font-weight-bold text-primary">DATA VAR OPTION</h6>
          </div>
             <div class="card-body">
             <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50">
@@ -31,13 +31,12 @@
                     <thead>
                         <tr>
                         <th>No</th>
-                        <th>Gelombang</th>
-                        <th>Ruang</th>
-                        <th>Jenis Ujian</th>
-                        <th>Tanggal Ujian</th>
-                        <th>Jam Mulai</th>
-                        <th>Jam Selesai</th>
-                        <th>Keterangan</th>
+                        <th>Rec Id</th>
+                        <th>Var Name</th>
+                        <th>Var Value</th>
+                        <th>Var Others</th>
+                        <th>Catatan</th>
+                        <th>Parent</th>
                         <th>Action</th>
                         </tr>
                     </thead>
@@ -45,35 +44,17 @@
 		                <?php 
                         $no = 1;
                         foreach ($data as $dt): 
-                        error_reporting(0);
-                            $periodes = $models->showGelombang($dt->gelombang);
-                            foreach ($periodes as $periode) {
-                                $d_jenjang=$periode->Jenjang;
-                                $d_keterangan=$periode->Keterangan;
-                            }
-
-                            $ruangs = $models->showRuang($dt->ruang);
-                            foreach ($ruangs as $periode) {
-                                $d_ruang=$periode->var_value;
-                            }
-
-                            $ujians = $models->showUjian($dt->jenis_ujian);
-                            foreach ($ujians as $ujian) {
-                                $d_ujian=$ujian->var_value;
-                            }
-
                         ?>
                         <tr>
                             <td><?=$no++?></td>
-                            <td><?=$d_jenjang?> - <?=$d_keterangan?></td>
-                            <td><?=$d_ruang?></td>
-                            <td><?=$d_ujian?></td>
-                            <td><?=$dt->tgl_ujian?></td>
-                            <td><?=$dt->jam_mulai?></td>
-                            <td><?=$dt->jam_selesai?></td>
-                            <td><?=$dt->keterangan?></td>
-                            <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
-                            <a class="btn btn-danger" href="/hewi/public/test/delete/<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                            <td><?=$dt->recid?></td>
+                            <td><?=$dt->var_name?></td>
+                            <td><?=$dt->var_value?></td>
+                            <td><?=$dt->var_others?></td>
+                            <td><?=$dt->catatan?></td>
+                            <td><?=$dt->parent?></td>
+                            <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->recid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
+                            <a class="btn btn-danger" href="/hewi/public/test/delete/<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                         <?php endforeach ?>
@@ -99,41 +80,29 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                  <div class="form-group">
+                    <label for="recid">RecID</label>
+                    <input type="text" class="form-control" id="recid" name="recid" required>
+                </div>
                  <div class="form-group">
-                 <div class="form-group">
-                    <label for="gelombang">Gelombang</label>
-                        <select class="form-control" id="gelombang" name="gelombang" required>
-                            <!-- Options will be filled dynamically -->
-                        </select>
+                    <label for="varname">Var Name</label>
+                    <input type="text" class="form-control" id="varname" name="varname" required>
                 </div>
-                </div>
-                <div class="form-group">
-                <label for="ruang">Ruang</label>
-                        <select class="form-control" id="ruang" name="ruang" required>
-                            <!-- Options will be filled dynamically -->
-                        </select>
-                </div>
-                <div class="form-group">
-                <label for="jenis_ujian">Jenis Ujian</label>
-                        <select class="form-control" id="jenis_ujian" name="jenis_ujian" required>
-                            <!-- Options will be filled dynamically -->
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="tgl_ujian">Tanggal Ujian</label>
-                    <input type="date" class="form-control" id="tgl_ujian" name="tgl_ujian" required>
-                </div>
-                <div class="form-group">
-                    <label for="jam_mulai">Jam Mulai</label>
-                    <input type="time" class="form-control" id="jam_mulai" name="jam_mulai" required>
-                </div>
-                <div class="form-group">
-                    <label for="jam_selesai">Jam Selesai</label>
-                    <input type="time" class="form-control" id="jam_selesai" name="jam_selesai" required>
-               </div>
                <div class="form-group">
-                    <label for="keterangan">Keterangan</label>
-                    <input type="text" class="form-control" id="keterangan" name="keterangan" required>
+                    <label for="varvalue">Var Value</label>
+                    <input type="text" class="form-control" id="varvalue" name="varvalue" required>
+                </div>
+                <div class="form-group">
+                    <label for="varothers">Var Others</label>
+                    <input type="text" class="form-control" id="varothers" name="varothers" required>
+                </div>
+                <div class="form-group">
+                    <label for="catatan">Catatan</label>
+                    <input type="text" class="form-control" id="catatan" name="catatan" required>
+                </div>
+                <div class="form-group">
+                    <label for="parent">Parent</label>
+                    <input type="number" class="form-control" id="parent" name="parent" required>
                </div>
                 </div>
                 <div class="modal-footer">
@@ -205,73 +174,18 @@
 
 <script>
 function add() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/hewi/public/test/add', true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var response = JSON.parse(xhr.responseText);
 
-            // Mengisi opsi select untuk gelombang
-            var gelombangSelect = document.getElementById('gelombang');
-            response.gelombangValues.forEach(function(item) {
-                var option = document.createElement('option');
-                option.value = item.recid;
-                option.text = item.jenjang_keterangan;
-                if (!Array.from(gelombangSelect.options).some(opt => opt.value == item.recid)) {
-                    gelombangSelect.appendChild(option);
-                }
-            });
-            gelombangSelect.value = response.gelombang;
+        document.getElementById('save').addEventListener('click', function() {
+        var recid = document.getElementById('recid').value;
+        var varname = document.getElementById('varname').value;
+        var varvalue = document.getElementById('varvalue').value;
+        var varothers = document.getElementById('varothers').value;
+        var catatan = document.getElementById('catatan').value;
+        var parent = document.getElementById('parent').value;
 
-            // Mengisi opsi select untuk ruang
-            var ruangSelect = document.getElementById('ruang');
-            response.ruangValues.forEach(function(item) {
-                var option = document.createElement('option');
-                option.value = item.recid;
-                option.text = item.ruangan;
-                if (!Array.from(ruangSelect.options).some(opt => opt.value == item.recid)) {
-                    ruangSelect.appendChild(option);
-                }
-            });
-            ruangSelect.value = response.ruang;
-
-            // Mengisi opsi select untuk jenis ujian
-            var jenisUjianSelect = document.getElementById('jenis_ujian');
-            response.ujianValues.forEach(function(item) {
-                var option = document.createElement('option');
-                option.value = item.recid;
-                option.text = item.jenis_ujian;
-                if (!Array.from(jenisUjianSelect.options).some(opt => opt.value == item.recid)) {
-                    jenisUjianSelect.appendChild(option);
-                }
-            });
-            jenisUjianSelect.value = response.jenis_ujian;
-
-            // Tampilkan modal
-            var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
-            exampleModal.show();
-        }
-    };
-    xhr.send();
-
-    var exampleModal = document.getElementById('exampleModal');
-    exampleModal.addEventListener('hidden.bs.modal', function () {
-        window.location.reload();
-    });
-}
-
-    document.getElementById('save').addEventListener('click', function() {
-        var gelombang = document.getElementById('gelombang').value;
-        var ruang = document.getElementById('ruang').value;
-        var jenis_ujian = document.getElementById('jenis_ujian').value;
-        var tgl_ujian = document.getElementById('tgl_ujian').value;
-        var jam_mulai = document.getElementById('jam_mulai').value;
-        var jam_selesai = document.getElementById('jam_selesai').value;
-        var keterangan = document.getElementById('keterangan').value;
-
-        console.log(gelombang);
+        console.log(recid);
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/hewi/public/test/save', true); // Ubah URL di sini
+        xhr.open('POST', '/hewi/public/var/add', true);        
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -294,17 +208,16 @@ function add() {
         };
 
         // Kirim data yang ingin Anda kirimkan
-        var data = 
-        "gelombang=" + encodeURIComponent(gelombang) + 
-        "&ruang=" + encodeURIComponent(ruang) + 
-        "&jenis_ujian=" + encodeURIComponent(jenis_ujian) + 
-        "&tgl_ujian=" + encodeURIComponent(tgl_ujian) + 
-        "&jam_mulai=" + encodeURIComponent(jam_mulai) + 
-        "&jam_selesai=" + encodeURIComponent(jam_selesai) + 
-        "&keterangan=" + encodeURIComponent(keterangan);
+         var data = 
+         "recid=" + encodeURIComponent(recid) + 
+         "&varname=" + encodeURIComponent(varname) + 
+         "&varvalue=" + encodeURIComponent(varvalue) + 
+         "&varothers=" + encodeURIComponent(varothers) + 
+         "&catatan=" + encodeURIComponent(catatan) + 
+         "&parent=" + encodeURIComponent(parent);
         xhr.send(data);
     });
-
+    }
 </script>
 
 <script>

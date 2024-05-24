@@ -4,7 +4,7 @@ require_once __DIR__ . '/../models/varOptionModel.php';
 
 class varOptionController {
 	public function index() {
-		$models = new dataModel();   
+		$models = new varOptiontModel();   
         $data = $models->getVar();
 
 		foreach ($data as $dt): 
@@ -17,6 +17,26 @@ class varOptionController {
 		endforeach;
 		include __DIR__ . '/../views/page_varOption/index.php';
 
+    }
+
+	public function add() {
+        $models = new varOptiontModel();   
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+           
+			$recid = $_POST['recid'];
+			$varname = $_POST['varname'];
+			$varvalue = $_POST['varvalue'];
+			$varothers = $_POST['varothers'];
+			$catatan = $_POST['catatan'];
+			$parent = $_POST['parent'];
+
+			$models->addVar($recid, $varname, $varvalue, $varothers, $catatan, $parent);
+
+            echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
+        } 
+		else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
     }
 
 }
