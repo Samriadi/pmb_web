@@ -122,40 +122,28 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <input type="hidden" name="id" id="id">
-                <div class="form-group">
-                <label for="editGelombang">Gelombang</label>
-                    <select class="form-control" id="editGelombang" name="gelombang" required>
-                        <!-- Options will be filled dynamically -->
-                    </select>
+                 <div class="form-group">
+                    <label for="editRecid">RecID</label>
+                    <input type="text" class="form-control" id="editRecid" name="recid" required>
+                </div>
+                 <div class="form-group">
+                    <label for="editVarname">Var Name</label>
+                    <input type="text" class="form-control" id="editVarname" name="varname" required>
+                </div><div class="form-group">
+                    <label for="editVarvalue">Var Value</label>
+                    <input type="text" class="form-control" id="editVarvalue" name="varvalue" required>
                 </div>
                 <div class="form-group">
-                    <label for="editRuang">Ruang</label>
-                    <select class="form-control" id="editRuang" name="ruang" required>
-                        <!-- Options will be filled dynamically -->
-                    </select>
+                    <label for="editVarothers">Var Others</label>
+                    <input type="text" class="form-control" id="editVarothers" name="varothers" required>
                 </div>
                 <div class="form-group">
-                    <label for="editJenisUjian">Jenis Ujian</label>
-                    <select class="form-control" id="editJenisUjian" name="jenis_ujian" required>
-                        <!-- Options will be filled dynamically -->
-                    </select>
+                    <label for="editCatatan">Catatan</label>
+                    <input type="text" class="form-control" id="editCatatan" name="catatan" required>
                 </div>
                 <div class="form-group">
-                    <label for="editTglUjian">Tanggal Ujian</label>
-                    <input type="date" class="form-control" id="editTglUjian" name="tgl_ujian" required>
-                </div>
-                <div class="form-group">
-                    <label for="editJamMulai">Jam Mulai</label>
-                    <input type="time" class="form-control" id="editJamMulai" name="jam_mulai" required>
-                </div>
-                <div class="form-group">
-                    <label for="editJamSelesai">Jam Selesai</label>
-                    <input type="text" class="form-control" id="editJamSelesai" name="jam_selesai" required>
-                </div>
-                <div class="form-group">
-                    <label for="editKeterangan">Keterangan</label>
-                    <input type="text" class="form-control" id="editKeterangan" name="keterangan" required>
+                    <label for="editParent">Parent</label>
+                    <input type="number" class="form-control" id="editParent" name="parent" required>
                 </div>
             </div>
             <div class="modal-footer">
@@ -224,52 +212,17 @@ function add() {
     // Fungsi untuk menampilkan data di modal edit
     function edit(id) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/hewi/public/test/edit/'+id, true);
+    xhr.open('GET', '/hewi/public/var/edit/'+id, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText.trim());
 
-            document.getElementById('id').value = response.id;
-            document.getElementById('editTglUjian').value = response.tgl_ujian;
-            document.getElementById('editJamMulai').value = response.jam_mulai;
-            document.getElementById('editJamSelesai').value = response.jam_selesai;
-            document.getElementById('editKeterangan').value = response.keterangan;
-
-            // Mengisi opsi select untuk gelombang
-            var gelombangSelect = document.getElementById('editGelombang');
-            response.gelombangValues.forEach(function(item) {
-                var option = document.createElement('option');
-                option.value = item.recid;
-                option.text = item.jenjang_keterangan;
-                if (!Array.from(gelombangSelect.options).some(opt => opt.value == item.recid)) {
-                    gelombangSelect.appendChild(option);
-                }
-            });
-            gelombangSelect.value = response.gelombang;
-
-            // Mengisi opsi select untuk ruang
-            var ruangSelect = document.getElementById('editRuang');
-            response.ruangValues.forEach(function(item) {
-                var option = document.createElement('option');
-                option.value = item.recid;
-                option.text = item.ruangan;
-                if (!Array.from(ruangSelect.options).some(opt => opt.value == item.recid)) {
-                    ruangSelect.appendChild(option);
-                }
-            });
-            ruangSelect.value = response.ruang;
-
-            // Mengisi opsi select untuk jenis ujian
-            var jenisUjianSelect = document.getElementById('editJenisUjian');
-            response.ujianValues.forEach(function(item) {
-                var option = document.createElement('option');
-                option.value = item.recid;
-                option.text = item.jenis_ujian;
-                if (!Array.from(jenisUjianSelect.options).some(opt => opt.value == item.recid)) {
-                    jenisUjianSelect.appendChild(option);
-                }
-            });
-            jenisUjianSelect.value = response.jenis_ujian;
+            document.getElementById('editRecid').value = response.recid;
+            document.getElementById('editVarname').value = response.var_name;
+            document.getElementById('editVarvalue').value = response.var_value;
+            document.getElementById('editVarothers').value = response.var_others;
+            document.getElementById('editCatatan').value = response.catatan;
+            document.getElementById('editParent').value = response.parent;
 
             var editModal = new bootstrap.Modal(document.getElementById('editModal'));
             editModal.show();
@@ -279,19 +232,17 @@ function add() {
 }
 
     document.getElementById('update').addEventListener('click', function() {
-    var id = document.getElementById('id').value;
-    var gelombang = document.getElementById('editGelombang').value;
-    var ruang = document.getElementById('editRuang').value;
-    var jenis_ujian = document.getElementById('editJenisUjian').value;
-    var tgl_ujian = document.getElementById('editTglUjian').value;
-    var jam_mulai = document.getElementById('editJamMulai').value;
-    var jam_selesai = document.getElementById('editJamSelesai').value;
-    var keterangan = document.getElementById('editKeterangan').value;
+    var recid = document.getElementById('editRecid').value;
+        var varname = document.getElementById('editVarname').value;
+        var varvalue = document.getElementById('editVarvalue').value;
+        var varothers = document.getElementById('editVarothers').value;
+        var catatan = document.getElementById('editCatatan').value;
+        var parent = document.getElementById('editParent').value;
 
-    console.log(gelombang);
+    console.log(recid);
     
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/hewi/public/test/update', true);
+    xhr.open('POST', '/hewi/public/var/update', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -321,19 +272,10 @@ function add() {
         }
     };
 
-    // Kirim data yang ingin Anda kirimkan
-    var data = 
-        "id=" + encodeURIComponent(id) + 
-        "&gelombang=" + encodeURIComponent(gelombang) + 
-        "&ruang=" + encodeURIComponent(ruang) + 
-        "&jenis_ujian=" + encodeURIComponent(jenis_ujian) + 
-        "&tgl_ujian=" + encodeURIComponent(tgl_ujian) + 
-        "&jam_mulai=" + encodeURIComponent(jam_mulai) + 
-        "&jam_selesai=" + encodeURIComponent(jam_selesai) + 
-        "&keterangan=" + encodeURIComponent(keterangan);
-        
-    xhr.send(data);
-});
+    // Kirim data yang ingin Anda kirimkan  // Kirim data yang ingin Anda kirimkan
+        var data = "recid=" + encodeURIComponent(recid) + "&varname=" + encodeURIComponent(varname) + "&varvalue=" + encodeURIComponent(varvalue) + "&varothers=" + encodeURIComponent(varothers) + "&catatan=" + encodeURIComponent(catatan) + "&parent=" + encodeURIComponent(parent);
+        xhr.send(data);
+    });
 
 
     var modalElement = document.getElementById('editModal');

@@ -38,6 +38,44 @@ class varOptionController {
             echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
         }
     }
+	
+	public function edit($id) {
+
+		$models = new varOptiontModel();   
+		
+		$data = $models->getVarById($id);
+		
+		$response = [
+			'recid' => $data['recid'],
+			'var_name' => $data['var_name'], 
+			'var_value' => $data['var_value'],
+			'var_others' => $data['var_others'],
+			'catatan' => $data['catatan'],
+			'parent' => $data['parent'],
+		];
+		
+        echo json_encode($response);
+		exit;
+	}
+
+	public function update() {
+        $models = new varOptiontModel();   
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+   			$recid = $_POST['recid'];
+			$varname = $_POST['varname'];
+			$varvalue = $_POST['varvalue'];
+			$varothers = $_POST['varothers'];
+			$catatan = $_POST['catatan'];
+			$parent = $_POST['parent'];
+
+            $models->updateVar($recid, $varname, $varvalue, $varothers, $catatan, $parent);
+
+            echo json_encode(['status' => 'success', 'message' => 'New Record Updated']);
+        } 
+		else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
 
 	public function delete($id) {
 		$models = new DataModel();
