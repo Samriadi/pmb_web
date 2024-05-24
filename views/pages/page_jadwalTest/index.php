@@ -38,18 +38,18 @@
                         <th>Jam Mulai</th>
                         <th>Jam Selesai</th>
                         <th>Keterangan</th>
-                        <th>Action</th>
+                        <th style="width: 150px;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
 		                <?php 
                         $no = 1;
                         foreach ($data as $dt): 
-                        error_reporting(0);
                             $periodes = $models->showGelombang($dt->gelombang);
                             foreach ($periodes as $periode) {
                                 $d_jenjang=$periode->Jenjang;
                                 $d_keterangan=$periode->Keterangan;
+                                $d_status=$periode->status;
                             }
 
                             $ruangs = $models->showRuang($dt->ruang);
@@ -72,9 +72,19 @@
                             <td><?=$dt->jam_mulai?></td>
                             <td><?=$dt->jam_selesai?></td>
                             <td><?=$dt->keterangan?></td>
+                            <?php if ($dt->status == "Open") { ?>
                             <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
                             <a class="btn btn-danger" href="/hewi/public/test/delete/<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                             </td>
+                            <?php } 
+                            else { ?>
+                             <td>
+                               <a class="btn btn-secondary btn-icon-split disabled" aria-disabled="true"><span class="icon text-white-50"><i class="fas fa-check"></i></span> 
+                                        <span class="text">Selesai</span></a></a>
+                            </td>
+
+                            <?php }
+                            ?>
                         </tr>
                         <?php endforeach ?>
                     </tbody>
@@ -96,7 +106,8 @@
                 <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">x
+                    </button>
                 </div>
                 <div class="modal-body">
                  <div class="form-group">
@@ -150,7 +161,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editModalLabel">Edit Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">x
+                </button>
             </div>
             <div class="modal-body">
             <input type="hidden" name="id" id="id">

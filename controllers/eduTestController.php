@@ -16,9 +16,10 @@ class eduTestController {
 			$jam_mulai = $dt->jam_mulai;
 			$jam_selesai = $dt->jam_selesai;
 			$keterangan = $dt->keterangan;
+			$status = $dt->status;
 		endforeach;
 
-		include __DIR__ . '/../views/page_jadwalTest/index.php';
+		include __DIR__ . '/../views/pages/page_jadwalTest/index.php';
     }
 
 	public function add() {

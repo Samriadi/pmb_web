@@ -38,6 +38,24 @@
     </div>
 </li>
 
+<!-- Divider -->
+        <hr class="sidebar-divider">
+
+      <!-- Nav Item - Login/Logout Collapse Menu -->
+        <li class="nav-item" id="navAuth">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAuth"
+                aria-expanded="true" aria-controls="collapseAuth">
+                <i class="fas fa-fw fa-sign-in-alt"></i>
+                <span>Auth</span>
+            </a>
+            <div id="collapseAuth" class="collapse" aria-labelledby="headingAuth" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="/hewi/public/login">Login</a>
+                    <a class="collapse-item" href="/hewi/public/logout">Logout</a>
+                </div>
+            </div>
+        </li>
+
 
 
 <!-- Divider -->

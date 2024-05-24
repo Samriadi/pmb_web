@@ -23,6 +23,18 @@
     <!-- Custom styles for this page -->
     <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <style>
+        .disabled {
+            pointer-events: none;
+            opacity: 0.65;
+            text-decoration: none;
+        }
+        .btn-group {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
 </head>
 
 <body id="page-top">

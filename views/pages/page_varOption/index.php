@@ -37,7 +37,7 @@
                         <th>Var Others</th>
                         <th>Catatan</th>
                         <th>Parent</th>
-                        <th>Action</th>
+                        <th style="width: 100px;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,7 +77,8 @@
                 <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">x
+                </button>
                 </div>
                 <div class="modal-body">
                   <div class="form-group">
@@ -119,7 +120,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editModalLabel">Edit Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">x
+                </button>
             </div>
             <div class="modal-body">
                  <div class="form-group">

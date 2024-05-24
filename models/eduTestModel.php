@@ -6,7 +6,7 @@ class eduTestModel {
     //jadwal test	
     public function getTest() {
 		$db = Database::getInstance();
-        $query = "SELECT * FROM edu_test";
+        $query = "SELECT * FROM edu_test JOIN edu_periode ON edu_test.gelombang = edu_periode.recid";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -83,7 +83,7 @@ class eduTestModel {
     
     public function showGelombang($recid){
 		$db = Database::getInstance();
-        $query = "SELECT Jenjang, Keterangan FROM edu_periode where recid = :recid";
+        $query = "SELECT Jenjang, status, Keterangan FROM edu_periode where recid = :recid";
 
         $stmt = $db->prepare($query);
         $stmt->bindParam(':recid', $recid);

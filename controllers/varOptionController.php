@@ -15,7 +15,7 @@ class varOptionController {
 			$catatan = $dt->catatan;
 			$parent = $dt->parent;
 		endforeach;
-		include __DIR__ . '/../views/page_varOption/index.php';
+		include __DIR__ . '/../views/pages/page_varOption/index.php';
 
     }
 
@@ -78,7 +78,7 @@ class varOptionController {
     }
 
 	public function delete($id) {
-		$models = new DataModel();
+		$models = new varOptiontModel();
 		
 		$id = filter_var($id, FILTER_VALIDATE_INT);
 		if ($id === false) {
