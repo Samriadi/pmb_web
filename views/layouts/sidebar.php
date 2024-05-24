@@ -24,7 +24,7 @@
 <hr class="sidebar-divider">
 
 <!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item">
+<li class="nav-item" id="navPages">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
         aria-expanded="true" aria-controls="collapsePages">
         <i class="fas fa-fw fa-folder"></i>
@@ -39,6 +39,7 @@
 </li>
 
 
+
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
 
@@ -50,3 +51,19 @@
 
 </ul>
 <!-- End of Sidebar -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var currentPath = window.location.pathname;
+    var navLinks = document.querySelectorAll('.collapse-item');
+
+    navLinks.forEach(function(link) {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+            link.closest('.collapse').classList.add('show');
+            link.closest('.nav-item').querySelector('.nav-link').classList.remove('collapsed');
+            link.closest('.nav-item').querySelector('.nav-link').setAttribute('aria-expanded', 'true');
+        }
+    });
+});
+</script>
