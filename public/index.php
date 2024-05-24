@@ -17,6 +17,10 @@ $router->add('/test/edit/{id}', 'eduTestController', 'edit');
 $router->add('/test/update', 'eduTestController', 'update');
 $router->add('/test/delete/{id}', 'eduTestController', 'delete');
 
+//edu Periode
+$router->add('/periode', 'eduPeriodeController', 'index');
+$router->add('/periode/add', 'eduPeriodeController', 'add');
+
 
 //var option
 $router->add('/var', 'varOptionController', 'index');
