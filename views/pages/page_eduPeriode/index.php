@@ -49,8 +49,8 @@
                             <td><?=$dt->toDate?></td>
                             <td><?=$dt->Keterangan?></td>
                             <td><?=$dt->status?></td>
-                            <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
-                            <a class="btn btn-danger" href="/hewi/public/test/delete/<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                            <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->recid ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
+                            <a class="btn btn-danger" href="/hewi/public/periode/delete/<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                         <?php endforeach ?>
@@ -126,41 +126,35 @@
                 </button>
             </div>
             <div class="modal-body">
-            <input type="hidden" name="id" id="id">
+            <input type="hidden" name="recid" id="recid">
                 <div class="form-group">
-                <label for="editGelombang">Gelombang</label>
-                    <select class="form-control" id="editGelombang" name="gelombang" required>
-                        <!-- Options will be filled dynamically -->
+                <label for="editJenjang">Jenjang</label>
+                    <select class="form-control" id="editJenjang" name="jenjang" required>
+                        <option value="S1">S1</option>
+                        <option value="D3">D3</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="editRuang">Ruang</label>
-                    <select class="form-control" id="editRuang" name="ruang" required>
-                        <!-- Options will be filled dynamically -->
-                    </select>
+                    <label for="editPeriode">Periode</label>
+                    <input type="number" class="form-control" id="editPeriode" name="periode" required>
                 </div>
                 <div class="form-group">
-                    <label for="editJenisUjian">Jenis Ujian</label>
-                    <select class="form-control" id="editJenisUjian" name="jenis_ujian" required>
-                        <!-- Options will be filled dynamically -->
-                    </select>
+                    <label for="editFromDate">From Date</label>
+                    <input type="date" class="form-control" id="editFromDate" name="fromDate" required>
                 </div>
                 <div class="form-group">
-                    <label for="editTglUjian">Tanggal Ujian</label>
-                    <input type="date" class="form-control" id="editTglUjian" name="tgl_ujian" required>
-                </div>
-                <div class="form-group">
-                    <label for="editJamMulai">Jam Mulai</label>
-                    <input type="time" class="form-control" id="editJamMulai" name="jam_mulai" required>
-                </div>
-                <div class="form-group">
-                    <label for="editJamSelesai">Jam Selesai</label>
-                    <input type="text" class="form-control" id="editJamSelesai" name="jam_selesai" required>
+                    <label for="editToDate">To Date</label>
+                    <input type="date" class="form-control" id="editToDate" name="toDate" required>
                 </div>
                 <div class="form-group">
                     <label for="editKeterangan">Keterangan</label>
                     <input type="text" class="form-control" id="editKeterangan" name="keterangan" required>
                 </div>
+                <label for="editStatus">Status</label>
+                    <select class="form-control" id="editStatus" name="status" required>
+                         <option value="Open">Open</option>
+                        <option value="Close">Close</option>
+                    </select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -224,55 +218,22 @@ function add() {
 </script>
 
 <script>
-    // Fungsi untuk menampilkan data di modal edit
-    function edit(id) {
+    function edit(recid) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/hewi/public/test/edit/'+id, true);
+    xhr.open('GET', '/hewi/public/periode/edit/'+recid, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText.trim());
 
-            document.getElementById('id').value = response.id;
-            document.getElementById('editTglUjian').value = response.tgl_ujian;
-            document.getElementById('editJamMulai').value = response.jam_mulai;
-            document.getElementById('editJamSelesai').value = response.jam_selesai;
+
+            document.getElementById('recid').value = response.recid;
+            document.getElementById('editJenjang').value = response.jenjang;
+            document.getElementById('editPeriode').value = response.periode;
+            document.getElementById('editFromDate').value = response.fromDate;
+            document.getElementById('editToDate').value = response.toDate;
             document.getElementById('editKeterangan').value = response.keterangan;
+            document.getElementById('editStatus').value = response.status;
 
-            // Mengisi opsi select untuk gelombang
-            var gelombangSelect = document.getElementById('editGelombang');
-            response.gelombangValues.forEach(function(item) {
-                var option = document.createElement('option');
-                option.value = item.recid;
-                option.text = item.jenjang_keterangan;
-                if (!Array.from(gelombangSelect.options).some(opt => opt.value == item.recid)) {
-                    gelombangSelect.appendChild(option);
-                }
-            });
-            gelombangSelect.value = response.gelombang;
-
-            // Mengisi opsi select untuk ruang
-            var ruangSelect = document.getElementById('editRuang');
-            response.ruangValues.forEach(function(item) {
-                var option = document.createElement('option');
-                option.value = item.recid;
-                option.text = item.ruangan;
-                if (!Array.from(ruangSelect.options).some(opt => opt.value == item.recid)) {
-                    ruangSelect.appendChild(option);
-                }
-            });
-            ruangSelect.value = response.ruang;
-
-            // Mengisi opsi select untuk jenis ujian
-            var jenisUjianSelect = document.getElementById('editJenisUjian');
-            response.ujianValues.forEach(function(item) {
-                var option = document.createElement('option');
-                option.value = item.recid;
-                option.text = item.jenis_ujian;
-                if (!Array.from(jenisUjianSelect.options).some(opt => opt.value == item.recid)) {
-                    jenisUjianSelect.appendChild(option);
-                }
-            });
-            jenisUjianSelect.value = response.jenis_ujian;
 
             var editModal = new bootstrap.Modal(document.getElementById('editModal'));
             editModal.show();
@@ -282,24 +243,24 @@ function add() {
 }
 
     document.getElementById('update').addEventListener('click', function() {
-    var id = document.getElementById('id').value;
-    var gelombang = document.getElementById('editGelombang').value;
-    var ruang = document.getElementById('editRuang').value;
-    var jenis_ujian = document.getElementById('editJenisUjian').value;
-    var tgl_ujian = document.getElementById('editTglUjian').value;
-    var jam_mulai = document.getElementById('editJamMulai').value;
-    var jam_selesai = document.getElementById('editJamSelesai').value;
+    var recid = document.getElementById('recid').value;
+    var jenjang = document.getElementById('editJenjang').value;
+    var periode = document.getElementById('editPeriode').value;
+    var fromDate = document.getElementById('editFromDate').value;
+    var toDate = document.getElementById('editToDate').value;
     var keterangan = document.getElementById('editKeterangan').value;
+    var status = document.getElementById('editStatus').value;
 
-    console.log(gelombang);
+    console.log(recid);
+    console.log(status);
     
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/hewi/public/test/update', true);
+    xhr.open('POST', '/hewi/public/periode/update', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log(xhr.responseText);
-            // Lakukan sesuatu setelah data berhasil dikirim, seperti menutup modal
+          
             var modal = document.getElementById('editModal');
             var modalInstance = bootstrap.Modal.getInstance(modal);
             modalInstance.hide();
@@ -309,35 +270,30 @@ function add() {
             text: xhr.responseText,
             icon: 'success',
             confirmButtonText: 'OK',
-            showCancelButton: false // Hide the cancel button
+            showCancelButton: false 
         }).then((result) => {
-            // Check if the "OK" button was clicked
             if (result.isConfirmed) {
-                // Add a delay before refreshing the page
                 setTimeout(() => {
                     // Refresh the page
                     window.location.reload();
-                }, 2000); // Adjust the delay time (in milliseconds) as needed
+                }, 2000); 
             }
         });
 
         }
     };
 
-    // Kirim data yang ingin Anda kirimkan
     var data = 
-        "id=" + encodeURIComponent(id) + 
-        "&gelombang=" + encodeURIComponent(gelombang) + 
-        "&ruang=" + encodeURIComponent(ruang) + 
-        "&jenis_ujian=" + encodeURIComponent(jenis_ujian) + 
-        "&tgl_ujian=" + encodeURIComponent(tgl_ujian) + 
-        "&jam_mulai=" + encodeURIComponent(jam_mulai) + 
-        "&jam_selesai=" + encodeURIComponent(jam_selesai) + 
-        "&keterangan=" + encodeURIComponent(keterangan);
+        "&recid=" + encodeURIComponent(recid) + 
+        "&jenjang=" + encodeURIComponent(jenjang) + 
+        "&periode=" + encodeURIComponent(periode) + 
+        "&fromDate=" + encodeURIComponent(fromDate) + 
+        "&toDate=" + encodeURIComponent(toDate) + 
+        "&keterangan=" + encodeURIComponent(keterangan)+
+        "&status=" + encodeURIComponent(status);
         
     xhr.send(data);
 });
-
 
     var modalElement = document.getElementById('editModal');
     modalElement.addEventListener('hidden.bs.modal', function () {

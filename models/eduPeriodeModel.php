@@ -26,6 +26,36 @@ class eduPeriodeModel {
         }
     }
 
+     public function getPeriodeById($id) {
+        $db = Database::getInstance();
+        $stmt = $db->prepare("SELECT * FROM edu_periode WHERE recid = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updatePeriode($recid, $jenjang, $periode, $fromDate, $toDate, $keterangan, $status) {
+        $db = Database::getInstance();
+
+        
+        $stmt = $db->prepare("UPDATE edu_periode SET Jenjang = ?, Periode = ?, fromDate = ?, toDate = ?, Keterangan = ?, status = ?  WHERE recid = ?");
+        $stmt->execute([$jenjang, $periode, $fromDate, $toDate, $keterangan, $status, $recid]);
+    }
+
+     public function deletePeriode($id) {
+        $db = Database::getInstance();
+
+        $query = "DELETE FROM edu_periode WHERE recid = ?";
+
+        try {
+        $stmt = $db->prepare($query);
+        $stmt->execute([$id]);
+        } 
+        catch(PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+    
+
     
 }
 

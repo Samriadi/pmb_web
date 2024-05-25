@@ -32,6 +32,7 @@
     </a>
     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="/hewi/public/user">User</a>
             <a class="collapse-item" href="/hewi/public/var">Var Option</a>
             <a class="collapse-item" href="/hewi/public/test">Edu Test</a>
             <a class="collapse-item" href="/hewi/public/periode">Edu Periode</a>
