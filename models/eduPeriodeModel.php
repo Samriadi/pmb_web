@@ -12,6 +12,16 @@ class eduPeriodeModel {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function getPeriodeIsInTagihan($recid, $value){
+		$db = Database::getInstance();
+        $query = "SELECT DISTINCT t2.Periode AS Periode, CASE WHEN t1.periode IS NOT NULL THEN 'true' ELSE 'false' END AS is_in_tagihan FROM edu_periode t2 LEFT JOIN tagihan t1 ON t2.Periode = t1.periode WHERE t2.recid = ? AND t2.Periode = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$recid, $value]);
+        $result = $stmt->fetch(PDO::FETCH_OBJ);
+        return $result->is_in_tagihan;
+
+    }
+
     public function addPeriode($jenjang, $periode, $fromDate, $toDate, $keterangan, $status) {
 		$db = Database::getInstance();
 
@@ -55,6 +65,7 @@ class eduPeriodeModel {
         }
     }
     
+
     public function getLastPeriode($jenjang) {
         $db = Database::getInstance();
         $stmt = $db->prepare("SELECT ifnull(max(periode), 0) as lastPeriod FROM edu_periode where Jenjang=? and status = 'Open'");

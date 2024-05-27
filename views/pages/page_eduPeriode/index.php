@@ -39,18 +39,25 @@
                     <tbody>
 		                <?php 
                         $no = 1;
-                        foreach ($data as $dt): 
+                        foreach ($result as $dt): 
                         ?>
                         <tr>
                             <td><?=$no++?></td>
-                            <td><?=$dt->Jenjang?></td>
-                            <td><?=$dt->Periode?></td>
-                            <td><?=$dt->fromDate?></td>
-                            <td><?=$dt->toDate?></td>
-                            <td><?=$dt->Keterangan?></td>
-                            <td><?=$dt->status?></td>
-                            <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->recid ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
-                            <a class="btn btn-danger" href="/hewi/public/periode/delete/<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                            <td><?=$dt['jenjang']?></td>
+                            <td><?=$dt['periode']?></td>
+                            <td><?=$dt['fromDate']?></td>
+                            <td><?=$dt['toDate']?></td>
+                            <td><?=$dt['keterangan']?></td>
+                            <td><?=$dt['status']?></td>
+                            <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt['recid'] ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
+                            <?php 
+                            if($dt['is_in_tagihan'] == "true"){ ?>
+                               <a class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
+                            <?php } 
+                            else { ?>
+                                 <a class="btn btn-danger" href="/hewi/public/periode/delete/<?= $dt['recid']; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                           <?php } 
+                           ?>
                             </td>
                         </tr>
                         <?php endforeach ?>

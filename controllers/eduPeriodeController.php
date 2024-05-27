@@ -7,6 +7,7 @@ class eduPeriodeController {
         $models = new eduPeriodeModel();   
         $data = $models->getPeriode();
 
+		$result = [];
 		foreach ($data as $dt): 
 			$recid = $dt->recid;
 			$jenjang = $dt->Jenjang;
@@ -15,6 +16,20 @@ class eduPeriodeController {
 			$toDate = $dt->toDate;
 			$keterangan = $dt->Keterangan;
 			$status = $dt->status;
+
+        	$is_in_tagihan = $models->getPeriodeIsInTagihan($recid,$periode);
+
+			$result[] = [
+			'recid' => $recid,
+			'jenjang' => $jenjang,
+			'periode' => $periode,
+			'fromDate' => $fromDate,
+			'toDate' => $toDate,
+			'keterangan' => $keterangan,
+			'status' => $status,
+			'is_in_tagihan' => $is_in_tagihan
+		];
+
 		endforeach;
 
 		include __DIR__ . '/../views/pages/page_eduPeriode/index.php';
@@ -105,21 +120,12 @@ class eduPeriodeController {
 		}
 	
 		$models->deletePeriode($id);
-		header('Location: ' . $_SERVER['HTTP_REFERER']);
+		header('Location: ' . $_SERVER['HTTP_REFERER']); 
 	
 		exit();
 	}
 	
 }
-
-		$models = new eduPeriodeModel();
-        $lastPeriod = $models->getLastPeriode("D3");
-
-		// $response = [
-		// 	'lastPeriod' => $lastPeriod,
-		// ];
-
-		// var_dump($lastPeriod);
 
 
 
