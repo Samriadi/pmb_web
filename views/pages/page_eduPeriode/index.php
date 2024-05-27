@@ -171,8 +171,35 @@
 
 
 <script>
+
+
 function add() {
-     document.getElementById('save').addEventListener('click', function() {
+
+    document.getElementById('jenjang').addEventListener('input', function() {
+    var jenjang = document.getElementById('jenjang').value;
+    console.log(jenjang);
+
+    var xhrLastPeriod = new XMLHttpRequest();
+    xhrLastPeriod.open('GET', '/hewi/public/periode/lastPeriod/'+jenjang, true);
+    xhrLastPeriod.onreadystatechange = function() {
+        if (xhrLastPeriod.readyState == 4 && xhrLastPeriod.status == 200) {
+            var lastPeriodResponse = JSON.parse(xhrLastPeriod.responseText.trim());
+
+            lastPeriod = lastPeriodResponse.lastPeriod;
+            document.getElementById('periode').value = Number(lastPeriod) + 1;
+            var periode = document.getElementById('periode').value;
+            console.log(periode);
+
+     
+
+        }
+    };
+    xhrLastPeriod.send();
+    });
+    
+    }
+
+document.getElementById('save').addEventListener('click', function() {
         var jenjang = document.getElementById('jenjang').value;
         var periode = document.getElementById('periode').value;
         var fromDate = document.getElementById('fromDate').value;
@@ -180,7 +207,6 @@ function add() {
         var keterangan = document.getElementById('keterangan').value;
         var status = document.getElementById('status').value;
 
-        console.log(jenjang);
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/hewi/public/periode/add', true);        
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -206,7 +232,7 @@ function add() {
 
         // Kirim data yang ingin Anda kirimkan
          var data = 
-         "jenjang=" + encodeURIComponent(jenjang) + 
+         "&jenjang=" + encodeURIComponent(jenjang) + 
          "&periode=" + encodeURIComponent(periode) + 
          "&fromDate=" + encodeURIComponent(fromDate) + 
          "&toDate=" + encodeURIComponent(toDate) + 
@@ -214,7 +240,7 @@ function add() {
          "&status=" + encodeURIComponent(status);
         xhr.send(data);
     });
-    }
+
 </script>
 
 <script>

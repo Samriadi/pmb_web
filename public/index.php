@@ -29,7 +29,7 @@ $router->add('/test/delete/{id}', 'eduTestController', 'delete');
 //edu Periode
 $router->add('/periode', 'eduPeriodeController', 'index');
 $router->add('/periode/add', 'eduPeriodeController', 'add');
-$router->add('/periode/add', 'eduPeriodeController', 'add');
+$router->add('/periode/lastPeriod/{jenjang}', 'eduPeriodeController', 'lastPeriod');
 $router->add('/periode/edit/{id}', 'eduPeriodeController', 'edit');
 $router->add('/periode/update', 'eduPeriodeController', 'update');
 $router->add('/periode/delete/{id}', 'eduPeriodeController', 'delete');

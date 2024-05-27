@@ -20,6 +20,8 @@ class eduPeriodeController {
 		include __DIR__ . '/../views/pages/page_eduPeriode/index.php';
     }
 
+	
+
     public function add() {
         $models = new eduPeriodeModel();   
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -60,6 +62,19 @@ class eduPeriodeController {
 		exit;
 	}
 
+	public function lastPeriod($jenjang) {
+        $models = new eduPeriodeModel();   
+
+        $data = $models->getLastPeriode($jenjang);
+
+		$response = [
+			'lastPeriod' => $data['lastPeriod'],
+		];
+		echo json_encode($response);
+		exit;
+
+    }
+
 	public function update() {
         $models = new eduPeriodeModel();   
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -97,7 +112,18 @@ class eduPeriodeController {
 	
 }
 
-		
+		$models = new eduPeriodeModel();
+        $lastPeriod = $models->getLastPeriode("D3");
+
+		// $response = [
+		// 	'lastPeriod' => $lastPeriod,
+		// ];
+
+		// var_dump($lastPeriod);
+
+
+
+
 
 
 

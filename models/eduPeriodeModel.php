@@ -56,19 +56,10 @@ class eduPeriodeModel {
     }
     
     public function getLastPeriode($jenjang) {
-		$db = Database::getInstance();
-        $query = "SELECT ifnull(max(periode), 0) as lastPeriod FROM edu_periode where Jenjang=? and status = 'Open'";
-        $stmt = $db->prepare($query);
+        $db = Database::getInstance();
+        $stmt = $db->prepare("SELECT ifnull(max(periode), 0) as lastPeriod FROM edu_periode where Jenjang=? and status = 'Open'");
         $stmt->execute([$jenjang]);
-        $data = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-        $values = [];
-        foreach ($data as $item) {
-            $values[] = [
-				'lastPeriod' => $item->lastPeriod,
-            ];
-        }
-        return $values;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     
