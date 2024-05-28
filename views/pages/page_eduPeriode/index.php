@@ -27,8 +27,8 @@
                     <thead>
                         <tr>
                         <th>No</th>
-                        <th>Jenjang</th>
                         <th>Periode</th>
+                        <th>Jenjang</th>
                         <th>From Date</th>
                         <th>To Date</th>
                         <th>Keterangan</th>
@@ -43,8 +43,8 @@
                         ?>
                         <tr>
                             <td><?=$no++?></td>
-                            <td><?=$dt['jenjang']?></td>
                             <td><?=$dt['periode']?></td>
+                            <td><?=$dt['jenjang']?></td>
                             <td><?=$dt['fromDate']?></td>
                             <td><?=$dt['toDate']?></td>
                             <td><?=$dt['keterangan']?></td>
@@ -85,16 +85,17 @@
                 </div>
                 <div class="modal-body">
                  <div class="form-group">
+                    <label for="periode">Periode</label>
+                    <input type="year" class="form-control" id="periode" name="periode" required>
+                </div>
+                 <div class="form-group">
                     <label for="jenjang">Jenjang</label>
                         <select class="form-control" id="jenjang" name="jenjang" required>
                             <option value="S1">S1</option>
                             <option value="D3">D3</option>
                         </select>
                 </div>
-                <div class="form-group">
-                    <label for="periode">Periode</label>
-                    <input type="number" class="form-control" id="periode" name="periode" required>
-                </div>
+               
                 <div class="form-group">
                     <label for="fromDate">From Date</label>
                     <input type="date" class="form-control" id="fromDate" name="fromDate" required>
@@ -134,6 +135,11 @@
             </div>
             <div class="modal-body">
             <input type="hidden" name="recid" id="recid">
+               <div class="form-group">
+                    <label for="editPeriode">Periode</label>
+                    <input type="year" class="form-control" id="editPeriode" name="periode" required>
+                </div>
+
                 <div class="form-group">
                 <label for="editJenjang">Jenjang</label>
                     <select class="form-control" id="editJenjang" name="jenjang" required>
@@ -141,10 +147,7 @@
                         <option value="D3">D3</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="editPeriode">Periode</label>
-                    <input type="number" class="form-control" id="editPeriode" name="periode" required>
-                </div>
+             
                 <div class="form-group">
                     <label for="editFromDate">From Date</label>
                     <input type="date" class="form-control" id="editFromDate" name="fromDate" required>
@@ -182,31 +185,7 @@
 
 function add() {
 
-    document.getElementById('jenjang').addEventListener('input', function() {
-    var jenjang = document.getElementById('jenjang').value;
-    console.log(jenjang);
-
-    var xhrLastPeriod = new XMLHttpRequest();
-    xhrLastPeriod.open('GET', '/hewi/public/periode/lastPeriod/'+jenjang, true);
-    xhrLastPeriod.onreadystatechange = function() {
-        if (xhrLastPeriod.readyState == 4 && xhrLastPeriod.status == 200) {
-            var lastPeriodResponse = JSON.parse(xhrLastPeriod.responseText.trim());
-
-            lastPeriod = lastPeriodResponse.lastPeriod;
-            document.getElementById('periode').value = Number(lastPeriod) + 1;
-            var periode = document.getElementById('periode').value;
-            console.log(periode);
-
-     
-
-        }
-    };
-    xhrLastPeriod.send();
-    });
-    
-    }
-
-document.getElementById('save').addEventListener('click', function() {
+    document.getElementById('save').addEventListener('click', function() {
         var jenjang = document.getElementById('jenjang').value;
         var periode = document.getElementById('periode').value;
         var fromDate = document.getElementById('fromDate').value;
@@ -247,6 +226,10 @@ document.getElementById('save').addEventListener('click', function() {
          "&status=" + encodeURIComponent(status);
         xhr.send(data);
     });
+
+    }
+
+
 
 </script>
 
