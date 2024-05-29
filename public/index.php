@@ -10,7 +10,9 @@ require_once __DIR__ . '/../controllers/installController.php';
 $router = new Router();
 
 $router->add('/', 'mainController', 'dashboard');
+
 $router->add('/install', 'installController', 'install');
+$router->add('/install/save', 'installController', 'save');
 
 //user
 $router->add('/user', 'userController', 'index');
