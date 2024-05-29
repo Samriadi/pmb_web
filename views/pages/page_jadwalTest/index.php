@@ -325,6 +325,7 @@ function add() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/hewi/public/test/edit/'+id, true);
     xhr.onreadystatechange = function() {
+        
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText.trim());
 

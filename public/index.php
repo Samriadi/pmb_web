@@ -5,10 +5,12 @@ require_once __DIR__ . '/../controllers/mainController.php';
 require_once __DIR__ . '/../controllers/eduTestController.php';
 require_once __DIR__ . '/../controllers/varOptionController.php';
 require_once __DIR__ . '/../controllers/userController.php';
+require_once __DIR__ . '/../controllers/installController.php';
 
 $router = new Router();
 
 $router->add('/', 'mainController', 'dashboard');
+$router->add('/install', 'installController', 'install');
 
 //user
 $router->add('/user', 'userController', 'index');
@@ -28,9 +30,10 @@ $router->add('/test/delete/{id}', 'eduTestController', 'delete');
 
 //edu Periode
 $router->add('/periode', 'eduPeriodeController', 'index');
-$router->add('/periode/add', 'eduPeriodeController', 'add');
+$router->add('/periode/add/{var}', 'eduPeriodeController', 'add');
+$router->add('/periode/save', 'eduPeriodeController', 'save');
 $router->add('/periode/lastPeriod/{jenjang}', 'eduPeriodeController', 'lastPeriod');
-$router->add('/periode/edit/{id}', 'eduPeriodeController', 'edit');
+$router->add('/periode/edit/{id}/include/{var}', 'eduPeriodeController', 'edit');
 $router->add('/periode/update', 'eduPeriodeController', 'update');
 $router->add('/periode/delete/{id}', 'eduPeriodeController', 'delete');
 

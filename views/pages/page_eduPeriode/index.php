@@ -90,9 +90,8 @@
                 </div>
                  <div class="form-group">
                     <label for="jenjang">Jenjang</label>
-                        <select class="form-control" id="jenjang" name="jenjang" required>
-                            <option value="S1">S1</option>
-                            <option value="D3">D3</option>
+                        <select class="form-control" id="jenjang" name="Jenjang" required>
+                            
                         </select>
                 </div>
                
@@ -142,9 +141,8 @@
 
                 <div class="form-group">
                 <label for="editJenjang">Jenjang</label>
-                    <select class="form-control" id="editJenjang" name="jenjang" required>
-                        <option value="S1">S1</option>
-                        <option value="D3">D3</option>
+                    <select class="form-control" id="editJenjang" name="Jenjang" required>
+                       
                     </select>
                 </div>
              
@@ -185,6 +183,40 @@
 
 function add() {
 
+    var varNameJenjang = document.getElementById('jenjang').name;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/hewi/public/periode/add/'+varNameJenjang, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
+
+            // Mengisi opsi select untuk jenjang
+            var jenjangSelect = document.getElementById('jenjang');
+            response.jenjangValues.forEach(function(item) {
+                var option = document.createElement('option');
+                option.value = item.var_value;
+                option.text = item.var_value;
+                if (!Array.from(jenjangSelect.options).some(opt => opt.value == item.var_value)) {
+                    jenjangSelect.appendChild(option);
+                }
+            });
+            jenjangSelect.value = response.jenjang;
+
+            // Tampilkan modal
+            var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            exampleModal.show();
+        }
+    };
+    xhr.send();
+
+    var exampleModal = document.getElementById('exampleModal');
+    exampleModal.addEventListener('hidden.bs.modal', function () {
+        window.location.reload();
+    });
+
+}
+
     document.getElementById('save').addEventListener('click', function() {
         var jenjang = document.getElementById('jenjang').value;
         var periode = document.getElementById('periode').value;
@@ -194,7 +226,7 @@ function add() {
         var status = document.getElementById('status').value;
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/hewi/public/periode/add', true);        
+        xhr.open('POST', '/hewi/public/periode/save', true);        
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -227,7 +259,6 @@ function add() {
         xhr.send(data);
     });
 
-    }
 
 
 
@@ -235,28 +266,43 @@ function add() {
 
 <script>
     function edit(recid) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/hewi/public/periode/edit/'+recid, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var response = JSON.parse(xhr.responseText.trim());
+
+        var varNameJenjang = document.getElementById('jenjang').name;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/hewi/public/periode/edit/' + recid + '/include/' + varNameJenjang, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText.trim());
 
 
-            document.getElementById('recid').value = response.recid;
-            document.getElementById('editJenjang').value = response.jenjang;
-            document.getElementById('editPeriode').value = response.periode;
-            document.getElementById('editFromDate').value = response.fromDate;
-            document.getElementById('editToDate').value = response.toDate;
-            document.getElementById('editKeterangan').value = response.keterangan;
-            document.getElementById('editStatus').value = response.status;
+                document.getElementById('recid').value = response.recid;
+                document.getElementById('editPeriode').value = response.periode;
+                document.getElementById('editFromDate').value = response.fromDate;
+                document.getElementById('editToDate').value = response.toDate;
+                document.getElementById('editKeterangan').value = response.keterangan;
+                document.getElementById('editStatus').value = response.status;
 
+                if (response && response.jenjangValues) {
+                var jenjangSelect = document.getElementById('editJenjang');
+                response.jenjangValues.forEach(function(item) {
+                    var option = document.createElement('option');
+                    option.value = item.var_value;
+                    option.text = item.var_value;
+                    if (!Array.from(jenjangSelect.options).some(opt => opt.value == item.var_value)) {
+                        jenjangSelect.appendChild(option);
+                    }
+                });
+                jenjangSelect.value = response.jenjang;
+                } else {
+                    console.error("Properti jenjangValues tidak ditemukan dalam respons atau respons tidak terdefinisi.");
+                }
 
-            var editModal = new bootstrap.Modal(document.getElementById('editModal'));
-            editModal.show();
-        }
-    };
-    xhr.send();
-}
+                var editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                editModal.show();
+            }
+        };
+        xhr.send();
+    }
 
     document.getElementById('update').addEventListener('click', function() {
     var recid = document.getElementById('recid').value;

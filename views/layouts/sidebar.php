@@ -58,6 +58,23 @@
             </div>
         </li>
 
+    <!-- Nav Item - Settings Collapse Menu -->
+    <li class="nav-item" id="navSettings">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings"
+            aria-expanded="true" aria-controls="collapseSettings">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <div id="collapseSettings" class="collapse" aria-labelledby="headingSettings" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="/hewi/public/install">Install</a>
+            </div>
+        </div>
+    </li>
+
+<!-- Divider -->
+<hr class="sidebar-divider">
+
 
 
 <!-- Divider -->

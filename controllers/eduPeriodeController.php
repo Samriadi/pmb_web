@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../models/eduPeriodeModel.php';
+require_once __DIR__ . '/../models/varOptionModel.php';
 
 
 class eduPeriodeController {
@@ -35,18 +36,28 @@ class eduPeriodeController {
 		include __DIR__ . '/../views/pages/page_eduPeriode/index.php';
     }
 
-	
+	public function add($jenjang) {
+        $models = new varOptiontModel();   
 
-    public function add() {
+        $jenjangValues = $models->getVarByName($jenjang);
+
+		$response = [
+			'jenjangValues' => $jenjangValues,
+
+		];
+		echo json_encode($response);
+    }
+
+    public function save() {
         $models = new eduPeriodeModel();   
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $jenjang = $_POST['jenjang'];
-			$periode = $_POST['periode'];
-			$fromDate = $_POST['fromDate'];
-			$toDate = $_POST['toDate'];
-			$keterangan = $_POST['keterangan'];
-			$status = $_POST['status'];
+            $jenjang = $_POST['jenjang']  ?? '';
+			$periode = $_POST['periode']  ?? '';
+			$fromDate = $_POST['fromDate']  ?? '';
+			$toDate = $_POST['toDate']  ?? '';
+			$keterangan = $_POST['keterangan']  ?? '';
+			$status = $_POST['status']  ?? '';
 
 			$models->addPeriode($jenjang, $periode, $fromDate, $toDate, $keterangan, $status);
 
@@ -57,11 +68,13 @@ class eduPeriodeController {
         }
     }
 
-	public function edit($id) {
+	public function edit($id, $var) {
 
-		$models = new eduPeriodeModel();   
+		$eduPeriodeModel = new eduPeriodeModel();   
+		$varOptionModel = new varOptiontModel();  
 		
-		$data = $models->getPeriodeById($id);
+		$data = $eduPeriodeModel->getPeriodeById($id);
+        $jenjangValues = $varOptionModel->getVarByName($var);
 		
 		$response = [
 			'recid' => $data['recid'],
@@ -71,11 +84,13 @@ class eduPeriodeController {
 			'toDate' => $data['toDate'],
 			'keterangan' => $data['Keterangan'],
 			'status' => $data['status'],
+			'jenjangValues' => $jenjangValues
 		];
 		
         echo json_encode($response);
-		exit;
 	}
+
+	
 
 	public function lastPeriod($jenjang) {
         $models = new eduPeriodeModel();   

@@ -3,7 +3,6 @@ require_once __DIR__ . '/../config/database.php';
 
 
 class eduPeriodeModel {
-    //jadwal test	
     public function getPeriode() {
 		$db = Database::getInstance();
         $query = "SELECT * FROM edu_periode";
@@ -65,13 +64,14 @@ class eduPeriodeModel {
         }
     }
     
-
     public function getLastPeriode($jenjang) {
         $db = Database::getInstance();
         $stmt = $db->prepare("SELECT ifnull(max(periode), 0) as lastPeriod FROM edu_periode where Jenjang=? and status = 'Open'");
         $stmt->execute([$jenjang]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+  
 
     
 
