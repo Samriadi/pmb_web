@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulir Informasi Kampus</title>
+    <title>Form Install</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
@@ -12,6 +12,7 @@
         }
         .card {
             margin-top: 20px;
+            margin-bottom: 20px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -58,53 +59,60 @@
     <div class="container mt-5">
         <div class="card">
             <div class="form-header">
-                <h2>Formulir Informasi Kampus</h2>
+                <h2>Form Install</h2>
             </div>
-            <div id="message" class="alert" style="display:none;"></div>
+            <div id="message" class="alert" style="display:none;"></div><br>
             <form id="campusForm">
                 <div class="form-group">
                     <label for="namaLengkapKampus">Nama Lengkap Kampus</label>
-                    <input type="text" class="form-control" id="namaLengkapKampus" name="namaLengkapKampus" required>
+                    <input type="text" class="form-control" id="namaLengkapKampus" name="namaLengkapKampus" placeholder="Masukkan nama lengkap kampus" required>
                 </div>
                 <div class="form-group">
                     <label for="namaSingkat">Nama Singkat</label>
-                    <input type="text" class="form-control" id="namaSingkat" name="namaSingkat" required>
+                    <input type="text" class="form-control" id="namaSingkat" name="namaSingkat" placeholder="Masukkan nama singkat" required>
                 </div>
                 <div class="form-group">
                     <label for="jalan">Jalan</label>
-                    <input type="text" class="form-control" id="jalan" name="jalan" required>
+                    <input type="text" class="form-control" id="jalan" name="jalan" placeholder="Masukkan alamat jalan" required>
                 </div>
                 <div class="form-group">
                     <label for="kota">Kota</label>
-                    <input type="text" class="form-control" id="kota" name="kota" required>
+                    <input type="text" class="form-control" id="kota" name="kota" placeholder="Masukkan nama kota" required>
                 </div>
                 <div class="form-group">
                     <label for="provinsi">Provinsi</label>
-                    <input type="text" class="form-control" id="provinsi" name="provinsi" required>
+                    <input type="text" class="form-control" id="provinsi" name="provinsi" placeholder="Masukkan nama provinsi" required>
                 </div>
                 <div class="form-group">
                     <label for="negara">Negara</label>
-                    <input type="text" class="form-control" id="negara" name="negara" required>
+                    <input type="text" class="form-control" id="negara" name="negara" placeholder="Masukkan nama negara" required>
                 </div>
                 <div class="form-group">
                     <label for="tingkatan">Tingkatan</label>
                     <select class="form-control" id="tingkatan" name="tingkatan" required>
+                        <option value="">Pilih Tingkatan</option>
                         <option value="S1">S1</option>
                         <option value="D3">D3</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="kodeWarnaUtama">Kode Warna Utama</label>
-                    <input type="text" class="form-control" id="kodeWarnaUtama" name="kodeWarnaUtama" required>
+                    <input type="text" class="form-control" id="kodeWarnaUtama" name="kodeWarnaUtama" placeholder="Masukkan kode warna utama" required>
                 </div>
                 
                 <h3 class="mt-4">Input Opsional</h3>
                 <div id="optionalInputs" class="container">
                     <!-- Input opsional akan ditambahkan di sini -->
                 </div>
-                <button type="button" class="btn btn-secondary mt-2" onclick="addOptionalField()">Tambah Input Opsional</button>
-                <br>
-                <button type="submit" class="btn btn-primary mt-3">Kirim</button>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <button type="button" class="btn btn-secondary mt-2" onclick="addOptionalField()">Tambah</button>
+                        <button type="button" class="btn btn-secondary mt-2" onclick="resetOptionalFields()">Reset</button>
+                    </div>
+                   <div>
+                      <button type="submit" class="btn btn-primary mt-2">Simpan</button>
+                   </div>
+                </div>
             </form>
         </div>
     </div>
@@ -186,6 +194,12 @@
 
             optionalInputsDiv.appendChild(div);
         }
+
+        function resetOptionalFields() {
+            var optionalInputsDiv = document.getElementById('optionalInputs');
+            optionalInputsDiv.innerHTML = ''; // Menghapus semua elemen input opsional dari div
+        }
     </script>
 </body>
 </html>
+`
