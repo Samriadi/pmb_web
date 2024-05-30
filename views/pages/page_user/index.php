@@ -161,7 +161,7 @@ function add() {
         });
         return; // Menghentikan eksekusi jika ada input yang kosong
         }
-        
+
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/hewi/public/user/add', true);        
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
