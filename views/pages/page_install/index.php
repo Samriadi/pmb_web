@@ -106,6 +106,8 @@
                 xhr.open('POST', '/hewi/public/install/save', true);
                 xhr.onload = function() {
                     if (xhr.status === 200) {
+                        console.log(xhr.responseText);
+
                         var response = JSON.parse(xhr.responseText);
                         if (response.status === "success") {
                             Swal.fire({

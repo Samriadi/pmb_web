@@ -78,14 +78,17 @@ class varOptiontModel {
 
     //menyimpan opsi inputan tambahan
     public function addOptional($var_name, $var_value) {
+
+        var_dump($var_name);
+        var_dump($var_value);
 		try {
             $db = Database::getInstance();
 
-            $query = "INSERT INTO var_option (var_name, var_values) VALUES (:var_name, :namaSingkat, :var_values)";
+            $query = "INSERT INTO var_option (var_name, var_value) VALUES (:var_name, :var_value)";
                 
             $stmt = $db->prepare($query);
             $stmt->bindParam(':var_name', $var_name);
-            $stmt->bindParam(':var_values', $var_value);
+            $stmt->bindParam(':var_value', $var_value);
 
 
             if ($stmt->execute()) {

@@ -105,7 +105,7 @@ class varOptionController {
         $models = new varOptiontModel();   
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-			$varname = $_POST['varname'];
+			$varname = $_POST['var_name'];
 
 			$optionalFields = [];
             foreach ($_POST as $key => $value) {
@@ -121,7 +121,6 @@ class varOptionController {
 
             $optionalFieldsJson = json_encode($optionalFields);
 
-			var_dump($optionalFieldsJson);
 
 			$models->addOptional($varname, $optionalFieldsJson);
 

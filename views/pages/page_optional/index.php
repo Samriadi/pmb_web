@@ -25,7 +25,7 @@
             <div class="card-body">
            
             <form id="campusForm">
-                <input type="hidden" id="varname" name="varname" value="Optional">
+                <input type="hidden" class="form-control" id="var_name" name="var_name" value="Optional">
                 <div id="optionalInputs" class="container">
                     <!-- Input opsional akan ditambahkan di sini -->
                 </div>
@@ -74,25 +74,17 @@
                         if (xhr.status === 200) {
 
                             console.log(xhr.responseText);
-                            try {
-                                var response = JSON.parse(xhr.responseText);
-                                Swal.fire({
-                                    title: 'Success!',
-                                    text: response.message || 'Data successfully saved!',
-                                    icon: 'success',
-                                    confirmButtonText: 'OK'
-                                }).then(() => {
-                                    window.location.reload();
-                                });
-                            } catch (e) {
-                                console.error('Error parsing JSON response:', e);
-                                Swal.fire({
-                                    title: 'Error!',
-                                    text: '"Error: SQL"... is not valid JSON.',
-                                    icon: 'error',
-                                    confirmButtonText: 'OK'
-                                });
-                            }
+
+                            Swal.fire({
+                                title: 'Success!',
+                                text:  'Data successfully saved!',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                form.reset();
+                                document.getElementById('optionalInputs').innerHTML = '';
+                            });
+                                
                         } else {
                             Swal.fire({
                                 title: 'Error!',
