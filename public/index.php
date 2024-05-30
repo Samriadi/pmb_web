@@ -13,6 +13,7 @@ $router->add('/', 'mainController', 'dashboard');
 
 $router->add('/install', 'installController', 'install');
 $router->add('/install/save', 'installController', 'save');
+$router->add('/install/data', 'installController', 'get');
 
 //user
 $router->add('/user', 'userController', 'index');

@@ -1,67 +1,29 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Install</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .card {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .form-header {
-            background-color: #007bff;
-            color: white;
-            padding: 10px;
-            border-radius: 5px 5px 0 0;
-            text-align: center;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #545b62;
-        }
-        .form-group.row {
-            margin-bottom: 1rem;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="card">
-            <div class="form-header">
-                <h2>Form Install</h2>
-            </div>
-            <div id="message" class="alert" style="display:none;"></div><br>
+<?php include '../views/layouts/header.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="../assets/css/page-install.css" rel="stylesheet">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+<?php include '../views/layouts/sidebar.php'; ?>
+       
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+<?php include '../views/layouts/topbar.php'; ?>
+                <!-- End of Topbar -->
+    <div class="container-fluid">
+            <!-- Button trigger modal -->
+        <div class="card shadow mb-4">
+        <div class="card-header py-3">
+              <h3 class="m-0 font-weight-bold text-primary">FORM INSTALL</h3>
+         </div>
+            <div class="card-body">
+           
             <form id="campusForm">
                 <div class="form-group">
                     <label for="namaLengkapKampus">Nama Lengkap Kampus</label>
@@ -69,7 +31,7 @@
                 </div>
                 <div class="form-group">
                     <label for="namaSingkat">Nama Singkat</label>
-                    <input type="text" class="form-control" id="namaSingkat" name="namaSingkat" placeholder="Masukkan nama singkat" required>
+                    <input type="text" class="form-control" id="namaSingkat" name="namaSingkat" placeholder="Masukkan nama singkat kampus" required>
                 </div>
                 <div class="form-group">
                     <label for="jalan">Jalan</label>
@@ -77,20 +39,20 @@
                 </div>
                 <div class="form-group">
                     <label for="kota">Kota</label>
-                    <input type="text" class="form-control" id="kota" name="kota" placeholder="Masukkan nama kota" required>
+                    <input type="text" class="form-control" id="kota" name="kota" placeholder="Masukkan kota" required>
                 </div>
                 <div class="form-group">
                     <label for="provinsi">Provinsi</label>
-                    <input type="text" class="form-control" id="provinsi" name="provinsi" placeholder="Masukkan nama provinsi" required>
+                    <input type="text" class="form-control" id="provinsi" name="provinsi" placeholder="Masukkan provinsi" required>
                 </div>
                 <div class="form-group">
                     <label for="negara">Negara</label>
-                    <input type="text" class="form-control" id="negara" name="negara" placeholder="Masukkan nama negara" required>
+                    <input type="text" class="form-control" id="negara" name="negara" placeholder="Masukkan negara" required>
                 </div>
                 <div class="form-group">
                     <label for="tingkatan">Tingkatan</label>
                     <select class="form-control" id="tingkatan" name="tingkatan" required>
-                        <option value="">Pilih Tingkatan</option>
+                        <option value="">-pilih-</option>
                         <option value="S1">S1</option>
                         <option value="D3">D3</option>
                     </select>
@@ -104,28 +66,41 @@
                 <div id="optionalInputs" class="container">
                     <!-- Input opsional akan ditambahkan di sini -->
                 </div>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between mt-2">
                     <div>
-                        <button type="button" class="btn btn-secondary mt-2" onclick="addOptionalField()">Tambah</button>
-                        <button type="button" class="btn btn-secondary mt-2" onclick="resetOptionalFields()">Reset</button>
+                        <button type="button" class="btn btn-secondary" onclick="addOptionalField()">Tambah</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetOptionalFields()">Reset Semua</button>
                     </div>
-                   <div>
-                      <button type="submit" class="btn btn-primary mt-2">Simpan</button>
-                   </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
                 </div>
             </form>
+
+            </div>
         </div>
-    </div>
-    <script>
+    </div>  
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  </body>
+
+<?php include '../views/layouts/footer.php'; ?>
+
+
+<script>
         document.addEventListener("DOMContentLoaded", function() {
             var form = document.getElementById("campusForm");
             form.addEventListener("submit", function(event) {
                 event.preventDefault();
 
                 var formData = new FormData(form);
-                var optionalInputs = document.querySelectorAll("#optionalInputs input");
-                optionalInputs.forEach(function(input) {
-                    formData.append(input.name, input.value);
+                var optionalInputs = document.querySelectorAll("#optionalInputs .optional-field-group");
+                optionalInputs.forEach(function(group) {
+                    var inputName = group.querySelector("input[name$='Name']");
+                    var inputValue = group.querySelector("[name$='Value']");
+                    formData.append(inputName.value, inputValue.value);
                 });
 
                 var xhr = new XMLHttpRequest();
@@ -180,26 +155,46 @@
             var fieldId = `optionalField${optionalInputsDiv.children.length}`;
 
             var div = document.createElement('div');
-            div.className = 'form-group row';
+            div.className = 'form-group optional-field-group';
+            div.id = fieldId;
             div.innerHTML = `
-                <div class="col-md-6">
-                    <label for="${fieldId}Name">Nama Field</label>
-                    <input type="text" class="form-control" id="${fieldId}Name" name="${fieldId}Name" placeholder="Nama Field">
-                </div>
-                <div class="col-md-6">
-                    <label for="${fieldId}Value">Nilai Field</label>
-                    <input type="text" class="form-control" id="${fieldId}Value" name="${fieldId}Value" placeholder="Nilai Field">
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" id="${fieldId}Name" name="${fieldId}Name" placeholder="Nama Field">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" id="${fieldId}Type" name="${fieldId}Type" onchange="updateFieldType('${fieldId}')">
+                            <option value="text">Teks</option>
+                            <option value="date">Tanggal</option>
+                            <option value="time">Jam</option>
+                            <option value="number">Angka</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="${fieldId}Value" name="${fieldId}Value" placeholder="Nilai Field">
+                    </div>
+                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn-danger" onclick="removeOptionalField('${fieldId}')"><i class="fas fa-times"></i></button>
+                    </div>
                 </div>
             `;
 
             optionalInputsDiv.appendChild(div);
         }
 
+        function updateFieldType(fieldId) {
+            var typeSelect = document.getElementById(`${fieldId}Type`);
+            var valueInput = document.getElementById(`${fieldId}Value`);
+            valueInput.type = typeSelect.value;
+            valueInput.value = ''; // Reset value when changing type
+        }
+
+        function removeOptionalField(fieldId) {
+            var fieldGroup = document.getElementById(fieldId);
+            fieldGroup.parentNode.removeChild(fieldGroup);
+        }
+
         function resetOptionalFields() {
-            var optionalInputsDiv = document.getElementById('optionalInputs');
-            optionalInputsDiv.innerHTML = ''; // Menghapus semua elemen input opsional dari div
+            document.getElementById('optionalInputs').innerHTML = '';
         }
     </script>
-</body>
-</html>
-`
