@@ -217,47 +217,70 @@ function add() {
 
 }
 
-    document.getElementById('save').addEventListener('click', function() {
-        var jenjang = document.getElementById('jenjang').value;
-        var periode = document.getElementById('periode').value;
-        var fromDate = document.getElementById('fromDate').value;
-        var toDate = document.getElementById('toDate').value;
-        var keterangan = document.getElementById('keterangan').value;
-        var status = document.getElementById('status').value;
+document.getElementById('save').addEventListener('click', function() {
+    var jenjang = document.getElementById('jenjang').value;
+    var periode = document.getElementById('periode').value;
+    var fromDate = document.getElementById('fromDate').value;
+    var toDate = document.getElementById('toDate').value;
+    var keterangan = document.getElementById('keterangan').value;
+    var status = document.getElementById('status').value;
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/hewi/public/periode/save', true);        
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.responseText);
-                // Lakukan sesuatu setelah data berhasil dikirim, seperti menutup modal
-                var modal = document.getElementById('exampleModal');
-                var modalInstance = bootstrap.Modal.getInstance(modal);
-                modalInstance.hide();
-                    
-                Swal.fire({
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/hewi/public/periode/save', true);        
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    Swal.fire({
                         title: 'Success!',
-                        text: xhr.responseText,
+                        text: response.message || 'Data successfully saved!',
                         icon: 'success',
                         confirmButtonText: 'OK'
                     }).then(() => {
-                        // Refresh halaman
                         window.location.reload();
                     });
+                } catch (e) {
+                    console.error('Error parsing JSON response:', e);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: '"Error: SQL"... is not valid JSON.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to save data. Server returned status: ' + xhr.status,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             }
-        };
+        }
+    };
 
-        // Kirim data yang ingin Anda kirimkan
-         var data = 
-         "&jenjang=" + encodeURIComponent(jenjang) + 
-         "&periode=" + encodeURIComponent(periode) + 
-         "&fromDate=" + encodeURIComponent(fromDate) + 
-         "&toDate=" + encodeURIComponent(toDate) + 
-         "&keterangan=" + encodeURIComponent(keterangan) + 
-         "&status=" + encodeURIComponent(status);
-        xhr.send(data);
-    });
+    xhr.onerror = function() {
+        Swal.fire({
+            title: 'Network Error!',
+            text: 'A network error occurred. Please check your internet connection.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    };
+
+    var data = 
+        "jenjang=" + encodeURIComponent(jenjang) + 
+        "&periode=" + encodeURIComponent(periode) + 
+        "&fromDate=" + encodeURIComponent(fromDate) + 
+        "&toDate=" + encodeURIComponent(toDate) + 
+        "&keterangan=" + encodeURIComponent(keterangan) + 
+        "&status=" + encodeURIComponent(status);
+    xhr.send(data);
+});
+
 
 
 

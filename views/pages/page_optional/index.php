@@ -1,4 +1,5 @@
 <?php include '../views/layouts/header.php'; ?>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Page Wrapper -->
@@ -19,49 +20,12 @@
             <!-- Button trigger modal -->
         <div class="card shadow mb-4">
         <div class="card-header py-3">
-              <h3 class="m-0 font-weight-bold text-primary">FORM INSTALL</h3>
+              <h3 class="m-0 font-weight-bold text-primary">DATA OPTIONAL</h3>
          </div>
             <div class="card-body">
            
             <form id="campusForm">
-                <div class="form-group">
-                    <label for="namaLengkapKampus">Nama Lengkap Kampus</label>
-                    <input type="text" class="form-control" id="namaLengkapKampus" name="namaLengkapKampus" placeholder="Masukkan nama lengkap kampus" required>
-                </div>
-                <div class="form-group">
-                    <label for="namaSingkat">Nama Singkat</label>
-                    <input type="text" class="form-control" id="namaSingkat" name="namaSingkat" placeholder="Masukkan nama singkat kampus" required>
-                </div>
-                <div class="form-group">
-                    <label for="jalan">Jalan</label>
-                    <input type="text" class="form-control" id="jalan" name="jalan" placeholder="Masukkan alamat jalan" required>
-                </div>
-                <div class="form-group">
-                    <label for="kota">Kota</label>
-                    <input type="text" class="form-control" id="kota" name="kota" placeholder="Masukkan kota" required>
-                </div>
-                <div class="form-group">
-                    <label for="provinsi">Provinsi</label>
-                    <input type="text" class="form-control" id="provinsi" name="provinsi" placeholder="Masukkan provinsi" required>
-                </div>
-                <div class="form-group">
-                    <label for="negara">Negara</label>
-                    <input type="text" class="form-control" id="negara" name="negara" placeholder="Masukkan negara" required>
-                </div>
-                <div class="form-group">
-                    <label for="tingkatan">Tingkatan</label>
-                    <select class="form-control" id="tingkatan" name="tingkatan" required>
-                        <option value="">-pilih-</option>
-                        <option value="S1">S1</option>
-                        <option value="D3">D3</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="kodeWarnaUtama">Kode Warna Utama</label>
-                    <input type="text" class="form-control" id="kodeWarnaUtama" name="kodeWarnaUtama" placeholder="Masukkan kode warna utama" required>
-                </div>
-                
-                <h3 class="mt-4">Input Opsional</h3>
+                <input type="hidden" id="varname" name="varname" value="Optional">
                 <div id="optionalInputs" class="container">
                     <!-- Input opsional akan ditambahkan di sini -->
                 </div>
@@ -103,44 +67,46 @@
                 });
 
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/hewi/public/install/save', true);
+                xhr.open('POST', '/hewi/public/optional/add', true);
+
                 xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
-                        if (response.status === "success") {
-                            Swal.fire({
-                                title: 'Berhasil!',
-                                text: 'Data berhasil disimpan!',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            });
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
 
-                            // Reset formulir
-                            form.reset();
-
-                            // Hapus input opsional
-                            document.getElementById('optionalInputs').innerHTML = '';
+                            console.log(xhr.responseText);
+                            try {
+                                var response = JSON.parse(xhr.responseText);
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: response.message || 'Data successfully saved!',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            } catch (e) {
+                                console.error('Error parsing JSON response:', e);
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: '"Error: SQL"... is not valid JSON.',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
                         } else {
                             Swal.fire({
                                 title: 'Error!',
-                                text: 'Terjadi kesalahan: ' + response.message,
+                                text: 'Failed to save data. Server returned status: ' + xhr.status,
                                 icon: 'error',
                                 confirmButtonText: 'OK'
                             });
                         }
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'Terjadi kesalahan: ' + xhr.statusText,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
                     }
                 };
                 xhr.onerror = function() {
                     Swal.fire({
-                        title: 'Error!',
-                        text: 'Permintaan gagal',
+                        title: 'Network Error!',
+                        text: 'A network error occurred. Please check your internet connection.',
                         icon: 'error',
                         confirmButtonText: 'OK'
                     });

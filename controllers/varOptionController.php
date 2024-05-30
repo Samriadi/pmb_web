@@ -92,5 +92,44 @@ class varOptionController {
 		exit();
 	}
 
+	//Optional
+	public function optional() {
+
+		$models = new varOptiontModel();   
+        $data = $models->getVarByName('optional');
+
+		include __DIR__ . '/../views/pages/page_optional/index.php';
+
+    }
+	public function addOptional() {
+        $models = new varOptiontModel();   
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+			$varname = $_POST['varname'];
+
+			$optionalFields = [];
+            foreach ($_POST as $key => $value) {
+                if (strpos($key, 'optionalField') !== false && strpos($key, 'Name') !== false) {
+                    $fieldName = $value;
+                    $fieldValueKey = str_replace('Name', 'Value', $key);
+                    if (isset($_POST[$fieldValueKey])) {
+                        $fieldValue = $_POST[$fieldValueKey];
+                        $optionalFields[$fieldName] = $fieldValue;
+                    }
+                }
+            };
+
+            $optionalFieldsJson = json_encode($optionalFields);
+
+			var_dump($optionalFieldsJson);
+
+			$models->addOptional($varname, $optionalFieldsJson);
+
+        } 
+		else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
+
 }
    

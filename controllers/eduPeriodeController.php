@@ -37,36 +37,52 @@ class eduPeriodeController {
     }
 
 	public function add($jenjang) {
-        $models = new varOptiontModel();   
-
-        $jenjangValues = $models->getVarByName($jenjang);
-
+		if (empty($jenjang)) {
+			echo json_encode(['status' => 'error', 'message' => 'Missing required parameter']);
+			return;
+		}
+	
+		$models = new varOptiontModel();   
+	
+		$jenjangValues = $models->getVarByName($jenjang);
+	
+		if ($jenjangValues === false) {
+			echo json_encode(['status' => 'error', 'message' => 'Failed to retrieve variable options']);
+			return;
+		}
+	
 		$response = [
 			'jenjangValues' => $jenjangValues,
-
 		];
+	
 		echo json_encode($response);
-    }
+	}
+	
 
-    public function save() {
-        $models = new eduPeriodeModel();   
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            $jenjang = $_POST['jenjang']  ?? '';
-			$periode = $_POST['periode']  ?? '';
-			$fromDate = $_POST['fromDate']  ?? '';
-			$toDate = $_POST['toDate']  ?? '';
-			$keterangan = $_POST['keterangan']  ?? '';
-			$status = $_POST['status']  ?? '';
-
-			$models->addPeriode($jenjang, $periode, $fromDate, $toDate, $keterangan, $status);
-
-            echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
-        } 
-		else {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
-        }
-    }
+	public function save() {
+		$models = new eduPeriodeModel();   
+	
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			if (isset($_POST['jenjang'], $_POST['periode'], $_POST['fromDate'], $_POST['toDate'], $_POST['keterangan'], $_POST['status'])) {
+				$jenjang = $_POST['jenjang'];
+				$periode = $_POST['periode'];
+				$fromDate = $_POST['fromDate'];
+				$toDate = $_POST['toDate'];
+				$keterangan = $_POST['keterangan'];
+				$status = $_POST['status'];
+	
+				$models->addPeriode($jenjang, $periode, $fromDate, $toDate, $keterangan, $status);
+	
+				echo json_encode(['status' => 'success', 'message' => 'New record added']);
+			} else {
+				echo json_encode(['status' => 'error', 'message' => 'Missing required parameters']);
+			}
+		} else {
+			echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+		}
+	}
+	
+	
 
 	public function edit($id, $var) {
 
@@ -142,6 +158,9 @@ class eduPeriodeController {
 	
 }
 
+
+	
+	
 
 
 

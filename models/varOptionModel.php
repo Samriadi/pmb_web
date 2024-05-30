@@ -14,6 +14,8 @@ class varOptiontModel {
      public function addVar($recid, $varname, $varvalue, $varothers, $catatan, $parent) {
 		$db = Database::getInstance();
 
+
+        
         $query = "INSERT INTO var_option (recid, var_name, var_value, var_others, catatan, parent) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
@@ -53,6 +55,7 @@ class varOptiontModel {
         $stmt->execute([$varname, $varvalue, $varothers, $catatan, $parent, $recid]);
     }
 
+
     //menangambil var value by var name untuk opsi select
     public function getVarByName($var_name) {
 		$db = Database::getInstance();
@@ -71,6 +74,31 @@ class varOptiontModel {
         }
         return $values;
     }
+    //
+
+    //menyimpan opsi inputan tambahan
+    public function addOptional($var_name, $var_value) {
+		try {
+            $db = Database::getInstance();
+
+            $query = "INSERT INTO var_option (var_name, var_values) VALUES (:var_name, :namaSingkat, :var_values)";
+                
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(':var_name', $var_name);
+            $stmt->bindParam(':var_values', $var_value);
+
+
+            if ($stmt->execute()) {
+                echo json_encode(["status" => "success", "message" => "Data berhasil disimpan"]);
+            } 
+            else {
+                echo json_encode(["status" => "error", "message" => "Error: " . $stmt->errorInfo()[2]]);
+            }
+        } catch (PDOException $e) {
+            echo json_encode(["status" => "error", "message" => "Koneksi atau query bermasalah: " . $e->getMessage()]);
+        }
+    }
+    //
 
 
 

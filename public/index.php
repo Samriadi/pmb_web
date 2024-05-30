@@ -13,7 +13,6 @@ $router->add('/', 'mainController', 'dashboard');
 
 $router->add('/install', 'installController', 'install');
 $router->add('/install/save', 'installController', 'save');
-$router->add('/install/data', 'installController', 'get');
 
 //user
 $router->add('/user', 'userController', 'index');
@@ -46,6 +45,10 @@ $router->add('/var/add', 'varOptionController', 'add');
 $router->add('/var/edit/{id}', 'varOptionController', 'edit');
 $router->add('/var/update', 'varOptionController', 'update');
 $router->add('/var/delete/{id}', 'varOptionController', 'delete');
+
+$router->add('/optional', 'varOptionController', 'optional');
+$router->add('/optional/add', 'varOptionController', 'addOptional');
+
 
 //
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';

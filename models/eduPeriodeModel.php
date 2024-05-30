@@ -22,18 +22,30 @@ class eduPeriodeModel {
     }
 
     public function addPeriode($jenjang, $periode, $fromDate, $toDate, $keterangan, $status) {
-		$db = Database::getInstance();
-
+        $db = Database::getInstance();
+    
         $query = "INSERT INTO edu_periode (Jenjang, Periode, fromDate, toDate, Keterangan, status) VALUES (?, ?, ?, ?, ?, ?)";
-
+    
         try {
             $stmt = $db->prepare($query);
-            $stmt->execute([$jenjang, $periode, $fromDate, $toDate, $keterangan, $status]);
-        } 
-        catch(PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            $success = $stmt->execute([$jenjang, $periode, $fromDate, $toDate, $keterangan, $status]);
+    
+            if ($success) {
+                return ['status' => 'success', 'message' => 'New record added successfully'];
+            } else {
+                return ['status' => 'error', 'message' => 'Failed to add new record'];
+            }
+        } catch (PDOException $e) {
+            $errorMessage = $e->getMessage();
+    
+            return ['status' => 'error', 'message' => 'Database error: ' . $errorMessage];
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+    
+            return ['status' => 'error', 'message' => 'An unexpected error occurred: ' . $errorMessage];
         }
     }
+    
 
      public function getPeriodeById($id) {
         $db = Database::getInstance();

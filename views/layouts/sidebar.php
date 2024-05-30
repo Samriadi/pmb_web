@@ -52,8 +52,8 @@
         </a>
         <div id="collapseSettings" class="collapse" aria-labelledby="headingSettings" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/hewi/public/install">Install</a>
-                <a class="collapse-item" href="/hewi/public/install/data">Data</a>
+                <a class="collapse-item" href="/hewi/public/install">Data Main</a>
+                <a class="collapse-item" href="/hewi/public/optional">Data Optional</a>
             </div>
         </div>
     </li>
