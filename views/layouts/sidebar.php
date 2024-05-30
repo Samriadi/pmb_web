@@ -24,24 +24,22 @@
 <hr class="sidebar-divider">
 
 <!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item" id="navPages">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-        aria-expanded="true" aria-controls="collapsePages">
-        <i class="fas fa-fw fa-folder"></i>
-        <span>Pages</span>
-    </a>
-    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/hewi/public/user">User</a>
-            <a class="collapse-item" href="/hewi/public/var">Var Option</a>
-            <a class="collapse-item" href="/hewi/public/test">Edu Test</a>
-            <a class="collapse-item" href="/hewi/public/periode">Edu Periode</a>
+    <li class="nav-item" id="navPages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+            aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Pages</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="/hewi/public/user">User</a>
+                <a class="collapse-item" href="/hewi/public/var">Var Option</a>
+                <a class="collapse-item" href="/hewi/public/test">Edu Test</a>
+                <a class="collapse-item" href="/hewi/public/periode">Edu Periode</a>
+            </div>
         </div>
-    </div>
-</li>
+    </li>
 
-<!-- Divider -->
-        <hr class="sidebar-divider">
 
     <!-- Nav Item - Settings Collapse Menu -->
     <li class="nav-item" id="navSettings">
@@ -52,12 +50,14 @@
         </a>
         <div id="collapseSettings" class="collapse" aria-labelledby="headingSettings" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/hewi/public/install">Data Main</a>
-                <a class="collapse-item" href="/hewi/public/optional">Data Optional</a>
+                <a class="collapse-item" href="/hewi/public/install-add">Install</a>
+                <a class="collapse-item" href="/hewi/public/install">Data</a>
+                <a class="collapse-item" href="/hewi/public/optional">Optional</a>
             </div>
         </div>
     </li>
-    <hr class="sidebar-divider">
+
+    
 
       <!-- Nav Item - Login/Logout Collapse Menu -->
         <li class="nav-item" id="navAuth">

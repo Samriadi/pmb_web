@@ -20,7 +20,7 @@
             <!-- Button trigger modal -->
         <div class="card shadow mb-4">
         <div class="card-header py-3">
-              <h3 class="m-0 font-weight-bold text-primary">DATA OPTIONAL</h3>
+              <h6 class="m-0 font-weight-bold text-primary">FORM OPTIONAL</h6>
          </div>
             <div class="card-body">
            
@@ -32,7 +32,7 @@
                 <div class="d-flex justify-content-between mt-2">
                     <div>
                         <button type="button" class="btn btn-secondary" onclick="addOptionalField()">Tambah</button>
-                        <button type="button" class="btn btn-secondary" onclick="resetOptionalFields()">Reset Semua</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetOptionalFields()">Reset</button>
                     </div>
                     <div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
@@ -105,6 +105,7 @@
                 };
                 xhr.send(formData);
             });
+            addOptionalField();
         });
 
         function addOptionalField() {
@@ -143,7 +144,7 @@
             var typeSelect = document.getElementById(`${fieldId}Type`);
             var valueInput = document.getElementById(`${fieldId}Value`);
             valueInput.type = typeSelect.value;
-            valueInput.value = ''; // Reset value when changing type
+            valueInput.value = ''; 
         }
 
         function removeOptionalField(fieldId) {
@@ -152,6 +153,14 @@
         }
 
         function resetOptionalFields() {
-            document.getElementById('optionalInputs').innerHTML = '';
+            var optionalInputsDiv = document.getElementById('optionalInputs');
+            var optionalFields = optionalInputsDiv.getElementsByClassName('form-group');
+            
+            optionalInputsDiv.innerHTML = '';
+
+            if (optionalFields.length === 0) {
+                addOptionalField();
+            }
         }
+
     </script>

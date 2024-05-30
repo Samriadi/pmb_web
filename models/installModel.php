@@ -4,11 +4,19 @@ require_once __DIR__ . '/../config/database.php';
 
 class installModel {
   
-    public function save($namaLengkapKampus, $namaSingkat, $jalan, $kota, $provinsi, $negara, $tingkatan, $kodeWarnaUtama, $optionalFieldsJson) {
+    public function getInstall() {
+		$db = Database::getInstance();
+        $query = "SELECT * FROM var_install";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function save($namaLengkapKampus, $namaSingkat, $jalan, $kota, $provinsi, $negara, $kodeWarnaUtama) {
         try {
             $db = Database::getInstance();
 
-            $query = "INSERT INTO var_install (nama_lengkap_kampus, nama_singkat, jalan, kota, provinsi, negara, tingkatan, kode_warna_utama, optional_fields) VALUES (:namaLengkapKampus, :namaSingkat, :jalan, :kota, :provinsi, :negara, :tingkatan, :kodeWarnaUtama, :optionalFieldsJson)";
+            $query = "INSERT INTO var_install (nama_lengkap_kampus, nama_singkat, jalan, kota, provinsi, negara, kode_warna_utama) VALUES (:namaLengkapKampus, :namaSingkat, :jalan, :kota, :provinsi, :negara, :kodeWarnaUtama)";
                 
             $stmt = $db->prepare($query);
             $stmt->bindParam(':namaLengkapKampus', $namaLengkapKampus);
@@ -17,9 +25,7 @@ class installModel {
             $stmt->bindParam(':kota', $kota);
             $stmt->bindParam(':provinsi', $provinsi);
             $stmt->bindParam(':negara', $negara);
-            $stmt->bindParam(':tingkatan', $tingkatan);
             $stmt->bindParam(':kodeWarnaUtama', $kodeWarnaUtama);
-            $stmt->bindParam(':optionalFieldsJson', $optionalFieldsJson);
 
             if ($stmt->execute()) {
                 echo json_encode(["status" => "success", "message" => "Data berhasil disimpan"]);

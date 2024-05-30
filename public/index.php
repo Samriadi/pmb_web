@@ -11,8 +11,12 @@ $router = new Router();
 
 $router->add('/', 'mainController', 'dashboard');
 
-$router->add('/install', 'installController', 'install');
+//install
+$router->add('/install', 'installController', 'index');
+$router->add('/install-add', 'installController', 'add');
 $router->add('/install/save', 'installController', 'save');
+$router->add('/optional', 'varOptionController', 'optional');
+$router->add('/optional/add', 'varOptionController', 'addOptional');
 
 //user
 $router->add('/user', 'userController', 'index');
@@ -46,8 +50,7 @@ $router->add('/var/edit/{id}', 'varOptionController', 'edit');
 $router->add('/var/update', 'varOptionController', 'update');
 $router->add('/var/delete/{id}', 'varOptionController', 'delete');
 
-$router->add('/optional', 'varOptionController', 'optional');
-$router->add('/optional/add', 'varOptionController', 'addOptional');
+
 
 
 //
