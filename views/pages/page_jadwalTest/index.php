@@ -281,7 +281,16 @@ function add() {
         var jam_selesai = document.getElementById('jam_selesai').value;
         var keterangan = document.getElementById('keterangan').value;
 
-        console.log(gelombang);
+        if (!gelombang || !ruang || !jenis_ujian || !tgl_ujian || !jam_mulai || !jam_selesai || !keterangan) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Please fill in all fields.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            return; 
+        }
+        
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/hewi/public/test/save', true); // Ubah URL di sini
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

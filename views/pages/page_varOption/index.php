@@ -176,8 +176,17 @@ function add() {
         var varothers = document.getElementById('varothers').value;
         var catatan = document.getElementById('catatan').value;
         var parent = document.getElementById('parent').value;
-
-        console.log(recid);
+        
+        if (!recid || !varname || !varvalue || !varothers || !catatan || !parent) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please fill in all fields.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return; 
+        }
+           
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/hewi/public/var/add', true);        
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

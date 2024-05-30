@@ -151,7 +151,17 @@ function add() {
         var username = document.getElementById('username').value;
         var user_pass = document.getElementById('user_pass').value;
         var user_level = document.getElementById('user_level').value;
-
+        
+        if (!username || !user_pass || !user_level) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please fill in all fields.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return; // Menghentikan eksekusi jika ada input yang kosong
+        }
+        
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/hewi/public/user/add', true);        
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

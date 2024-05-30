@@ -85,9 +85,11 @@
                 </div>
                 <div class="modal-body">
                  <div class="form-group">
-                    <label for="periode">Periode</label>
-                    <input type="year" class="form-control" id="periode" name="periode" required>
-                </div>
+                        <label for="periode">Periode</label>
+                        <select id="periode" name="periode" class="form-control">
+                            <!-- Opsi tahun akan diisi menggunakan JavaScript -->
+                        </select>
+                    </div>
                  <div class="form-group">
                     <label for="jenjang">Jenjang</label>
                         <select class="form-control" id="jenjang" name="Jenjang" required>
@@ -176,11 +178,35 @@
 
 <?php include '../views/layouts/footer.php'; ?>
 
+<script>
+    function yearOption() {
+        const currentYear = new Date().getFullYear(); 
+        const startYear = currentYear - 2; 
+        const endYear = currentYear + 3; 
+        const select = document.getElementById('periode');
+        
+        select.innerHTML = '';
 
+        for (let year = startYear; year <= endYear; year++) {
+            let option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            select.appendChild(option);
+        }
+
+        select.value = currentYear;
+    }
+
+    $('#yearModal').on('show.bs.modal', function () {
+        yearOption();
+    });
+
+    $(document).ready(function() {
+        yearOption();
+    });
+</script>
 
 <script>
-
-
 function add() {
 
     var varNameJenjang = document.getElementById('jenjang').name;
@@ -224,6 +250,16 @@ document.getElementById('save').addEventListener('click', function() {
     var toDate = document.getElementById('toDate').value;
     var keterangan = document.getElementById('keterangan').value;
     var status = document.getElementById('status').value;
+
+    if (!jenjang || !periode || !fromDate || !toDate || !keterangan || !status) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please fill in all fields.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return; 
+    }
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/hewi/public/periode/save', true);        
