@@ -54,6 +54,7 @@ $router->add('/var/delete/{id}', 'varOptionController', 'delete');
 $router->add('/fakultas', 'fakultasController', 'index');
 $router->add('/fakultas/add', 'fakultasController', 'add');
 $router->add('/fakultas/save', 'fakultasController', 'save');
+$router->add('/fakultas/edit/{id}/include/{var}', 'fakultasController', 'edit');
 
 
 

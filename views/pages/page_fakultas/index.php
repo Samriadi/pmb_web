@@ -113,28 +113,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                 <div class="form-group">
-                    <label for="editRecid">RecID</label>
-                    <input type="text" class="form-control" id="editRecid" name="recid" required>
-                </div>
-                 <div class="form-group">
-                    <label for="editVarname">Var Name</label>
-                    <input type="text" class="form-control" id="editVarname" name="varname" required>
-                </div><div class="form-group">
-                    <label for="editVarvalue">Var Value</label>
+                    <input type="hidden" class="form-control" id="editRecid" name="recid" required>
+                <div class="form-group">
+                    <label for="editVarvalue">Nama Fakultas</label>
                     <input type="text" class="form-control" id="editVarvalue" name="varvalue" required>
                 </div>
                 <div class="form-group">
-                    <label for="editVarothers">Var Others</label>
+                    <label for="editVarothers">Kode Fakultas</label>
                     <input type="text" class="form-control" id="editVarothers" name="varothers" required>
                 </div>
                 <div class="form-group">
-                    <label for="editCatatan">Catatan</label>
-                    <input type="text" class="form-control" id="editCatatan" name="catatan" required>
-                </div>
-                <div class="form-group">
-                    <label for="editParent">Parent</label>
-                    <input type="number" class="form-control" id="editParent" name="parent" required>
+                    <label for="editParent">Nama Kampus</label>
+                    <select class="form-control" id="editParent" name="Kampus" required>
+                       
+                    </select>
                 </div>
             </div>
             <div class="modal-footer">
@@ -240,18 +232,38 @@ document.getElementById('save').addEventListener('click', function() {
 <script>
     // Fungsi untuk menampilkan data di modal edit
     function edit(id) {
+
+
+    var kampus = document.getElementById('editParent').name;
+
+    
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/hewi/public/fakultas/edit/'+id, true);
+    xhr.open('GET', '/hewi/public/fakultas/edit/'+id + '/include/' + kampus, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText.trim());
 
             document.getElementById('editRecid').value = response.recid;
-            document.getElementById('editVarname').value = response.var_name;
             document.getElementById('editVarvalue').value = response.var_value;
             document.getElementById('editVarothers').value = response.var_others;
-            document.getElementById('editCatatan').value = response.catatan;
-            document.getElementById('editParent').value = response.parent;
+           
+
+            if (response && response.kampusValues) {
+                var kampusSelect = document.getElementById('editParent');
+                response.kampusValues.forEach(function(item) {
+                    var option = document.createElement('option');
+                    option.value = item.recid;
+                    option.text = item.var_value;
+
+
+                    if (!Array.from(kampusSelect.options).some(opt => opt.value == item.var_value)) {
+                        kampusSelect.appendChild(option);
+                    }
+                });
+                kampusSelect.value = response.var_value;
+                } else {
+                    console.error("Properti kampusValues tidak ditemukan dalam respons atau respons tidak terdefinisi.");
+                }
 
             var editModal = new bootstrap.Modal(document.getElementById('editModal'));
             editModal.show();

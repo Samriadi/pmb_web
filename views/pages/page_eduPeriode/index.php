@@ -138,7 +138,6 @@
             <input type="hidden" name="recid" id="recid">
                <div class="form-group">
                     <label for="editPeriode">Periode</label>
-                     <label for="editPeriode">Periode</label>
                         <select id="editPeriode" name="periode" class="form-control">
                             <!-- Opsi tahun akan diisi menggunakan JavaScript -->
                         </select>

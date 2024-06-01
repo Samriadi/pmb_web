@@ -59,5 +59,28 @@ class fakultasController {
 		echo json_encode($response);
 	}
 
+    public function edit($id, $var) {
+
+		$models = new varOptiontModel();   
+		$varOptionModel = new varOptiontModel();  
+		
+		$data = $models->getVarById($id);
+        $kampusValues = $varOptionModel->getVarByName($var);
+		
+		$response = [
+			'recid' => $data['recid'],
+			'var_value' => $data['var_value'],
+			'var_others' => $data['var_others'],
+			'parent' => $data['parent'],
+			'kampusValues' => $kampusValues
+
+		];
+		
+        echo json_encode($response);
+		exit;
+	}
+
 
 }
+
+       
