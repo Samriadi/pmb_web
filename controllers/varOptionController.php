@@ -23,14 +23,13 @@ class varOptionController {
         $models = new varOptiontModel();   
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
            
-			$recid = $_POST['recid'];
 			$varname = $_POST['varname'];
 			$varvalue = $_POST['varvalue'];
 			$varothers = $_POST['varothers'];
 			$catatan = $_POST['catatan'];
 			$parent = $_POST['parent'];
 
-			$models->addVar($recid, $varname, $varvalue, $varothers, $catatan, $parent);
+			$models->addVar($varname, $varvalue, $varothers, $catatan, $parent);
 
             echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
         } 

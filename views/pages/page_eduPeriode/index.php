@@ -138,8 +138,11 @@
             <input type="hidden" name="recid" id="recid">
                <div class="form-group">
                     <label for="editPeriode">Periode</label>
-                    <input type="year" class="form-control" id="editPeriode" name="periode" required>
-                </div>
+                     <label for="editPeriode">Periode</label>
+                        <select id="editPeriode" name="periode" class="form-control">
+                            <!-- Opsi tahun akan diisi menggunakan JavaScript -->
+                        </select>
+                    </div>
 
                 <div class="form-group">
                 <label for="editJenjang">Jenjang</label>
@@ -183,18 +186,36 @@
         const currentYear = new Date().getFullYear(); 
         const startYear = currentYear - 2; 
         const endYear = currentYear + 3; 
-        const select = document.getElementById('periode');
-        
-        select.innerHTML = '';
 
-        for (let year = startYear; year <= endYear; year++) {
-            let option = document.createElement('option');
-            option.value = year;
-            option.textContent = year;
-            select.appendChild(option);
+        const selectAdd = document.getElementById('periode');
+        const selectEdit = document.getElementById('editPeriode');
+
+        if(selectAdd){
+
+            selectAdd.innerHTML = '';
+
+            for (let year = startYear; year <= endYear; year++) {
+                let option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                selectAdd.appendChild(option);
+            }
+
+            selectAdd.value = currentYear;
         }
 
-        select.value = currentYear;
+        if(selectEdit){
+            selectEdit.innerHTML = '';
+
+            for (let year = startYear; year <= endYear; year++) {
+                let option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                selectEdit.appendChild(option);
+            }
+
+            selectEdit.value = currentYear;
+        }
     }
 
     $('#yearModal').on('show.bs.modal', function () {

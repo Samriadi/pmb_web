@@ -11,16 +11,16 @@ class varOptiontModel {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-     public function addVar($recid, $varname, $varvalue, $varothers, $catatan, $parent) {
+     public function addVar($varname, $varvalue, $varothers, $catatan, $parent) {
 		$db = Database::getInstance();
 
 
         
-        $query = "INSERT INTO var_option (recid, var_name, var_value, var_others, catatan, parent) VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO var_option (var_name, var_value, var_others, catatan, parent) VALUES (?, ?, ?, ?, ?)";
 
         try {
             $stmt = $db->prepare($query);
-            $stmt->execute([$recid, $varname, $varvalue, $varothers, $catatan, $parent]);
+            $stmt->execute([$varname, $varvalue, $varothers, $catatan, $parent]);
         } 
         catch(PDOException $e) {
             echo "Error: " . $e->getMessage();

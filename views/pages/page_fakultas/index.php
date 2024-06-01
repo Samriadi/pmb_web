@@ -18,7 +18,7 @@
             <!-- Button trigger modal -->
         <div class="card shadow mb-4">
         <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">DATA VAR OPTION</h6>
+              <h6 class="m-0 font-weight-bold text-primary">DATA FAKULTAS</h6>
          </div>
             <div class="card-body">
             <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50">
@@ -31,12 +31,9 @@
                     <thead>
                         <tr>
                         <th>No</th>
-                        <th>Rec Id</th>
-                        <th>Var Name</th>
-                        <th>Var Value</th>
-                        <th>Var Others</th>
-                        <th>Catatan</th>
-                        <th>Parent</th>
+                        <th>Nama Fakultas</th>
+                        <th>Kode Fakultas</th>
+                        <th>Nama Kampus</th>
                         <th style="width: 100px;">Action</th>
                         </tr>
                     </thead>
@@ -47,12 +44,9 @@
                         ?>
                         <tr>
                             <td><?=$no++?></td>
-                            <td><?=$dt->recid?></td>
-                            <td><?=$dt->var_name?></td>
                             <td><?=$dt->var_value?></td>
                             <td><?=$dt->var_others?></td>
-                            <td><?=$dt->catatan?></td>
-                            <td><?=$dt->parent?></td>
+                            <td><?= $data2['var_value'];?></td>
                             <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->recid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
                            <?php if($dt->disabled == true){ ?>
                             <a class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
@@ -80,30 +74,25 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Fakultas</h5>
                      <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">x
                 </button>
                 </div>
                 <div class="modal-body">
-                 <div class="form-group">
-                    <label for="varname">Var Name</label>
-                    <input type="text" class="form-control" id="varname" name="varname" required>
-                </div>
+                    <input type="hidden" class="form-control" id="varname" name="varname" value="Fakultas">
                <div class="form-group">
-                    <label for="varvalue">Var Value</label>
+                    <label for="varvalue">Nama Fakultas</label>
                     <input type="text" class="form-control" id="varvalue" name="varvalue" required>
                 </div>
                 <div class="form-group">
-                    <label for="varothers">Var Others</label>
+                    <label for="varothers">Kode Fakultas</label>
                     <input type="text" class="form-control" id="varothers" name="varothers" required>
                 </div>
                 <div class="form-group">
-                    <label for="catatan">Catatan</label>
-                    <input type="text" class="form-control" id="catatan" name="catatan" required>
-                </div>
-                <div class="form-group">
-                    <label for="parent">Parent</label>
-                    <input type="number" class="form-control" id="parent" name="parent" required>
+                    <label for="parent">Nama Kampus</label>
+                    <select class="form-control" id="parent" name="parent" required>
+                            
+                    </select>
                </div>
                 </div>
                 <div class="modal-footer">
@@ -164,16 +153,59 @@
 
 <script>
 function add() {
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/hewi/public/fakultas/add', true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
 
-        document.getElementById('save').addEventListener('click', function() {
+            // Mengisi opsi select
+            var kampusValues = document.getElementById('parent');
+            response.kampusValues.forEach(function(item) {
+                var option = document.createElement('option');
+                option.value = item.recid;
+                option.text = item.var_value;
+                if (!Array.from(kampusValues.options).some(opt => opt.value == item.var_value)) {
+                    kampusValues.appendChild(option);
+                }
+            });
+            kampusValues.value = response.kampus;
+
+            // Tampilkan modal
+            var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            exampleModal.show();
+        }
+    };
+    xhr.send();
+
+    var exampleModal = document.getElementById('exampleModal');
+    exampleModal.addEventListener('hidden.bs.modal', function () {
+        window.location.reload();
+      });
+
+}
+
+
+document.getElementById('save').addEventListener('click', function() {
         var varname = document.getElementById('varname').value;
         var varvalue = document.getElementById('varvalue').value;
         var varothers = document.getElementById('varothers').value;
-        var catatan = document.getElementById('catatan').value;
         var parent = document.getElementById('parent').value;
         
+        console.log(parent);
+        if (!varname || !varvalue || !varothers || !parent) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please fill in all fields.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return; 
+        }
+           
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/hewi/public/var/add', true);        
+        xhr.open('POST', '/hewi/public/fakultas/save', true);        
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -181,37 +213,35 @@ function add() {
                 // Lakukan sesuatu setelah data berhasil dikirim, seperti menutup modal
                 var modal = document.getElementById('exampleModal');
                 var modalInstance = bootstrap.Modal.getInstance(modal);
-                modalInstance.hide();
+                // modalInstance.hide();
                     
-                Swal.fire({
-                        title: 'Success!',
-                        text: xhr.responseText,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        // Refresh halaman
-                        window.location.reload();
-                    });
+                // Swal.fire({
+                //         title: 'Success!',
+                //         text: xhr.responseText,
+                //         icon: 'success',
+                //         confirmButtonText: 'OK'
+                //     }).then(() => {
+                //         // Refresh halaman
+                //         window.location.reload();
+                //     });
             }
         };
 
         // Kirim data yang ingin Anda kirimkan
          var data = 
-         "varname=" + encodeURIComponent(varname) + 
+         "&varname=" + encodeURIComponent(varname) + 
          "&varvalue=" + encodeURIComponent(varvalue) + 
          "&varothers=" + encodeURIComponent(varothers) + 
-         "&catatan=" + encodeURIComponent(catatan) + 
          "&parent=" + encodeURIComponent(parent);
         xhr.send(data);
     });
-    }
 </script>
 
 <script>
     // Fungsi untuk menampilkan data di modal edit
     function edit(id) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/hewi/public/var/edit/'+id, true);
+    xhr.open('GET', '/hewi/public/fakultas/edit/'+id, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText.trim());
@@ -231,7 +261,6 @@ function add() {
 }
 
     document.getElementById('update').addEventListener('click', function() {
-    var recid = document.getElementById('editRecid').value;
         var varname = document.getElementById('editVarname').value;
         var varvalue = document.getElementById('editVarvalue').value;
         var varothers = document.getElementById('editVarothers').value;
@@ -272,7 +301,7 @@ function add() {
     };
 
     // Kirim data yang ingin Anda kirimkan  // Kirim data yang ingin Anda kirimkan
-        var data = "recid=" + encodeURIComponent(recid) + "&varname=" + encodeURIComponent(varname) + "&varvalue=" + encodeURIComponent(varvalue) + "&varothers=" + encodeURIComponent(varothers) + "&catatan=" + encodeURIComponent(catatan) + "&parent=" + encodeURIComponent(parent);
+        var data = "&varname=" + encodeURIComponent(varname) + "&varvalue=" + encodeURIComponent(varvalue) + "&varothers=" + encodeURIComponent(varothers) + "&catatan=" + encodeURIComponent(catatan) + "&parent=" + encodeURIComponent(parent);
         xhr.send(data);
     });
 
