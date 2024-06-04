@@ -12,9 +12,15 @@ class mainController {
 
      
 
-		include __DIR__ . '/../views/pages/page_dashboard/index.php';
+	include __DIR__ . '/../views/pages/page_dashboard/index.php';
 
-    }
+  }
+  
+  public function testCard() {
+   
+  include __DIR__ . '/../views/pages/page_item/testCard.php';
+
+  }
 
     
 }

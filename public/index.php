@@ -58,7 +58,8 @@ $router->add('/fakultas/edit/{id}/include/{var}', 'fakultasController', 'edit');
 $router->add('/fakultas/update', 'fakultasController', 'update');
 
 
-
+//item
+$router->add('/testCard', 'mainController', 'testCard');
 
 
 

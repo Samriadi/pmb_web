@@ -90,7 +90,7 @@ class varOptionController {
 	
 		exit();
 	}
-
+	
 	//Optional
 	public function optional() {
 
