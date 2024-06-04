@@ -45,7 +45,7 @@ class varOptiontModel {
         $db = Database::getInstance();
         $stmt = $db->prepare("SELECT * FROM var_option WHERE recid = ?");
         $stmt->execute([$recid]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function updateVar($recid, $varname, $varvalue, $varothers, $catatan, $parent) {

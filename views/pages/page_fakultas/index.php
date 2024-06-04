@@ -46,7 +46,16 @@
                             <td><?=$no++?></td>
                             <td><?=$dt->var_value?></td>
                             <td><?=$dt->var_others?></td>
-                            <td><?= $data2['var_value'];?></td>
+
+                            <?php 
+                            if (isset($varData[$dt->recid])):
+                            foreach ($varData[$dt->recid] as $var): ?>
+                            <td><?=htmlspecialchars($var->var_value);?></td>
+                            <?php 
+                            endforeach;
+	                        endif;
+                            ?>
+
                             <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->recid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
                            <?php if($dt->disabled == true){ ?>
                             <a class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>

@@ -5,23 +5,19 @@ require_once __DIR__ . '/../models/varOptionModel.php';
 
 class fakultasController {
 	public function index() {
-        $models = new fakultasModel();   
+		$models = new fakultasModel();   
 		$kampus = new varOptiontModel();   
 
-        $data = $models->getFakultas();
-        $data2 = [];
+		$data = $models->getFakultas();
+		$varData = [];
 
-        foreach ($data as $dt):
-             $data2 = $kampus->getVarById($dt->parent);  
-        endforeach;
-       
-
-        
-
-
-        include __DIR__ . '/../views/pages/page_fakultas/index.php';
-
-    }
+		foreach ($data as $dt) {
+			$varData[$dt->recid] = $kampus->getVarById($dt->parent);  
+		}
+	
+		// Mengirimkan data dan varData ke view
+		include __DIR__ . '/../views/pages/page_fakultas/index.php';
+	}
 
     public function save() {
         $models = new fakultasModel();   
