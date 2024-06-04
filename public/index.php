@@ -50,7 +50,7 @@ $router->add('/var/edit/{id}', 'varOptionController', 'edit');
 $router->add('/var/update', 'varOptionController', 'update');
 $router->add('/var/delete/{id}', 'varOptionController', 'delete');
 
-
+//var option -> fakultas
 $router->add('/fakultas', 'fakultasController', 'index');
 $router->add('/fakultas/add', 'fakultasController', 'add');
 $router->add('/fakultas/save', 'fakultasController', 'save');

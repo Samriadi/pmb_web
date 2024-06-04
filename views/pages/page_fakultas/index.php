@@ -213,17 +213,17 @@ document.getElementById('save').addEventListener('click', function() {
                 // Lakukan sesuatu setelah data berhasil dikirim, seperti menutup modal
                 var modal = document.getElementById('exampleModal');
                 var modalInstance = bootstrap.Modal.getInstance(modal);
-                // modalInstance.hide();
                     
-                // Swal.fire({
-                //         title: 'Success!',
-                //         text: xhr.responseText,
-                //         icon: 'success',
-                //         confirmButtonText: 'OK'
-                //     }).then(() => {
-                //         // Refresh halaman
-                //         window.location.reload();
-                //     });
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Data Berhasil Ditambahkan',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+
+                    showCancelButton: false 
+                }).then((result) => {
+                    modalInstance.hide();
+                    });
             }
         };
 
@@ -308,13 +308,13 @@ document.getElementById('save').addEventListener('click', function() {
             var modalInstance = bootstrap.Modal.getInstance(modal);
 
             Swal.fire({
-            title: 'Success!',
-            text: 'Data Berhasil Diubah',
-            icon: 'success',
-            confirmButtonText: 'OK',
+                title: 'Success!',
+                text: 'Data Berhasil Diubah',
+                icon: 'success',
+                confirmButtonText: 'OK',
 
-            showCancelButton: false 
-                }).then((result) => {
+                showCancelButton: false 
+            }).then((result) => {
                     modalInstance.hide();
                 });
         }
