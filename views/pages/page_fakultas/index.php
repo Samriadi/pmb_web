@@ -55,7 +55,6 @@
                             endforeach;
 	                        endif;
                             ?>
-
                             <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->recid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
                            <?php if($dt->disabled == true){ ?>
                             <a class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
@@ -244,7 +243,6 @@ document.getElementById('save').addEventListener('click', function() {
 
 
     var kampus = document.getElementById('editParent').name;
-
     
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/hewi/public/fakultas/edit/'+id + '/include/' + kampus, true);
@@ -255,31 +253,41 @@ document.getElementById('save').addEventListener('click', function() {
             document.getElementById('editRecid').value = response.recid;
             document.getElementById('editVarvalue').value = response.var_value;
             document.getElementById('editVarothers').value = response.var_others;
-           
 
             if (response && response.kampusValues) {
                 var kampusSelect = document.getElementById('editParent');
+                kampusSelect.innerHTML = ''; // Bersihkan opsi sebelumnya
+
                 response.kampusValues.forEach(function(item) {
                     var option = document.createElement('option');
                     option.value = item.recid;
                     option.text = item.var_value;
 
-
-                    if (!Array.from(kampusSelect.options).some(opt => opt.value == item.var_value)) {
-                        kampusSelect.appendChild(option);
-                    }
+                    // Tambahkan opsi ke elemen select
+                    kampusSelect.appendChild(option);
                 });
-                kampusSelect.value = response.var_value;
-                } else {
-                    console.error("Properti kampusValues tidak ditemukan dalam respons atau respons tidak terdefinisi.");
+
+                // Set nilai default pada elemen select
+                kampusSelect.value = response.parent; // Mengatur nilai default dari response.parent
+
+                // Jika nilai default tidak ada dalam opsi, tambahkan opsi default
+                if (!Array.from(kampusSelect.options).some(opt => opt.value == response.parent)) {
+                    var defaultOption = document.createElement('option');
+                    defaultOption.value = response.parent;
+                    defaultOption.text = response.var_value; // Teks yang sesuai
+                    defaultOption.selected = true;
+                    kampusSelect.appendChild(defaultOption);
                 }
+            } else {
+                console.error("Properti kampusValues tidak ditemukan dalam respons atau respons tidak terdefinisi.");
+            }
 
             var editModal = new bootstrap.Modal(document.getElementById('editModal'));
             editModal.show();
         }
     };
     xhr.send();
-}
+    }
 
     document.getElementById('update').addEventListener('click', function() {
         var varname = document.getElementById('editVarname').value;

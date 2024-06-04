@@ -57,11 +57,10 @@ class fakultasController {
 
     public function edit($id, $var) {
 
-		$models = new varOptiontModel();   
-		$varOptionModel = new varOptiontModel();  
+		$models = new fakultasModel();   
 		
 		$data = $models->getVarById($id);
-        $kampusValues = $varOptionModel->getVarByName($var);
+        $kampusValues = $models->getVarByName($var);
 		
 		$response = [
 			'recid' => $data['recid'],

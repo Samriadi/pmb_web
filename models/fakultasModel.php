@@ -23,6 +23,24 @@ class fakultasModel {
             echo "Error: " . $e->getMessage();
         }
     }
+
+    public function getVarById($recid) {
+        $db = Database::getInstance();
+        $stmt = $db->prepare("SELECT * FROM var_option WHERE recid = ?");
+        $stmt->execute([$recid]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getVarByName($var_name) {
+		$db = Database::getInstance();
+        $query = "SELECT * FROM var_option where var_name=:var_name";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':var_name', $var_name);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
     
 }
 
