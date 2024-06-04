@@ -121,7 +121,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                    <input type="hidden" class="form-control" id="editRecid" name="recid" required>
+                    <input type="hidden" class="form-control" id="recid" name="recid" required>
                 <div class="form-group">
                     <label for="editVarvalue">Nama Fakultas</label>
                     <input type="text" class="form-control" id="editVarvalue" name="varvalue" required>
@@ -250,7 +250,7 @@ document.getElementById('save').addEventListener('click', function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText.trim());
 
-            document.getElementById('editRecid').value = response.recid;
+            document.getElementById('recid').value = response.recid;
             document.getElementById('editVarvalue').value = response.var_value;
             document.getElementById('editVarothers').value = response.var_others;
 
@@ -290,16 +290,15 @@ document.getElementById('save').addEventListener('click', function() {
     }
 
     document.getElementById('update').addEventListener('click', function() {
-        var varname = document.getElementById('editVarname').value;
+        var recid = document.getElementById('recid').value;
         var varvalue = document.getElementById('editVarvalue').value;
         var varothers = document.getElementById('editVarothers').value;
-        var catatan = document.getElementById('editCatatan').value;
         var parent = document.getElementById('editParent').value;
 
     console.log(recid);
     
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/hewi/public/var/update', true);
+    xhr.open('POST', '/hewi/public/fakultas/update', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -307,30 +306,26 @@ document.getElementById('save').addEventListener('click', function() {
             // Lakukan sesuatu setelah data berhasil dikirim, seperti menutup modal
             var modal = document.getElementById('editModal');
             var modalInstance = bootstrap.Modal.getInstance(modal);
-            modalInstance.hide();
 
             Swal.fire({
             title: 'Success!',
-            text: xhr.responseText,
+            text: 'Data Berhasil Diubah',
             icon: 'success',
             confirmButtonText: 'OK',
-            showCancelButton: false // Hide the cancel button
-        }).then((result) => {
-            // Check if the "OK" button was clicked
-            if (result.isConfirmed) {
-                // Add a delay before refreshing the page
-                setTimeout(() => {
-                    // Refresh the page
-                    window.location.reload();
-                }, 2000); // Adjust the delay time (in milliseconds) as needed
-            }
-        });
 
+            showCancelButton: false 
+                }).then((result) => {
+                    modalInstance.hide();
+                });
         }
     };
 
     // Kirim data yang ingin Anda kirimkan  // Kirim data yang ingin Anda kirimkan
-        var data = "&varname=" + encodeURIComponent(varname) + "&varvalue=" + encodeURIComponent(varvalue) + "&varothers=" + encodeURIComponent(varothers) + "&catatan=" + encodeURIComponent(catatan) + "&parent=" + encodeURIComponent(parent);
+        var data = 
+        "&recid=" + encodeURIComponent(recid) + 
+        "&varvalue=" + encodeURIComponent(varvalue) + 
+        "&varothers=" + encodeURIComponent(varothers) + 
+        "&parent=" + encodeURIComponent(parent);
         xhr.send(data);
     });
 

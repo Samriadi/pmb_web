@@ -55,6 +55,7 @@ $router->add('/fakultas', 'fakultasController', 'index');
 $router->add('/fakultas/add', 'fakultasController', 'add');
 $router->add('/fakultas/save', 'fakultasController', 'save');
 $router->add('/fakultas/edit/{id}/include/{var}', 'fakultasController', 'edit');
+$router->add('/fakultas/update', 'fakultasController', 'update');
 
 
 
