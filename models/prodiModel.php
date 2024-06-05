@@ -5,7 +5,8 @@ require_once __DIR__ . '/../config/database.php';
 class prodiModel {
     public function getProdi() {
 		$db = Database::getInstance();
-        $query = "SELECT * FROM var_option WHERE var_name='Prodi'";
+        $query = "SELECT var_option.*, Fakultas.var_value AS NamaFakultas FROM var_option LEFT JOIN (SELECT * FROM var_option WHERE var_name='Fakultas') AS Fakultas 
+		ON var_option.parent = Fakultas.recid WHERE var_option.var_name='Prodi'";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);

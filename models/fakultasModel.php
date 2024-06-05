@@ -5,7 +5,8 @@ require_once __DIR__ . '/../config/database.php';
 class fakultasModel {
      public function getFakultas() {
 		$db = Database::getInstance();
-        $query = "SELECT * FROM var_option WHERE var_name='Fakultas'";
+        $query = "SELECT var_option.*, Kampus.var_value AS NamaKampus FROM var_option LEFT JOIN (SELECT * FROM var_option WHERE var_name='Kampus') AS Kampus 
+		ON var_option.parent = Kampus.recid WHERE var_option.var_name='Fakultas'";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);

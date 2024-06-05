@@ -6,15 +6,9 @@ require_once __DIR__ . '/../models/varOptionModel.php';
 class fakultasController {
 	public function index() {
 		$models = new fakultasModel();   
-		$kampus = new varOptiontModel();   
 
 		$data = $models->getFakultas();
-		$varData = [];
-
-		foreach ($data as $dt) {
-			$varData[$dt->recid] = $kampus->getVarById($dt->parent);  
-		}
-	
+		
 		// Mengirimkan data dan varData ke view
 		include __DIR__ . '/../views/pages/page_fakultas/index.php';
 	}
