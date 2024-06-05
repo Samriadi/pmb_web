@@ -32,6 +32,7 @@ class installController {
  
 
             $models->save($namaLengkapKampus, $namaSingkat, $jalan, $kota, $provinsi, $negara, $kodeWarnaUtama);
+            log_activity('ADD data install'); 
 
         } 
 		else {
