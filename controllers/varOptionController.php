@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../models/varOptionModel.php';
 
 
+
 class varOptionController {
 	public function index() {
 		$models = new varOptiontModel();   
@@ -30,6 +31,7 @@ class varOptionController {
 			$parent = $_POST['parent'];
 
 			$models->addVar($varname, $varvalue, $varothers, $catatan, $parent);
+			log_activity('ADD var_option'); 
 
             echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
         } 
@@ -68,6 +70,7 @@ class varOptionController {
 			$parent = $_POST['parent'];
 
             $models->updateVar($recid, $varname, $varvalue, $varothers, $catatan, $parent);
+			log_activity('EDIT var_option'); 
 
             echo json_encode(['status' => 'success', 'message' => 'New Record Updated']);
         } 
@@ -78,6 +81,7 @@ class varOptionController {
 
 	public function delete($id) {
 		$models = new varOptiontModel();
+        $logs = new logActivityModel(); 
 		
 		$id = filter_var($id, FILTER_VALIDATE_INT);
 		if ($id === false) {
@@ -86,8 +90,9 @@ class varOptionController {
 		}
 	
 		$models->deleteVar($id);
+		log_activity('DELETE var_option'); 
+
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
-	
 		exit();
 	}
 	
@@ -130,4 +135,4 @@ class varOptionController {
     }
 
 }
-   
+
