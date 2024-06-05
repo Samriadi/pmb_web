@@ -40,6 +40,8 @@
       }
       .header table {
         border-collapse: collapse;
+        width: 100%;
+
       }
       .details table {
         width: 100%;
@@ -196,9 +198,9 @@
                   <h5>4. PESERTA HARUS DALAM KONDISI SEHAT</h5>
                 </div>
               </td>
-              <td>
+              <td style="width: 30%">
                 <div class="qr-code">
-                  <p>Untuk Gambar Qr/Bar Code</p>
+                  <p><img src="https://i.ibb.co.com/gFSwTqY/IMG-20240605-WA0010.jpg" style="width:100%;"/></p>
                 </div>
               </td>
             </tr>
