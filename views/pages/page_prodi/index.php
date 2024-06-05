@@ -125,16 +125,18 @@
             <div class="modal-body">
                     <input type="hidden" class="form-control" id="recid" name="recid" required>
                 <div class="form-group">
-                    <label for="editVarvalue">Nama Fakultas</label>
+                    <label for="editVarvalue">Nama Prodi</label>
                     <input type="text" class="form-control" id="editVarvalue" name="varvalue" required>
                 </div>
                 <div class="form-group">
-                    <label for="editVarothers">Kode Fakultas</label>
-                    <input type="text" class="form-control" id="editVarothers" name="varothers" required>
+                    <label for="editVarothers">Jenjang</label>
+                    <select class="form-control" id="editVarothers" name="varothers" required>
+                       
+                       </select>
                 </div>
                 <div class="form-group">
-                    <label for="editParent">Nama Kampus</label>
-                    <select class="form-control" id="editParent" name="Kampus" required>
+                    <label for="editParent">Nama Fakultas</label>
+                    <select class="form-control" id="editParent" name="parent" required>
                        
                     </select>
                 </div>
@@ -255,42 +257,66 @@ document.getElementById('save').addEventListener('click', function() {
     function edit(id) {
 
 
-    var kampus = document.getElementById('editParent').name;
     
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/hewi/public/fakultas/edit/'+id + '/include/' + kampus, true);
+    xhr.open('GET', '/hewi/public/prodi/edit/'+id , true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText.trim());
 
             document.getElementById('recid').value = response.recid;
             document.getElementById('editVarvalue').value = response.var_value;
-            document.getElementById('editVarothers').value = response.var_others;
 
-            if (response && response.kampusValues) {
-                var kampusSelect = document.getElementById('editParent');
-                kampusSelect.innerHTML = ''; // Bersihkan opsi sebelumnya
+            if (response && (response.jenjangValues && response.fakultasValues)) {
+                var jenjangSelect = document.getElementById('editVarothers');
+                var fakultasSelect = document.getElementById('editParent');
+                jenjangSelect.innerHTML = '';
+                fakultasSelect.innerHTML = '';
 
-                response.kampusValues.forEach(function(item) {
+                response.jenjangValues.forEach(function(item) {
+                    var option = document.createElement('option');
+                    option.value = item.value;
+                    option.text = item.var_value;
+
+                    // Tambahkan opsi ke elemen select
+                    jenjangSelect.appendChild(option);
+                });
+
+                response.fakultasValues.forEach(function(item) {
                     var option = document.createElement('option');
                     option.value = item.recid;
                     option.text = item.var_value;
 
                     // Tambahkan opsi ke elemen select
-                    kampusSelect.appendChild(option);
+                    fakultasSelect.appendChild(option);
                 });
 
                 // Set nilai default pada elemen select
-                kampusSelect.value = response.parent; // Mengatur nilai default dari response.parent
+                jenjangSelect.value = response.var_others; 
+                fakultasSelect.value = response.parent; 
+
+
 
                 // Jika nilai default tidak ada dalam opsi, tambahkan opsi default
-                if (!Array.from(kampusSelect.options).some(opt => opt.value == response.parent)) {
+                if (!Array.from(jenjangSelect.options).some(opt => opt.value == response.var_others)) {
+                    var defaultOption = document.createElement('option');
+                    defaultOption.value = response.var_others;
+                    defaultOption.text = response.var_others;
+                    defaultOption.selected = true;
+                    jenjangSelect.appendChild(defaultOption);
+                }
+
+                if (!Array.from(fakultasSelect.options).some(opt => opt.value == response.parent)) {
                     var defaultOption = document.createElement('option');
                     defaultOption.value = response.parent;
-                    defaultOption.text = response.var_value; // Teks yang sesuai
+                    defaultOption.text = response.var_value;
                     defaultOption.selected = true;
-                    kampusSelect.appendChild(defaultOption);
+                    fakultasSelect.appendChild(defaultOption);
                 }
+
+
+
+
             } else {
                 console.error("Properti kampusValues tidak ditemukan dalam respons atau respons tidak terdefinisi.");
             }

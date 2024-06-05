@@ -62,6 +62,7 @@ $router->add('/fakultas/update', 'fakultasController', 'update');
 $router->add('/prodi', 'prodiController', 'index');
 $router->add('/prodi/add', 'prodiController', 'add');
 $router->add('/prodi/save', 'prodiController', 'save');
+$router->add('/prodi/edit/{id}', 'prodiController', 'edit');
 
 
 

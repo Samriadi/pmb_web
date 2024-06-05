@@ -54,4 +54,26 @@ class prodiController {
             echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
         }
     }
+    public function edit($id) {
+
+		$models = new prodiModel();   
+		
+		$data = $models->getVarById($id);
+		$jenjangValues = $models->getVarByName('Jenjang');
+		$fakultasValues = $models->getVarByName('Fakultas');
+
+		$response = [
+			'recid' => $data['recid'],
+			'var_value' => $data['var_value'],
+			'var_others' => $data['var_others'],
+			'parent' => $data['parent'],
+			'fakultasValues' => $fakultasValues,
+			'jenjangValues' => $jenjangValues,
+
+		];
+		
+        echo json_encode($response);
+		exit;
+	}
+
 }
