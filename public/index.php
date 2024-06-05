@@ -8,6 +8,8 @@ require_once __DIR__ . '/../controllers/userController.php';
 require_once __DIR__ . '/../controllers/installController.php';
 require_once __DIR__ . '/../controllers/prodiController.php';
 
+require_once __DIR__ . '/../helpers/function.php';
+
 $router = new Router();
 
 $router->add('/', 'mainController', 'dashboard');
