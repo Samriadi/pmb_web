@@ -18,4 +18,40 @@ class prodiController {
 		// Mengirimkan data dan varData ke view
 		include __DIR__ . '/../views/pages/page_prodi/index.php';
 	}
+    public function add() {
+	
+		$models = new varOptiontModel();   
+	
+		$fakultasValues = $models->getVarByName('Fakultas');
+		$jenjangValues = $models->getVarByName('Jenjang');
+	
+		if ($fakultasValues === false || $jenjangValues === false) {
+			echo json_encode(['status' => 'error', 'message' => 'Failed to retrieve variable options']);
+			return;
+		}
+	
+		$response = [
+			'fakultasValues' => $fakultasValues,
+			'jenjangValues' => $jenjangValues,
+		];
+	
+		echo json_encode($response);
+	}
+    public function save() {
+        $models = new prodiModel();   
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+           
+			$varname = $_POST['varname'];
+			$varvalue = $_POST['varvalue'];
+			$varothers = $_POST['varothers'];
+			$parent = $_POST['parent'];
+
+			$models->add($varname, $varvalue, $varothers, $parent);
+
+            echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
+        } 
+		else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
 }

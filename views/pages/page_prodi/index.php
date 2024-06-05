@@ -82,22 +82,24 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Fakultas</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Prodi</h5>
                      <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">x
                 </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" class="form-control" id="varname" name="varname" value="Fakultas">
+                    <input type="hidden" class="form-control" id="varname" name="varname" value="Prodi">
                <div class="form-group">
-                    <label for="varvalue">Nama Fakultas</label>
+                    <label for="varvalue">Nama Prodi</label>
                     <input type="text" class="form-control" id="varvalue" name="varvalue" required>
                 </div>
                 <div class="form-group">
-                    <label for="varothers">Kode Fakultas</label>
-                    <input type="text" class="form-control" id="varothers" name="varothers" required>
+                    <label for="varothers">Jenjang</label>
+                    <select class="form-control" id="varothers" name="varothers" required>
+                   
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="parent">Nama Kampus</label>
+                    <label for="parent">Fakultas</label>
                     <select class="form-control" id="parent" name="parent" required>
                             
                     </select>
@@ -155,22 +157,33 @@
 function add() {
     
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/hewi/public/fakultas/add', true);
+    xhr.open('GET', '/hewi/public/prodi/add', true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText);
 
             // Mengisi opsi select
-            var kampusValues = document.getElementById('parent');
-            response.kampusValues.forEach(function(item) {
+            var jenjangValues = document.getElementById('varothers');
+            response.jenjangValues.forEach(function(item) {
+                var option = document.createElement('option');
+                option.value = item.var_value;
+                option.text = item.var_value;
+                if (!Array.from(jenjangValues.options).some(opt => opt.value == item.var_value)) {
+                    jenjangValues.appendChild(option);
+                }
+            });
+            jenjangValues.value = response.jenjang;
+
+            var fakultasValues = document.getElementById('parent');
+            response.fakultasValues.forEach(function(item) {
                 var option = document.createElement('option');
                 option.value = item.recid;
                 option.text = item.var_value;
-                if (!Array.from(kampusValues.options).some(opt => opt.value == item.var_value)) {
-                    kampusValues.appendChild(option);
+                if (!Array.from(fakultasValues.options).some(opt => opt.value == item.var_value)) {
+                    fakultasValues.appendChild(option);
                 }
             });
-            kampusValues.value = response.kampus;
+            fakultasValues.value = response.fakultas;
 
             // Tampilkan modal
             var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
@@ -205,7 +218,7 @@ document.getElementById('save').addEventListener('click', function() {
         }
            
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/hewi/public/fakultas/save', true);        
+        xhr.open('POST', '/hewi/public/prodi/save', true);        
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {

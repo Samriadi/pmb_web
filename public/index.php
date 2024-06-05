@@ -60,6 +60,8 @@ $router->add('/fakultas/update', 'fakultasController', 'update');
 
 //var option -> prodi
 $router->add('/prodi', 'prodiController', 'index');
+$router->add('/prodi/add', 'prodiController', 'add');
+$router->add('/prodi/save', 'prodiController', 'save');
 
 
 
