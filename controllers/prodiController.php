@@ -41,6 +41,7 @@ class prodiController {
 			$parent = $_POST['parent'];
 
 			$models->add($varname, $varvalue, $varothers, $parent);
+            log_activity('ADD Prodi'); 
 
             echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
         } 
@@ -79,6 +80,7 @@ class prodiController {
 
 
             $models->updateVar($recid, $varvalue, $varothers, $parent);
+            log_activity('EDIT Prodi'); 
 
             echo json_encode(['status' => 'success', 'message' => 'New Record Updated']);
         } 
