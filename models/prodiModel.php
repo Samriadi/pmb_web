@@ -39,4 +39,10 @@ class prodiModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     }
+    public function updateVar($recid, $varvalue, $varothers, $parent) {
+        $db = Database::getInstance();
+
+        $stmt = $db->prepare("UPDATE var_option SET var_value = ?, var_others = ?, parent = ? WHERE recid = ?");
+        $stmt->execute([$varvalue, $varothers, $parent, $recid]);
+    }
 }

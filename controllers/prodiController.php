@@ -75,5 +75,22 @@ class prodiController {
         echo json_encode($response);
 		exit;
 	}
+    public function update() {
+        $models = new prodiModel();   
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+   			$recid = $_POST['recid'];
+			$varvalue = $_POST['varvalue'];
+			$varothers = $_POST['varothers'];
+			$parent = $_POST['parent'];
+
+
+            $models->updateVar($recid, $varvalue, $varothers, $parent);
+
+            echo json_encode(['status' => 'success', 'message' => 'New Record Updated']);
+        } 
+		else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
 
 }

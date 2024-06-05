@@ -63,6 +63,8 @@ $router->add('/prodi', 'prodiController', 'index');
 $router->add('/prodi/add', 'prodiController', 'add');
 $router->add('/prodi/save', 'prodiController', 'save');
 $router->add('/prodi/edit/{id}', 'prodiController', 'edit');
+$router->add('/prodi/update', 'prodiController', 'update');
+
 
 
 

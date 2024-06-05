@@ -275,7 +275,7 @@ document.getElementById('save').addEventListener('click', function() {
 
                 response.jenjangValues.forEach(function(item) {
                     var option = document.createElement('option');
-                    option.value = item.value;
+                    option.value = item.var_value;
                     option.text = item.var_value;
 
                     // Tambahkan opsi ke elemen select
@@ -334,10 +334,13 @@ document.getElementById('save').addEventListener('click', function() {
         var varothers = document.getElementById('editVarothers').value;
         var parent = document.getElementById('editParent').value;
 
-    console.log(recid);
-    
+        console.log(recid);
+        console.log(varvalue);
+        console.log(varothers);
+        console.log(parent);
+        
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/hewi/public/fakultas/update', true);
+    xhr.open('POST', '/hewi/public/prodi/update', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
