@@ -1,7 +1,10 @@
 <?php
 require_once __DIR__ . '/../models/fakultasModel.php';
 require_once __DIR__ . '/../models/varOptionModel.php';
+require_once __DIR__ . '/../models/logActivityModel.php';
 
+session_start();
+$_SESSION['user_id'] = 1;
 
 class fakultasController {
 	public function index() {
@@ -14,7 +17,9 @@ class fakultasController {
 	}
 
     public function save() {
-        $models = new fakultasModel();   
+        $models = new fakultasModel(); 
+        $logs = new logActivityModel(); 
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
            
 			$varname = $_POST['varname'];
@@ -23,6 +28,12 @@ class fakultasController {
 			$parent = $_POST['parent'];
 
 			$models->add($varname, $varvalue, $varothers, $parent);
+
+			if (isset($_SESSION['user_id'])) {
+				$user_id = $_SESSION['user_id'];
+				$now = date('Y-m-d H:i:s');
+				$logs->logActivity($user_id, $now, 'ADD Fakultas'); 
+			}
 
             echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
         } 
