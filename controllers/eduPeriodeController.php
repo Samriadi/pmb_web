@@ -72,6 +72,8 @@ class eduPeriodeController {
 				$status = $_POST['status'];
 	
 				$models->addPeriode($jenjang, $periode, $fromDate, $toDate, $keterangan, $status);
+				log_activity('ADD Periode'); 
+
 	
 				echo json_encode(['status' => 'success', 'message' => 'New record added']);
 			} else {
@@ -134,6 +136,8 @@ class eduPeriodeController {
 
 
             $models->updatePeriode($recid, $jenjang, $periode, $fromDate, $toDate, $keterangan, $status);
+			log_activity('EDIT Periode'); 
+
 
         } 
 		else {
@@ -151,6 +155,8 @@ class eduPeriodeController {
 		}
 	
 		$models->deletePeriode($id);
+		log_activity('DELETE Periode'); 
+
 		header('Location: ' . $_SERVER['HTTP_REFERER']); 
 	
 		exit();
