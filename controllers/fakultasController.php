@@ -1,10 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/fakultasModel.php';
 require_once __DIR__ . '/../models/varOptionModel.php';
-require_once __DIR__ . '/../models/logActivityModel.php';
 
-session_start();
-$_SESSION['user_id'] = 1;
 
 class fakultasController {
 	public function index() {
@@ -18,7 +15,6 @@ class fakultasController {
 
     public function save() {
         $models = new fakultasModel(); 
-        $logs = new logActivityModel(); 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
            
@@ -28,12 +24,7 @@ class fakultasController {
 			$parent = $_POST['parent'];
 
 			$models->add($varname, $varvalue, $varothers, $parent);
-
-			if (isset($_SESSION['user_id'])) {
-				$user_id = $_SESSION['user_id'];
-				$now = date('Y-m-d H:i:s');
-				$logs->logActivity($user_id, $now, 'ADD Fakultas'); 
-			}
+			log_activity('ADD Fakultas'); 
 
             echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
         } 
@@ -82,6 +73,7 @@ class fakultasController {
 
 	public function update() {
         $models = new fakultasModel();   
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    			$recid = $_POST['recid'];
 			$varvalue = $_POST['varvalue'];
@@ -89,6 +81,8 @@ class fakultasController {
 			$parent = $_POST['parent'];
 
             $models->updateVar($recid, $varvalue, $varothers, $parent);
+			log_activity('EDIT Fakultas'); 
+
 
             echo json_encode(['status' => 'success', 'message' => 'New Record Updated']);
         } 
