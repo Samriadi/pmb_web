@@ -6,6 +6,7 @@ require_once __DIR__ . '/../controllers/eduTestController.php';
 require_once __DIR__ . '/../controllers/varOptionController.php';
 require_once __DIR__ . '/../controllers/userController.php';
 require_once __DIR__ . '/../controllers/installController.php';
+require_once __DIR__ . '/../controllers/prodiController.php';
 
 $router = new Router();
 
@@ -56,6 +57,10 @@ $router->add('/fakultas/add', 'fakultasController', 'add');
 $router->add('/fakultas/save', 'fakultasController', 'save');
 $router->add('/fakultas/edit/{id}/include/{var}', 'fakultasController', 'edit');
 $router->add('/fakultas/update', 'fakultasController', 'update');
+
+//var option -> prodi
+$router->add('/prodi', 'prodiController', 'index');
+
 
 
 //item

@@ -69,6 +69,7 @@
             <div id="collapseAuth" class="collapse" aria-labelledby="headingAuth" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="/hewi/public/fakultas">Fakultas</a>
+                    <a class="collapse-item" href="/hewi/public/prodi">Prodi</a>
                 </div>
             </div>
         </li>
