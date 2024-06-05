@@ -5,18 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kartu Tanda Peserta Ujian</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
+      @media print {
+        @page {
+          margin: 0;
+          }
+        body {
+          margin: 0;
+          padding: 0;
+          width: 100%;
+        }
+        .kartu-ujian {
+          padding-top: 15mm; 
+          page-break-inside: avoid;
+          width: 100%;
+          height: 100vh; 
+          box-sizing: border-box;
+          }
       }
       .container {
         width: 100%;
         min-height: 200px;
       }
       .card {
-        border: 1px solid #000;
+        margin-top: 20px;
+        border: 2px dashed rgba(0, 0, 0, 0.5);
         padding: 20px;
-        width: 60%;
+        width: 85%;
         margin: 0 auto;
+        
       }
       .header {
         text-align: center;
@@ -72,6 +88,8 @@
     </style>
   </head>
   <body>
+  <div class="kartu-ujian">
+
     <div class="container">
       <div class="card">
         <div class="header">
@@ -187,6 +205,10 @@
           </table>
         </div>
       </div>
+      </div>
     </div>
   </body>
 </html>
+<script>
+  window.print();
+</script>

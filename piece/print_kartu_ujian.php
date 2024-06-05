@@ -14,5 +14,5 @@
 </style>
 
 <body>
-    <a href="page_kartu_ujian.php" class="button">Cetak Kartu Ujian</a> 
+    <a href="testCard.php" class="button">Cetak Kartu Ujian</a> 
 </body>
