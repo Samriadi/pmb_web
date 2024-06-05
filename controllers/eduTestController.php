@@ -49,6 +49,7 @@ class eduTestController {
             $keterangan = $_POST['keterangan'] ?? '';
 
             $models->addTest($gelombang, $ruang, $jenis_ujian, $tgl_ujian, $jam_mulai, $jam_selesai, $keterangan);
+			log_activity('ADD edu test'); 
 
             echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
         } 
@@ -97,6 +98,7 @@ class eduTestController {
             $keterangan = $_POST['keterangan'] ?? '';
 
             $models->updateTest($id, $gelombang, $ruang, $jenis_ujian, $tgl_ujian, $jam_mulai, $jam_selesai, $keterangan);
+			log_activity('EDIT edu test'); 
 
             echo json_encode(['status' => 'success', 'message' => 'New Record Updated']);
         } 
@@ -115,6 +117,8 @@ class eduTestController {
 		}
 	
 		$models->deleteTest($id);
+		log_activity('DELETE edu test'); 
+
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	
 		exit();
