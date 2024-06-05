@@ -127,6 +127,8 @@ class varOptionController {
 
 
 			$models->addOptional($varname, $optionalFieldsJson);
+            log_activity('ADD Var Optional'); 
+
 
         } 
 		else {
