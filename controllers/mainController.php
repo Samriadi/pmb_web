@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../models/mainModel.php';
 
+session_start();
+$_SESSION['user_id'] = 1;
+
 class mainController {
 
 	public function dashboard() {
