@@ -404,20 +404,16 @@ document.getElementById('save').addEventListener('click', function() {
           
             var modal = document.getElementById('editModal');
             var modalInstance = bootstrap.Modal.getInstance(modal);
-            modalInstance.hide();
 
             Swal.fire({
             title: 'Success!',
-            text: xhr.responseText,
+            text: 'Data Updated',
             icon: 'success',
             confirmButtonText: 'OK',
             showCancelButton: false 
         }).then((result) => {
             if (result.isConfirmed) {
-                setTimeout(() => {
-                    // Refresh the page
-                    window.location.reload();
-                }, 2000); 
+                modalInstance.hide();
             }
         });
 

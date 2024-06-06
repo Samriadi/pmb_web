@@ -75,13 +75,13 @@
         </li>
 
          <!-- Nav Item - Login/Logout Collapse Menu -->
-         <li class="nav-item" id="navAuth">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAuth"
-                aria-expanded="true" aria-controls="collapseAuth">
+         <li class="nav-item" id="navTest">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTest"
+                aria-expanded="true" aria-controls="collapseTest">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>Item</span>
             </a>
-            <div id="collapseAuth" class="collapse" aria-labelledby="headingAuth" data-parent="#accordionSidebar">
+            <div id="collapseTest" class="collapse" aria-labelledby="headingAuth" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="/hewi/public/testCard">Kartu Ujian</a>
                 </div>
