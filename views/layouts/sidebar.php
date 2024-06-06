@@ -53,6 +53,7 @@
                 <a class="collapse-item" href="/hewi/public/install-add">Install</a>
                 <a class="collapse-item" href="/hewi/public/install">Data</a>
                 <a class="collapse-item" href="/hewi/public/optional">Optional</a>
+                <a class="collapse-item" href="/hewi/public/logs">Logs</a>
             </div>
         </div>
     </li>

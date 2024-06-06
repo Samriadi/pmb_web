@@ -72,6 +72,7 @@ $router->add('/prodi/update', 'prodiController', 'update');
 
 //item
 $router->add('/testCard', 'mainController', 'testCard');
+$router->add('/logs', 'mainController', 'logs');
 
 
 

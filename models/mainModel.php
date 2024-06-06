@@ -34,6 +34,15 @@ class mainModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function getLogs() {
+		$db = Database::getInstance();
+        $query = "SELECT logs.*, users.username as name FROM logs JOIN users ON logs.userid = users.userid;
+        ";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }
 
 ?>
