@@ -67,6 +67,9 @@ $router->add('/prodi/save', 'prodiController', 'save');
 $router->add('/prodi/edit/{id}', 'prodiController', 'edit');
 $router->add('/prodi/update', 'prodiController', 'update');
 
+//exam
+$router->add('/ujian', 'ujianController', 'index');
+$router->add('/ujian/upload', 'ujianController', 'upload');
 
 
 

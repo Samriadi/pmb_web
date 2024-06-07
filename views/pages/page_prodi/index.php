@@ -307,10 +307,6 @@ document.getElementById('save').addEventListener('click', function() {
                     defaultOption.selected = true;
                     fakultasSelect.appendChild(defaultOption);
                 }
-
-
-
-
             } else {
                 console.error("Properti kampusValues tidak ditemukan dalam respons atau respons tidak terdefinisi.");
             }

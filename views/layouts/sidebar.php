@@ -71,6 +71,7 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="/hewi/public/fakultas">Fakultas</a>
                     <a class="collapse-item" href="/hewi/public/prodi">Prodi</a>
+                    <a class="collapse-item" href="/hewi/public/ujian">Ujian</a>
                 </div>
             </div>
         </li>
@@ -88,8 +89,6 @@
                 </div>
             </div>
         </li>
-
-
 
 
 
