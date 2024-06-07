@@ -23,32 +23,40 @@
             <div class="card-body">
 
 
-            <button style="margin-bottom: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">Upload CSV</button>
+           <!-- Button trigger modal -->
+<button style="margin-bottom: 10px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
+    Upload File CSV
+</button>
 
-            <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="uploadModalLabel">Upload CSV File</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="uploadForm" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <input type="file" name="csv_file" id="csv_file" class="form-control-file" required>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" form="uploadForm" class="btn btn-primary">Upload</button>
-                    </div>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Upload File CSV</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="file">Pilih File CSV:</label>
+                        <input type="file" class="form-control-file" id="file" name="file" accept=".csv" required>
+                    </div>
             </div>
-            <div id="response"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Upload</button>
+           
+            </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Tambahkan Script AJAX seperti sebelumnya -->
 
 
 
@@ -60,7 +68,6 @@
                         <th>Nomor Ujian</th>
                         <th>Nama Lengkap</th>
                         <th>Kelulusan</th>
-                        <th style="width: 100px;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,11 +79,12 @@
                             <td><?=$no++?></td>
                             <td><?=$dt->no_ujian?></td>
                             <td><?=$dt->NamaLengkap?></td>
+                            <?php if($dt->kelulusan) { ?>
                             <td><?=$dt->kelulusan?></td>
-                            <td>
-                            <a class="btn btn-danger" href="/hewi/public/user/delete/<?= $dt->userid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
-                            </td>
-                        </tr>
+                            <?php } else { ?>
+                                <td>NULL</td>
+                            <?php } ?>
+                            </tr>
                         <?php endforeach ?>
                     </tbody>
                 </table>
@@ -91,25 +99,38 @@
 
 <?php include '../views/layouts/footer.php'; ?>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('#uploadForm').submit(function(e){
-                e.preventDefault();
-                var formData = new FormData(this);
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
-                $.ajax({
-                    url: '/hewi/public/logs',
-                    type: 'POST',
-                    data: formData,
-                    success: function(response){
-                        $('#response').html(response);
-                        $('#uploadModal').modal('hide');
-                    },
-                    cache: false,
-                    contentType: false,
-                    processData: false
+<script>
+$(document).ready(function() {
+    $('#uploadForm').submit(function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            url: '/hewi/public/ujian/upload',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                console.log('Respons dari server:', response);
+                // Menampilkan SweetAlert ketika upload berhasil
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Data Berhasil diperbaharui',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    showCancelButton: false 
+                }).then((result) => {
+                        window.location.reload(); // Me-refresh halaman
                 });
-            });
+            },
+
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
         });
-    </script>
+    });
+});
+
+</script>

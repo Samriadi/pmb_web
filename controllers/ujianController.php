@@ -10,7 +10,54 @@ class ujianController {
 		include __DIR__ . '/../views/pages/page_ujian/index.php';
     }
    
-    
+    public function upload() {
+        $models = new ujianModel();   
+
+        header('Content-Type: application/json');
+
+        if ($_FILES['file']['error'] == UPLOAD_ERR_OK && $_FILES['file']['size'] > 0) {
+            $file = $_FILES['file']['tmp_name'];
+            $handle = fopen($file, "r");
+            $response = [];
+            $isFirstRow = true;
+        
+            while (($data = fgetcsv($handle, 1000, ";")) !== false) {
+                if ($isFirstRow) {
+                    $isFirstRow = false;
+                    continue; 
+                }
+                $x = count($data);
+                if (count($data) >= $x) {
+                    $no_ujian = trim($data[1]); 
+                    $nama = trim($data[2]);
+                    $kelulusan = trim($data[3]); 
+        
+                    $response[] = [
+                        'no_ujian' => $no_ujian,
+                        'nama' => $nama,
+                        'kelulusan' => $kelulusan,
+                    ];
+                    $models->updateDataFromCSV($no_ujian, $kelulusan);
+
+                } else {
+                    $response[] = [
+                        'error' => 'Baris tidak valid, jumlah kolom kurang: ' . implode(', ', $data)
+                    ];
+                }
+            }
+            fclose($handle);
+          
+            echo json_encode([
+                'status' => 'success',
+                'data' => $response
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan dalam proses upload file.'
+            ]);
+        }
+    }
 	
 }
 

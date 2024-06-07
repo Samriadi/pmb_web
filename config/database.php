@@ -27,5 +27,8 @@
         public function prepare($sql) {
             return $this->connection->prepare($sql);
         }
+        public function real_escape_string($string) {
+            return $this->connection->quote($string);
+        }
     }
 ?>

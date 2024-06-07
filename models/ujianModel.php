@@ -11,54 +11,12 @@ class ujianModel {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    function updateDataFromCSV($csvFilePath) {
-        // Baca file CSV
-        $file = fopen($csvFilePath, "r");
-        $data = [];
-        while (($column = fgetcsv($file, 10000, ",")) !== FALSE) {
-            $no_ujian = $column[0];
-            $kelulusan = $column[2];
-            $data[] = [
-                'no_ujian' => $no_ujian,
-                'kelulusan' => $kelulusan
-            ];
-        }
-        fclose($file);
-    
-        // Dapatkan instance koneksi database
-        $db = Database::getInstance();
-    
-        // Bangun string query UPDATE
-        $updateValues = [];
-        foreach ($data as $row) {
-            $updateValues[] = "(" . $db->real_escape_string($row['kelulusan']) . ", " . $db->real_escape_string($row['no_ujian']) . ")";
-        }
-        $updateQuery = "UPDATE pmb_tagihan SET kelulusan = CASE no_ujian ";
-        foreach ($updateValues as $value) {
-            $updateQuery .= "WHEN '" . $value['no_ujian'] . "' THEN '" . $value['kelulusan'] . "' ";
-        }
-        $updateQuery .= "END WHERE no_ujian IN (";
-        $updateQuery .= implode(",", array_map(function($value) {
-            return "'" . $value['no_ujian'] . "'";
-        }, $data));
-        $updateQuery .= ")";
-    
-        // Persiapkan query
-        $stmt = $db->prepare($updateQuery);
-    
-        // Lakukan query UPDATE
-        if ($stmt->execute() === TRUE) {
-            echo "Records updated successfully";
-        } else {
-            echo "Error updating records: " . $stmt->error;
-        }
-    
-        // Tutup statement dan koneksi
-        $stmt->close();
-        $db->close();
+    public function updateDataFromCSV($no_ujian, $kelulusan) {
+		$db = Database::getInstance();
+
+        $stmt = $db->prepare("UPDATE pmb_tagihan SET kelulusan = ? WHERE no_ujian = ?");
+        $stmt->execute([$kelulusan, $no_ujian]);
     }
-    
-    
     
 }
 
