@@ -44,7 +44,7 @@ $router->add('/periode/save', 'eduPeriodeController', 'save');
 $router->add('/periode/lastPeriod/{jenjang}', 'eduPeriodeController', 'lastPeriod');
 $router->add('/periode/edit/{id}/include/{var}', 'eduPeriodeController', 'edit');
 $router->add('/periode/update', 'eduPeriodeController', 'update');
-$router->add('/periode/delete/{id}', 'eduPeriodeController', 'delete');
+$router->add('/periode/delete', 'eduPeriodeController', 'delete');
 
 //var option
 $router->add('/var', 'varOptionController', 'index');
@@ -83,4 +83,3 @@ $router->add('/logs', 'mainController', 'logs');
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
 
 $router->dispatch($url);
-?>

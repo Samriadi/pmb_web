@@ -2,16 +2,19 @@
 require_once __DIR__ . '/../models/ujianModel.php';
 
 
-class ujianController {
-	public function index() {
-        $models = new ujianModel();   
+class ujianController
+{
+    public function index()
+    {
+        $models = new ujianModel();
         $data = $models->getUjian();
 
-		include __DIR__ . '/../views/pages/page_ujian/index.php';
+        include __DIR__ . '/../views/pages/page_ujian/index.php';
     }
-   
-    public function upload() {
-        $models = new ujianModel();   
+
+    public function upload()
+    {
+        $models = new ujianModel();
 
         header('Content-Type: application/json');
 
@@ -20,25 +23,24 @@ class ujianController {
             $handle = fopen($file, "r");
             $response = [];
             $isFirstRow = true;
-        
+
             while (($data = fgetcsv($handle, 1000, ";")) !== false) {
                 if ($isFirstRow) {
                     $isFirstRow = false;
-                    continue; 
+                    continue;
                 }
                 $x = count($data);
                 if (count($data) >= $x) {
-                    $no_ujian = trim($data[1]); 
-                    $nama = trim($data[2]);
-                    $kelulusan = trim($data[3]); 
-        
+                    $no_ujian = trim($data[0]);
+                    $nama = trim($data[1]);
+                    $kelulusan = trim($data[2]);
+
                     $response[] = [
                         'no_ujian' => $no_ujian,
                         'nama' => $nama,
                         'kelulusan' => $kelulusan,
                     ];
                     $models->updateDataFromCSV($no_ujian, $kelulusan);
-
                 } else {
                     $response[] = [
                         'error' => 'Baris tidak valid, jumlah kolom kurang: ' . implode(', ', $data)
@@ -46,7 +48,7 @@ class ujianController {
                 }
             }
             fclose($handle);
-          
+
             echo json_encode([
                 'status' => 'success',
                 'data' => $response
@@ -58,7 +60,4 @@ class ujianController {
             ]);
         }
     }
-	
 }
-
-
