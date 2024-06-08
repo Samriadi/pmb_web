@@ -1,18 +1,22 @@
 <?php
-// public/index.php
-require_once __DIR__ . '/../core/route.php';
-require_once __DIR__ . '/../controllers/mainController.php';
-require_once __DIR__ . '/../controllers/eduTestController.php';
-require_once __DIR__ . '/../controllers/varOptionController.php';
-require_once __DIR__ . '/../controllers/userController.php';
-require_once __DIR__ . '/../controllers/installController.php';
-require_once __DIR__ . '/../controllers/prodiController.php';
+session_start();
+date_default_timezone_set('Asia/Makassar');
 
-require_once __DIR__ . '/../helpers/function.php';
+require_once __DIR__ . '/../app/Core/Router.php';
+require_once __DIR__ . '/../app/Helpers/Function.php';
+require_once __DIR__ . '/../app/Core/Database.php';
+
+require_once __DIR__ . '/../app/Controllers/eduTestController.php';
+require_once __DIR__ . '/../app/Controllers/varOptionController.php';
+require_once __DIR__ . '/../app/Controllers/eduPeriodeController.php';
+require_once __DIR__ . '/../app/Controllers/userController.php';
+
+
 
 $router = new Router();
 
 $router->add('/', 'mainController', 'dashboard');
+// Definisi rute
 
 //install
 $router->add('/install', 'installController', 'index');
@@ -78,8 +82,6 @@ $router->add('/testCard', 'mainController', 'testCard');
 $router->add('/logs', 'mainController', 'logs');
 
 
-
-//
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
 
 $router->dispatch($url);
