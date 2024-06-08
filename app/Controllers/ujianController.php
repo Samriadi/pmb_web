@@ -60,4 +60,47 @@ class ujianController
             ]);
         }
     }
+
+    public function download()
+    {
+        $models = new ujianModel();
+        $data = $models->getCSV();
+
+        if ($data) {
+            $filename = "data_export.csv";
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment;filename=' . $filename);
+
+            $output = fopen('php://output', 'w');
+
+            $title = ['No Ujian', 'Nama Lengkap', 'Kelulusan'];
+
+            $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+            $delimiter = ',';
+            if (strpos($user_agent, 'Windows') !== false) {
+                $delimiter = ';';
+            }
+
+            fputcsv($output, $title, $delimiter);
+
+            $field = ['no_ujian', 'NamaLengkap', 'kelulusan'];
+            foreach ($data as $row) {
+                $value = [];
+                foreach ($field as $column) {
+                    if ($column === 'no_ujian') {
+                        $value[] = sprintf('="%s"', isset($row[$column]) ? $row[$column] : '');
+                    } else {
+                        $value[] = isset($row[$column]) ? $row[$column] : '';
+                    }
+                }
+
+                fputcsv($output, $value, $delimiter);
+            }
+
+            fclose($output);
+            exit();
+        } else {
+            echo "Tidak ada data ditemukan.";
+        }
+    }
 }
