@@ -108,7 +108,7 @@
                             e.preventDefault();
                             var formData = new FormData(this);
                             $.ajax({
-                                url: '/hewi/public/ujian/upload',
+                                url: '/pmb_web/ujian/upload',
                                 type: 'POST',
                                 data: formData,
                                 contentType: false,
