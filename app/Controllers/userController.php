@@ -34,8 +34,10 @@ class userController
 		}
 	}
 
-	public function edit($id)
+	public function edit()
 	{
+
+		$id = isset($_GET['userid']) ? $_GET['userid'] : null;
 
 		$models = new userModel();
 
@@ -67,8 +69,11 @@ class userController
 		}
 	}
 
-	public function delete($id)
+	public function delete()
 	{
+
+		$id = isset($_GET['userid']) ? $_GET['userid'] : null;
+
 		$models = new userModel();
 
 		$id = filter_var($id, FILTER_VALIDATE_INT);

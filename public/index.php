@@ -29,9 +29,9 @@ $router->add('/optional/add', 'varOptionController', 'addOptional');
 $router->add('/user', 'userController', 'index');
 $router->add('/user/add', 'userController', 'add');
 $router->add('/user/save', 'userController', 'save');
-$router->add('/user/edit/{id}', 'userController', 'edit');
+$router->add('/user/edit', 'userController', 'edit');
 $router->add('/user/update', 'userController', 'update');
-$router->add('/user/delete/{id}', 'userController', 'delete');
+$router->add('/user/delete', 'userController', 'delete');
 
 //edu test
 $router->add('/test', 'eduTestController', 'index');
