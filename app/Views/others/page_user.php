@@ -206,6 +206,7 @@
                         xhr.open('GET', '/pmb_web/user/edit?userid=' + userid, true);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
+
                                 var response = JSON.parse(xhr.responseText.trim());
 
                                 document.getElementById('userid').value = response.userid;

@@ -43,12 +43,11 @@ class userController
 
 		$data = $models->getUserById($id);
 
-		var_dump($data);
 		$response = [
-			'userid' => $data['userid'],
-			'username' => $data['username'],
-			'user_pass' => $data['user_pass'],
-			'user_level' => $data['user_level'],
+			'userid' => $data->userid,
+			'username' => $data->username,
+			'user_pass' => $data->user_pass,
+			'user_level' => $data->user_level
 		];
 
 		echo json_encode($response);

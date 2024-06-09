@@ -57,7 +57,7 @@
                                                 <?php if ($dt->disabled == true) { ?>
                                                     <a class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
                                                 <?php } else { ?>
-                                                    <a class="btn btn-danger" href="/var/delete?id=<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn btn-danger" href="/pmb_web/var/delete?id=<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                                                 <?php } ?>
                                             </td>
                                         </tr>

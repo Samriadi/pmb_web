@@ -63,8 +63,6 @@ class varOptionController
 				'error' => 'Data not found'
 			];
 		}
-
-
 		echo json_encode($response);
 		exit;
 	}
@@ -89,10 +87,12 @@ class varOptionController
 		}
 	}
 
-	public function delete($id)
+	public function delete()
 	{
+
+		$id = isset($_GET['id']) ? $_GET['id'] : null;
+
 		$models = new varOptiontModel();
-		$logs = new logActivityModel();
 
 		$id = filter_var($id, FILTER_VALIDATE_INT);
 		if ($id === false) {
