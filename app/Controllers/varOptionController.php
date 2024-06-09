@@ -41,21 +41,29 @@ class varOptionController
 		}
 	}
 
-	public function edit($id)
+	public function edit()
 	{
 
-		$models = new varOptiontModel();
+		$id = isset($_GET['recid']) ? $_GET['recid'] : null;
 
+		$models = new varOptiontModel();
 		$data = $models->getVarById($id);
 
-		$response = [
-			'recid' => $data['recid'],
-			'var_name' => $data['var_name'],
-			'var_value' => $data['var_value'],
-			'var_others' => $data['var_others'],
-			'catatan' => $data['catatan'],
-			'parent' => $data['parent'],
-		];
+		if ($data) {
+			$response = [
+				'recid' => $data->recid,
+				'var_name' => $data->var_name,
+				'var_value' => $data->var_value,
+				'var_others' => $data->var_others,
+				'catatan' => $data->catatan,
+				'parent' => $data->parent,
+			];
+		} else {
+			$response = [
+				'error' => 'Data not found'
+			];
+		}
+
 
 		echo json_encode($response);
 		exit;

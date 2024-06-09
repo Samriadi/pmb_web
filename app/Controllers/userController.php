@@ -43,6 +43,7 @@ class userController
 
 		$data = $models->getUserById($id);
 
+		var_dump($data);
 		$response = [
 			'userid' => $data['userid'],
 			'username' => $data['username'],

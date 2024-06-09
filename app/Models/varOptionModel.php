@@ -1,53 +1,55 @@
 <?php
 
 
-class varOptiontModel {
-     public function getVar() {
-		$db = Database::getInstance();
+class varOptiontModel
+{
+    public function getVar()
+    {
+        $db = Database::getInstance();
         $query = "SELECT * FROM var_option";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-     public function addVar($varname, $varvalue, $varothers, $catatan, $parent) {
-		$db = Database::getInstance();
+    public function addVar($varname, $varvalue, $varothers, $catatan, $parent)
+    {
+        $db = Database::getInstance();
 
-
-        
         $query = "INSERT INTO var_option (var_name, var_value, var_others, catatan, parent) VALUES (?, ?, ?, ?, ?)";
 
         try {
             $stmt = $db->prepare($query);
             $stmt->execute([$varname, $varvalue, $varothers, $catatan, $parent]);
-        } 
-        catch(PDOException $e) {
+        } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
 
-    public function deleteVar($recid) {
+    public function deleteVar($recid)
+    {
         $db = Database::getInstance();
 
         $query = "DELETE FROM var_option WHERE recid = ?";
 
         try {
-        $stmt = $db->prepare($query);
-        $stmt->execute([$recid]);
-        } 
-        catch(PDOException $e) {
+            $stmt = $db->prepare($query);
+            $stmt->execute([$recid]);
+        } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
 
-     public function getVarById($recid) {
+    public function getVarById($recid)
+    {
         $db = Database::getInstance();
         $stmt = $db->prepare("SELECT * FROM var_option WHERE recid = ?");
         $stmt->execute([$recid]);
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function updateVar($recid, $varname, $varvalue, $varothers, $catatan, $parent) {
+    public function updateVar($recid, $varname, $varvalue, $varothers, $catatan, $parent)
+    {
         $db = Database::getInstance();
 
         $stmt = $db->prepare("UPDATE var_option SET var_name = ?, var_value = ?, var_others = ?, catatan = ?, parent = ? WHERE recid = ?");
@@ -56,8 +58,9 @@ class varOptiontModel {
 
 
     //menangambil var value by var name untuk opsi select
-    public function getVarByName($var_name) {
-		$db = Database::getInstance();
+    public function getVarByName($var_name)
+    {
+        $db = Database::getInstance();
         $query = "SELECT * FROM var_option where var_name=:var_name";
         $stmt = $db->prepare($query);
         $stmt->bindParam(':var_name', $var_name);
@@ -67,7 +70,7 @@ class varOptiontModel {
         $values = [];
         foreach ($data as $item) {
             $values[] = [
-				'recid' => $item->recid,
+                'recid' => $item->recid,
                 'var_value' => $item->var_value
             ];
         }
@@ -76,15 +79,16 @@ class varOptiontModel {
     //
 
     //menyimpan opsi inputan tambahan
-    public function addOptional($var_name, $var_value) {
+    public function addOptional($var_name, $var_value)
+    {
 
         var_dump($var_name);
         var_dump($var_value);
-		try {
+        try {
             $db = Database::getInstance();
 
             $query = "INSERT INTO var_option (var_name, var_value) VALUES (:var_name, :var_value)";
-                
+
             $stmt = $db->prepare($query);
             $stmt->bindParam(':var_name', $var_name);
             $stmt->bindParam(':var_value', $var_value);
@@ -92,8 +96,7 @@ class varOptiontModel {
 
             if ($stmt->execute()) {
                 echo json_encode(["status" => "success", "message" => "Data berhasil disimpan"]);
-            } 
-            else {
+            } else {
                 echo json_encode(["status" => "error", "message" => "Error: " . $stmt->errorInfo()[2]]);
             }
         } catch (PDOException $e) {
@@ -104,7 +107,5 @@ class varOptiontModel {
 
 
 
-    
-}
 
-?>
+}

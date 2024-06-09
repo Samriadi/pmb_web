@@ -53,7 +53,7 @@ $router->add('/periode/delete', 'eduPeriodeController', 'delete');
 //var option
 $router->add('/var', 'varOptionController', 'index');
 $router->add('/var/add', 'varOptionController', 'add');
-$router->add('/var/edit/{id}', 'varOptionController', 'edit');
+$router->add('/var/edit', 'varOptionController', 'edit');
 $router->add('/var/update', 'varOptionController', 'update');
 $router->add('/var/delete/{id}', 'varOptionController', 'delete');
 
