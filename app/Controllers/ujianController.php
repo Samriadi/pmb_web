@@ -40,7 +40,7 @@ class ujianController
                         'nama' => $nama,
                         'kelulusan' => $kelulusan,
                     ];
-                    $models->updateDataFromCSV($no_ujian, $kelulusan);
+                    $models->uploadCSV($no_ujian, $kelulusan);
                 } else {
                     $response[] = [
                         'error' => 'Baris tidak valid, jumlah kolom kurang: ' . implode(', ', $data)
@@ -64,7 +64,7 @@ class ujianController
     public function download()
     {
         $models = new ujianModel();
-        $data = $models->getCSV();
+        $data = $models->downloadCSV();
 
         if ($data) {
             $filename = "data_export.csv";

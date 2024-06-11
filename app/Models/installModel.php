@@ -1,6 +1,4 @@
 <?php
-
-
 class installModel {
   
     public function getInstall() {

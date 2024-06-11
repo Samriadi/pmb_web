@@ -12,7 +12,7 @@ class ujianModel
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function updateDataFromCSV($no_ujian, $kelulusan)
+    public function uploadCSV($no_ujian, $kelulusan)
     {
         $db = Database::getInstance();
 
@@ -20,7 +20,7 @@ class ujianModel
         $stmt->execute([$kelulusan, $no_ujian]);
     }
 
-    public function getCSV()
+    public function downloadCSV()
     {
         $db = Database::getInstance();
         $query = "SELECT a.no_ujian, a.member_id, a.kelulusan, b.ID, b.NamaLengkap FROM pmb_tagihan a JOIN pmb_mahasiswa b ON a.member_id = b.ID WHERE a.no_ujian IS NOT NULL AND a.no_ujian <> ''";
