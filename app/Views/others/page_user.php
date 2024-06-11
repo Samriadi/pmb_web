@@ -24,7 +24,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">DATA USER</h6>
                     </div>
                     <div class="card-body">
-                        <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50">
+                        <a class="btn btn-primary btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>
                             <span class="text">Add Data</span></a>
@@ -48,8 +48,8 @@
                                             <td><?= $no++ ?></td>
                                             <td><?= $dt->username ?></td>
                                             <td><?= $dt->user_level ?></td>
-                                            <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->userid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
-                                                <a class="btn btn-danger" href="/pmb_web/user/delete?userid=<?= $dt->userid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                                            <td><a class="btn btn-secondary" href="#" onclick="edit(<?= $dt->userid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
+                                                <a class="btn btn-third" href="/pmb_web/user/delete?userid=<?= $dt->userid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>

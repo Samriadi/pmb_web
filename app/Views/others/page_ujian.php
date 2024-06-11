@@ -26,12 +26,12 @@
 
                         <!-- Button trigger modal -->
                         <div class="d-inline-flex">
-                            <button style="margin-bottom: 10px;" type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#uploadModal">
+                            <button style="margin-bottom: 10px;" type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#uploadModal">
                                 <i class="fas fa-file-csv"></i>
                             </button>
 
                             <form method="post" action="/pmb_web/ujian/download">
-                                <button style="margin-bottom: 10px;" type="submit" class="btn btn-success"">
+                                <button style="margin-bottom: 10px;" type="submit" class="btn btn-primary"">
                                 <i class=" fas fa-download"></i>
                                 </button>
                             </form>

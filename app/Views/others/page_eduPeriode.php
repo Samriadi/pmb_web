@@ -21,7 +21,7 @@
               <h6 class="m-0 font-weight-bold text-primary">DATA PERIODE</h6>
          </div>
             <div class="card-body">
-            <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50"><i class="fas fa-plus"></i></span><span class="text">Add Data</span></a>
+            <a class="btn btn-primary btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50"><i class="fas fa-plus"></i></span><span class="text">Add Data</span></a>
             <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
