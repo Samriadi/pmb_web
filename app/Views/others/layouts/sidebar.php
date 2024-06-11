@@ -48,8 +48,8 @@
          </a>
          <div id="collapseSettings" class="collapse" aria-labelledby="headingSettings" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <a class="collapse-item" href="/pmb_web/install-add">Install</a>
-                 <a class="collapse-item" href="/pmb_web/install">Data</a>
+                 <a class="collapse-item" href="/pmb_web/install">Install</a>
+                 <a class="collapse-item" href="/pmb_web/data">Data</a> 
                  <a class="collapse-item" href="/pmb_web/optional">Optional</a>
                  <a class="collapse-item" href="/pmb_web/logs">Logs</a>
              </div>

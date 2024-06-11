@@ -114,7 +114,7 @@ class varOptionController
 		$models = new varOptiontModel();
 		$data = $models->getVarByName('optional');
 
-		include __DIR__ . '/../views/pages/page_install/optional.php';
+		include __DIR__ . '/../views/others/page_installOptional.php';
 	}
 	public function addOptional()
 	{

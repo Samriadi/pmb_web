@@ -3,18 +3,18 @@ require_once __DIR__ . '/../models/installModel.php';
 
 class installController {
 
-	public function index() {
+	public function install() {
         $models = new installModel();   
         $data = $models->getInstall();
 
-		include __DIR__ . '/../views/pages/page_install/index.php';
+		include __DIR__ . '/../views/others/page_install.php';
     }
 
-    public function add() {
+    public function data() {
         $models = new installModel();   
         $data = $models->getInstall();
 
-		include __DIR__ . '/../views/pages/page_install/add.php';
+		include __DIR__ . '/../views/others/page_data.php';
     }
 
     public function save() {

@@ -19,8 +19,8 @@ $router->add('/', 'mainController', 'dashboard');
 // Definisi rute
 
 //install
-$router->add('/install', 'installController', 'index');
-$router->add('/install-add', 'installController', 'add');
+$router->add('/data', 'installController', 'data');
+$router->add('/install', 'installController', 'install');
 $router->add('/install/save', 'installController', 'save');
 $router->add('/optional', 'varOptionController', 'optional');
 $router->add('/optional/add', 'varOptionController', 'addOptional');
