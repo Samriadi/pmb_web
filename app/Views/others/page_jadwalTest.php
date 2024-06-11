@@ -21,7 +21,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">DATA JADWAL TEST</h6>
                     </div>
                     <div class="card-body">
-                        <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50">
+                        <a class="btn btn-primary btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>
                             <span class="text">Add Data</span></a>
@@ -74,8 +74,8 @@
                                             <td><?= $d_ujian ?></td>
                                             <td><?= $dt->keterangan ?></td>
                                             <?php if ($dt->status == "Open") { ?>
-                                                <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
-                                                    <a class="btn btn-danger" href="test/delete?id=<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                                                <td><a class="btn btn-secondary" href="#" onclick="edit(<?= $dt->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
+                                                    <a class="btn btn-third" href="/pmb_web/test/delete?id=<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             <?php } else { ?>
                                                 <td>
@@ -131,20 +131,7 @@
                                     </select>
                                 </div>
 
-                                <!--
-                <div class="form-group">
-                    <label for="tgl_ujian">Tanggal Ujian</label>
-                    <input type="date" class="form-control" id="tgl_ujian" name="tgl_ujian">
-                </div>
-                <div class="form-group">
-                    <label for="jam_mulai">Jam Mulai</label>
-                    <input type="time" class="form-control" id="jam_mulai" name="jam_mulai">
-                </div>
-                <div class="form-group">
-                    <label for="jam_selesai">Jam Selesai</label>
-                    <input type="time" class="form-control" id="jam_selesai" name="jam_selesai">
-               </div>
-			   -->
+                                                
 
                                 <div class="form-group">
                                     <label for="keterangan">Keterangan</label>
@@ -193,21 +180,6 @@
                                     </select>
                                 </div>
 
-                                <!--
-                <div class="form-group">
-                    <label for="editTglUjian">Tanggal Ujian</label>
-                    <input type="date" class="form-control" id="editTglUjian" name="tgl_ujian">
-                </div>
-                <div class="form-group">
-                    <label for="editJamMulai">Jam Mulai</label>
-                    <input type="time" class="form-control" id="editJamMulai" name="jam_mulai">
-                </div>
-                <div class="form-group">
-                    <label for="editJamSelesai">Jam Selesai</label>
-                    <input type="text" class="form-control" id="editJamSelesai" name="jam_selesai">
-                </div>
-				-->
-
                                 <div class="form-group">
                                     <label for="editKeterangan">Keterangan</label>
                                     <input type="text" class="form-control" id="editKeterangan" name="keterangan" required>
@@ -235,7 +207,7 @@
                 <script>
                     function add() {
                         var xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/test/add', true);
+                        xhr.open('GET', '/pmb_web/test/add', true);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
                                 var response = JSON.parse(xhr.responseText);
@@ -297,14 +269,11 @@
                         var gelombang = document.getElementById('gelombang').value;
                         var ruang = document.getElementById('ruang').value;
                         var jenis_ujian = document.getElementById('jenis_ujian').value;
-                        var tgl_ujian = document.getElementById('tgl_ujian').value;
-                        var jam_mulai = document.getElementById('jam_mulai').value;
-                        var jam_selesai = document.getElementById('jam_selesai').value;
                         var keterangan = document.getElementById('keterangan').value;
 
                         console.log(gelombang);
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/test/save', true); // Ubah URL di sini
+                        xhr.open('POST', '/pmb_web/test/save', true); // Ubah URL di sini
                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -312,7 +281,7 @@
                                 // Lakukan sesuatu setelah data berhasil dikirim, seperti menutup modal
                                 var modal = document.getElementById('exampleModal');
                                 var modalInstance = bootstrap.Modal.getInstance(modal);
-                                modalInstance.hide();
+                                // modalInstance.hide();
 
                                 Swal.fire({
                                     title: 'Success!',
@@ -331,9 +300,6 @@
                             "gelombang=" + encodeURIComponent(gelombang) +
                             "&ruang=" + encodeURIComponent(ruang) +
                             "&jenis_ujian=" + encodeURIComponent(jenis_ujian) +
-                            "&tgl_ujian=" + encodeURIComponent(tgl_ujian) +
-                            "&jam_mulai=" + encodeURIComponent(jam_mulai) +
-                            "&jam_selesai=" + encodeURIComponent(jam_selesai) +
                             "&keterangan=" + encodeURIComponent(keterangan);
                         xhr.send(data);
                     });
@@ -343,15 +309,14 @@
                     // Fungsi untuk menampilkan data di modal edit
                     function edit(id) {
                         var xhr = new XMLHttpRequest();
-                        xhr.open('GET', 'test/edit?id=' + id, true);
+
+                        console.log(id)
+                        xhr.open('GET', '/pmb_web/test/edit?id=' + id, true);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
                                 var response = JSON.parse(xhr.responseText.trim());
 
                                 document.getElementById('id').value = response.id;
-                                document.getElementById('editTglUjian').value = response.tgl_ujian;
-                                document.getElementById('editJamMulai').value = response.jam_mulai;
-                                document.getElementById('editJamSelesai').value = response.jam_selesai;
                                 document.getElementById('editKeterangan').value = response.keterangan;
 
                                 // Mengisi opsi select untuk gelombang
@@ -402,15 +367,12 @@
                         var gelombang = document.getElementById('editGelombang').value;
                         var ruang = document.getElementById('editRuang').value;
                         var jenis_ujian = document.getElementById('editJenisUjian').value;
-                        var tgl_ujian = document.getElementById('editTglUjian').value;
-                        var jam_mulai = document.getElementById('editJamMulai').value;
-                        var jam_selesai = document.getElementById('editJamSelesai').value;
                         var keterangan = document.getElementById('editKeterangan').value;
 
                         console.log(gelombang);
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', 'test/update', true);
+                        xhr.open('POST', '/pmb_web/test/update', true);
                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState === 4 && xhr.status === 200) {
@@ -446,9 +408,6 @@
                             "&gelombang=" + encodeURIComponent(gelombang) +
                             "&ruang=" + encodeURIComponent(ruang) +
                             "&jenis_ujian=" + encodeURIComponent(jenis_ujian) +
-                            "&tgl_ujian=" + encodeURIComponent(tgl_ujian) +
-                            "&jam_mulai=" + encodeURIComponent(jam_mulai) +
-                            "&jam_selesai=" + encodeURIComponent(jam_selesai) +
                             "&keterangan=" + encodeURIComponent(keterangan);
 
                         xhr.send(data);
