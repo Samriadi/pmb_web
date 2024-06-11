@@ -37,9 +37,9 @@ $router->add('/user/delete', 'userController', 'delete');
 $router->add('/test', 'eduTestController', 'index');
 $router->add('/test/add', 'eduTestController', 'add');
 $router->add('/test/save', 'eduTestController', 'save');
-$router->add('/test/edit/{id}', 'eduTestController', 'edit');
+$router->add('/test/edit', 'eduTestController', 'edit');
 $router->add('/test/update', 'eduTestController', 'update');
-$router->add('/test/delete/{id}', 'eduTestController', 'delete');
+$router->add('/test/delete', 'eduTestController', 'delete');
 
 //edu Periode
 $router->add('/periode', 'eduPeriodeController', 'index');
