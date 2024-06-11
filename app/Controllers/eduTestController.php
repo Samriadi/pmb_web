@@ -94,16 +94,13 @@ class eduTestController {
 				$gelombang = $_POST['gelombang'] ?? '';
 				$ruang = $_POST['ruang'] ?? '';
 				$jenis_ujian = $_POST['jenis_ujian'] ?? '';
-				$tgl_ujian = $_POST['tgl_ujian'] ?? '';
-				$jam_mulai = $_POST['jam_mulai'] ?? '';
-				$jam_selesai = $_POST['jam_selesai'] ?? '';
 				$keterangan = $_POST['keterangan'] ?? '';
 	
-				if (empty($gelombang) || empty($ruang) || empty($jenis_ujian) || empty($tgl_ujian) || empty($jam_mulai) || empty($jam_selesai)) {
+				if (empty($gelombang) || empty($ruang) || empty($jenis_ujian)) {
 					throw new Exception('Missing required parameters');
 				}
 	
-				$models->addTest($gelombang, $ruang, $jenis_ujian, $tgl_ujian, $jam_mulai, $jam_selesai, $keterangan);
+				$models->addTest($gelombang, $ruang, $jenis_ujian, $keterangan);
 				log_activity('ADD edu test'); 
 	
 				echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
@@ -116,7 +113,8 @@ class eduTestController {
 	}
 	
 
-	public function edit($id) {
+	public function edit() {
+		$id = isset($_GET['id']) ? $_GET['id'] : null;
 		try {
 			$models = new eduTestModel();   
 	
@@ -147,9 +145,6 @@ class eduTestController {
 				'gelombang' => $data['gelombang'], 
 				'ruang' => $data['ruang'],
 				'jenis_ujian' => $data['jenis_ujian'],
-				'tgl_ujian' => $data['tgl_ujian'],
-				'jam_mulai' => $data['jam_mulai'],
-				'jam_selesai' => $data['jam_selesai'],
 				'keterangan' => $data['keterangan'],
 				'gelombangValues' => $gelombangValues,
 				'ruangValues' => $ruangValues,
@@ -177,16 +172,13 @@ class eduTestController {
 				$gelombang = $_POST['gelombang'] ?? '';
 				$ruang = $_POST['ruang'] ?? '';
 				$jenis_ujian = $_POST['jenis_ujian'] ?? '';
-				$tgl_ujian = $_POST['tgl_ujian'] ?? '';
-				$jam_mulai = $_POST['jam_mulai'] ?? '';
-				$jam_selesai = $_POST['jam_selesai'] ?? '';
 				$keterangan = $_POST['keterangan'] ?? '';
 	
-				if (empty($id) || empty($gelombang) || empty($ruang) || empty($jenis_ujian) || empty($tgl_ujian) || empty($jam_mulai) || empty($jam_selesai)) {
+				if (empty($id) || empty($gelombang) || empty($ruang) || empty($jenis_ujian)) {
 					throw new Exception('Missing required parameters');
 				}
 	
-				$models->updateTest($id, $gelombang, $ruang, $jenis_ujian, $tgl_ujian, $jam_mulai, $jam_selesai, $keterangan);
+				$models->updateTest($id, $gelombang, $ruang, $jenis_ujian, $keterangan);
 				log_activity('EDIT edu test'); 
 	
 				echo json_encode(['status' => 'success', 'message' => 'Record Updated']);
@@ -199,7 +191,9 @@ class eduTestController {
 	}
 	
 
-	public function delete($id) {
+	public function delete() {
+		$id = isset($_GET['id']) ? $_GET['id'] : null;
+
 		$models = new eduTestModel();
 		
 		$id = filter_var($id, FILTER_VALIDATE_INT);
