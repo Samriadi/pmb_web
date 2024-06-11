@@ -1,0 +1,100 @@
+:root {
+  --primary-color: #800000;
+  --secondary-color: #fd7e14;
+  --third-color: #323232;
+}
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+/* sidebar bg */
+.bg-gradient-primary {
+  background-color: var(--primary-color);
+  background-image: linear-gradient(
+    180deg,
+    var(--primary-color) 10%,
+    var(--primary-color) 100%
+  );
+  background-size: cover;
+}
+
+/* sidebar title */
+.sidebar-title {
+  font-size: 20px;
+}
+
+/* sidebar selected */
+.sidebar .nav-item .collapse .collapse-inner .collapse-item.active,
+.sidebar .nav-item .collapsing .collapse-inner .collapse-item.active {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* text topbar */
+.text-topbar {
+  font-size: 15px;
+}
+
+/* borderleft color page dashboard */
+.border-left-primary {
+  border-left: 0.25rem solid var(--primary-color) !important;
+}
+
+/* button primary */
+.btn-primary {
+  color: #fff;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* button primary selected */
+.btn-primary:hover {
+  color: #fff;
+  background-color: #d33939;
+  border-color: #d33939;
+}
+
+/* button secondary */
+.btn-secondary {
+  color: #fff;
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+/* button secondary selected */
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #ffa45a;
+  border-color: #ffa45a;
+}
+
+/* button third */
+.btn-third {
+  color: #fff;
+  background-color: var(--third-color);
+  border-color: var(--third-color);
+}
+/* button third selected */
+.btn-third:hover {
+  color: #fff;
+  background-color: #6b6b6b;
+  border-color: #6b6b6b;
+}
+
+/* page number*/
+.page-link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: var(--primary-color);
+  background-color: #fff;
+  border: 1px solid #dddfeb;
+}
+/* page number selected */
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
