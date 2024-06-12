@@ -6,7 +6,16 @@ class eduTestModel {
     //jadwal test	
     public function getTest() {
 		$db = Database::getInstance();
-        $query = "SELECT * FROM edu_test JOIN edu_periode ON edu_test.gelombang = edu_periode.recid";
+        $query = "SELECT
+                (SELECT if(a.ruang = c.recid,c.var_value,'no') FROM var_option c WHERE c.recid = a.ruang) ruang,
+                (SELECT if(a.jenis_ujian = d.recid,d.var_value,'no') FROM var_option d WHERE d.recid = a.jenis_ujian) ujian,
+                a.id,
+                a.keterangan ket_edu,
+                b.Jenjang,
+                b.Keterangan ket_periode,
+                b.status 
+                FROM edu_test a 
+                JOIN edu_periode b ON b.recid = a.gelombang;";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -80,37 +89,6 @@ class eduTestModel {
         return $values;
     }
 
-    
-    public function showGelombang($recid){
-		$db = Database::getInstance();
-        $query = "SELECT Jenjang, status, Keterangan FROM edu_periode where recid = :recid";
-
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(':recid', $recid);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function showRuang($recid){
-		$db = Database::getInstance();
-        $query = "SELECT var_value FROM var_option where var_name='Ruang' AND  recid = :recid";
-
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(':recid', $recid);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function showUjian($recid){
-		$db = Database::getInstance();
-        $query = "SELECT var_value FROM var_option where var_name='Ujian' AND  recid = :recid";
-
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(':recid', $recid);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
-    }
-
     public function deleteTest($id) {
         $db = Database::getInstance();
 
@@ -144,5 +122,6 @@ class eduTestModel {
     
 }
 
+         
 
 ?>

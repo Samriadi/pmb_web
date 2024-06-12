@@ -40,42 +40,17 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $no = 1;
-                                    foreach ($data as $dt) :
-                                        $periodes = $models->showGelombang($dt->gelombang);
-                                        foreach ($periodes as $periode) {
-                                            $d_jenjang = $periode->Jenjang;
-                                            $d_keterangan = $periode->Keterangan;
-                                            $d_status = $periode->status;
-                                        }
-
-                                        $ruangs = $models->showRuang($dt->ruang);
-                                        foreach ($ruangs as $periode) {
-                                            $d_ruang = $periode->var_value;
-                                        }
-
-                                        $d_ujian = "";
-                                        if ($dt->jenis_ujian) {
-                                            $ujians = $models->showUjian($dt->jenis_ujian);
-                                            foreach ($ujians as $ujian) {
-                                                $d_ujian = $ujian->var_value ?? "";
-                                            }
-                                        }
-
-                                        if ($dt->jam_selesai ?? "")
-                                            $toTime = $dt->jam_selesai ?? "";
-                                        else
-                                            $toTime = "Sampai Selesai";
+                                    for ($c=0; $c<count($data); $c++) {
                                     ?>
                                         <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $d_keterangan ?></td>
-                                            <td><?= $d_ruang ?></td>
-                                            <td><?= $d_ujian ?></td>
-                                            <td><?= $dt->keterangan ?></td>
-                                            <?php if ($dt->status == "Open") { ?>
-                                                <td><a class="btn btn-secondary" href="#" onclick="edit(<?= $dt->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
-                                                    <a class="btn btn-third" href="/pmb_web/test/delete?id=<?= $dt->id; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                                            <td><?= $c + 1; ?></td>
+                                            <td><?php echo $data[$c]->Jenjang. "-" . $data[$c]->ket_periode; ?></td>
+                                            <td><?php echo $data[$c]->ruang; ?></td>
+                                            <td><?php echo $data[$c]->ujian; ?></td>
+                                            <td><?= $data[$c]->ket_edu; ?></td>
+                                            <?php if ($data[$c]->status == "Open") { ?>
+                                                <td><a class="btn btn-secondary" href="#" onclick="edit(<?= $data[$c]->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
+                                                    <a class="btn btn-third" href="/pmb_web/test/delete?id=<?= $data[$c]->id; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             <?php } else { ?>
                                                 <td>
@@ -86,7 +61,9 @@
                                             <?php }
                                             ?>
                                         </tr>
-                                    <?php endforeach ?>
+                                    <?php
+                                         }
+                                      ?>
                                 </tbody>
                             </table>
                         </div>
@@ -308,9 +285,10 @@
                 <script>
                     // Fungsi untuk menampilkan data di modal edit
                     function edit(id) {
+                        console.log(id)
+
                         var xhr = new XMLHttpRequest();
 
-                        console.log(id)
                         xhr.open('GET', '/pmb_web/test/edit?id=' + id, true);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {

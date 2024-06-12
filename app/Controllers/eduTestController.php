@@ -11,31 +11,7 @@ class eduTestController {
 			if ($data === false) {
 				throw new Exception('Failed to retrieve test data');
 			}
-	
-			$result = [];
-			foreach ($data as $dt) { 
-				$id = $dt->id;
-				$gelombang = $dt->gelombang;
-				$ruang = $dt->ruang;
-				$jenis_ujian = $dt->jenis_ujian;
-				$tgl_ujian = $dt->tgl_ujian;
-				$jam_mulai = $dt->jam_mulai;
-				$jam_selesai = $dt->jam_selesai;
-				$keterangan = $dt->keterangan;
-				$status = $dt->status;
-	
-				$result[] = [
-					'id' => $id,
-					'gelombang' => $gelombang,
-					'ruang' => $ruang,
-					'jenis_ujian' => $jenis_ujian,
-					'tgl_ujian' => $tgl_ujian,
-					'jam_mulai' => $jam_mulai,
-					'jam_selesai' => $jam_selesai,
-					'keterangan' => $keterangan,
-					'status' => $status,
-				];
-			}
+
 	
 			include __DIR__ . '/../views/others/page_jadwalTest.php';
 		} catch (Exception $e) {
@@ -209,6 +185,7 @@ class eduTestController {
 	
 		exit();
 	}
+	
 	
 }
 
