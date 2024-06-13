@@ -30,6 +30,7 @@ class mainController
 
     public function getHelp()
     {
+
         $page = isset($_GET['page']) ? $_GET['page'] : null;
 
         try {
@@ -45,7 +46,9 @@ class mainController
                 ];
             } else {
                 $response = [
-                    'error' => 'Data not found'
+                    'recid' => null,
+                    'page' => null,
+                    'konten' => null,
                 ];
             }
             echo json_encode($response);
@@ -53,5 +56,39 @@ class mainController
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
+    }
+    public function saveOrUpdateHelp()
+    {
+        $models = new mainModel();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $recid = $_POST['recid'];
+            $page = $_POST['page'];
+            $konten = $_POST['konten'];
+
+            $models->saveOrUpdateHelp($recid, $page, $konten);
+
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
+    public function deleteHelp()
+    {
+
+        $id = isset($_GET['recid']) ? $_GET['recid'] : null;
+
+        $models = new mainModel();
+
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        if ($id === false) {
+            echo "Invalid ID";
+            return;
+        }
+
+        $models->deleteHelp($id);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+        exit();
     }
 }
