@@ -86,6 +86,7 @@ $router->add('/logs', 'mainController', 'logs');
 $router->add('/help', 'mainController', 'help');
 $router->add('/help/save', 'mainController', 'saveOrUpdateHelp');
 $router->add('/help/delete', 'mainController', 'deleteHelp');
+$router->add('/help/show', 'mainController', 'showHelp');
 
 
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
