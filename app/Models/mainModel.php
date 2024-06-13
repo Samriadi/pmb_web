@@ -88,4 +88,13 @@ class mainModel
             echo "Error: " . $e->getMessage();
         }
     }
+
+    public function showHelp($page)
+    {
+        $db = Database::getInstance();
+        $query = "SELECT konten FROM pmb_helps WHERE page = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$page]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
