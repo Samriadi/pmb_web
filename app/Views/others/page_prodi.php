@@ -21,12 +21,16 @@
             <h6 class="m-0 font-weight-bold text-primary">DATA PRODI</h6>
           </div>
           <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50">
+            <div class="d-flex">
+              <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px; margin-right: 10px;"><span class="icon text-white-50">
                   <i class="fas fa-plus"></i>
                 </span>
                 <span class="text">Add Data</span></a>
-              <a style="margin-bottom: 15px;" class="btn btn-info" href="#" onclick="loadHelpModal()"><i class="fas fa-info-circle"></i></a>
+
+              <a class="btn btn-success btn-icon-split" href="#" onclick="loadHelpModal()" style="margin-bottom: 15px;"><span class="icon text-white-50">
+                  <i class="fas fa-info-circle"></i>
+                </span>
+                <span class="text">Help</span></a>
             </div>
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -154,9 +158,12 @@
               <div class="modal-body">
                 <!-- Konten modal akan dimuat di sini -->
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="deleteHelp"">Delete</button>
-                <button type=" button" class="btn btn-primary" id="saveOrUpdateHelp">Save</button>
+              <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" id="deleteHelp">Delete</button>
+                <div>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="saveOrUpdateHelp">Save</button>
+                </div>
               </div>
             </div>
           </div>
