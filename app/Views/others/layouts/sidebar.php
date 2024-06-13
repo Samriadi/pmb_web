@@ -71,7 +71,7 @@
      </li>
 
      <li class="nav-item" id="navHelp">
-         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseHelp" aria-expanded="true" aria-controls="collapseHelp">
+         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHelp" aria-expanded="true" aria-controls="collapseHelp">
              <i class="fas fa-fw fa-folder"></i>
              <span>Help</span>
          </a>

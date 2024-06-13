@@ -25,16 +25,25 @@
 
 
                         <!-- Button trigger modal -->
-                        <div class="d-inline-flex">
-                            <button style="margin-bottom: 10px;" type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#uploadModal">
-                                <i class="fas fa-file-csv"></i>
-                            </button>
-
-                            <form method="post" action="/pmb_web/ujian/download">
-                                <button style="margin-bottom: 10px;" type="submit" class="btn btn-primary"">
-                                <i class=" fas fa-download"></i>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-inline-flex">
+                                <button style="margin-bottom: 15px;" type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#uploadModal">
+                                    <i class="fas fa-file-csv"></i>
                                 </button>
-                            </form>
+
+                                <form method="post" action="/pmb_web/ujian/download">
+                                    <button style="margin-bottom: 10px;" type="submit" class="btn btn-primary"">
+                                <i class=" fas fa-download"></i>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="justify-content-end">
+                                <a class="btn btn-success btn-icon-split" href="#" onclick="loadHelpModal()" style="margin-bottom: 15px;"><span class="icon text-white-50">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span>
+                                    <span class="text">Help</span></a>
+                            </div>
                         </div>
 
                         <!-- Modal -->
@@ -100,6 +109,32 @@
                         </div>
                     </div>
                 </div>
+
+
+                <!-- Modal Help -->
+                <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="helpModalLabel">Help</h5>
+                                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">x
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Konten modal akan dimuat di sini -->
+                            </div>
+                            <div class="modal-footer d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" id="deleteHelp">Delete</button>
+                                <div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" id="saveOrUpdateHelp">Save Or Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end modal help  -->
+
                 <!-- Option 1: Bootstrap Bundle with Popper -->
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
@@ -142,3 +177,100 @@
                         });
                     });
                 </script>
+
+                <!-- handle help -->
+                <script>
+                    function loadHelpModal() {
+                        fetch('/pmb_web/help')
+                            .then(response => response.text())
+                            .then(data => {
+
+                                document.querySelector('#helpModal .modal-body').innerHTML = data;
+                                new bootstrap.Modal(document.getElementById('helpModal')).show();
+
+                                var currentURL = window.location.href;
+                                var startIndex = currentURL.lastIndexOf('/');
+                                var endIndex = currentURL.indexOf('#');
+                                var pages = currentURL.substring(startIndex + 1, endIndex);
+
+                                console.log(pages)
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('GET', '/pmb_web/help?page=' + pages, true);
+                                xhr.onreadystatechange = function() {
+                                    if (xhr.readyState == 4 && xhr.status == 200) {
+                                        var response = JSON.parse(xhr.responseText.trim());
+
+                                        console.log(response)
+                                        document.getElementById('recid').value = response.recid;
+                                        document.getElementById('editPage').value = pages;
+                                        document.getElementById('editKonten').value = response.konten;
+
+                                    }
+                                };
+                                xhr.send();
+
+                            })
+                            .catch(error => console.error('Error fetching the modal content:', error));
+
+                        document.getElementById('saveOrUpdateHelp').addEventListener('click', function() {
+                            var recid = document.getElementById('recid').value;
+                            var page = document.getElementById('editPage').value;
+                            var konten = document.getElementById('editKonten').value;
+
+                            console.log(recid);
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', '/pmb_web/help/save', true);
+                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                    console.log(xhr.responseText);
+                                    var modal = document.getElementById('helpModal');
+                                    var modalInstance = bootstrap.Modal.getInstance(modal);
+                                    modalInstance.hide();
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: xhr.responseText,
+                                        icon: 'success',
+                                        confirmButtonText: 'OK',
+                                        showCancelButton: false
+                                    }).then((result) => {
+                                        window.location.reload();
+                                    });
+                                }
+                            };
+
+                            var data =
+                                "&recid=" + encodeURIComponent(recid) +
+                                "&page=" + encodeURIComponent(page) +
+                                "&konten=" + encodeURIComponent(konten);
+
+                            xhr.send(data);
+                        });
+
+                        document.getElementById('deleteHelp').addEventListener('click', function() {
+                            var recid = document.getElementById('recid').value;
+
+                            console.log(recid);
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', '/pmb_web/help/delete?recid=' + recid, true);
+                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                    Swal.fire({
+                                        text: 'Data Berhasil Dihapus',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK',
+                                        showCancelButton: false
+                                    }).then((result) => {
+                                        window.location.reload();
+                                    });
+                                }
+                            };
+
+                            var data =
+                                "&recid=" + encodeURIComponent(recid) +
+                                xhr.send(data);
+                        });
+                    }
+                </script>
+                <!-- end handle help -->

@@ -21,6 +21,7 @@
             <h6 class="m-0 font-weight-bold text-primary">DATA PRODI</h6>
           </div>
           <div class="card-body">
+            <!-- Button -->
             <div class="d-flex justify-content-between">
               <div>
                 <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px; margin-right: 10px;"><span class="icon text-white-50">
@@ -35,6 +36,7 @@
                   <span class="text">Help</span></a>
               </div>
             </div>
+            <!-- End Button -->
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
