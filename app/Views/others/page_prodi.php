@@ -21,16 +21,28 @@
             <h6 class="m-0 font-weight-bold text-primary">DATA PRODI</h6>
           </div>
           <div class="card-body">
-            <div class="d-flex">
-              <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px; margin-right: 10px;"><span class="icon text-white-50">
-                  <i class="fas fa-plus"></i>
-                </span>
-                <span class="text">Add Data</span></a>
+            <div class="d-flex justify-content-between">
+              <div>
+                <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px; margin-right: 10px;"><span class="icon text-white-50">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                  <span class="text">Add Data</span></a>
 
-              <a class="btn btn-success btn-icon-split" href="#" onclick="loadHelpModal()" style="margin-bottom: 15px;"><span class="icon text-white-50">
-                  <i class="fas fa-info-circle"></i>
-                </span>
-                <span class="text">Help</span></a>
+                <a class="btn btn-success btn-icon-split" href="#" onclick="loadHelpModal()" style="margin-bottom: 15px;"><span class="icon text-white-50">
+                    <i class="fas fa-info-circle"></i>
+                  </span>
+                  <span class="text">Help</span></a>
+              </div>
+              <div>
+                <?php
+                $currentURL = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+                $path = parse_url($currentURL, PHP_URL_PATH);
+                $parts = explode('/', $path);
+                $page = end($parts);
+                ?>
+                <a style="margin-bottom: 15px;" class=" btn btn-danger" href="/pmb_web/help/show?page=<?= $page; ?>"><i class="fas fa-info"></i></a>
+              </div>
             </div>
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
