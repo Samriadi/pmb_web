@@ -3,7 +3,7 @@
 
      <!-- Sidebar - Brand -->
      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/pmb_web/">
-         
+
          <div class="sidebar-brand-text mx-4 sidebar-title">ALMARISAH MADANI</div>
      </a>
 
@@ -47,7 +47,7 @@
          <div id="collapseSettings" class="collapse" aria-labelledby="headingSettings" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
                  <a class="collapse-item" href="/pmb_web/install">Install</a>
-                 <a class="collapse-item" href="/pmb_web/data">Data</a> 
+                 <a class="collapse-item" href="/pmb_web/data">Data</a>
                  <a class="collapse-item" href="/pmb_web/optional">Optional</a>
                  <a class="collapse-item" href="/pmb_web/logs">Logs</a>
              </div>
@@ -56,7 +56,6 @@
 
 
 
-     <!-- Nav Item - Login/Logout Collapse Menu -->
      <li class="nav-item" id="navAuth">
          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAuth" aria-expanded="true" aria-controls="collapseAuth">
              <i class="fas fa-fw fa-folder"></i>
@@ -71,18 +70,21 @@
          </div>
      </li>
 
-     <!-- Nav Item - Login/Logout Collapse Menu -->
-     <li class="nav-item" id="navTest">
-         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTest" aria-expanded="true" aria-controls="collapseTest">
+     <li class="nav-item" id="navHelp">
+         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseHelp" aria-expanded="true" aria-controls="collapseHelp">
              <i class="fas fa-fw fa-folder"></i>
-             <span>Item</span>
+             <span>Help</span>
          </a>
-         <div id="collapseTest" class="collapse" aria-labelledby="headingAuth" data-parent="#accordionSidebar">
+         <div id="collapseHelp" class="collapse" aria-labelledby="headingHelp" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <a class="collapse-item" href="/pmb_web/testCard">Kartu Ujian</a>
+                 <a class="collapse-item" href="/pmb_web/panduan?page=prodi">Panduan Prodi</a>
+                 <a class="collapse-item" href="/pmb_web/panduan?page=ujian">Panduan Ujian</a>
              </div>
          </div>
      </li>
+
+
+
 
 
 

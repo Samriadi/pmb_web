@@ -97,6 +97,6 @@ class mainController
         $models = new mainModel();
         $data = $models->showHelp($page);
 
-        include __DIR__ . '/../views/others/page_showHelp.php';
+        include __DIR__ . '/../Views/others/page_panduan.php';
     }
 }

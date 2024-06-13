@@ -27,21 +27,12 @@
                     <i class="fas fa-plus"></i>
                   </span>
                   <span class="text">Add Data</span></a>
-
+              </div>
+              <div>
                 <a class="btn btn-success btn-icon-split" href="#" onclick="loadHelpModal()" style="margin-bottom: 15px;"><span class="icon text-white-50">
                     <i class="fas fa-info-circle"></i>
                   </span>
                   <span class="text">Help</span></a>
-              </div>
-              <div>
-                <?php
-                $currentURL = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-                $path = parse_url($currentURL, PHP_URL_PATH);
-                $parts = explode('/', $path);
-                $page = end($parts);
-                ?>
-                <a style="margin-bottom: 15px;" class=" btn btn-danger" href="/pmb_web/help/show?page=<?= $page; ?>"><i class="fas fa-info"></i></a>
               </div>
             </div>
             <div class="table-responsive">
@@ -158,6 +149,8 @@
           </div>
         </div>
 
+
+
         <!-- Modal Help -->
         <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -180,14 +173,10 @@
             </div>
           </div>
         </div>
-
-
+        <!-- end modal help  -->
 
 
         <?php include __DIR__ . '/layouts/footer.php'; ?>
-
-
-
 
         <script>
           function add() {
@@ -380,8 +369,10 @@
           modalElement.addEventListener('hidden.bs.modal', function() {
             window.location.reload();
           });
+        </script>
 
-
+        <!-- handle help -->
+        <script>
           function loadHelpModal() {
             fetch('/pmb_web/help')
               .then(response => response.text())
@@ -474,3 +465,4 @@
             });
           }
         </script>
+        <!-- end handle help -->

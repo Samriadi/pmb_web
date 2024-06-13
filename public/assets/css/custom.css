@@ -98,3 +98,7 @@
   background-color: var(--primary-color);
   border-color: var(--primary-color);
 }
+.active {
+  font-weight: bold;
+  color: red; /* Anda bisa mengganti gaya sesuai kebutuhan */
+}
