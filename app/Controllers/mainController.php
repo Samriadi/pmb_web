@@ -90,4 +90,13 @@ class mainController
 
         exit();
     }
+
+    public function showHelp()
+    {
+        $page = isset($_GET['page']) ? $_GET['page'] : null;
+        $models = new mainModel();
+        $data = $models->showHelp($page);
+
+        include __DIR__ . '/../views/others/page_showHelp.php';
+    }
 }
