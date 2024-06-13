@@ -25,36 +25,35 @@ class mainController
 
     public function help()
     {
-        include __DIR__ . '/../views/others/page_helps.php';
-    }
-
-    public function getHelp()
-    {
 
         $page = isset($_GET['page']) ? $_GET['page'] : null;
 
-        try {
-            $models = new mainModel();
-            $data = $models->getHelp($page);
+        if ($page == null) {
+            include __DIR__ . '/../views/others/page_helps.php';
+        } else {
+            try {
+                $models = new mainModel();
+                $data = $models->getHelp($page);
 
-            if ($data) {
-                $response = [
-                    'recid' => $data->recid,
-                    'page' => $data->page,
-                    'konten' => $data->konten
+                if ($data) {
+                    $response = [
+                        'recid' => $data->recid,
+                        'page' => $data->page,
+                        'konten' => $data->konten
 
-                ];
-            } else {
-                $response = [
-                    'recid' => null,
-                    'page' => null,
-                    'konten' => null,
-                ];
+                    ];
+                } else {
+                    $response = [
+                        'recid' => null,
+                        'page' => null,
+                        'konten' => null,
+                    ];
+                }
+                echo json_encode($response);
+                exit;
+            } catch (Exception $e) {
+                echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
             }
-            echo json_encode($response);
-            exit;
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
     public function saveOrUpdateHelp()
