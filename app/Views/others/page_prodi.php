@@ -26,9 +26,7 @@
                   <i class="fas fa-plus"></i>
                 </span>
                 <span class="text">Add Data</span></a>
-              <button style="margin-bottom: 10px;" class="btn btn-primary" onclick="loadHelpModal()">
-                <i class="fas fa-info-circle"></i>
-              </button>
+              <a style="margin-bottom: 15px;" class="btn btn-info" href="#" onclick="loadHelpModal()"><i class="fas fa-info-circle"></i></a>
             </div>
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -156,7 +154,10 @@
               <div class="modal-body">
                 <!-- Konten modal akan dimuat di sini -->
               </div>
-
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="deleteHelp"">Delete</button>
+                <button type=" button" class="btn btn-primary" id="saveOrUpdateHelp">Save</button>
+              </div>
             </div>
           </div>
         </div>
@@ -346,7 +347,6 @@
               }
             };
 
-            // Kirim data yang ingin Anda kirimkan  // Kirim data yang ingin Anda kirimkan
             var data =
               "&recid=" + encodeURIComponent(recid) +
               "&varvalue=" + encodeURIComponent(varvalue) +
@@ -360,6 +360,7 @@
           modalElement.addEventListener('hidden.bs.modal', function() {
             window.location.reload();
           });
+
 
           function loadHelpModal() {
             fetch('/pmb_web/help')
@@ -385,5 +386,67 @@
               }
             };
             xhr.send();
+
+
           }
+
+          document.getElementById('saveOrUpdateHelp').addEventListener('click', function() {
+            var recid = document.getElementById('recid').value;
+            var page = document.getElementById('editPage').value;
+            var konten = document.getElementById('editKonten').value;
+
+            console.log(recid);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/pmb_web/help/save', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+              if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+                var modal = document.getElementById('helpModal');
+                var modalInstance = bootstrap.Modal.getInstance(modal);
+                modalInstance.hide();
+                Swal.fire({
+                  title: 'Success!',
+                  text: xhr.responseText,
+                  icon: 'success',
+                  confirmButtonText: 'OK',
+                  showCancelButton: false
+                }).then((result) => {
+                  window.location.reload();
+                });
+              }
+            };
+
+            var data =
+              "&recid=" + encodeURIComponent(recid) +
+              "&page=" + encodeURIComponent(page) +
+              "&konten=" + encodeURIComponent(konten);
+
+            xhr.send(data);
+          });
+
+          document.getElementById('deleteHelp').addEventListener('click', function() {
+            var recid = document.getElementById('recid').value;
+
+            console.log(recid);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/pmb_web/help/delete?recid=' + recid, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+              if (xhr.readyState === 4 && xhr.status === 200) {
+                Swal.fire({
+                  title: 'Data berhasil dihapus',
+                  icon: 'success',
+                  confirmButtonText: 'OK',
+                  showCancelButton: false
+                }).then((result) => {
+                  window.location.reload();
+                });
+              }
+            };
+
+            var data =
+              "&recid=" + encodeURIComponent(recid) +
+              xhr.send(data);
+          });
         </script>
