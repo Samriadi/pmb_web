@@ -162,7 +162,7 @@
                 <button type="button" class="btn btn-secondary" id="deleteHelp">Delete</button>
                 <div>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="saveOrUpdateHelp">Save</button>
+                  <button type="button" class="btn btn-primary" id="saveOrUpdateHelp">Save Or Update</button>
                 </div>
               </div>
             </div>
@@ -173,6 +173,7 @@
 
 
         <?php include __DIR__ . '/layouts/footer.php'; ?>
+
 
 
 
@@ -376,84 +377,88 @@
 
                 document.querySelector('#helpModal .modal-body').innerHTML = data;
                 new bootstrap.Modal(document.getElementById('helpModal')).show();
+
+                var currentURL = window.location.href;
+                var startIndex = currentURL.lastIndexOf('/');
+                var endIndex = currentURL.indexOf('#');
+                var pages = currentURL.substring(startIndex + 1, endIndex);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/pmb_web/help?page=' + pages, true);
+                xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText.trim());
+
+                    console.log(response)
+                    document.getElementById('recid').value = response.recid;
+                    document.getElementById('editPage').value = pages;
+                    document.getElementById('editKonten').value = response.konten;
+
+                  }
+                };
+                xhr.send();
+
               })
               .catch(error => console.error('Error fetching the modal content:', error));
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/pmb_web/help/get?page=prodi', true);
-            xhr.onreadystatechange = function() {
-              if (xhr.readyState == 4 && xhr.status == 200) {
-                var response = JSON.parse(xhr.responseText.trim());
+            document.getElementById('saveOrUpdateHelp').addEventListener('click', function() {
+              var recid = document.getElementById('recid').value;
+              var page = document.getElementById('editPage').value;
+              var konten = document.getElementById('editKonten').value;
 
-                console.log(response)
-                document.getElementById('recid').value = response.recid;
-                document.getElementById('editPage').value = response.page;
-                document.getElementById('editKonten').value = response.konten;
+              console.log(recid);
+              var xhr = new XMLHttpRequest();
+              xhr.open('POST', '/pmb_web/help/save', true);
+              xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+              xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                  console.log(xhr.responseText);
+                  var modal = document.getElementById('helpModal');
+                  var modalInstance = bootstrap.Modal.getInstance(modal);
+                  modalInstance.hide();
+                  Swal.fire({
+                    title: 'Success!',
+                    text: xhr.responseText,
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    showCancelButton: false
+                  }).then((result) => {
+                    window.location.reload();
+                  });
+                }
+              };
 
-              }
-            };
-            xhr.send();
+              var data =
+                "&recid=" + encodeURIComponent(recid) +
+                "&page=" + encodeURIComponent(page) +
+                "&konten=" + encodeURIComponent(konten);
 
-
-          }
-
-          document.getElementById('saveOrUpdateHelp').addEventListener('click', function() {
-            var recid = document.getElementById('recid').value;
-            var page = document.getElementById('editPage').value;
-            var konten = document.getElementById('editKonten').value;
-
-            console.log(recid);
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/pmb_web/help/save', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-              if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText);
-                var modal = document.getElementById('helpModal');
-                var modalInstance = bootstrap.Modal.getInstance(modal);
-                modalInstance.hide();
-                Swal.fire({
-                  title: 'Success!',
-                  text: xhr.responseText,
-                  icon: 'success',
-                  confirmButtonText: 'OK',
-                  showCancelButton: false
-                }).then((result) => {
-                  window.location.reload();
-                });
-              }
-            };
-
-            var data =
-              "&recid=" + encodeURIComponent(recid) +
-              "&page=" + encodeURIComponent(page) +
-              "&konten=" + encodeURIComponent(konten);
-
-            xhr.send(data);
-          });
-
-          document.getElementById('deleteHelp').addEventListener('click', function() {
-            var recid = document.getElementById('recid').value;
-
-            console.log(recid);
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/pmb_web/help/delete?recid=' + recid, true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-              if (xhr.readyState === 4 && xhr.status === 200) {
-                Swal.fire({
-                  title: 'Data berhasil dihapus',
-                  icon: 'success',
-                  confirmButtonText: 'OK',
-                  showCancelButton: false
-                }).then((result) => {
-                  window.location.reload();
-                });
-              }
-            };
-
-            var data =
-              "&recid=" + encodeURIComponent(recid) +
               xhr.send(data);
-          });
+            });
+
+            document.getElementById('deleteHelp').addEventListener('click', function() {
+              var recid = document.getElementById('recid').value;
+
+              console.log(recid);
+              var xhr = new XMLHttpRequest();
+              xhr.open('POST', '/pmb_web/help/delete?recid=' + recid, true);
+              xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+              xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                  Swal.fire({
+                    text: 'Data Berhasil Dihapus',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    showCancelButton: false
+                  }).then((result) => {
+                    window.location.reload();
+                  });
+                }
+              };
+
+              var data =
+                "&recid=" + encodeURIComponent(recid) +
+                xhr.send(data);
+            });
+          }
         </script>
