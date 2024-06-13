@@ -3,44 +3,45 @@ require_once __DIR__ . '/../models/prodiModel.php';
 require_once __DIR__ . '/../models/varOptionModel.php';
 
 
-class prodiController {
-	public function index() {
+class prodiController
+{
+	public function index()
+	{
 		try {
-			$models = new prodiModel();   
-	
+			$models = new prodiModel();
+
 			$data = $models->getProdi();
 			if ($data === false) {
 				throw new Exception('Failed to retrieve prodi data');
 			}
-	
-			// Mengirimkan data dan varData ke view
-			include __DIR__ . '/../views/pages/page_prodi/index.php';
+
+			include __DIR__ . '/../views/others/page_prodi.php';
 		} catch (Exception $e) {
 			echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 		}
 	}
-	
-    public function add() {
+
+	public function add()
+	{
 		try {
-			$models = new varOptiontModel();   
-	
+			$models = new varOptiontModel();
+
 			$fakultasValues = $models->getVarByName('Fakultas');
 			if ($fakultasValues === false) {
 				throw new Exception('Failed to retrieve Fakultas variable options');
 			}
-	
+
 			$jenjangValues = $models->getVarByName('Jenjang');
 			if ($jenjangValues === false) {
 				throw new Exception('Failed to retrieve Jenjang variable options');
 			}
-	
+
 			$response = [
 				'status_code' => 200,
 				'status' => 'success',
 				'fakultasValues' => $fakultasValues,
 				'jenjangValues' => $jenjangValues,
 			];
-	
 		} catch (Exception $e) {
 			$response = [
 				'status_code' => 500,
@@ -48,24 +49,25 @@ class prodiController {
 				'message' => $e->getMessage()
 			];
 		}
-	
+
 		echo json_encode($response);
 	}
-	
-    public function save() {
+
+	public function save()
+	{
 		try {
-			$models = new prodiModel();   
-	
+			$models = new prodiModel();
+
 			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				if (isset($_POST['varname'], $_POST['varvalue'], $_POST['varothers'], $_POST['parent'])) {
 					$varname = $_POST['varname'];
 					$varvalue = $_POST['varvalue'];
 					$varothers = $_POST['varothers'];
 					$parent = $_POST['parent'];
-	
+
 					$models->add($varname, $varvalue, $varothers, $parent);
-					log_activity('ADD Prodi'); 
-	
+					log_activity('ADD Prodi');
+
 					echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
 				} else {
 					throw new Exception('Missing required parameters');
@@ -77,26 +79,27 @@ class prodiController {
 			echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 		}
 	}
-	
-    public function edit($id) {
+
+	public function edit($id)
+	{
 		try {
-			$models = new prodiModel();   
-	
+			$models = new prodiModel();
+
 			$data = $models->getVarById($id);
 			if ($data === false) {
 				throw new Exception('Failed to retrieve variable data');
 			}
-	
+
 			$jenjangValues = $models->getVarByName('Jenjang');
 			if ($jenjangValues === false) {
 				throw new Exception('Failed to retrieve Jenjang variable options');
 			}
-	
+
 			$fakultasValues = $models->getVarByName('Fakultas');
 			if ($fakultasValues === false) {
 				throw new Exception('Failed to retrieve Fakultas variable options');
 			}
-	
+
 			$response = [
 				'status_code' => 200,
 				'status' => 'success',
@@ -107,7 +110,6 @@ class prodiController {
 				'fakultasValues' => $fakultasValues,
 				'jenjangValues' => $jenjangValues,
 			];
-	
 		} catch (Exception $e) {
 			$response = [
 				'status_code' => 500,
@@ -115,28 +117,29 @@ class prodiController {
 				'message' => $e->getMessage()
 			];
 		}
-	
+
 		echo json_encode($response);
 		exit;
 	}
-	
-    public function update() {
+
+	public function update()
+	{
 		try {
-			$models = new prodiModel();   
-	
+			$models = new prodiModel();
+
 			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				$recid = $_POST['recid'] ?? '';
 				$varvalue = $_POST['varvalue'] ?? '';
 				$varothers = $_POST['varothers'] ?? '';
 				$parent = $_POST['parent'] ?? '';
-	
+
 				if (empty($recid) || empty($varvalue) || empty($varothers) || empty($parent)) {
 					throw new Exception('Missing required parameters');
 				}
-	
+
 				$models->updateVar($recid, $varvalue, $varothers, $parent);
-				log_activity('EDIT Prodi'); 
-	
+				log_activity('EDIT Prodi');
+
 				echo json_encode(['status' => 'success', 'message' => 'Record Updated']);
 			} else {
 				throw new Exception('Invalid request method');
@@ -145,6 +148,6 @@ class prodiController {
 			echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 		}
 	}
-	
 
+	
 }

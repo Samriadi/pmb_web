@@ -1,5 +1,7 @@
 <?php
 session_start();
+$_SESSION['user_id'] = 4;
+
 date_default_timezone_set('Asia/Makassar');
 
 require_once __DIR__ . '/../app/Core/Router.php';
@@ -68,7 +70,7 @@ $router->add('/fakultas/update', 'fakultasController', 'update');
 $router->add('/prodi', 'prodiController', 'index');
 $router->add('/prodi/add', 'prodiController', 'add');
 $router->add('/prodi/save', 'prodiController', 'save');
-$router->add('/prodi/edit/{id}', 'prodiController', 'edit');
+$router->add('/prodi/edit', 'prodiController', 'edit');
 $router->add('/prodi/update', 'prodiController', 'update');
 
 //exam
@@ -76,11 +78,13 @@ $router->add('/ujian', 'ujianController', 'index');
 $router->add('/ujian/upload', 'ujianController', 'upload');
 $router->add('/ujian/download', 'ujianController', 'download');
 
-
-
 //item
 $router->add('/testCard', 'mainController', 'testCard');
 $router->add('/logs', 'mainController', 'logs');
+
+// helps
+$router->add('/help', 'mainController', 'help');
+$router->add('/help/get', 'mainController', 'getHelp');
 
 
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
