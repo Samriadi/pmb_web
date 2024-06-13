@@ -84,7 +84,6 @@ $router->add('/logs', 'mainController', 'logs');
 
 // helps
 $router->add('/help', 'mainController', 'help');
-$router->add('/help/get', 'mainController', 'getHelp');
 $router->add('/help/save', 'mainController', 'saveOrUpdateHelp');
 $router->add('/help/delete', 'mainController', 'deleteHelp');
 
