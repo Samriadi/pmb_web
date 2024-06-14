@@ -14,7 +14,7 @@ class fakultasController {
 			}
 	
 			// Mengirimkan data dan varData ke view
-			include __DIR__ . '/../views/pages/page_fakultas/index.php';
+			include __DIR__ . '/../views/others/page_fakultas.php';
 		} catch (Exception $e) {
 			echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 		}
@@ -76,7 +76,11 @@ class fakultasController {
 	}
 	
 
-    public function edit($id, $var) {
+    public function edit() {
+
+		$id = isset($_GET['id']) ? $_GET['id'] : null;
+		$var = isset($_GET['var']) ? $_GET['var'] : null;
+
 		try {
 			$models = new fakultasModel();   
 	

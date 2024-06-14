@@ -80,8 +80,10 @@ class prodiController
 		}
 	}
 
-	public function edit($id)
+	public function edit()
 	{
+		$id = isset($_GET['id']) ? $_GET['id'] : null;
+
 		try {
 			$models = new prodiModel();
 

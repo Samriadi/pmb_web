@@ -18,10 +18,9 @@
             <!-- Button trigger modal -->
         <div class="card shadow mb-4">
         <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">DATA PRODI</h6>
+              <h6 class="m-0 font-weight-bold text-primary">DATA FAKULTAS</h6>
          </div>
             <div class="card-body">
-
             <div class="d-flex justify-content-between">
               <div>
               <a class="btn btn-success btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50"> <i class="fas fa-plus"></i></span><span class="text">Add Data</span></a>
@@ -30,16 +29,15 @@
               <a class="btn btn-success btn-icon-split" href="#" onclick="loadHelpModal()" style="margin-bottom: 15px;"><span class="icon text-white-50"> <i class="fas fa-info-circle"></i></span> <span class="text">Help</span></a>
               </div>
             </div>
-            
 
             <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                         <th>No</th>
-                        <th>Program Studi</th>
-                        <th>Jenjang</th>
-                        <th>Fakultas</th>
+                        <th>Nama Fakultas</th>
+                        <th>Kode Fakultas</th>
+                        <th>Nama Kampus</th>
                         <th style="width: 100px;">Action</th>
                         </tr>
                     </thead>
@@ -52,9 +50,8 @@
                             <td><?=$no++?></td>
                             <td><?=$dt->var_value?></td>
                             <td><?=$dt->var_others?></td>
-                            <td><?=$dt->NamaFakultas?></td>
+                            <td><?=$dt->NamaKampus?></td>
 
-                          
                             <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->recid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
                            <?php if($dt->disabled == true){ ?>
                             <a class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
@@ -82,24 +79,22 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Prodi</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Fakultas</h5>
                      <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">x
                 </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" class="form-control" id="varname" name="varname" value="Prodi">
+                    <input type="hidden" class="form-control" id="varname" name="varname" value="Fakultas">
                <div class="form-group">
-                    <label for="varvalue">Nama Prodi</label>
+                    <label for="varvalue">Nama Fakultas</label>
                     <input type="text" class="form-control" id="varvalue" name="varvalue" required>
                 </div>
                 <div class="form-group">
-                    <label for="varothers">Jenjang</label>
-                    <select class="form-control" id="varothers" name="varothers" required>
-                   
-                    </select>
+                    <label for="varothers">Kode Fakultas</label>
+                    <input type="text" class="form-control" id="varothers" name="varothers" required>
                 </div>
                 <div class="form-group">
-                    <label for="parent">Fakultas</label>
+                    <label for="parent">Nama Kampus</label>
                     <select class="form-control" id="parent" name="parent" required>
                             
                     </select>
@@ -125,18 +120,16 @@
             <div class="modal-body">
                     <input type="hidden" class="form-control" id="recid" name="recid" required>
                 <div class="form-group">
-                    <label for="editVarvalue">Nama Prodi</label>
+                    <label for="editVarvalue">Nama Fakultas</label>
                     <input type="text" class="form-control" id="editVarvalue" name="varvalue" required>
                 </div>
                 <div class="form-group">
-                    <label for="editVarothers">Jenjang</label>
-                    <select class="form-control" id="editVarothers" name="varothers" required>
-                       
-                       </select>
+                    <label for="editVarothers">Kode Fakultas</label>
+                    <input type="text" class="form-control" id="editVarothers" name="varothers" required>
                 </div>
                 <div class="form-group">
-                    <label for="editParent">Nama Fakultas</label>
-                    <select class="form-control" id="editParent" name="parent" required>
+                    <label for="editParent">Nama Kampus</label>
+                    <select class="form-control" id="editParent" name="Kampus" required>
                        
                     </select>
                 </div>
@@ -175,39 +168,26 @@
 
 <?php include '../app/Views/others/layouts/footer.php'; ?>
 
-
-
 <script>
 function add() {
     
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/pmb_web/prodi/add', true);
+    xhr.open('GET', '/pmb_web/fakultas/add', true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText);
 
             // Mengisi opsi select
-            var jenjangValues = document.getElementById('varothers');
-            response.jenjangValues.forEach(function(item) {
-                var option = document.createElement('option');
-                option.value = item.var_value;
-                option.text = item.var_value;
-                if (!Array.from(jenjangValues.options).some(opt => opt.value == item.var_value)) {
-                    jenjangValues.appendChild(option);
-                }
-            });
-            jenjangValues.value = response.jenjang;
-
-            var fakultasValues = document.getElementById('parent');
-            response.fakultasValues.forEach(function(item) {
+            var kampusValues = document.getElementById('parent');
+            response.kampusValues.forEach(function(item) {
                 var option = document.createElement('option');
                 option.value = item.recid;
                 option.text = item.var_value;
-                if (!Array.from(fakultasValues.options).some(opt => opt.value == item.var_value)) {
-                    fakultasValues.appendChild(option);
+                if (!Array.from(kampusValues.options).some(opt => opt.value == item.var_value)) {
+                    kampusValues.appendChild(option);
                 }
             });
-            fakultasValues.value = response.fakultas;
+            kampusValues.value = response.kampus;
 
             // Tampilkan modal
             var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
@@ -242,7 +222,7 @@ document.getElementById('save').addEventListener('click', function() {
         }
            
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/pmb_web/prodi/save', true);        
+        xhr.open('POST', '/pmb_web/fakultas/save', true);        
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -279,61 +259,41 @@ document.getElementById('save').addEventListener('click', function() {
     function edit(id) {
 
 
+    var kampus = document.getElementById('editParent').name;
     
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/pmb_web/prodi/edit?id='+id , true);
+    xhr.open('GET', '/pmb_web/fakultas/edit?id='+id + '&var?=' + kampus, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText.trim());
 
             document.getElementById('recid').value = response.recid;
             document.getElementById('editVarvalue').value = response.var_value;
+            document.getElementById('editVarothers').value = response.var_others;
 
-            if (response && (response.jenjangValues && response.fakultasValues)) {
-                var jenjangSelect = document.getElementById('editVarothers');
-                var fakultasSelect = document.getElementById('editParent');
-                jenjangSelect.innerHTML = '';
-                fakultasSelect.innerHTML = '';
+            if (response && response.kampusValues) {
+                var kampusSelect = document.getElementById('editParent');
+                kampusSelect.innerHTML = ''; // Bersihkan opsi sebelumnya
 
-                response.jenjangValues.forEach(function(item) {
-                    var option = document.createElement('option');
-                    option.value = item.var_value;
-                    option.text = item.var_value;
-
-                    // Tambahkan opsi ke elemen select
-                    jenjangSelect.appendChild(option);
-                });
-
-                response.fakultasValues.forEach(function(item) {
+                response.kampusValues.forEach(function(item) {
                     var option = document.createElement('option');
                     option.value = item.recid;
                     option.text = item.var_value;
 
                     // Tambahkan opsi ke elemen select
-                    fakultasSelect.appendChild(option);
+                    kampusSelect.appendChild(option);
                 });
 
                 // Set nilai default pada elemen select
-                jenjangSelect.value = response.var_others; 
-                fakultasSelect.value = response.parent; 
-
-
+                kampusSelect.value = response.parent; // Mengatur nilai default dari response.parent
 
                 // Jika nilai default tidak ada dalam opsi, tambahkan opsi default
-                if (!Array.from(jenjangSelect.options).some(opt => opt.value == response.var_others)) {
-                    var defaultOption = document.createElement('option');
-                    defaultOption.value = response.var_others;
-                    defaultOption.text = response.var_others;
-                    defaultOption.selected = true;
-                    jenjangSelect.appendChild(defaultOption);
-                }
-
-                if (!Array.from(fakultasSelect.options).some(opt => opt.value == response.parent)) {
+                if (!Array.from(kampusSelect.options).some(opt => opt.value == response.parent)) {
                     var defaultOption = document.createElement('option');
                     defaultOption.value = response.parent;
-                    defaultOption.text = response.var_value;
+                    defaultOption.text = response.var_value; // Teks yang sesuai
                     defaultOption.selected = true;
-                    fakultasSelect.appendChild(defaultOption);
+                    kampusSelect.appendChild(defaultOption);
                 }
             } else {
                 console.error("Properti kampusValues tidak ditemukan dalam respons atau respons tidak terdefinisi.");
@@ -352,13 +312,10 @@ document.getElementById('save').addEventListener('click', function() {
         var varothers = document.getElementById('editVarothers').value;
         var parent = document.getElementById('editParent').value;
 
-        console.log(recid);
-        console.log(varvalue);
-        console.log(varothers);
-        console.log(parent);
-        
+    console.log(recid);
+    
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/pmb_web/prodi/update', true);
+    xhr.open('POST', '/pmb_web/fakultas/update', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -395,6 +352,7 @@ document.getElementById('save').addEventListener('click', function() {
         window.location.reload();
     });
 </script>
+
 <script>
                     function loadHelpModal() {
                         fetch('/pmb_web/help')
@@ -442,7 +400,6 @@ document.getElementById('save').addEventListener('click', function() {
                                     console.log(xhr.responseText);
                                     var modal = document.getElementById('helpModal');
                                     var modalInstance = bootstrap.Modal.getInstance(modal);
-                                    modalInstance.hide();
                                     Swal.fire({
                                         title: 'Success!',
                                         text: xhr.responseText,
@@ -450,8 +407,7 @@ document.getElementById('save').addEventListener('click', function() {
                                         confirmButtonText: 'OK',
                                         showCancelButton: false
                                     }).then((result) => {
-                                         modalInstance.hide();
-
+                                        modalInstance.hide();
                                     });
                                 }
                             };
@@ -489,4 +445,4 @@ document.getElementById('save').addEventListener('click', function() {
                                 xhr.send(data);
                         });
                     }
- </script>
+                </script>

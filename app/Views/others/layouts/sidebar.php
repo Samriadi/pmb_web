@@ -77,6 +77,7 @@
          </a>
          <div id="collapseHelp" class="collapse" aria-labelledby="headingHelp" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
+                 <a class="collapse-item" href="/pmb_web/panduan?page=fakultas">Panduan Fakultas</a>
                  <a class="collapse-item" href="/pmb_web/panduan?page=prodi">Panduan Prodi</a>
                  <a class="collapse-item" href="/pmb_web/panduan?page=ujian">Panduan Ujian</a>
              </div>

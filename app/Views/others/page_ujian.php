@@ -234,7 +234,7 @@
                                         confirmButtonText: 'OK',
                                         showCancelButton: false
                                     }).then((result) => {
-                                        window.location.reload();
+                                        modalInstance.hide();
                                     });
                                 }
                             };
