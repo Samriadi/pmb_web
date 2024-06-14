@@ -102,17 +102,17 @@
  <!-- End of Sidebar -->
 
  <script>
-     document.addEventListener("DOMContentLoaded", function() {
-         var currentPath = window.location.pathname;
-         var navLinks = document.querySelectorAll('.collapse-item');
+    document.addEventListener("DOMContentLoaded", function() {
+            var currentPath = window.location.href;
+            var navLinks = document.querySelectorAll('.collapse-item');
 
-         navLinks.forEach(function(link) {
-             if (link.getAttribute('href') === currentPath) {
-                 link.classList.add('active');
-                 link.closest('.collapse').classList.add('show');
-                 link.closest('.nav-item').querySelector('.nav-link').classList.remove('collapsed');
-                 link.closest('.nav-item').querySelector('.nav-link').setAttribute('aria-expanded', 'true');
-             }
-         });
-     });
+            navLinks.forEach(function(link) {
+                if (link.href === currentPath) {
+                    link.classList.add('active');
+                    link.closest('.collapse').classList.add('show');
+                    link.closest('.nav-item').querySelector('.nav-link').classList.remove('collapsed');
+                    link.closest('.nav-item').querySelector('.nav-link').setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
  </script>

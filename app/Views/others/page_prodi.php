@@ -184,36 +184,36 @@
           function add() {
 
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/hewi/public/prodi/add', true);
+            xhr.open('GET', '/pmb_web/prodi/add', true);
             xhr.onreadystatechange = function() {
-              if (xhr.readyState == 4 && xhr.status == 200) {
-                var response = JSON.parse(xhr.responseText);
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
 
-                // Mengisi opsi select
-                var jenjangValues = document.getElementById('varothers');
-                response.jenjangValues.forEach(function(item) {
-                  var option = document.createElement('option');
-                  option.value = item.var_value;
-                  option.text = item.var_value;
-                  if (!Array.from(jenjangValues.options).some(opt => opt.value == item.var_value)) {
-                    jenjangValues.appendChild(option);
-                  }
-                });
-                jenjangValues.value = response.jenjang;
+                    // Mengisi opsi select
+                    var jenjangValues = document.getElementById('varothers');
+                    response.jenjangValues.forEach(function(item) {
+                        var option = document.createElement('option');
+                        option.value = item.var_value;
+                        option.text = item.var_value;
+                        if (!Array.from(jenjangValues.options).some(opt => opt.value == item.var_value)) {
+                            jenjangValues.appendChild(option);
+                        }
+                    });
+                    jenjangValues.value = response.jenjang;
 
-                var fakultasValues = document.getElementById('parent');
-                response.fakultasValues.forEach(function(item) {
-                  var option = document.createElement('option');
-                  option.value = item.recid;
-                  option.text = item.var_value;
-                  if (!Array.from(fakultasValues.options).some(opt => opt.value == item.var_value)) {
-                    fakultasValues.appendChild(option);
-                  }
-                });
-                fakultasValues.value = response.fakultas;
+                    var fakultasValues = document.getElementById('parent');
+                    response.fakultasValues.forEach(function(item) {
+                        var option = document.createElement('option');
+                        option.value = item.recid;
+                        option.text = item.var_value;
+                        if (!Array.from(fakultasValues.options).some(opt => opt.value == item.var_value)) {
+                            fakultasValues.appendChild(option);
+                        }
+                    });
+                    fakultasValues.value = response.fakultas;
 
-                // Tampilkan modal
-                var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                    // Tampilkan modal
+                    var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
               }
             };
             xhr.send();
@@ -243,7 +243,7 @@
             }
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/hewi/public/fakultas/save', true);
+            xhr.open('POST', 'pmb_web/prodi/save', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
               if (xhr.readyState == 4 && xhr.status == 200) {
