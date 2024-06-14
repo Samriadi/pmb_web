@@ -1,11 +1,9 @@
 <?php include '../app/Views/others/layouts/header.php'; ?>
 
-
 <!-- Page Wrapper -->
 <div id="wrapper">
 
     <?php include '../app/Views/others/layouts/sidebar.php'; ?>
-
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -24,32 +22,41 @@
                         <h6 class="m-0 font-weight-bold text-primary">DATA PENDAFTAR</h6>
                     </div>
                     <div class="card-body">
-                    <form id="filterForm" method="GET" action="">
-                        <div class="row g-3 align-items-center mb-3">
-                            <div class="col-auto">
-                                <label for="filterColumn" class="col-form-label">Kolom</label>
-                            </div>
-                            <div class="col-auto">
-                                <select class="form-control"  id="filterColumn" name="filterColumn">
-                                    <option value="NamaLengkap">Nama Lengkap</option>
-                                    <option value="Agama">Agama</option>
-                                    <option value="jenkel">Jenis Kelamin</option>
-                                    <option value="NamaAsalSekolah">Asal Sekolah</option>
-                                    <option value="AsalProvinsi">Asal Provinsi</option>
+                        <form id="filterForm" method="GET" action="">
+                            <div class="row g-3 align-items-center mb-3">
+                                <div class="col-auto">
+                                    <label for="filterColumn" class="col-form-label">Kolom</label>
+                                </div>
+                                <div class="col-auto">
+                                    <select class="form-control" id="filterColumn" name="filterColumn">
+                                    <?php
+                                    $firstData = reset($data);  
+
+                                    $properties = array_keys(get_object_vars($firstData));
+
+                                    foreach ($properties as $property) :
+                                        if ($property == 'Jenjang' || $property == 'Periode') :
+                                    ?>
+                                            <option value="<?= $property ?>"><?= $property ?></option>
+                                    <?php
+                                        endif;
+                                    endforeach;
+                                    ?>
                                 </select>
+                                </div>
+                                <div class="col-auto">
+                                    <label for="filterValue" class="col-form-label">Nilai</label>
+                                </div>
+                                <div class="col-auto">
+                                    <select class="form-control" id="filterValue" name="filterValue">
+                                        <!-- Options will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-primary" type="button" id="filterButton">Tampilkan</button>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <label for="filterValue" class="col-form-label">Nilai</label>
-                            </div>
-                            <div class="col-auto">
-                                <input type="text" class="form-control" id="filterValue" name="filterValue" placeholder="Nilai Filter">
-                            </div>
-                            <div class="col-auto">
-                                <button class="btn btn-primary" type="submit">Tampilkan</button>
-                            </div>
-                        </div>
-                    </form>
-                      
+                        </form>
 
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -63,7 +70,6 @@
                                         <th>Jenjang</th>
                                         <th>Periode</th>
                                         <th>Keterangan</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -80,8 +86,6 @@
                                             <td><?= $dt->jenjang ?></td>
                                             <td><?= $dt->periode ?></td>
                                             <td><?= $dt->keterangan ?></td>
-                                            <td><a class="btn btn-secondary" href="#" onclick="edit(<?= $dt->userid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
-                                            </td>
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>
@@ -89,12 +93,90 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Option 1: Bootstrap Bundle with Popper -->
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-                </body>
-
 
                 <?php include '../app/Views/others/layouts/footer.php'; ?>
 
+                <script>
+                   var data = <?php echo json_encode($data); ?>;
+
+                   console.log(data)
+                    var table; // Deklarasi global
+
+                    $(document).ready(function() {
+                        populateFilterColumns();
+                        populateFilterValue(document.getElementById('filterColumn').value);
+
+                        table = $('#dataTable').DataTable({
+                            data: data,
+                            columns: [
+                                { data: null, render: function (data, type, row, meta) { return meta.row + 1; } }, // No
+                                { data: 'NamaLengkap' },
+                                { data: 'PilihanPertama' },
+                                { data: 'PilihanKedua' },
+                                { data: 'PilihanKetiga' },
+                                { data: 'jenjang' },
+                                { data: 'periode' },
+                                { data: 'keterangan' }
+                            ],
+                            "bDestroy": true // Hapus jika tidak diperlukan
+                        });
+
+                        // Tambahkan custom search function ke DataTable
+                        $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+                            var selectedColumn = document.getElementById('filterColumn').value;
+                            var selectedValue = document.getElementById('filterValue').value;
+                            if (selectedValue === '') {
+                                return true;
+                            }
+                            var columnValue = table.row(dataIndex).data()[selectedColumn];
+                            return columnValue == selectedValue;
+                        });
+                    });
+
+                    function populateFilterColumns() {
+                        var filterColumnSelect = document.getElementById('filterColumn');
+                        filterColumnSelect.innerHTML = '';
+
+                        var columns = Object.keys(data[0]);
+                        columns.forEach(function(column) {
+                            var option = document.createElement('option');
+                            option.value = column;
+                            option.text = column.charAt(0).toUpperCase() + column.slice(1);
+                            filterColumnSelect.appendChild(option);
+                        });
+                    }
+
+                    function populateFilterValue(column) {
+                        var filterValueSelect = document.getElementById('filterValue');
+                        filterValueSelect.innerHTML = '';
+
+                        var uniqueValues = [...new Set(data.map(item => item[column]))];
+                        uniqueValues.forEach(function(value) {
+                            var option = document.createElement('option');
+                            option.value = value;
+                            option.text = value;
+                            filterValueSelect.appendChild(option);
+                        });
+                    }
+
+                    document.getElementById('filterColumn').addEventListener('change', function() {
+                        var selectedColumn = this.value;
+                        populateFilterValue(selectedColumn);
+                    });
+
+                    // Event listener untuk tombol filter
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const filterButton = document.getElementById('filterButton');
+                        filterButton.addEventListener('click', function() {
+                            table.draw(); // Memastikan table diakses dengan benar di sini
+                        });
+                    });
+
+                </script>
+</body>
+</html>
