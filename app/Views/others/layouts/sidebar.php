@@ -66,6 +66,7 @@
                  <a class="collapse-item" href="/pmb_web/fakultas">Fakultas</a>
                  <a class="collapse-item" href="/pmb_web/prodi">Prodi</a>
                  <a class="collapse-item" href="/pmb_web/ujian">Ujian</a>
+                 <a class="collapse-item" href="/pmb_web/pendaftar">Pendaftar</a>
              </div>
          </div>
      </li>

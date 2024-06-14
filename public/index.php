@@ -89,6 +89,8 @@ $router->add('/help/delete', 'mainController', 'deleteHelp');
 
 $router->add('/panduan', 'mainController', 'showHelp');
 
+$router->add('/pendaftar', 'pendaftarController', 'index');
+
 
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
 
