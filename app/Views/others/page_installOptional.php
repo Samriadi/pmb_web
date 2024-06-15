@@ -67,7 +67,7 @@
                         });
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/pmb_web/optional/add', true);
+                        xhr.open('POST', '/admin/optional/add', true);
 
                         xhr.onload = function() {
                             if (xhr.readyState === 4) {

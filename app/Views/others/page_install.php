@@ -78,7 +78,7 @@
                         var formData = new FormData(form);
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/pmb_web/install/save', true);
+                        xhr.open('POST', '/admin/install/save', true);
                         xhr.onload = function() {
                             if (xhr.status === 200) {
                                 console.log(xhr.responseText);

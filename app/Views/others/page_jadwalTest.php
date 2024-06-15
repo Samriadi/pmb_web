@@ -50,7 +50,7 @@
                                             <td><?= $data[$c]->ket_edu; ?></td>
                                             <?php if ($data[$c]->status == "Open") { ?>
                                                 <td><a class="btn btn-secondary" href="#" onclick="edit(<?= $data[$c]->id; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
-                                                    <a class="btn btn-third" href="/pmb_web/test/delete?id=<?= $data[$c]->id; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn btn-third" href="/admin/test/delete?id=<?= $data[$c]->id; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             <?php } else { ?>
                                                 <td>
@@ -184,7 +184,7 @@
                 <script>
                     function add() {
                         var xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/pmb_web/test/add', true);
+                        xhr.open('GET', '/admin/test/add', true);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
                                 var response = JSON.parse(xhr.responseText);
@@ -250,7 +250,7 @@
 
                         console.log(gelombang);
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/pmb_web/test/save', true); // Ubah URL di sini
+                        xhr.open('POST', '/admin/test/save', true); // Ubah URL di sini
                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -289,7 +289,7 @@
 
                         var xhr = new XMLHttpRequest();
 
-                        xhr.open('GET', '/pmb_web/test/edit?id=' + id, true);
+                        xhr.open('GET', '/admin/test/edit?id=' + id, true);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
                                 var response = JSON.parse(xhr.responseText.trim());
@@ -350,7 +350,7 @@
                         console.log(gelombang);
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/pmb_web/test/update', true);
+                        xhr.open('POST', '/admin/test/update', true);
                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState === 4 && xhr.status === 200) {

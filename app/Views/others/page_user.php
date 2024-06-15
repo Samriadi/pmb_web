@@ -49,7 +49,7 @@
                                             <td><?= $dt->username ?></td>
                                             <td><?= $dt->user_level ?></td>
                                             <td><a class="btn btn-secondary" href="#" onclick="edit(<?= $dt->userid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
-                                                <a class="btn btn-third" href="/pmb_web/user/delete?userid=<?= $dt->userid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                                                <a class="btn btn-third" href="/admin/user/delete?userid=<?= $dt->userid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>
@@ -167,7 +167,7 @@
                             }
 
                             var xhr = new XMLHttpRequest();
-                            xhr.open('POST', '/pmb_web/user/add', true);
+                            xhr.open('POST', '/admin/user/add', true);
                             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState == 4 && xhr.status == 200) {
@@ -203,7 +203,7 @@
                     function edit(userid) {
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/pmb_web/user/edit?userid=' + userid, true);
+                        xhr.open('GET', '/admin/user/edit?userid=' + userid, true);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
 
@@ -229,7 +229,7 @@
 
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/pmb_web/user/update', true);
+                        xhr.open('POST', '/admin/user/update', true);
                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState === 4 && xhr.status === 200) {

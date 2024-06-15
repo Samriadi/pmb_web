@@ -12,7 +12,7 @@
 
         <!-- Nav Item - User Information -->
         <li class="nav-item">
-            <a class="nav-link" href="/pmb_web/">
+            <a class="nav-link" href="/admin/">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 text-topbar">UNIVERAL</span>
             </a>
         </li>

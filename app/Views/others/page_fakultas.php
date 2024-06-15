@@ -56,7 +56,7 @@
                                                 <?php if ($dt->disabled == true) { ?>
                                                     <a class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
                                                 <?php } else { ?>
-                                                    <a class="btn btn-danger" href="/pmb_web/var/delete?id=<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn btn-danger" href="/admin/var/delete?id=<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                                                 <?php } ?>
                                             </td>
                                         </tr>
@@ -172,7 +172,7 @@
                     function add() {
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/pmb_web/fakultas/add', true);
+                        xhr.open('GET', '/admin/fakultas/add', true);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
                                 var response = JSON.parse(xhr.responseText);
@@ -222,7 +222,7 @@
                         }
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/pmb_web/fakultas/save', true);
+                        xhr.open('POST', '/admin/fakultas/save', true);
                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -262,7 +262,7 @@
                         var kampus = document.getElementById('editParent').name;
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/pmb_web/fakultas/edit?id=' + id + '&var?=' + kampus, true);
+                        xhr.open('GET', '/admin/fakultas/edit?id=' + id + '&var?=' + kampus, true);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
                                 var response = JSON.parse(xhr.responseText.trim());
@@ -315,7 +315,7 @@
                         console.log(recid);
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/pmb_web/fakultas/update', true);
+                        xhr.open('POST', '/admin/fakultas/update', true);
                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState === 4 && xhr.status === 200) {
@@ -355,7 +355,7 @@
 
                 <script>
                     function loadHelpModal() {
-                        fetch('/pmb_web/help')
+                        fetch('/admin/help')
                             .then(response => response.text())
                             .then(data => {
 
@@ -369,7 +369,7 @@
 
                                 console.log(pages)
                                 var xhr = new XMLHttpRequest();
-                                xhr.open('GET', '/pmb_web/help?page=' + pages, true);
+                                xhr.open('GET', '/admin/help?page=' + pages, true);
                                 xhr.onreadystatechange = function() {
                                     if (xhr.readyState == 4 && xhr.status == 200) {
                                         var response = JSON.parse(xhr.responseText.trim());
@@ -393,7 +393,7 @@
 
                             console.log(recid);
                             var xhr = new XMLHttpRequest();
-                            xhr.open('POST', '/pmb_web/help/save', true);
+                            xhr.open('POST', '/admin/help/save', true);
                             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState === 4 && xhr.status === 200) {
@@ -425,7 +425,7 @@
 
                             console.log(recid);
                             var xhr = new XMLHttpRequest();
-                            xhr.open('POST', '/pmb_web/help/delete?recid=' + recid, true);
+                            xhr.open('POST', '/admin/help/delete?recid=' + recid, true);
                             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState === 4 && xhr.status === 200) {

@@ -57,7 +57,7 @@
                                                 <?php if ($dt->disabled == true) { ?>
                                                     <a class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
                                                 <?php } else { ?>
-                                                    <a class="btn btn-danger" href="/pmb_web/var/delete?id=<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn btn-danger" href="/admin/var/delete?id=<?= $dt->recid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                                                 <?php } ?>
                                             </td>
                                         </tr>
@@ -177,7 +177,7 @@
 
                             console.log(recid);
                             var xhr = new XMLHttpRequest();
-                            xhr.open('POST', '/pmb_web/var/add', true);
+                            xhr.open('POST', '/admin/var/add', true);
                             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState == 4 && xhr.status == 200) {
@@ -217,7 +217,7 @@
                     function edit(id) {
                         console.log(id)
                         var xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/pmb_web/var/edit?recid=' + id, true);
+                        xhr.open('GET', '/admin/var/edit?recid=' + id, true);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
 
@@ -249,7 +249,7 @@
                         console.log(recid);
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/pmb_web/var/update', true);
+                        xhr.open('POST', '/admin/var/update', true);
                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState === 4 && xhr.status === 200) {
