@@ -18,7 +18,7 @@ class varOptionController
 			$catatan = $dt->catatan;
 			$parent = $dt->parent;
 		endforeach;
-		include __DIR__ . '/../views/others/page_varOption.php';
+		include __DIR__ . '/../Views/others/page_varOption.php';
 	}
 
 	public function add()
@@ -33,7 +33,7 @@ class varOptionController
 			$parent = $_POST['parent'];
 
 			$models->addVar($varname, $varvalue, $varothers, $catatan, $parent);
-			log_activity('ADD var_option');
+			log_activity('ADD varoption');
 
 			echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
 		} else {
@@ -79,7 +79,7 @@ class varOptionController
 			$parent = $_POST['parent'];
 
 			$models->updateVar($recid, $varname, $varvalue, $varothers, $catatan, $parent);
-			log_activity('EDIT var_option');
+			log_activity('EDIT varoption');
 
 			echo json_encode(['status' => 'success', 'message' => 'New Record Updated']);
 		} else {
@@ -101,7 +101,7 @@ class varOptionController
 		}
 
 		$models->deleteVar($id);
-		log_activity('DELETE var_option');
+		log_activity('DELETE varoption');
 
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 		exit();
@@ -114,7 +114,7 @@ class varOptionController
 		$models = new varOptiontModel();
 		$data = $models->getVarByName('optional');
 
-		include __DIR__ . '/../views/others/page_installOptional.php';
+		include __DIR__ . '/../Views/others/page_installOptional.php';
 	}
 	public function addOptional()
 	{

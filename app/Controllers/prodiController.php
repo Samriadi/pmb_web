@@ -15,7 +15,7 @@ class prodiController
 				throw new Exception('Failed to retrieve prodi data');
 			}
 
-			include __DIR__ . '/../views/others/page_prodi.php';
+			include __DIR__ . '/../Views/others/page_prodi.php';
 		} catch (Exception $e) {
 			echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 		}
@@ -150,6 +150,4 @@ class prodiController
 			echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 		}
 	}
-
-	
 }

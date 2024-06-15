@@ -6,8 +6,8 @@ class prodiModel
     public function getProdi()
     {
         $db = Database::getInstance();
-        $query = "SELECT var_option.*, Fakultas.var_value AS NamaFakultas FROM var_option LEFT JOIN (SELECT * FROM var_option WHERE var_name='Fakultas') AS Fakultas 
-		ON var_option.parent = Fakultas.recid WHERE var_option.var_name='Prodi'";
+        $query = "SELECT varoption.*, Fakultas.var_value AS NamaFakultas FROM varoption LEFT JOIN (SELECT * FROM varoption WHERE var_name='Fakultas') AS Fakultas 
+		ON varoption.parent = Fakultas.recid WHERE varoption.var_name='Prodi'";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -16,7 +16,7 @@ class prodiModel
     {
         $db = Database::getInstance();
 
-        $query = "INSERT INTO var_option (var_name, var_value, var_others, parent) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO varoption (var_name, var_value, var_others, parent) VALUES (?, ?, ?, ?)";
 
         try {
             $stmt = $db->prepare($query);
@@ -28,7 +28,7 @@ class prodiModel
     public function getVarById($recid)
     {
         $db = Database::getInstance();
-        $stmt = $db->prepare("SELECT * FROM var_option WHERE recid = ?");
+        $stmt = $db->prepare("SELECT * FROM varoption WHERE recid = ?");
         $stmt->execute([$recid]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -36,7 +36,7 @@ class prodiModel
     public function getVarByName($var_name)
     {
         $db = Database::getInstance();
-        $query = "SELECT * FROM var_option where var_name=:var_name";
+        $query = "SELECT * FROM varoption where var_name=:var_name";
         $stmt = $db->prepare($query);
         $stmt->bindParam(':var_name', $var_name);
         $stmt->execute();
@@ -46,9 +46,7 @@ class prodiModel
     {
         $db = Database::getInstance();
 
-        $stmt = $db->prepare("UPDATE var_option SET var_value = ?, var_others = ?, parent = ? WHERE recid = ?");
+        $stmt = $db->prepare("UPDATE varoption SET var_value = ?, var_others = ?, parent = ? WHERE recid = ?");
         $stmt->execute([$varvalue, $varothers, $parent, $recid]);
     }
-
-    
 }

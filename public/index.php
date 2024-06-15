@@ -12,8 +12,11 @@ require_once __DIR__ . '/../app/Controllers/eduTestController.php';
 require_once __DIR__ . '/../app/Controllers/varOptionController.php';
 require_once __DIR__ . '/../app/Controllers/eduPeriodeController.php';
 require_once __DIR__ . '/../app/Controllers/userController.php';
+require_once __DIR__ . '/../app/Controllers/pendaftarController.php';
 
-require_once __DIR__ . '/../app/Helpers/function.php';
+
+
+require_once __DIR__ . '/../app/Models/pendaftarModel.php';
 
 $router = new Router();
 

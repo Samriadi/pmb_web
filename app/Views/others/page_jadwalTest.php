@@ -40,11 +40,11 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    for ($c=0; $c<count($data); $c++) {
+                                    for ($c = 0; $c < count($data); $c++) {
                                     ?>
                                         <tr>
                                             <td><?= $c + 1; ?></td>
-                                            <td><?php echo $data[$c]->Jenjang. "-" . $data[$c]->ket_periode; ?></td>
+                                            <td><?php echo $data[$c]->Jenjang . "-" . $data[$c]->ket_periode; ?></td>
                                             <td><?php echo $data[$c]->ruang; ?></td>
                                             <td><?php echo $data[$c]->ujian; ?></td>
                                             <td><?= $data[$c]->ket_edu; ?></td>
@@ -62,8 +62,8 @@
                                             ?>
                                         </tr>
                                     <?php
-                                         }
-                                      ?>
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -102,13 +102,13 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="jenis_ujian">Jenis Ujian</label>
-                                    <select class="form-control" id="jenis_ujian" name="jenis_ujian">
+                                    <label for="jenis_ujin">Jenis Ujian</label>
+                                    <select class="form-control" id="jenis_ujin" name="jenis_ujin">
                                         <!-- Options will be filled dynamically -->
                                     </select>
                                 </div>
 
-                                                
+
 
                                 <div class="form-group">
                                     <label for="keterangan">Keterangan</label>
@@ -152,7 +152,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="editJenisUjian">Jenis Ujian</label>
-                                    <select class="form-control" id="editJenisUjian" name="jenis_ujian" required>
+                                    <select class="form-control" id="editJenisUjian" name="jenis_ujin" required>
                                         <!-- Options will be filled dynamically -->
                                     </select>
                                 </div>
@@ -218,16 +218,16 @@
                                 ruangSelect.value = response.ruang;
 
                                 // Mengisi opsi select untuk jenis ujian
-                                var jenisUjianSelect = document.getElementById('jenis_ujian');
+                                var jenisUjianSelect = document.getElementById('jenis_ujin');
                                 response.ujianValues.forEach(function(item) {
                                     var option = document.createElement('option');
                                     option.value = item.recid;
-                                    option.text = item.jenis_ujian;
+                                    option.text = item.jenis_ujin;
                                     if (!Array.from(jenisUjianSelect.options).some(opt => opt.value == item.recid)) {
                                         jenisUjianSelect.appendChild(option);
                                     }
                                 });
-                                jenisUjianSelect.value = response.jenis_ujian;
+                                jenisUjianSelect.value = response.jenis_ujin;
 
                                 // Tampilkan modal
                                 var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
@@ -245,7 +245,7 @@
                     document.getElementById('save').addEventListener('click', function() {
                         var gelombang = document.getElementById('gelombang').value;
                         var ruang = document.getElementById('ruang').value;
-                        var jenis_ujian = document.getElementById('jenis_ujian').value;
+                        var jenis_ujin = document.getElementById('jenis_ujin').value;
                         var keterangan = document.getElementById('keterangan').value;
 
                         console.log(gelombang);
@@ -276,7 +276,7 @@
                         var data =
                             "gelombang=" + encodeURIComponent(gelombang) +
                             "&ruang=" + encodeURIComponent(ruang) +
-                            "&jenis_ujian=" + encodeURIComponent(jenis_ujian) +
+                            "&jenis_ujin=" + encodeURIComponent(jenis_ujin) +
                             "&keterangan=" + encodeURIComponent(keterangan);
                         xhr.send(data);
                     });
@@ -326,12 +326,12 @@
                                 response.ujianValues.forEach(function(item) {
                                     var option = document.createElement('option');
                                     option.value = item.recid;
-                                    option.text = item.jenis_ujian;
+                                    option.text = item.jenis_ujin;
                                     if (!Array.from(jenisUjianSelect.options).some(opt => opt.value == item.recid)) {
                                         jenisUjianSelect.appendChild(option);
                                     }
                                 });
-                                jenisUjianSelect.value = response.jenis_ujian;
+                                jenisUjianSelect.value = response.jenis_ujin;
 
                                 var editModal = new bootstrap.Modal(document.getElementById('editModal'));
                                 editModal.show();
@@ -344,7 +344,7 @@
                         var id = document.getElementById('id').value;
                         var gelombang = document.getElementById('editGelombang').value;
                         var ruang = document.getElementById('editRuang').value;
-                        var jenis_ujian = document.getElementById('editJenisUjian').value;
+                        var jenis_ujin = document.getElementById('editJenisUjian').value;
                         var keterangan = document.getElementById('editKeterangan').value;
 
                         console.log(gelombang);
@@ -385,7 +385,7 @@
                             "id=" + encodeURIComponent(id) +
                             "&gelombang=" + encodeURIComponent(gelombang) +
                             "&ruang=" + encodeURIComponent(ruang) +
-                            "&jenis_ujian=" + encodeURIComponent(jenis_ujian) +
+                            "&jenis_ujin=" + encodeURIComponent(jenis_ujin) +
                             "&keterangan=" + encodeURIComponent(keterangan);
 
                         xhr.send(data);

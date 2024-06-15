@@ -42,7 +42,7 @@ class eduPeriodeController
 				];
 			}
 
-			include __DIR__ . '/../views/others/page_eduPeriode.php';
+			include __DIR__ . '/../Views/others/page_eduPeriode.php';
 		} catch (Exception $e) {
 			$response = [
 				'status_code' => 500,

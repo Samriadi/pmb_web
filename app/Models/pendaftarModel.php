@@ -1,6 +1,4 @@
 <?php
-
-
 class pendaftarModel
 {
     public function getPendaftar()
@@ -11,15 +9,15 @@ class pendaftarModel
             a.NamaLengkap,
             b.id,
             ( SELECT IF(b.PilihanPertama = d.recid, d.var_value, 'NO') 
-                FROM var_option d 
+                FROM varoption d 
                 WHERE d.recid = b.PilihanPertama
             ) AS PilihanPertama,
             ( SELECT IF(b.PilihanKedua = d.recid, d.var_value, 'NO') 
-                FROM var_option d 
+                FROM varoption d 
                 WHERE d.recid = b.PilihanKedua
             ) AS PilihanKedua,
             ( SELECT IF(b.PilihanKetiga = d.recid, d.var_value, 'NO') 
-                FROM var_option d 
+                FROM varoption d 
                 WHERE d.recid = b.PilihanKetiga
             ) AS PilihanKetiga,
             b.member_id,
@@ -38,8 +36,4 @@ class pendaftarModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-
-    
-    
-   
 }

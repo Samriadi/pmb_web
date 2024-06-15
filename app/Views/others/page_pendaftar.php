@@ -29,20 +29,8 @@
                                 </div>
                                 <div class="col-auto">
                                     <select class="form-control" id="filterColumn" name="filterColumn">
-                                    <?php
-                                    $firstData = reset($data);  
-
-                                    $properties = array_keys(get_object_vars($firstData));
-
-                                    foreach ($properties as $property) :
-                                        if ($property == 'Jenjang' || $property == 'Periode') :
-                                    ?>
-                                            <option value="<?= $property ?>"><?= $property ?></option>
-                                    <?php
-                                        endif;
-                                    endforeach;
-                                    ?>
-                                </select>
+                                        <!-- Options will be populated by JavaScript -->
+                                    </select>
                                 </div>
                                 <div class="col-auto">
                                     <label for="filterValue" class="col-form-label">Nilai</label>
@@ -102,9 +90,9 @@
                 <?php include '../app/Views/others/layouts/footer.php'; ?>
 
                 <script>
-                   var data = <?php echo json_encode($data); ?>;
+                    var data = <?php echo json_encode($data); ?>;
 
-                   console.log(data)
+                    console.log(data)
                     var table; // Deklarasi global
 
                     $(document).ready(function() {
@@ -113,20 +101,37 @@
 
                         table = $('#dataTable').DataTable({
                             data: data,
-                            columns: [
-                                { data: null, render: function (data, type, row, meta) { return meta.row + 1; } }, // No
-                                { data: 'NamaLengkap' },
-                                { data: 'PilihanPertama' },
-                                { data: 'PilihanKedua' },
-                                { data: 'PilihanKetiga' },
-                                { data: 'jenjang' },
-                                { data: 'periode' },
-                                { data: 'keterangan' }
+                            columns: [{
+                                    data: null,
+                                    render: function(data, type, row, meta) {
+                                        return meta.row + 1;
+                                    }
+                                },
+                                {
+                                    data: 'NamaLengkap'
+                                },
+                                {
+                                    data: 'PilihanPertama'
+                                },
+                                {
+                                    data: 'PilihanKedua'
+                                },
+                                {
+                                    data: 'PilihanKetiga'
+                                },
+                                {
+                                    data: 'jenjang'
+                                },
+                                {
+                                    data: 'periode'
+                                },
+                                {
+                                    data: 'keterangan'
+                                }
                             ],
-                            "bDestroy": true // Hapus jika tidak diperlukan
+                            "bDestroy": true
                         });
 
-                        // Tambahkan custom search function ke DataTable
                         $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
                             var selectedColumn = document.getElementById('filterColumn').value;
                             var selectedValue = document.getElementById('filterValue').value;
@@ -142,7 +147,22 @@
                         var filterColumnSelect = document.getElementById('filterColumn');
                         filterColumnSelect.innerHTML = '';
 
-                        var columns = Object.keys(data[0]);
+                        function pilihProperti(data, properti) {
+                            return data.map(function(obj) {
+                                var hasil = {};
+                                properti.forEach(function(kunci) {
+                                    if (obj.hasOwnProperty(kunci)) {
+                                        hasil[kunci] = obj[kunci];
+                                    }
+                                });
+                                return hasil;
+                            });
+                        }
+
+                        var propertiDipilih = pilihProperti(data, ['periode', 'jenjang', 'status']);
+
+                        var columns = Object.keys(propertiDipilih[0]);
+
                         columns.forEach(function(column) {
                             var option = document.createElement('option');
                             option.value = column;
@@ -169,14 +189,14 @@
                         populateFilterValue(selectedColumn);
                     });
 
-                    // Event listener untuk tombol filter
+
                     document.addEventListener('DOMContentLoaded', function() {
                         const filterButton = document.getElementById('filterButton');
                         filterButton.addEventListener('click', function() {
-                            table.draw(); // Memastikan table diakses dengan benar di sini
+                            table.draw();
                         });
                     });
-
                 </script>
-</body>
-</html>
+                </body>
+
+                </html>

@@ -9,7 +9,7 @@ class ujianController
         $models = new ujianModel();
         $data = $models->getUjian();
 
-        include __DIR__ . '/../views/others/page_ujian.php';
+        include __DIR__ . '/../Views/others/page_ujian.php';
     }
 
     public function upload()

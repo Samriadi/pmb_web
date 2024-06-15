@@ -1,24 +1,28 @@
 <?php
 require_once __DIR__ . '/../models/installModel.php';
 
-class installController {
+class installController
+{
 
-	public function install() {
-        $models = new installModel();   
+    public function install()
+    {
+        $models = new installModel();
         $data = $models->getInstall();
 
-		include __DIR__ . '/../views/others/page_install.php';
+        include __DIR__ . '/../Views/others/page_install.php';
     }
 
-    public function data() {
-        $models = new installModel();   
+    public function data()
+    {
+        $models = new installModel();
         $data = $models->getInstall();
 
-		include __DIR__ . '/../views/others/page_data.php';
+        include __DIR__ . '/../Views/others/page_data.php';
     }
 
-    public function save() {
-        $models = new installModel();   
+    public function save()
+    {
+        $models = new installModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $namaLengkapKampus = $_POST['namaLengkapKampus'];
@@ -29,20 +33,12 @@ class installController {
             $negara = $_POST['negara'];
             $kodeWarnaUtama = $_POST['kodeWarnaUtama'];
 
- 
+
 
             $models->save($namaLengkapKampus, $namaSingkat, $jalan, $kota, $provinsi, $negara, $kodeWarnaUtama);
-            log_activity('ADD data install'); 
-
-        } 
-		else {
+            log_activity('ADD data install');
+        } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
         }
     }
-
-
-    
 }
-   
-	
-	

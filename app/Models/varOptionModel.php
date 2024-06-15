@@ -6,7 +6,7 @@ class varOptiontModel
     public function getVar()
     {
         $db = Database::getInstance();
-        $query = "SELECT * FROM var_option";
+        $query = "SELECT * FROM varoption";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -16,7 +16,7 @@ class varOptiontModel
     {
         $db = Database::getInstance();
 
-        $query = "INSERT INTO var_option (var_name, var_value, var_others, catatan, parent) VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO varoption (var_name, var_value, var_others, catatan, parent) VALUES (?, ?, ?, ?, ?)";
 
         try {
             $stmt = $db->prepare($query);
@@ -30,7 +30,7 @@ class varOptiontModel
     {
         $db = Database::getInstance();
 
-        $query = "DELETE FROM var_option WHERE recid = ?";
+        $query = "DELETE FROM varoption WHERE recid = ?";
 
         try {
             $stmt = $db->prepare($query);
@@ -43,7 +43,7 @@ class varOptiontModel
     public function getVarById($recid)
     {
         $db = Database::getInstance();
-        $stmt = $db->prepare("SELECT * FROM var_option WHERE recid = ?");
+        $stmt = $db->prepare("SELECT * FROM varoption WHERE recid = ?");
         $stmt->execute([$recid]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
@@ -52,7 +52,7 @@ class varOptiontModel
     {
         $db = Database::getInstance();
 
-        $stmt = $db->prepare("UPDATE var_option SET var_name = ?, var_value = ?, var_others = ?, catatan = ?, parent = ? WHERE recid = ?");
+        $stmt = $db->prepare("UPDATE varoption SET var_name = ?, var_value = ?, var_others = ?, catatan = ?, parent = ? WHERE recid = ?");
         $stmt->execute([$varname, $varvalue, $varothers, $catatan, $parent, $recid]);
     }
 
@@ -61,7 +61,7 @@ class varOptiontModel
     public function getVarByName($var_name)
     {
         $db = Database::getInstance();
-        $query = "SELECT * FROM var_option where var_name=:var_name";
+        $query = "SELECT * FROM varoption where var_name=:var_name";
         $stmt = $db->prepare($query);
         $stmt->bindParam(':var_name', $var_name);
         $stmt->execute();
@@ -87,7 +87,7 @@ class varOptiontModel
         try {
             $db = Database::getInstance();
 
-            $query = "INSERT INTO var_option (var_name, var_value) VALUES (:var_name, :var_value)";
+            $query = "INSERT INTO varoption (var_name, var_value) VALUES (:var_name, :var_value)";
 
             $stmt = $db->prepare($query);
             $stmt->bindParam(':var_name', $var_name);

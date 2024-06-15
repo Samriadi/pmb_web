@@ -15,7 +15,7 @@ class userController
 			$user_level = $dt->user_level;
 		endforeach;
 
-		include __DIR__ . '/../views/others/page_user.php';
+		include __DIR__ . '/../Views/others/page_user.php';
 	}
 	public function add()
 	{

@@ -1,12 +1,14 @@
 <?php
 
 
-class fakultasModel {
-    public function getFakultas() {
+class fakultasModel
+{
+    public function getFakultas()
+    {
         try {
             $db = Database::getInstance();
-            $query = "SELECT var_option.*, Kampus.var_value AS NamaKampus FROM var_option LEFT JOIN (SELECT * FROM var_option WHERE var_name='Kampus') AS Kampus 
-            ON var_option.parent = Kampus.recid WHERE var_option.var_name='Fakultas'";
+            $query = "SELECT varoption.*, Kampus.var_value AS NamaKampus FROM varoption LEFT JOIN (SELECT * FROM varoption WHERE var_name='Kampus') AS Kampus 
+            ON varoption.parent = Kampus.recid WHERE varoption.var_name='Fakultas'";
             $stmt = $db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -20,12 +22,13 @@ class fakultasModel {
             return [];
         }
     }
-    
-    public function add($varname, $varvalue, $varothers, $parent) {
+
+    public function add($varname, $varvalue, $varothers, $parent)
+    {
         $db = Database::getInstance();
-    
-        $query = "INSERT INTO var_option (var_name, var_value, var_others, parent) VALUES (?, ?, ?, ?)";
-    
+
+        $query = "INSERT INTO varoption (var_name, var_value, var_others, parent) VALUES (?, ?, ?, ?)";
+
         try {
             $stmt = $db->prepare($query);
             $stmt->execute([$varname, $varvalue, $varothers, $parent]);
@@ -38,13 +41,14 @@ class fakultasModel {
             return ['status' => 'error', 'message' => 'An unexpected error occurred: ' . $errorMessage];
         }
     }
-    
 
-    public function getVarById($recid) {
+
+    public function getVarById($recid)
+    {
         $db = Database::getInstance();
-    
-        $query = "SELECT * FROM var_option WHERE recid = ?";
-    
+
+        $query = "SELECT * FROM varoption WHERE recid = ?";
+
         try {
             $stmt = $db->prepare($query);
             $stmt->execute([$recid]);
@@ -57,12 +61,13 @@ class fakultasModel {
             return ['status' => 'error', 'message' => 'An unexpected error occurred: ' . $errorMessage];
         }
     }
-    
-    public function getVarByName($var_name) {
+
+    public function getVarByName($var_name)
+    {
         $db = Database::getInstance();
-    
-        $query = "SELECT * FROM var_option WHERE var_name=:var_name";
-    
+
+        $query = "SELECT * FROM varoption WHERE var_name=:var_name";
+
         try {
             $stmt = $db->prepare($query);
             $stmt->bindParam(':var_name', $var_name);
@@ -76,13 +81,14 @@ class fakultasModel {
             return ['status' => 'error', 'message' => 'An unexpected error occurred: ' . $errorMessage];
         }
     }
-    
 
-    public function updateVar($recid, $varvalue, $varothers, $parent) {
+
+    public function updateVar($recid, $varvalue, $varothers, $parent)
+    {
         $db = Database::getInstance();
-    
-        $query = "UPDATE var_option SET var_value = ?, var_others = ?, parent = ? WHERE recid = ?";
-    
+
+        $query = "UPDATE varoption SET var_value = ?, var_others = ?, parent = ? WHERE recid = ?";
+
         try {
             $stmt = $db->prepare($query);
             $stmt->execute([$varvalue, $varothers, $parent, $recid]);
@@ -95,10 +101,4 @@ class fakultasModel {
             return ['status' => 'error', 'message' => 'An unexpected error occurred: ' . $errorMessage];
         }
     }
-    
-
-
-    
 }
-
-?>

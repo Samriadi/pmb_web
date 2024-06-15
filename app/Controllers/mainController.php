@@ -20,7 +20,7 @@ class mainController
         $models = new mainModel();
         $data = $models->getLogs();
 
-        include __DIR__ . '/../views/others/page_activity.php';
+        include __DIR__ . '/../Views/others/page_activity.php';
     }
 
     public function help()
@@ -29,7 +29,7 @@ class mainController
         $page = isset($_GET['page']) ? $_GET['page'] : null;
 
         if ($page == null) {
-            include __DIR__ . '/../views/others/page_helps.php';
+            include __DIR__ . '/../Views/others/page_helps.php';
         } else {
             try {
                 $models = new mainModel();

@@ -6,7 +6,7 @@ class mainModel
     public function getCountTest()
     {
         $db = Database::getInstance();
-        $query = "SELECT COUNT(*) AS jumlah_data FROM edu_test;";
+        $query = "SELECT COUNT(*) AS jumlah_data FROM pmb_test;";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -15,7 +15,7 @@ class mainModel
     public function getCountVar()
     {
         $db = Database::getInstance();
-        $query = "SELECT COUNT(*) AS jumlah_data FROM var_option;";
+        $query = "SELECT COUNT(*) AS jumlah_data FROM varoption;";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -33,7 +33,7 @@ class mainModel
     public function getCountPeriod()
     {
         $db = Database::getInstance();
-        $query = "SELECT COUNT(*) AS jumlah_data FROM edu_periode";
+        $query = "SELECT COUNT(*) AS jumlah_data FROM pmb_periode";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
