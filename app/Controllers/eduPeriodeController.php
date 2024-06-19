@@ -54,8 +54,12 @@ class eduPeriodeController
 	}
 
 
-	public function add($jenjang)
+	public function add()
 	{
+
+		$jenjang = isset($_GET['jenjang']) ? $_GET['jenjang'] : null;
+
+
 		try {
 			if (empty($jenjang)) {
 				throw new Exception('Missing required parameter');
@@ -91,7 +95,6 @@ class eduPeriodeController
 	{
 		try {
 			$models = new eduPeriodeModel();
-
 			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				if (isset($_POST['jenjang'], $_POST['periode'], $_POST['fromDate'], $_POST['toDate'], $_POST['keterangan'], $_POST['status'])) {
 					$jenjang = $_POST['jenjang'];
@@ -100,7 +103,8 @@ class eduPeriodeController
 					$toDate = $_POST['toDate'];
 					$keterangan = $_POST['keterangan'];
 					$status = $_POST['status'];
-
+					
+					echo $jenjang;
 					$models->addPeriode($jenjang, $periode, $fromDate, $toDate, $keterangan, $status);
 					log_activity('ADD Periode');
 
@@ -115,8 +119,13 @@ class eduPeriodeController
 			$response = ['status_code' => 500, 'status' => 'error', 'message' => $e->getMessage()];
 		}
 
+		// Set header to JSON
+		header('Content-Type: application/json');
+
+		// Output JSON response
 		echo json_encode($response);
 	}
+
 
 	public function edit($id, $var)
 	{

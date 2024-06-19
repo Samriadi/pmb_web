@@ -28,7 +28,7 @@
                             <div>
                                 <a class="btn btn-success btn-icon-split" href="#" onclick="loadHelpModal()" style="margin-bottom: 15px;"><span class="icon text-white-50"> <i class="fas fa-info-circle"></i></span> <span class="text">Help</span></a>
                             </div>
-                        </div>
+                        </div>  
 
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -260,9 +260,10 @@
 
 
                         var kampus = document.getElementById('editParent').name;
+                        
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/admin/fakultas/edit?id=' + id + '&var?=' + kampus, true);
+                        xhr.open('GET', '/admin/fakultas/edit?id=' + id, true);
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
                                 var response = JSON.parse(xhr.responseText.trim());

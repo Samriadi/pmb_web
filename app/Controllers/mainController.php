@@ -99,4 +99,9 @@ class mainController
 
         include __DIR__ . '/../Views/others/page_panduan.php';
     }
+
+    public function testcard()
+    {
+        include __DIR__ . '/../Views/others/page_kartuUjian.php';
+    }
 }

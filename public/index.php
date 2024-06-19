@@ -48,10 +48,9 @@ $router->add('/test/delete', 'eduTestController', 'delete');
 
 //edu Periode
 $router->add('/periode', 'eduPeriodeController', 'index');
-$router->add('/periode/add/{var}', 'eduPeriodeController', 'add');
+$router->add('/periode/add', 'eduPeriodeController', 'add');
 $router->add('/periode/save', 'eduPeriodeController', 'save');
-$router->add('/periode/lastPeriod/{jenjang}', 'eduPeriodeController', 'lastPeriod');
-$router->add('/periode/edit/{id}/include/{var}', 'eduPeriodeController', 'edit');
+$router->add('/periode/edit', 'eduPeriodeController', 'edit');
 $router->add('/periode/update', 'eduPeriodeController', 'update');
 $router->add('/periode/delete', 'eduPeriodeController', 'delete');
 
@@ -83,7 +82,6 @@ $router->add('/ujian/download', 'ujianController', 'download');
 
 //item
 $router->add('/testCard', 'mainController', 'testCard');
-$router->add('/logs', 'mainController', 'logs');
 
 // helps
 $router->add('/help', 'mainController', 'help');
@@ -93,6 +91,9 @@ $router->add('/help/delete', 'mainController', 'deleteHelp');
 $router->add('/panduan', 'mainController', 'showHelp');
 
 $router->add('/pendaftar', 'pendaftarController', 'index');
+$router->add('/verified', 'pendaftarController', 'verified');
+$router->add('/verified/action', 'pendaftarController', 'toggleVerified');
+$router->add('/testcard', 'mainController', 'testcard');
 
 
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';

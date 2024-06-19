@@ -39,6 +39,7 @@ class eduPeriodeModel
 
     public function addPeriode($jenjang, $periode, $fromDate, $toDate, $keterangan, $status)
     {
+
         $db = Database::getInstance();
 
         $query = "INSERT INTO pmb_periode (Jenjang, Periode, fromDate, toDate, Keterangan, status) VALUES (?, ?, ?, ?, ?, ?)";

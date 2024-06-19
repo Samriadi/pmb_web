@@ -58,6 +58,7 @@ class fakultasController
 
 			$kampusValues = $models->getVarByName('Kampus');
 
+
 			if ($kampusValues === false) {
 				throw new Exception('Failed to retrieve variable options');
 			}
@@ -83,7 +84,7 @@ class fakultasController
 	{
 
 		$id = isset($_GET['id']) ? $_GET['id'] : null;
-		$var = isset($_GET['var']) ? $_GET['var'] : null;
+
 
 		try {
 			$models = new fakultasModel();
@@ -93,7 +94,7 @@ class fakultasController
 				throw new Exception('Failed to retrieve variable data');
 			}
 
-			$kampusValues = $models->getVarByName($var);
+			$kampusValues = $models->getVarByName('Kampus');
 			if ($kampusValues === false) {
 				throw new Exception('Failed to retrieve kampus values');
 			}
@@ -146,4 +147,5 @@ class fakultasController
 			echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 		}
 	}
+	
 }

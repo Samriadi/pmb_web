@@ -67,6 +67,8 @@
                  <a class="collapse-item" href="/admin/prodi">Prodi</a>
                  <a class="collapse-item" href="/admin/ujian">Ujian</a>
                  <a class="collapse-item" href="/admin/pendaftar">Pendaftar</a>
+                 <a class="collapse-item" href="/admin/verified">Verified</a>
+                 <a class="collapse-item" href="/admin/testcard">Kartu Ujian</a>
              </div>
          </div>
      </li>

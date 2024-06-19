@@ -60,7 +60,7 @@
                                <a class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
                             <?php } 
                             else { ?>
-                                 <a class="btn btn-danger" href="/periode/delete?id=<?= $dt['recid']; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                                 <a class="btn btn-danger" href="/admin/periode/delete?id=<?= $dt['recid']; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                            <?php } 
                            ?>
                             </td>
@@ -101,7 +101,6 @@
                             
                         </select>
                 </div>
-               
                 <div class="form-group">
                     <label for="fromDate">From Date</label>
                     <input type="date" class="form-control" id="fromDate" name="fromDate" required>
@@ -147,14 +146,11 @@
                             <!-- Opsi tahun akan diisi menggunakan JavaScript -->
                         </select>					
                 </div>
-
                 <div class="form-group">
                 <label for="editJenjang">Jenjang</label>
                     <select class="form-control" id="editJenjang" name="Jenjang" required>
-                       
                     </select>
                 </div>
-             
                 <div class="form-group">
                     <label for="editFromDate">From Date</label>
                     <input type="date" class="form-control" id="editFromDate" name="fromDate" required>
@@ -193,11 +189,13 @@ function add() {
     var varNameJenjang = document.getElementById('jenjang').name;
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/periode/add?jenjang='+varNameJenjang, true);
+    xhr.open('GET', '/admin/periode/add?jenjang='+varNameJenjang, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText);
+            console.log("🚀 ~ add ~ response:", response)
 
+            
             // Mengisi opsi select untuk jenjang
             var jenjangSelect = document.getElementById('jenjang');
             response.jenjangValues.forEach(function(item) {
@@ -232,7 +230,9 @@ function add() {
 		var keterangan = document.getElementById('keterangan').value;
 		var status = document.getElementById('status').value;
 
-		if(!jenjang || !periode || !fromDate || !toDate || !status){
+        
+
+		if(!jenjang || !periode || !status){
 			Swal.fire({
 				title : 'Error!',
 				text : 'please fill in all fields',
@@ -243,14 +243,14 @@ function add() {
 		}
 
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', '/periode/save', true);        
+		xhr.open('POST', '/admin/periode/save', true);        
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					try {
-						var response = JSON.parse(xhr.responseText);
+						var response = JSON.parse(xhr.responseText.trim());
+						console.log("🚀 ~ document.getElementById ~ response:", response)
 						Swal.fire({
 							title: 'Success!',
 							text: response.message || 'Data successfully saved!',
@@ -305,7 +305,7 @@ function add() {
 
         var varNameJenjang = document.getElementById('jenjang').name;
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/periode/edit?id=' + recid + '&jenjang=' + varNameJenjang, true);
+        xhr.open('GET', '/admin/periode/edit?id=' + recid + '&jenjang=' + varNameJenjang, true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 var response = JSON.parse(xhr.responseText.trim());
@@ -353,7 +353,7 @@ function add() {
     console.log(status);
     
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/periode/update', true);
+    xhr.open('POST', '/admin/periode/update', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
