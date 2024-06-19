@@ -18,14 +18,15 @@
             <div class="container-fluid">
                 <!-- Button trigger modal -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">DATA PENDAFTAR</h6>
-                    </div>
+                <div class="card-header py-3">
+                    <h5 class="m-0 font-weight-bold text-primary">DATA PENDAFTAR</h5>
+                    <h6 id="filterSubtitle" class="m-0 font-weight-bold text-primary"></h6>
+                </div>
                     <div class="card-body">
                         <form id="filterForm" method="GET" action="">
                             <div class="row g-3 align-items-center mb-3">
                                 <div class="col-auto">
-                                    <label for="filterColumn" class="col-form-label">Pilih Kolom</label>
+                                    <label for="filterColumn" class="col-form-label">Kolom</label>
                                 </div>
                                 <div class="col-auto">
                                     <select class="form-control" id="filterColumn" name="filterColumn">
@@ -33,7 +34,7 @@
                                     </select>
                                 </div>
                                 <div class="col-auto">
-                                    <label for="filterValue" class="col-form-label">Pilih Nilai</label>
+                                    <label for="filterValue" class="col-form-label">Nilai</label>
                                 </div>
                                 <div class="col-auto">
                                     <select class="form-control" id="filterValue" name="filterValue">
@@ -91,9 +92,7 @@
 
                 <script>
                     var data = <?php echo json_encode($data); ?>;
-
-                    console.log(data)
-                    var table; // Deklarasi global
+                    var table;
 
                     $(document).ready(function() {
                         populateFilterColumns();
@@ -140,11 +139,9 @@
                                 return true; 
                             }
                             
-                            
                             var columnValue = table.row(dataIndex).data()[selectedColumn];
                             return columnValue == selectedValue;
 
-                            
                         });
 
                     });
@@ -171,7 +168,6 @@
                         }
 
                         var propertiDipilih = pilihProperti(data, ['periode', 'jenjang', 'status']);
-
                         var columns = Object.keys(propertiDipilih[0]);
 
                         columns.forEach(function(column) {
@@ -194,10 +190,11 @@
                         } else {
                             var uniqueValues = [...new Set(data.map(item => item[column]))];
                             uniqueValues.forEach(function(value) {
+                                if(value !== null){
                                 var option = document.createElement('option');
                                 option.value = value;
                                 option.text = value;
-                                filterValueSelect.appendChild(option);
+                                filterValueSelect.appendChild(option)};
                             });
                         }
                     }
@@ -207,14 +204,34 @@
                         populateFilterValue(selectedColumn);
                     });
 
+                    function addSubtitle() {
+                        const filterColumnSelect = document.getElementById('filterColumn');
+                        const filterValueSelect = document.getElementById('filterValue');
+                        const filterSubtitle = document.getElementById('filterSubtitle');
+
+
+                        function updateSubtitle() {
+                            const selectedColumnText = filterColumnSelect.options[filterColumnSelect.selectedIndex].text;
+                            const selectedValueText = filterValueSelect.options[filterValueSelect.selectedIndex].text;
+                            if (selectedColumnText != 'All')
+                                filterSubtitle.textContent = `${selectedColumnText}  ${selectedValueText}`;
+                            else
+                                filterSubtitle.textContent = ``;
+
+                        }
+                            updateSubtitle();
+                    }
 
                     document.addEventListener('DOMContentLoaded', function() {
                         const filterButton = document.getElementById('filterButton');
+                        
                         filterButton.addEventListener('click', function() {
                             table.draw();
+                            addSubtitle();
                         });
                     });
-                </script>
-                </body>
 
-                </html>
+                </script>
+
+            </body>
+        </html> 
