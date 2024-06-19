@@ -8,18 +8,18 @@ class pendaftarModel
             a.ID, 
             a.NamaLengkap,
             b.id,
-            ( SELECT IF(b.PilihanPertama = d.recid, d.var_value, 'NO') 
-                FROM varoption d 
-                WHERE d.recid = b.PilihanPertama
-            ) AS PilihanPertama,
-            ( SELECT IF(b.PilihanKedua = d.recid, d.var_value, 'NO') 
-                FROM varoption d 
-                WHERE d.recid = b.PilihanKedua
-            ) AS PilihanKedua,
-            ( SELECT IF(b.PilihanKetiga = d.recid, d.var_value, 'NO') 
-                FROM varoption d 
-                WHERE d.recid = b.PilihanKetiga
-            ) AS PilihanKetiga,
+            CASE 
+                WHEN b.PilihanPertama = d.recid THEN d.var_value 
+                ELSE ' ' 
+            END AS PilihanPertama,
+            CASE 
+                WHEN b.PilihanKedua = d.recid THEN d.var_value 
+                ELSE ' ' 
+            END AS PilihanKedua,
+            CASE 
+                WHEN b.PilihanKetiga = d.recid THEN d.var_value 
+                ELSE ' ' 
+            END AS PilihanKetiga,
             b.member_id,
             c.recid,
             c.jenjang,
@@ -31,7 +31,9 @@ class pendaftarModel
         JOIN 
             pmb_tagihan b ON b.member_id = a.ID
         JOIN 
-            pmb_periode c ON c.recid = b.periode";
+            pmb_periode c ON c.recid = b.periode
+        LEFT JOIN 
+            varoption d ON d.recid IN (b.PilihanPertama, b.PilihanKedua, b.PilihanKetiga);";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);

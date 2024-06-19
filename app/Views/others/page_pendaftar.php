@@ -25,7 +25,7 @@
                         <form id="filterForm" method="GET" action="">
                             <div class="row g-3 align-items-center mb-3">
                                 <div class="col-auto">
-                                    <label for="filterColumn" class="col-form-label">Kolom</label>
+                                    <label for="filterColumn" class="col-form-label">Pilih Kolom</label>
                                 </div>
                                 <div class="col-auto">
                                     <select class="form-control" id="filterColumn" name="filterColumn">
@@ -33,7 +33,7 @@
                                     </select>
                                 </div>
                                 <div class="col-auto">
-                                    <label for="filterValue" class="col-form-label">Nilai</label>
+                                    <label for="filterValue" class="col-form-label">Pilih Nilai</label>
                                 </div>
                                 <div class="col-auto">
                                     <select class="form-control" id="filterValue" name="filterValue">
@@ -135,17 +135,28 @@
                         $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
                             var selectedColumn = document.getElementById('filterColumn').value;
                             var selectedValue = document.getElementById('filterValue').value;
-                            if (selectedValue === '') {
-                                return true;
+
+                            if (selectedColumn === 'all' || selectedValue === '') {
+                                return true; 
                             }
+                            
+                            
                             var columnValue = table.row(dataIndex).data()[selectedColumn];
                             return columnValue == selectedValue;
+
+                            
                         });
+
                     });
 
                     function populateFilterColumns() {
                         var filterColumnSelect = document.getElementById('filterColumn');
                         filterColumnSelect.innerHTML = '';
+
+                        var allOption = document.createElement('option');
+                            allOption.value = 'all';
+                            allOption.text = 'All';
+                            filterColumnSelect.appendChild(allOption);
 
                         function pilihProperti(data, properti) {
                             return data.map(function(obj) {
@@ -175,13 +186,20 @@
                         var filterValueSelect = document.getElementById('filterValue');
                         filterValueSelect.innerHTML = '';
 
-                        var uniqueValues = [...new Set(data.map(item => item[column]))];
-                        uniqueValues.forEach(function(value) {
-                            var option = document.createElement('option');
-                            option.value = value;
-                            option.text = value;
-                            filterValueSelect.appendChild(option);
-                        });
+                        if (column === 'all') {
+                            var allOption = document.createElement('option');
+                            allOption.value = '';
+                            allOption.text = 'All';
+                            filterValueSelect.appendChild(allOption);
+                        } else {
+                            var uniqueValues = [...new Set(data.map(item => item[column]))];
+                            uniqueValues.forEach(function(value) {
+                                var option = document.createElement('option');
+                                option.value = value;
+                                option.text = value;
+                                filterValueSelect.appendChild(option);
+                            });
+                        }
                     }
 
                     document.getElementById('filterColumn').addEventListener('change', function() {
