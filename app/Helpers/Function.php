@@ -11,3 +11,24 @@ function log_activity($keterangan)
         $logModel->logActivity($user_id, $now, $keterangan);
     }
 }
+function generateSecureRandomID($length = 9) {
+    $result = '';
+    for ($i = 0; $i < $length; $i++) {
+        // Menghasilkan angka acak antara 0 dan 9
+        $result .= random_int(0, 9);
+    }
+    return $result;
+}
+
+function checkIDExists($id) {
+    $db = Database::getInstance();
+
+    $query = "SELECT COUNT(*) FROM pmb_pembayaran WHERE va_number = ?"; 
+    $stmt = $db->prepare($query);
+    $stmt->execute([$id]);
+
+    // Menggunakan $stmt bukan $query untuk fetchColumn
+    $count = $stmt->fetchColumn();
+    // Mengembalikan jumlah record, bukan boolean
+    return $count;
+}

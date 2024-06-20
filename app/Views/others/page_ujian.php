@@ -158,16 +158,16 @@
                                 processData: false,
                                 success: function(response) {
                                     console.log('Respons dari server:', response);
-                                    // Menampilkan SweetAlert ketika upload berhasil
                                     Swal.fire({
                                         title: 'Success!',
                                         text: 'Data Berhasil diperbaharui',
                                         icon: 'success',
-                                        confirmButtonText: 'OK',
-                                        showCancelButton: false
+                                        showConfirmButton: false,
+                                        timer: 1000 
                                     }).then((result) => {
-                                        window.location.reload(); // Me-refresh halaman
+                                        window.location.reload(); 
                                     });
+
                                 },
 
                                 error: function(xhr, status, error) {

@@ -15,15 +15,15 @@ class ujianController
     public function upload()
     {
         $models = new ujianModel();
-
+    
         header('Content-Type: application/json');
-
+    
         if ($_FILES['file']['error'] == UPLOAD_ERR_OK && $_FILES['file']['size'] > 0) {
             $file = $_FILES['file']['tmp_name'];
             $handle = fopen($file, "r");
             $response = [];
             $isFirstRow = true;
-
+    
             while (($data = fgetcsv($handle, 1000, ";")) !== false) {
                 if ($isFirstRow) {
                     $isFirstRow = false;
@@ -34,12 +34,15 @@ class ujianController
                     $no_ujian = trim($data[0]);
                     $nama = trim($data[1]);
                     $kelulusan = trim($data[2]);
-
+    
+    
                     $response[] = [
                         'no_ujian' => $no_ujian,
                         'nama' => $nama,
                         'kelulusan' => $kelulusan,
                     ];
+
+                    $models->deleteByNoUjian($no_ujian);
                     $models->uploadCSV($no_ujian, $kelulusan);
                 } else {
                     $response[] = [
@@ -48,10 +51,10 @@ class ujianController
                 }
             }
             fclose($handle);
-
+    
             echo json_encode([
                 'status' => 'success',
-                'data' => $response
+                'data' => $response,
             ]);
         } else {
             echo json_encode([
@@ -60,6 +63,7 @@ class ujianController
             ]);
         }
     }
+    
 
     public function download()
     {

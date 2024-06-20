@@ -29,7 +29,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Lengkap</th>
-                                        <th>Berkas</th>
+                                        <th>File</th>
                                         <th>Pembayaran</th>
                                         <th>Jumlah Tagihan</th>
                                         <th>Bank Transfer</th>
@@ -55,9 +55,19 @@
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= $dt->NamaLengkap ?></td>
-                                            <td><a href="#" data-toggle="modal" data-target="#fileModal" data-file="<?= $dt->berkas ?>"><?= $dt->berkas ?></a></td>
+                                            <td>
+                                            <?php if($dt->berkas) { ?>
+                                                <a href="#" data-toggle="modal" data-target="#docuFileModal" data-file="<?= $dt->berkas ?>">Dokumen</a>
+                                            <?php } ?>
+                                            <?php if($dt->photo) { ?>
+                                                <a href="#" data-toggle="modal" data-target="#photoFileModal" data-file="<?= $dt->photo ?>">Photo</a>
+                                            <?php } ?>
+                                            <?php if($dt->bukti_transfer) { ?>
+                                                <a href="#" data-toggle="modal" data-target="#buktiFileModal" data-file="<?= $dt->bukti_transfer ?>">Bukti Transfer</a>
+                                            <?php } ?>
+                                            </td>
                                             <td><?= $dt->invoice_id ?></td>
-                                            <td><?= $dt->jumlah_tagihan ?></td>
+                                            <td>Rp. <?= number_format($dt->jumlah_tagihan, 0, ',', '.') ?></td>
                                             <td><?= $dt->nomor_va ?></td>
                                             <td><?= $dt->registration_date ?></td>
                                             <td><?= $dt->Periode ?></td>
@@ -65,7 +75,9 @@
                                             <td><?= $dt->Prodi2 ?></td>
                                             <td><?= $dt->Prodi3 ?></td>
                                             <td><?= $dt->jenjang ?></td>
-                                            <td><?= $dt->WANumber ?></td>
+                                            <td id="WAnumber">
+                                                <a href="https://wa.me/<?= '62' . substr($dt->WANumber, 1) ?>" target="_blank"><?= $dt->WANumber ?></a>
+                                            </td>
                                             <td><?= $dt->jenis ?></td>
                                             <td>
                                                 <button class="btn btn-sm <?= $buttonClass ?>" onclick="toggleVerified(<?= $dt->id ?>)">
@@ -77,25 +89,73 @@
                                 </tbody>
                             </table>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="fileModalLabel">BERKAS</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <iframe id="fileFrame" src="" width="100%" height="400px"></iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
+                           <!-- Modal -->
+                            <div class="modal fade" id="docuFileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="fileModalLabel">BERKAS</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="imageContainer" style="display:none;">
+                                                <img id="imageFrame" src="" width="100%" height="400px">
+                                            </div>
+                                            <iframe id="docuFileFrame" src="" width="100%" height="400px"></iframe>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="modal fade" id="photoFileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="fileModalLabel">PHOTO</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="imageContainer" style="display:none;">
+                                                <img id="imageFrame" src="" width="100%" height="400px">
+                                            </div>
+                                            <iframe id="photoFileFrame" src="" width="100%" height="400px"></iframe>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
+                            <div class="modal fade" id="buktiFileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="fileModalLabel">BUKTI TRANSFER</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="imageContainer" style="display:none;">
+                                                <img id="imageFrame" src="" width="100%" height="400px">
+                                            </div>
+                                            <iframe id="buktiFileFrame" src="" width="100%" height="400px"></iframe>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
 
 
@@ -108,86 +168,86 @@
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
                 <script>
-                $(document).ready(function(){
-                    $('#fileModal').on('show.bs.modal', function (event) {
-                        var button = $(event.relatedTarget); // Button that triggered the modal
-                        var fileName = button.data('file'); // Extract info from data-* attributes
-                        var fileUrl = 'public/uploads/docu/' + fileName;
-                        var fileExtension = fileName.split('.').pop().toLowerCase();
+                    $(document).ready(function(){
+                        function setupModal(modalId, filePath, iframeId) {
+                            $(modalId).on('show.bs.modal', function (event) {
+                                var button = $(event.relatedTarget); // Button that triggered the modal
+                                var fileName = button.data('file'); // Extract info from data-* attributes
+                                var fileUrl = filePath + fileName;
+                                var fileExtension = fileName.split('.').pop().toLowerCase();
 
-                        var modal = $(this);
-                        if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(fileExtension)) {
-                            // If the file is an image
-                            modal.find('.modal-body #imageContainer').show();
-                            modal.find('.modal-body #fileFrame').hide();
-                            modal.find('.modal-body #imageFrame').attr('src', fileUrl);
-                        } else {
-                            // If the file is not an image (e.g., PDF)
-                            modal.find('.modal-body #imageContainer').hide();
-                            modal.find('.modal-body #fileFrame').show();
-                            modal.find('.modal-body #fileFrame').attr('src', fileUrl);
+                                var modal = $(this);
+                                if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(fileExtension)) {
+                                    // If the file is an image
+                                    modal.find('.modal-body #imageContainer').show();
+                                    modal.find('.modal-body #' + iframeId).hide();
+                                    modal.find('.modal-body #imageFrame').attr('src', fileUrl);
+                                } else {
+                                    // If the file is not an image (e.g., PDF)
+                                    modal.find('.modal-body #imageContainer').hide();
+                                    modal.find('.modal-body #' + iframeId).show();
+                                    modal.find('.modal-body #' + iframeId).attr('src', fileUrl);
+                                }
+                            });
+
+                            $(modalId).on('hidden.bs.modal', function () {
+                                var modal = $(this);
+                                modal.find('.modal-body #imageFrame').attr('src', '');
+                                modal.find('.modal-body #' + iframeId).attr('src', '');
+                            });
                         }
-                    });
 
-                    $('#fileModal').on('hidden.bs.modal', function () {
-                        var modal = $(this);
-                        modal.find('.modal-body #imageFrame').attr('src', '');
-                        modal.find('.modal-body #fileFrame').attr('src', '');
+                        setupModal('#docuFileModal', 'public/uploads/docu/', 'docuFileFrame');
+                        setupModal('#photoFileModal', 'public/uploads/photo/', 'photoFileFrame');
+                        setupModal('#buktiFileModal', 'public/uploads/payment/', 'buktiFileFrame');
                     });
-                });
                 </script>
 
                 <script>
                     function toggleVerified(id) {
-                        fetch('/admin/getVerificationStatus/' + id)
-                        .then(response => response.json())
-                        .then(data => {
-                            const currentStatus = data.verified;
-                            const confirmationText = currentStatus === 'Verified'
-                                ? 'Do you want to mark this record as Unverified?'
-                                : 'Do you want to mark this record as Verified?';
-
-                            Swal.fire({
-                                title: 'Are you sure?',
-                                text: confirmationText,
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'Yes'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    fetch('/admin/verified/action', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify({ id: id })
-                                    })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        if (data.success) {
-                                            const button = document.querySelector(`button[onclick="toggleVerified(${id})"]`);
-                                            button.textContent = data.verified === 'Verified' ? 'Verified' : 'Unverified';
-                                            button.className = 'btn btn-sm ' + (data.verified === 'Verified' ? 'btn-success' : 'btn-danger');
-                                            Swal.fire('Updated!', 'The verification status has been updated.', 'success')
-                                                .then(() => {
-                                                    window.location.reload();
-                                                });
-                                        } else {
-                                            Swal.fire('Error', 'Failed to update verification status.', 'error');
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Konfirmasi',
+                            text: 'Anda yakin ingin mengubah status verifikasi?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                fetch('/admin/verified/action', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ id: id })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        const button = document.querySelector(`button[onclick="toggleVerified(${id})"]`);
+                                        button.textContent = data.verified === 'Verified' ? 'Verified' : 'Unverified';
+                                        button.className = 'btn btn-sm ' + (data.verified === 'Verified' ? 'btn-success' : 'btn-danger');
+                                        Swal.fire({
+                                            title: 'Updated!',
+                                            text: 'The verification status has been updated.',
+                                            icon: 'success',
+                                            timer: 1000, //
+                                            showConfirmButton: false 
+                                        });
+                                        setTimeout(() => {
+                                            window.location.reload();
+                                        }, 1000);
+                                    } else {
                                         Swal.fire('Error', 'Failed to update verification status.', 'error');
-                                    });
-                                }
-                            });
-                        })
-                        .catch(error => {
-                            console.error('Error fetching verification status:', error);
-                            Swal.fire('Error', 'Failed to fetch verification status.', 'error');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    Swal.fire('Error', 'Failed to update verification status.', 'error');
+                                });
+                            }
                         });
                     }
                 </script>
