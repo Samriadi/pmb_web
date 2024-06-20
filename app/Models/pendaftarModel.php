@@ -45,16 +45,34 @@ class pendaftarModel
                         a.pay_status,
                         a.verified,
                         a.no_ujian,
+                        a.jumlah_tagihan,
+                        a.nomor_va,
+                        a.registration_date,
+                        a.jenis,
+                        a.invoice_id,
+                        a.jenjang,
+                        a.bukti_transfer,
                         b.ID,
                         b.NamaLengkap,
+                        b.berkas,
+                        b.WANumber,
+                        b.photo,
                         c.Periode,
-                        c.Keterangan
+                        COALESCE(d1.var_value, '') AS Prodi1,
+                        COALESCE(d2.var_value, '') AS Prodi2,
+                        COALESCE(d3.var_value, '') AS Prodi3
                     FROM 
                         pmb_tagihan a
                     LEFT JOIN 
                         pmb_mahasiswa b ON b.ID = a.member_id
                     LEFT JOIN 
                         pmb_periode c ON c.recid = a.periode
+                    LEFT JOIN 
+                        varoption d1 ON d1.recid = a.PilihanPertama
+                    LEFT JOIN 
+                        varoption d2 ON d2.recid = a.PilihanKedua
+                    LEFT JOIN 
+                        varoption d3 ON d3.recid = a.PilihanKetiga;
                     ";
         $stmt = $db->prepare($query);
         $stmt->execute();
