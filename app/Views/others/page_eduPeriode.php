@@ -39,8 +39,8 @@
                     <tbody>
 		                <?php 
                         $no = 1;
-                        foreach ($result as $dt): 
-						   $sts = strtolower($dt['status']);
+                        foreach ($data as $dt): 
+						   $sts = strtolower($dt->status);
 						   if ($sts == "open")
 						   $warna = "#F2F4F4";
 					       else
@@ -48,19 +48,19 @@
                         ?>
                         <tr style="background-color: <?=$warna?>;">
                             <td><?=$no++?></td>
-                            <td><?=$dt['periode']?></td>
-                            <td><?=$dt['jenjang']?></td>
-                            <td><?=$dt['fromDate']?></td>
-                            <td><?=$dt['toDate']?></td>
-                            <td><?=$dt['keterangan']?></td>
-                            <td><?=$dt['status']?></td>
-                            <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt['recid'] ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
+                            <td><?=$dt->Periode?></td>
+                            <td><?=$dt->Jenjang?></td>
+                            <td><?=$dt->fromDate?></td>
+                            <td><?=$dt->toDate?></td>
+                            <td><?=$dt->Keterangan?></td>
+                            <td><?=$dt->status?></td>
+                            <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->recid ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
                             <?php 
-                            if($dt['is_in_tagihan'] == "true"){ ?>
+                            if($dt->isInTagihan == "true"){ ?>
                                <a class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
                             <?php } 
                             else { ?>
-                                 <a class="btn btn-danger" href="#" onclick="deleteRecord(<?= $dt['recid']; ?>)"><i class="fas fa-trash"></i></a>
+                                 <a class="btn btn-danger" href="#" onclick="deleteRecord(<?= $dt->recid; ?>)"><i class="fas fa-trash"></i></a>
                            <?php } 
                            ?>
                             </td>

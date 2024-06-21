@@ -11,37 +11,6 @@ class eduPeriodeController
 			$models = new eduPeriodeModel();
 			$data = $models->getPeriode();
 
-			if ($data === false) {
-				throw new Exception('Failed to retrieve periods');
-			}
-
-			$result = [];
-			foreach ($data as $dt) {
-				$recid = $dt->recid;
-				$jenjang = $dt->Jenjang;
-				$periode = $dt->Periode;
-				$fromDate = $dt->fromDate;
-				$toDate = $dt->toDate;
-				$keterangan = $dt->Keterangan;
-				$status = $dt->status;
-
-				$is_in_tagihan = $models->getPeriodeIsInTagihan($recid, $periode);
-				if ($is_in_tagihan === false) {
-					throw new Exception('Failed to check if period is in billing for recid ' . $recid);
-				}
-
-				$result[] = [
-					'recid' => $recid,
-					'jenjang' => $jenjang,
-					'periode' => $periode,
-					'fromDate' => $fromDate,
-					'toDate' => $toDate,
-					'keterangan' => $keterangan,
-					'status' => $status,
-					'is_in_tagihan' => $is_in_tagihan
-				];
-			}
-
 			include __DIR__ . '/../Views/others/page_eduPeriode.php';
 		} catch (Exception $e) {
 			$response = [
@@ -52,7 +21,6 @@ class eduPeriodeController
 			echo json_encode($response);
 		}
 	}
-
 
 	public function add()
 	{

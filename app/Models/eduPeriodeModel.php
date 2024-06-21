@@ -7,7 +7,7 @@ class eduPeriodeModel
     {
         try {
             $db = Database::getInstance();
-            $query = "SELECT * FROM pmb_periode";
+            $query = "SELECT DISTINCT a.*, IF(b.periode IS NOT NULL, 'true', 'false') AS isInTagihan FROM pmb_periode a LEFT JOIN pmb_tagihan b ON b.periode = a.recid";
             $stmt = $db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -16,26 +16,6 @@ class eduPeriodeModel
             return false;
         }
     }
-
-    public function getPeriodeIsInTagihan($recid, $value)
-    {
-        try {
-            $db = Database::getInstance();
-            $query = "SELECT DISTINCT t2.Periode AS Periode, CASE WHEN t1.periode IS NOT NULL THEN 'true' ELSE 'false' END AS is_in_tagihan FROM pmb_periode t2 LEFT JOIN tagihan t1 ON t2.Periode = t1.periode WHERE t2.recid = ? AND t2.Periode = ?";
-            $stmt = $db->prepare($query);
-            $stmt->execute([$recid, $value]);
-            $result = $stmt->fetch(PDO::FETCH_OBJ);
-            if ($result) {
-                return $result->is_in_tagihan;
-            } else {
-                return false;
-            }
-        } catch (PDOException $e) {
-            error_log("Kesalahan: " . $e->getMessage(), 0);
-            return false; 
-        }
-    }
-
 
     public function addPeriode($jenjang, $periode, $fromDate, $toDate, $keterangan, $status)
     {
