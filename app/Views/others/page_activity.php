@@ -38,7 +38,7 @@
                                     ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
-                                            <td><?= $dt->name ?></td>
+                                            <td><?= $dt->usr_name ?></td>
                                             <td><?= $dt->tanggal ?></td>
                                             <td><?= $dt->keterangan ?></td>
                                         </tr>
