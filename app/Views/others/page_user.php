@@ -47,7 +47,7 @@
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= $dt->username ?></td>
-                                            <td><?= $dt->user_level ?></td>
+                                            <td><?= $dt->userlevel ?></td>
                                             <td><a class="btn btn-secondary" href="#" onclick="edit(<?= $dt->userid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
                                                 <a class="btn btn-third" href="/admin/user/delete?userid=<?= $dt->userid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
                                             </td>
@@ -81,12 +81,12 @@
                                     <input type="text" class="form-control" id="username" name="username" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="user_pass">User Pass</label>
-                                    <input type="text" class="form-control" id="user_pass" name="user_pass" required>
+                                    <label for="userpass">User Pass</label>
+                                    <input type="text" class="form-control" id="userpass" name="userpass" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="user_level">User Level</label>
-                                    <select class="form-control" id="user_level" name="user_level" required>
+                                    <label for="userlevel">User Level</label>
+                                    <select class="form-control" id="userlevel" name="userlevel" required>
                                         <option value="superadmin">Super Admin</option>
                                         <option value="admin">Admin</option>
                                         <option value="supervisor">Supervisor</option>
@@ -121,11 +121,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="editUserpass">User Pass</label>
-                                    <input type="text" class="form-control" id="editUserpass" name="user_pass" required>
+                                    <input type="text" class="form-control" id="editUserpass" name="userpass" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="editUserlevel">User Level</label>
-                                    <select class="form-control" id="editUserlevel" name="user_level" required>
+                                    <select class="form-control" id="editUserlevel" name="userlevel" required>
                                         <option value="superadmin">Super Admin</option>
                                         <option value="admin">Admin</option>
                                         <option value="supervisor">Supervisor</option>
@@ -153,10 +153,10 @@
 
                         document.getElementById('save').addEventListener('click', function() {
                             var username = document.getElementById('username').value;
-                            var user_pass = document.getElementById('user_pass').value;
-                            var user_level = document.getElementById('user_level').value;
+                            var userpass = document.getElementById('userpass').value;
+                            var userlevel = document.getElementById('userlevel').value;
 
-                            if (!username || !user_pass || !user_level) {
+                            if (!username || !userpass || !userlevel) {
                                 Swal.fire({
                                     title: 'Error!',
                                     text: 'Please fill in all fields.',
@@ -191,8 +191,8 @@
                             // Kirim data yang ingin Anda kirimkan
                             var data =
                                 "username=" + encodeURIComponent(username) +
-                                "&user_pass=" + encodeURIComponent(user_pass) +
-                                "&user_level=" + encodeURIComponent(user_level);
+                                "&userpass=" + encodeURIComponent(userpass) +
+                                "&userlevel=" + encodeURIComponent(userlevel);
                             xhr.send(data);
                         });
                     }
@@ -211,8 +211,8 @@
 
                                 document.getElementById('userid').value = response.userid;
                                 document.getElementById('editUsername').value = response.username;
-                                document.getElementById('editUserpass').value = response.user_pass;
-                                document.getElementById('editUserlevel').value = response.user_level;
+                                document.getElementById('editUserpass').value = response.userpass;
+                                document.getElementById('editUserlevel').value = response.userlevel;
 
                                 var editModal = new bootstrap.Modal(document.getElementById('editModal'));
                                 editModal.show();
@@ -224,8 +224,8 @@
                     document.getElementById('update').addEventListener('click', function() {
                         var userid = document.getElementById('userid').value;
                         var username = document.getElementById('editUsername').value;
-                        var user_pass = document.getElementById('editUserpass').value;
-                        var user_level = document.getElementById('editUserlevel').value;
+                        var userpass = document.getElementById('editUserpass').value;
+                        var userlevel = document.getElementById('editUserlevel').value;
 
 
                         var xhr = new XMLHttpRequest();
@@ -262,8 +262,8 @@
                         var data =
                             "&userid=" + encodeURIComponent(userid) +
                             "&username=" + encodeURIComponent(username) +
-                            "&user_pass=" + encodeURIComponent(user_pass) +
-                            "&user_level=" + encodeURIComponent(user_level);
+                            "&userpass=" + encodeURIComponent(userpass) +
+                            "&userlevel=" + encodeURIComponent(userlevel);
 
                         xhr.send(data);
                     });
