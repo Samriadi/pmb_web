@@ -104,7 +104,6 @@ class eduPeriodeController
 					$keterangan = $_POST['keterangan'];
 					$status = $_POST['status'];
 					
-					echo $jenjang;
 					$models->addPeriode($jenjang, $periode, $fromDate, $toDate, $keterangan, $status);
 					log_activity('ADD Periode');
 
@@ -119,16 +118,17 @@ class eduPeriodeController
 			$response = ['status_code' => 500, 'status' => 'error', 'message' => $e->getMessage()];
 		}
 
-		// Set header to JSON
 		header('Content-Type: application/json');
 
-		// Output JSON response
 		echo json_encode($response);
 	}
 
 
-	public function edit($id, $var)
+	public function edit()
 	{
+		$id = isset($_GET['id']) ? $_GET['id'] : null;
+		$var = isset($_GET['jenjang']) ? $_GET['jenjang'] : null;
+
 		try {
 			$eduPeriodeModel = new eduPeriodeModel();
 			$varOptionModel = new varOptiontModel();
@@ -211,10 +211,8 @@ class eduPeriodeController
 
 				echo json_encode(['status' => 'success', 'message' => 'Periode updated successfully']);
 			} catch (Exception $e) {
-				// Log the error message for debugging
 				log_activity('EDIT Periode Error: ' . $e->getMessage());
 
-				// Return an error response
 				echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 			}
 		} else {
@@ -225,18 +223,27 @@ class eduPeriodeController
 
 	public function delete()
 	{
-		$models = new eduPeriodeModel();
+		header('Content-Type: application/json');
 
-		$recid = isset($_GET['recid']) ? $_GET['recid'] : null;
+		try {
+			$models = new eduPeriodeModel();
 
-		if ($recid) {
-			$models->deletePeriode($recid);
-			log_activity('DELETE Periode');
-		} else {
-			echo "Invalid ID";
-			return;
+			$recid = isset($_GET['id']) ? $_GET['id'] : null;
+
+			if ($recid) {
+				$models->deletePeriode($recid);
+				log_activity('DELETE Periode');
+				$response = ['status_code' => 200, 'status' => 'success', 'message' => 'Record deleted successfully'];
+			} else {
+				throw new Exception('Invalid ID');
+			}
+		} catch (Exception $e) {
+			http_response_code(500);
+			$response = ['status_code' => 500, 'status' => 'error', 'message' => $e->getMessage()];
 		}
-		header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+		echo json_encode($response);
 		exit();
 	}
+
 }
