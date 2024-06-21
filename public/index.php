@@ -87,13 +87,17 @@ $router->add('/testCard', 'mainController', 'testCard');
 $router->add('/help', 'mainController', 'help');
 $router->add('/help/save', 'mainController', 'saveOrUpdateHelp');
 $router->add('/help/delete', 'mainController', 'deleteHelp');
-
 $router->add('/panduan', 'mainController', 'showHelp');
 
+//pendaftar
 $router->add('/pendaftar', 'pendaftarController', 'index');
 $router->add('/verified', 'pendaftarController', 'verified');
 $router->add('/verified/action', 'pendaftarController', 'toggleVerified');
 $router->add('/testcard', 'mainController', 'testcard');
+
+//log activity
+$router->add('/logs', 'mainController', 'logs');
+
 
 
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
