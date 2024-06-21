@@ -163,13 +163,14 @@
                                         text: 'Data Berhasil diperbaharui',
                                         icon: 'success',
                                         showConfirmButton: false,
-                                        timer: 1000 
-                                    }).then((result) => {
-                                        window.location.reload(); 
+                                        timer: 1000
                                     });
 
+                                    setTimeout(function() {
+                                        Swal.close();
+                                        window.location.reload();
+                                    }, 1000);
                                 },
-
                                 error: function(xhr, status, error) {
                                     console.error(xhr.responseText);
                                 }
@@ -177,6 +178,8 @@
                         });
                     });
                 </script>
+
+
 
                 <!-- handle help -->
                 <script>
