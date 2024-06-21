@@ -4,11 +4,11 @@ require_once __DIR__ . '/../models/logActivityModel.php';
 function log_activity($keterangan)
 {
 
-    if (isset($_SESSION['user_id'])) {
+    if (isset($_SESSION['usr_name'])) {
         $logModel = new logActivityModel();
-        $user_id = $_SESSION['user_id'];
+        $usr_name = $_SESSION['usr_name'];
         $now = date('Y-m-d H:i:s');
-        $logModel->logActivity($user_id, $now, $keterangan);
+        $logModel->logActivity($usr_name, $now, $keterangan);
     }
 }
 function generateSecureRandomID($length = 9) {
