@@ -6,7 +6,7 @@ class logActivityModel {
 		$db = Database::getInstance();
 
 
-        $query = "INSERT INTO logs (userid, tanggal, keterangan) VALUES (?, ?, ?)";
+        $query = "INSERT INTO pmb_logs (userid, tanggal, keterangan) VALUES (?, ?, ?)";
 
         try {
             $stmt = $db->prepare($query);

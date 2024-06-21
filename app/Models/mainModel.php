@@ -42,7 +42,7 @@ class mainModel
     public function getLogs()
     {
         $db = Database::getInstance();
-        $query = "SELECT logs.*, usrapp.username as name FROM logs JOIN usrapp ON logs.userid = usrapp.userid;
+        $query = "SELECT pmb_logs.*, usrapp.username as name FROM pmb_logs JOIN usrapp ON pmb_logs.userid = usrapp.userid;
         ";
         $stmt = $db->prepare($query);
         $stmt->execute();
