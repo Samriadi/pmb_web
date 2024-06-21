@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['user_id'] = 4;
+$_SESSION['usr_name'] = 'meisya';
 
 date_default_timezone_set('Asia/Makassar');
 
