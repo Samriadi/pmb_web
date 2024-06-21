@@ -6,20 +6,20 @@ class userModel
     public function getUser()
     {
         $db = Database::getInstance();
-        $query = "SELECT * FROM users";
+        $query = "SELECT * FROM usrapp";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-    public function addUser($username, $user_pass, $user_level)
+    public function addUser($username, $userpass, $userlevel)
     {
         $db = Database::getInstance();
 
-        $query = "INSERT INTO users (username, user_pass, user_level) VALUES (?, ?, ?)";
+        $query = "INSERT INTO usrapp (username, userpass, userlevel) VALUES (?, ?, ?)";
 
         try {
             $stmt = $db->prepare($query);
-            $stmt->execute([$username, $user_pass, $user_level]);
+            $stmt->execute([$username, $userpass, $userlevel]);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
@@ -28,25 +28,25 @@ class userModel
     public function getUserById($id)
     {
         $db = Database::getInstance();
-        $stmt = $db->prepare("SELECT * FROM users WHERE userid = ?");
+        $stmt = $db->prepare("SELECT * FROM usrapp WHERE userid = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function updateUser($userid, $username, $user_pass, $user_level)
+    public function updateUser($userid, $username, $userpass, $userlevel)
     {
         $db = Database::getInstance();
 
-        var_dump($userid, $username, $user_pass, $user_level);
-        $stmt = $db->prepare("UPDATE users SET username = ?, user_pass = ?, user_level = ? WHERE userid = ?");
-        $stmt->execute([$username, $user_pass, $user_level, $userid]);
+        var_dump($userid, $username, $userpass, $userlevel);
+        $stmt = $db->prepare("UPDATE usrapp SET username = ?, userpass = ?, userlevel = ? WHERE userid = ?");
+        $stmt->execute([$username, $userpass, $userlevel, $userid]);
     }
 
     public function deleteUser($id)
     {
         $db = Database::getInstance();
 
-        $query = "DELETE FROM users WHERE userid = ?";
+        $query = "DELETE FROM usrapp WHERE userid = ?";
 
         try {
             $stmt = $db->prepare($query);
