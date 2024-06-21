@@ -24,7 +24,7 @@ class mainModel
     public function getCountUser()
     {
         $db = Database::getInstance();
-        $query = "SELECT COUNT(*) AS jumlah_data FROM users;";
+        $query = "SELECT COUNT(*) AS jumlah_data FROM usrapp;";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -42,7 +42,7 @@ class mainModel
     public function getLogs()
     {
         $db = Database::getInstance();
-        $query = "SELECT logs.*, users.username as name FROM logs JOIN users ON logs.userid = users.userid;
+        $query = "SELECT logs.*, usrapp.username as name FROM logs JOIN usrapp ON logs.userid = usrapp.userid;
         ";
         $stmt = $db->prepare($query);
         $stmt->execute();
