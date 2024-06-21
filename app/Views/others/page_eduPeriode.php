@@ -60,7 +60,7 @@
                                <a class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
                             <?php } 
                             else { ?>
-                                 <a class="btn btn-danger" href="/admin/periode/delete?id=<?= $dt['recid']; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                                 <a class="btn btn-danger" href="#" onclick="deleteRecord(<?= $dt['recid']; ?>)"><i class="fas fa-trash"></i></a>
                            <?php } 
                            ?>
                             </td>
@@ -213,15 +213,17 @@ function add() {
             exampleModal.show();
         }
     };
-    xhr.send();
+        xhr.send();
 
-    var exampleModal = document.getElementById('exampleModal');
-    exampleModal.addEventListener('hidden.bs.modal', function () {
-        window.location.reload();
-    });
+        var exampleModal = document.getElementById('exampleModal');
+        exampleModal.addEventListener('hidden.bs.modal', function () {
+            window.location.reload();
+        });
 
-}
+    }
+</script>
 
+<script>
 	document.getElementById('save').addEventListener('click', function() {
 		var jenjang = document.getElementById('jenjang').value;
 		var periode = document.getElementById('periode').value;
@@ -243,102 +245,112 @@ function add() {
 		}
 
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', '/admin/periode/save', true);        
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === 4) {
-				if (xhr.status === 200) {
-					try {
-						var response = JSON.parse(xhr.responseText.trim());
-						console.log("🚀 ~ document.getElementById ~ response:", response)
-						Swal.fire({
-							title: 'Success!',
-							text: response.message || 'Data successfully saved!',
-							icon: 'success',
-							confirmButtonText: 'OK'
-						}).then(() => {
-							window.location.reload();
-						});
-					} catch (e) {
-						console.error('Error parsing JSON response:', e);
-						Swal.fire({
-							title: 'Error!',
-							text: '"Error: SQL"... is not valid JSON.',
-							icon: 'error',
-							confirmButtonText: 'OK'
-						});
-					}
-				} else {
-					Swal.fire({
-						title: 'Error!',
-						text: 'Failed to save data. Server returned status: ' + xhr.status,
-						icon: 'error',
-						confirmButtonText: 'OK'
-					});
-				}
-			}
-		};
+            xhr.open('POST', '/admin/periode/save', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            console.log("Raw response:", xhr.responseText.trim());
+                            var response = JSON.parse(xhr.responseText.trim());
+                            console.log("Parsed response:", response);
+                            Swal.fire({
+                                title: 'Success!',
+                                text: response.message || 'Data successfully saved!',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        } catch (e) {
+                            console.error('Error parsing JSON response:', e);
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Error: "' + xhr.responseText.trim() + '" is not valid JSON.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Failed to save data. Server returned status: ' + xhr.status,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                }
+            };
 
-		xhr.onerror = function() {
-			Swal.fire({
-				title: 'Network Error!',
-				text: 'A network error occurred. Please check your internet connection.',
-				icon: 'error',
-				confirmButtonText: 'OK'
-			});
-		};
+            xhr.onerror = function() {
+                Swal.fire({
+                    title: 'Network Error!',
+                    text: 'A network error occurred. Please check your internet connection.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            };
 
-		var data = 
-			"jenjang=" + encodeURIComponent(jenjang) + 
-			"&periode=" + encodeURIComponent(periode) + 
-			"&fromDate=" + encodeURIComponent(fromDate) + 
-			"&toDate=" + encodeURIComponent(toDate) + 
-			"&keterangan=" + encodeURIComponent(keterangan) + 
-			"&status=" + encodeURIComponent(status);
-		xhr.send(data);
+            var data = 
+                "jenjang=" + encodeURIComponent(jenjang) + 
+                "&periode=" + encodeURIComponent(periode) + 
+                "&fromDate=" + encodeURIComponent(fromDate) + 
+                "&toDate=" + encodeURIComponent(toDate) + 
+                "&keterangan=" + encodeURIComponent(keterangan) + 
+                "&status=" + encodeURIComponent(status);
+            xhr.send(data);
+
 	});
 
 </script>
 
 <script>
     function edit(recid) {
-
         var varNameJenjang = document.getElementById('jenjang').name;
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '/admin/periode/edit?id=' + recid + '&jenjang=' + varNameJenjang, true);
         xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                var response = JSON.parse(xhr.responseText.trim());
+            if (xhr.readyState == 4) {
+                console.log("Raw response:", xhr.responseText.trim());
+                if (xhr.status == 200) {
+                    try {
+                        var response = JSON.parse(xhr.responseText.trim());
 
+                        document.getElementById('recid').value = response.recid;
+                        document.getElementById('editPeriode').value = response.periode;
+                        document.getElementById('editFromDate').value = response.fromDate;
+                        document.getElementById('editToDate').value = response.toDate;
+                        document.getElementById('editKeterangan').value = response.keterangan;
+                        document.getElementById('editStatus').value = response.status;
 
-                document.getElementById('recid').value = response.recid;
-                document.getElementById('editPeriode').value = response.periode;
-                document.getElementById('editFromDate').value = response.fromDate;
-                document.getElementById('editToDate').value = response.toDate;
-                document.getElementById('editKeterangan').value = response.keterangan;
-                document.getElementById('editStatus').value = response.status;
+                        if (response && response.jenjangValues) {
+                            var jenjangSelect = document.getElementById('editJenjang');
+                            response.jenjangValues.forEach(function(item) {
+                                var option = document.createElement('option');
+                                option.value = item.var_value;
+                                option.text = item.var_value;
+                                if (!Array.from(jenjangSelect.options).some(opt => opt.value == item.var_value)) {
+                                    jenjangSelect.appendChild(option);
+                                }
+                            });
+                            jenjangSelect.value = response.jenjang;
+                        } else {
+                            console.error("Property jenjangValues not found in response or response is undefined.");
+                        }
 
-                if (response && response.jenjangValues) {
-                var jenjangSelect = document.getElementById('editJenjang');
-                response.jenjangValues.forEach(function(item) {
-                    var option = document.createElement('option');
-                    option.value = item.var_value;
-                    option.text = item.var_value;
-                    if (!Array.from(jenjangSelect.options).some(opt => opt.value == item.var_value)) {
-                        jenjangSelect.appendChild(option);
+                        var editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                        editModal.show();
+                    } catch (e) {
+                        console.error('Error parsing JSON response:', e);
                     }
-                });
-                jenjangSelect.value = response.jenjang;
                 } else {
-                    console.error("Properti jenjangValues tidak ditemukan dalam respons atau respons tidak terdefinisi.");
+                    console.error('Failed to fetch data. Server returned status:', xhr.status);
                 }
-
-                var editModal = new bootstrap.Modal(document.getElementById('editModal'));
-                editModal.show();
             }
         };
         xhr.send();
     }
+
 
     document.getElementById('update').addEventListener('click', function() {
     var recid = document.getElementById('recid').value;
@@ -399,7 +411,60 @@ function add() {
     });
 </script>
 
-//script periode
+<script>
+    function deleteRecord(recid) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/admin/periode/delete?id=' + recid, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        var response;
+                        try {
+                            response = JSON.parse(xhr.responseText.trim());
+                        } catch (e) {
+                            console.error('Error parsing JSON response:', e);
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Unexpected server response',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                            return;
+                        }
+
+                        if (xhr.status === 200 && response.status === 'success') {
+                                Swal.fire({
+                                    title: 'Deleted!',
+                                    text: response.message,
+                                    icon: 'success',
+                                    timer: 1000,  
+                                    showConfirmButton: false
+                                });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    }
+                };
+                xhr.send();
+            }
+        });
+    }
+</script>
+
+//script show year periode
 <script>
     function yearOption() {
         const currentYear = new Date().getFullYear(); 
