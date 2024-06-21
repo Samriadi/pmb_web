@@ -14,8 +14,9 @@ class pendaftarModel
                         COALESCE(d2.var_value, '') AS PilihanKedua,
                         COALESCE(d3.var_value, '') AS PilihanKetiga,
                         b.member_id,
+                        b.jenjang,
+                        b.kelulusan,
                         c.recid,
-                        c.jenjang,
                         c.periode,
                         c.keterangan,
                         c.status

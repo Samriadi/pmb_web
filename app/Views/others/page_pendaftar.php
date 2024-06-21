@@ -146,6 +146,7 @@
 
                     });
 
+                    //set kolom
                     function populateFilterColumns() {
                         var filterColumnSelect = document.getElementById('filterColumn');
                         filterColumnSelect.innerHTML = '';
@@ -167,17 +168,23 @@
                             });
                         }
 
-                        var propertiDipilih = pilihProperti(data, ['periode', 'jenjang', 'status']);
+                        var propertiDipilih = pilihProperti(data, ['periode', 'jenjang', 'kelulusan']);
                         var columns = Object.keys(propertiDipilih[0]);
 
                         columns.forEach(function(column) {
                             var option = document.createElement('option');
                             option.value = column;
-                            option.text = column.charAt(0).toUpperCase() + column.slice(1);
+                            if(column==='kelulusan'){
+                                option.text = 'Status';
+                                }
+                            else{
+                                option.text = column.charAt(0).toUpperCase() + column.slice(1);
+                            }
                             filterColumnSelect.appendChild(option);
                         });
                     }
 
+                    // set nilai
                     function populateFilterValue(column) {
                         var filterValueSelect = document.getElementById('filterValue');
                         filterValueSelect.innerHTML = '';
@@ -187,7 +194,25 @@
                             allOption.value = '';
                             allOption.text = 'All';
                             filterValueSelect.appendChild(allOption);
-                        } else {
+                        } 
+                        else if(column ==='kelulusan'){
+                            var uniqueValues = [...new Set(data.map(item => item[column]))];
+                            uniqueValues.forEach(function(value) {
+                                if(value==='Lulus'){
+                                    var option = document.createElement('option');
+                                    option.value = value;
+                                    option.text = value;
+                                    filterValueSelect.appendChild(option)
+                                }
+                                else if(value!=='Lulus' && value !== null){
+                                    var option = document.createElement('option');
+                                    option.value = '';
+                                    option.text = 'All';
+                                    filterValueSelect.appendChild(option)
+                                }
+                            });
+                        }
+                        else {
                             var uniqueValues = [...new Set(data.map(item => item[column]))];
                             uniqueValues.forEach(function(value) {
                                 if(value !== null){
