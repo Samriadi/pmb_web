@@ -233,7 +233,7 @@ class eduPeriodeController
 			if ($recid) {
 				$models->deletePeriode($recid);
 				log_activity('DELETE Periode');
-				$response = ['status_code' => 200, 'status' => 'success', 'message' => 'Record deleted successfully'];
+				$response = ['status_code' => 200, 'status' => 'success', 'message' => 'Record deleted'];
 			} else {
 				throw new Exception('Invalid ID');
 			}

@@ -32,7 +32,7 @@ class eduPeriodeModel
             }
         } catch (PDOException $e) {
             error_log("Kesalahan: " . $e->getMessage(), 0);
-            return false; // Atau kembalikan nilai lain sesuai kebutuhan
+            return false; 
         }
     }
 

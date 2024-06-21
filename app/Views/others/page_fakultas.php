@@ -327,7 +327,7 @@
 
                                 Swal.fire({
                                     title: 'Success!',
-                                    text: 'Data Berhasil Diubah',
+                                    text: 'Data Berhasil Diperbarui',
                                     icon: 'success',
                                     confirmButtonText: 'OK',
 

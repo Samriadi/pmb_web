@@ -256,7 +256,7 @@ function add() {
                             console.log("Parsed response:", response);
                             Swal.fire({
                                 title: 'Success!',
-                                text: response.message || 'Data successfully saved!',
+                                text: response.message,
                                 icon: 'success',
                                 confirmButtonText: 'OK'
                             }).then(() => {
@@ -377,14 +377,13 @@ function add() {
 
             Swal.fire({
             title: 'Success!',
-            text: xhr.responseText,
+            text: 'Record Updated',
             icon: 'success',
             confirmButtonText: 'OK',
             showCancelButton: false 
         }).then((result) => {
             if (result.isConfirmed) {
                 setTimeout(() => {
-                    // Refresh the page
                     window.location.reload();
                 }, 2000); 
             }
