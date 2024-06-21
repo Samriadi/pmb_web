@@ -12,7 +12,7 @@ class userController
 		foreach ($data as $dt) :
 			$userid = $dt->userid;
 			$username = $dt->username;
-			$user_level = $dt->user_level;
+			$userlevel = $dt->userlevel;
 		endforeach;
 
 		include __DIR__ . '/../Views/others/page_user.php';
@@ -23,10 +23,10 @@ class userController
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 			$username = $_POST['username'];
-			$user_pass = $_POST['user_pass'];
-			$user_level = $_POST['user_level'];
+			$userpass = $_POST['userpass'];
+			$userlevel = $_POST['userlevel'];
 
-			$models->addUser($username, $user_pass, $user_level);
+			$models->addUser($username, $userpass, $userlevel);
 
 			echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
 		} else {
@@ -46,8 +46,8 @@ class userController
 		$response = [
 			'userid' => $data->userid,
 			'username' => $data->username,
-			'user_pass' => $data->user_pass,
-			'user_level' => $data->user_level
+			'userpass' => $data->userpass,
+			'userlevel' => $data->userlevel
 		];
 
 		echo json_encode($response);
@@ -60,10 +60,10 @@ class userController
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$userid = $_POST['userid'] ?? '';
 			$username = $_POST['username'] ?? '';
-			$user_pass = $_POST['user_pass'] ?? '';
-			$user_level = $_POST['user_level'] ?? '';
+			$userpass = $_POST['userpass'] ?? '';
+			$userlevel = $_POST['userlevel'] ?? '';
 
-			$models->updateUser($userid, $username, $user_pass, $user_level);
+			$models->updateUser($userid, $username, $userpass, $userlevel);
 		} else {
 			echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 		}
