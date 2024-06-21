@@ -45,24 +45,19 @@ class eduPeriodeModel
         $query = "INSERT INTO pmb_periode (Jenjang, Periode, fromDate, toDate, Keterangan, status) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
-            $db->beginTransaction();
 
             $stmt = $db->prepare($query);
             $success = $stmt->execute([$jenjang, $periode, $fromDate, $toDate, $keterangan, $status]);
 
             if ($success) {
-                $db->commit();
                 return ['status' => 'success', 'message' => 'New record added successfully'];
             } else {
-                $db->rollBack();
                 return ['status' => 'error', 'message' => 'Failed to add new record'];
             }
         } catch (PDOException $e) {
-            $db->rollBack();
             $errorMessage = $e->getMessage();
             return ['status' => 'error', 'message' => 'Database error: ' . $errorMessage];
         } catch (Exception $e) {
-            $db->rollBack();
             $errorMessage = $e->getMessage();
             return ['status' => 'error', 'message' => 'An unexpected error occurred: ' . $errorMessage];
         }
