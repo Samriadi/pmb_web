@@ -24,7 +24,7 @@
             <a class="btn btn-primary btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50"><i class="fas fa-plus"></i></span><span class="text">Add Data</span></a>
             <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
+                    <thead class="thead-dark">
                         <tr>
                         <th>No</th>
                         <th>Periode</th>
@@ -41,12 +41,11 @@
                         $no = 1;
                         foreach ($data as $dt): 
 						   $sts = strtolower($dt->status);
-						   if ($sts == "open")
-						   $warna = "#F2F4F4";
-					       else
-						   $warna = "#FFFFFF";
-                        ?>
-                        <tr style="background-color: <?=$warna?>;">
+						   if ($sts == "open") { ?>
+                           <tr class="table-secondary">
+                            <?php } else { ?>
+                           <tr>
+                            <?php } ?>
                             <td><?=$no++?></td>
                             <td><?=$dt->Periode?></td>
                             <td><?=$dt->Jenjang?></td>
@@ -446,7 +445,9 @@ function add() {
                                     icon: 'success',
                                     timer: 1000,  
                                     showConfirmButton: false
-                                });
+                                }).then(() => {
+                                        window.location.reload();
+                                    });
                         } else {
                             Swal.fire({
                                 title: 'Error!',
@@ -463,7 +464,6 @@ function add() {
     }
 </script>
 
-//script show year periode
 <script>
     function yearOption() {
         const currentYear = new Date().getFullYear(); 
