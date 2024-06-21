@@ -42,8 +42,7 @@ class mainModel
     public function getLogs()
     {
         $db = Database::getInstance();
-        $query = "SELECT pmb_logs.*, usrapp.username as name FROM pmb_logs JOIN usrapp ON pmb_logs.userid = usrapp.userid;
-        ";
+        $query = "SELECT * FROM pmb_logs";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
