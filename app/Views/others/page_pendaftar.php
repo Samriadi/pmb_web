@@ -62,7 +62,6 @@
                             </div>
                         </form>
                         </div>
-
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -103,7 +102,6 @@
                 </div>
             </div>
 
-                <!-- Option 1: Bootstrap Bundle with Popper -->
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -112,275 +110,329 @@
 
                 <script>
                     var data = <?php echo json_encode($data); ?>;
-                    var table;
+
                     var originalContent;
                     var originalContainer;
-                    var formValues = {}; // Variabel untuk menyimpan nilai form
+                    var table;
 
-                    // Inisialisasi semua yang diperlukan saat dokumen siap
-                    $(document).ready(function() {
-                        setValueFilter(); // Set nilai awal filter
-                        initEventListeners(); // Inisialisasi event listeners
+                    var formValues = {}; 
+
+                    document.addEventListener('DOMContentLoaded', function() {
+                        setValueFilter(); 
+                        initEventListeners(); 
                     });
 
-                    // Set nilai awal filter
                     function setValueFilter() {
-                        populateFilterColumns();
-                        populateFilterValue(document.getElementById('filterColumn').value);
+                            populateFilterColumns();
+                            populateFilterValue(document.getElementById('filterColumn').value);
 
-                        table = $('#dataTable').DataTable({
-                            data: data,
-                            columns: [
-                                {
-                                    data: null,
-                                    render: function(data, type, row, meta) {
-                                        return meta.row + 1;
-                                    }
-                                },
-                                {
-                                    data: 'NamaLengkap'
-                                },
-                                {
-                                    data: 'PilihanPertama'
-                                },
-                                {
-                                    data: 'PilihanKedua'
-                                },
-                                {
-                                    data: 'PilihanKetiga'
-                                },
-                                {
-                                    data: 'jenjang'
-                                },
-                                {
-                                    data: 'periode'
-                                },
-                                {
-                                    data: 'keterangan'
-                                },
-                                {
-                                    data: null,
-                                    render: function(data, type, row) {
-                                        return '<a class="btn btn-info" href="#" onclick="detail(' + data.member_id + ')"><i class="fas fa-info-circle"></i></a>';
-                                    }
-                                }
-                            ],
-                            "bDestroy": true
-                        });
-
-                        // Menambahkan fungsi filter tambahan
-                        $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-                            var selectedColumn = document.getElementById('filterColumn').value;
-                            var selectedValue = document.getElementById('filterValue').value;
-
-                            if (selectedColumn === 'all' || selectedValue === '') {
-                                return true;
+                            if ($.fn.DataTable.isDataTable('#dataTable')) {
+                                $('#dataTable').DataTable().destroy();
                             }
 
-                            var columnValue = table.row(dataIndex).data()[selectedColumn];
-                            return columnValue == selectedValue;
-                        });
-                    }
-
-                    // Inisialisasi event listeners
-                    function reinitEventListeners() {
-                        // Hapus event listener yang sudah ada sebelum menambah yang baru
-                        document.getElementById('filterColumn').removeEventListener('change', handleFilterColumnChange);
-                        document.getElementById('filterButton').removeEventListener('click', handleFilterButtonClick);
-
-                        // Tambahkan kembali event listener dengan fungsi handler yang sudah ada
-                        document.getElementById('filterColumn').addEventListener('change', handleFilterColumnChange);
-                        document.getElementById('filterButton').addEventListener('click', handleFilterButtonClick);
-                    }
-
-                    function initEventListeners() {
-                        document.getElementById('filterColumn').addEventListener('change', function() {
-                            var selectedColumn = this.value;
-                            populateFilterValue(selectedColumn);
-                        });
-
-                        document.getElementById('filterButton').addEventListener('click', function() {
-                            table.draw(); // Menggambar ulang tabel setelah diterapkan filter
-                            addSubtitle(); // Menambahkan subtitle berdasarkan filter yang diterapkan
-                        });
-                    }
-
-                    // Fungsi untuk mengisi pilihan kolom filter
-                    function populateFilterColumns() {
-                        var filterColumnSelect = document.getElementById('filterColumn');
-                        filterColumnSelect.innerHTML = '';
-
-                        var allOption = document.createElement('option');
-                        allOption.value = 'all';
-                        allOption.text = 'All';
-                        filterColumnSelect.appendChild(allOption);
-
-                        function pickProperties(data, properties) {
-                            return data.map(function(obj) {
-                                var result = {};
-                                properties.forEach(function(key) {
-                                    if (obj.hasOwnProperty(key)) {
-                                        result[key] = obj[key];
+                            table = $('#dataTable').DataTable({
+                                data: data, 
+                                columns: [
+                                    {
+                                        data: null,
+                                        render: function(data, type, row, meta) {
+                                            return meta.row + 1;
+                                        }
+                                    },
+                                    { data: 'NamaLengkap' },
+                                    { data: 'PilihanPertama' },
+                                    { data: 'PilihanKedua' },
+                                    { data: 'PilihanKetiga' },
+                                    { data: 'jenjang' },
+                                    { data: 'periode' },
+                                    { data: 'keterangan' },
+                                    {
+                                        data: null,
+                                        render: function(data, type, row) {
+                                            return '<a class="btn btn-info" href="#" onclick="detail(' + data.member_id + ')"><i class="fas fa-info-circle"></i></a>';
+                                        }
                                     }
-                                });
-                                return result;
+                                ],
+                                "bDestroy": true
+                            });
+
+                            $.fn.dataTable.ext.search.pop();
+
+                            $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+                                var selectedColumn = document.getElementById('filterColumn').value;
+                                var selectedValue = document.getElementById('filterValue').value;
+ 
+                                if (selectedColumn === 'all' || selectedValue === '') {
+                                    return true;
+                                }
+
+                                var columnValue = table.row(dataIndex).data()[selectedColumn];
+                                return columnValue == selectedValue;
                             });
                         }
+                    
+                        function populateFilterColumns() {
+                            var filterColumnSelect = document.getElementById('filterColumn');
+                            filterColumnSelect.innerHTML = '';
 
-                        var pickedProperties = pickProperties(data, ['periode', 'jenjang', 'kelulusan']);
-                        var columns = Object.keys(pickedProperties[0]);
-
-                        columns.forEach(function(column) {
-                            var option = document.createElement('option');
-                            option.value = column;
-                            if (column === 'kelulusan') {
-                                option.text = 'Status';
-                            } else {
-                                option.text = column.charAt(0).toUpperCase() + column.slice(1);
-                            }
-                            filterColumnSelect.appendChild(option);
-                        });
-                    }
-
-                    // Fungsi untuk mengisi nilai filter berdasarkan kolom yang dipilih
-                    function populateFilterValue(column) {
-                        var filterValueSelect = document.getElementById('filterValue');
-                        filterValueSelect.innerHTML = '';
-
-                        if (column === 'all') {
                             var allOption = document.createElement('option');
-                            allOption.value = '';
+                            allOption.value = 'all';
                             allOption.text = 'All';
-                            filterValueSelect.appendChild(allOption);
-                        } else if (column === 'kelulusan') {
-                            var uniqueValues = [...new Set(data.map(item => item[column]))];
-                            uniqueValues.forEach(function(value) {
-                                if (value === 'Lulus') {
-                                    var option = document.createElement('option');
-                                    option.value = value;
-                                    option.text = value;
-                                    filterValueSelect.appendChild(option);
-                                } else if (value !== 'Lulus' && value !== null) {
-                                    var option = document.createElement('option');
-                                    option.value = '';
-                                    option.text = 'All';
-                                    filterValueSelect.appendChild(option);
+                            filterColumnSelect.appendChild(allOption);
+
+                            function pickProperties(data, properties) {
+                                return data.map(function(obj) {
+                                    var result = {};
+                                    properties.forEach(function(key) {
+                                        if (obj.hasOwnProperty(key)) {
+                                            result[key] = obj[key];
+                                        }
+                                    });
+                                    return result;
+                                });
+                            }
+
+                            var pickedProperties = pickProperties(data, ['periode', 'jenjang', 'kelulusan']);
+                            var columns = Object.keys(pickedProperties[0]);
+
+                            columns.forEach(function(column) {
+                                var option = document.createElement('option');
+                                option.value = column;
+                                if (column === 'kelulusan') {
+                                    option.text = 'Status';
+                                } else {
+                                    option.text = column.charAt(0).toUpperCase() + column.slice(1);
                                 }
-                            });
-                        } else {
-                            var uniqueValues = [...new Set(data.map(item => item[column]))];
-                            uniqueValues.forEach(function(value) {
-                                if (value !== null) {
-                                    var option = document.createElement('option');
-                                    option.value = value;
-                                    option.text = value;
-                                    filterValueSelect.appendChild(option);
-                                }
+                                filterColumnSelect.appendChild(option);
                             });
                         }
-                    }
 
-                    // Fungsi untuk menambahkan subtitle filter
-                    function addSubtitle() {
-                        const filterColumnSelect = document.getElementById('filterColumn');
-                        const filterValueSelect = document.getElementById('filterValue');
-                        const filterSubtitle = document.getElementById('filterSubtitle');
+                        function detail(id) {
+                            var container = document.querySelector('.container-fluid');
 
-                        function updateSubtitle() {
-                            const selectedColumnText = filterColumnSelect.options[filterColumnSelect.selectedIndex].text;
-                            const selectedValueText = filterValueSelect.options[filterValueSelect.selectedIndex].text;
-                            if (selectedColumnText != 'All')
-                                filterSubtitle.textContent = `${selectedColumnText}  ${selectedValueText}`;
-                            else
-                                filterSubtitle.textContent = ``;
-                        }
+                            if (!container) {
+                                console.error('Container element not found.');
+                                return;
+                            }
 
-                        updateSubtitle();
-                    }
+                            if (!originalContent) {
+                                originalContent = container.innerHTML;
+                                originalContainer = container;
+                                saveFormValues();
+                            }
 
-                    // Fungsi untuk menampilkan detail data
-                    function detail(id) {
-                        var container = document.querySelector('.container-fluid');
-
-                        if (!container) {
-                            console.error('Container element not found.');
-                            return;
-                        }
-
-                        // Menyimpan konten asli jika belum disimpan
-                        if (!originalContent) {
-                            originalContent = container.innerHTML;
-                            originalContainer = container;
-                            saveFormValues(); // Simpan nilai form saat pertama kali menampilkan detail
-                        }
-
-                        // Mengambil data detail menggunakan XMLHttpRequest
-                        var xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/admin/pendaftar/detail?id=' + id, true);
-                        xhr.onreadystatechange = function() {
-                            if (xhr.readyState == 4 && xhr.status == 200) {
-                                var response = JSON.parse(xhr.responseText.trim());
-                                // Mengubah konten dengan detail data
-                                container.innerHTML = `
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('GET', '/admin/pendaftar/detail?id=' + id, true);
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+                                    var response = JSON.parse(xhr.responseText.trim());
+                                    container.innerHTML = `
                                     <div class="card shadow mb-4">
                                         <div class="card-header py-3">
-                                            <h5 class="m-0 font-weight-bold text-primary">Detail Data</h5>
+                                            <h5 class="m-0 font-weight-bold text-primary">Detail Pendaftar</h5>
                                         </div>
                                         <div class="card-body">
-                                            <p>${response.member_id}</p>
+                                            <div class="form-group">
+                                                <label>Nama Lengkap</label>
+                                                <input type="text" class="form-control" value="${response.NamaLengkap}" disabled>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label>Wa Number</label>
+                                                    <input class="form-control" value="${response.WANumber}" disabled>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Email</label>
+                                                    <input class="form-control" value="${response.Email}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label>Nama Asal Sekolah</label>
+                                                    <input class="form-control" value="${response.NamaAsalSekolah}" disabled>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Tahun Lulus</label>
+                                                    <input class="form-control" value="${response.TahunLulus}" disabled>
+                                                </div>
+                                            </div>
+                                             <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label>Asal Kampus</label>
+                                                    <input class="form-control" value="${response.AsalKampus}" disabled>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Asal Provinsi</label>
+                                                    <input class="form-control" value="${response.AsalProvinsi}" disabled>
+                                                </div>
+                                            </div>
+                                             <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label>Jenjang</label>
+                                                    <input class="form-control" value="${response.Jenjang}" disabled>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Periode</label>
+                                                    <input class="form-control" value="${response.Periode}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label>Jenis</label>
+                                                    <input class="form-control" value="${response.jenis}" disabled>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Kategori</label>
+                                                    <input class="form-control" value="${response.kategori}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label>Prodi 1</label>
+                                                    <input type="text" class="form-control" value="${response.Prodi1}" disabled>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label>Prodi 2</label>
+                                                    <input type="text" class="form-control" value="${response.Prodi2}" disabled>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label>Prodi 3</label>
+                                                    <input type="text" class="form-control" value="${response.Prodi3}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Keterangan</label>
+                                                <input type="text" class="form-control" value="${response.Keterangan}" disabled>
+                                            </div>
                                         </div>
                                         <div class="card-footer">
                                             <button onclick="goBack()" class="btn btn-secondary">Kembali</button>
                                         </div>
                                     </div>
                                 `;
-                                history.pushState({ html: container.innerHTML }, null, null); // Menyimpan state untuk navigasi mundur
-                                initEventListeners(); // Inisialisasi kembali event listeners setelah konten berubah
+                                }
+                            };
+                            xhr.send();
+                        }
+
+                        function populateFilterValue(column) {
+                            var filterValueSelect = document.getElementById('filterValue');
+                            filterValueSelect.innerHTML = '';
+
+                            if (column === 'all') {
+                                var allOption = document.createElement('option');
+                                allOption.value = '';
+                                allOption.text = 'All';
+                                filterValueSelect.appendChild(allOption);
+                            } else if (column === 'kelulusan') {
+                                var uniqueValues = [...new Set(data.map(item => item[column]))];
+                                uniqueValues.forEach(function(value) {
+                                    if (value === 'Lulus') {
+                                        var option = document.createElement('option');
+                                        option.value = value;
+                                        option.text = value;
+                                        filterValueSelect.appendChild(option);
+                                    } else if (value !== 'Lulus' && value !== null) {
+                                        var option = document.createElement('option');
+                                        option.value = '';
+                                        option.text = 'All';
+                                        filterValueSelect.appendChild(option);
+                                    }
+                                });
+                            } else {
+                                var uniqueValues = [...new Set(data.map(item => item[column]))];
+                                uniqueValues.forEach(function(value) {
+                                    if (value !== null) {
+                                        var option = document.createElement('option');
+                                        option.value = value;
+                                        option.text = value;
+                                        filterValueSelect.appendChild(option);
+                                    }
+                                });
                             }
-                        };
-                        xhr.send();
-                    }
-
-
-                    // Fungsi untuk kembali ke konten asli
-                    function goBack() {
-                        if (originalContainer && originalContent) {
-                            originalContainer.innerHTML = originalContent;
-                            restoreFormValues(); // Memulihkan nilai form setelah kembali
-                            table.draw(); // Menggambar ulang tabel setelah kembali
-                            initEventListeners(); // Inisialisasi kembali event listeners setelah konten berubah
                         }
-                    }
 
-                    // Event listener untuk popstate (navigasi mundur)
-                    // window.addEventListener('popstate', function(event) {
-                    //     if (event.state && event.state.html) {
-                    //         originalContainer.innerHTML = event.state.html;
-                    //         restoreFormValues(); // Memulihkan nilai form setelah kembali
-                    //         table.draw(); // Menggambar ulang tabel setelah kembali
-                    //         initEventListeners(); // Inisialisasi kembali event listeners setelah konten berubah
-                    //     }
-                    // });
+                        function addSubtitle() {
+                            const filterColumnSelect = document.getElementById('filterColumn');
+                            const filterValueSelect = document.getElementById('filterValue');
+                            const filterSubtitle = document.getElementById('filterSubtitle');
 
-                    // Fungsi untuk menyimpan nilai form saat ini
-                    function saveFormValues() {
-                        formValues.filterColumn = document.getElementById('filterColumn').value;
-                        formValues.filterValue = document.getElementById('filterValue').value;
-                        // Tambahkan field lainnya sesuai kebutuhan
-                    }
+                            function updateSubtitle() {
+                                const selectedColumnText = filterColumnSelect.options[filterColumnSelect.selectedIndex].text;
+                                const selectedValueText = filterValueSelect.options[filterValueSelect.selectedIndex].text;
+                                if (selectedColumnText != 'All')
+                                    filterSubtitle.textContent = `${selectedColumnText}  ${selectedValueText}`;
+                                else
+                                    filterSubtitle.textContent = ``;
+                            }
 
-                    // Fungsi untuk memulihkan nilai form setelah kembali ke konten asli
-                    function restoreFormValues() {
-                        if (formValues.filterColumn) {
-                            document.getElementById('filterColumn').value = formValues.filterColumn;
-                            populateFilterValue(formValues.filterColumn); // Perbarui nilai filterValue berdasarkan filterColumn yang dipulihkan
+                            updateSubtitle();
                         }
-                        if (formValues.filterValue) {
-                            document.getElementById('filterValue').value = formValues.filterValue;
-                        }
-                        // Tambahkan pengaturan kembali nilai field lainnya sesuai kebutuhan
-                    }
-                </script>
 
+                        function goBack() {
+                            if (originalContainer && originalContent) {
+                                originalContainer.innerHTML = originalContent;
+                                restoreFormValues(); 
+
+                                initEventListeners();
+                            }
+                        }
+
+                        function restoreFormValues() {
+
+                            if (formValues.filterColumn) {
+                                document.getElementById('filterColumn').value = formValues.filterColumn;
+                                populateFilterValue(formValues.filterColumn); 
+                            }
+                            if (formValues.filterValue) {
+                                document.getElementById('filterValue').value = formValues.filterValue;
+                            }
+                        }
+
+                        function saveFormValues() {
+                            formValues.filterColumn = document.getElementById('filterColumn').value;
+                            formValues.filterValue = document.getElementById('filterValue').value;
+
+                        }
+
+                        function initEventListeners() {
+
+                            
+
+                            var filterColumn = document.getElementById('filterColumn');
+                            var filterButton = document.getElementById('filterButton');
+
+
+                            if (filterColumn) {
+                                filterColumn.addEventListener('change', function() {
+                                    var selectedColumn = this.value;
+                                    populateFilterValue(selectedColumn);
+                                });
+                            } else {
+                                console.error('filterColumn element not found');
+                            }
+
+                            if (filterButton) {
+                                filterButton.addEventListener('click', function() {
+                                   
+                                    
+                                    if (typeof table !== 'undefined' && table !== null) {
+                                        if (typeof table.draw === 'function') {
+                                            table.draw();
+                                            console.log('Table redraw called');
+                                        } else {
+                                            console.error('table.draw is not a function');
+                                        }
+                                    } else {
+                                        console.error('table is not defined');
+                                    }
+                                    addSubtitle();
+                                });
+                            } else {
+                                console.error('filterButton element not found');
+                            }
+                        }
+
+                    </script>
             </body>
         </html> 
