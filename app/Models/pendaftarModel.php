@@ -98,4 +98,34 @@ class pendaftarModel
         $stmt = $db->prepare($query);
         return $stmt->execute([$status, $no_ujian, $pay_status, $id]);
     }
+
+    public function getDetail($id)
+    {
+        $db = Database::getInstance();
+        $query = "SELECT 
+                        a.*,
+                        b.*,
+                        c.*,
+                        COALESCE(d1.var_value, '') AS Prodi1,
+                        COALESCE(d2.var_value, '') AS Prodi2,
+                        COALESCE(d3.var_value, '') AS Prodi3
+                    FROM 
+                        pmb_tagihan a
+                    LEFT JOIN 
+                        pmb_mahasiswa b ON b.ID = a.member_id
+                    LEFT JOIN 
+                        pmb_periode c ON c.recid = a.periode
+                    LEFT JOIN 
+                        varoption d1 ON d1.recid = a.PilihanPertama
+                    LEFT JOIN 
+                        varoption d2 ON d2.recid = a.PilihanKedua
+                    LEFT JOIN 
+                        varoption d3 ON d3.recid = a.PilihanKetiga
+                    WHERE 
+                        a.member_id = ?;
+                    ";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
 }

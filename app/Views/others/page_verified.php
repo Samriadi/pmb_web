@@ -27,7 +27,7 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th>Verified</th>
                                         <th>Nama Lengkap</th>
                                         <th>File</th>
                                         <th>Pembayaran</th>
@@ -41,7 +41,6 @@
                                         <th>Jenjang</th>
                                         <th>Nomor WA</th>
                                         <th>Jenis</th>
-                                        <th>Verified</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,7 +52,11 @@
                                         $buttonText = $isVerified ? 'Verified' : 'Unverified';
                                     ?>
                                         <tr>
-                                            <td><?= $no++ ?></td>
+                                            <td>
+                                                <button class="btn btn-sm <?= $buttonClass ?>" onclick="toggleVerified(<?= $dt->id ?>)">
+                                                    <?= $buttonText ?>
+                                                </button>
+                                            </td>
                                             <td><?= $dt->NamaLengkap ?></td>
                                             <td>
                                             <?php if($dt->berkas) { ?>
@@ -79,11 +82,7 @@
                                                 <a href="https://wa.me/<?= '62' . substr($dt->WANumber, 1) ?>" target="_blank"><?= $dt->WANumber ?></a>
                                             </td>
                                             <td><?= $dt->jenis ?></td>
-                                            <td>
-                                                <button class="btn btn-sm <?= $buttonClass ?>" onclick="toggleVerified(<?= $dt->id ?>)">
-                                                    <?= $buttonText ?>
-                                                </button>
-                                            </td>
+                                          
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>

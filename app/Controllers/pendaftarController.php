@@ -6,18 +6,21 @@ class pendaftarController
     public function index()
     {
         $models = new pendaftarModel();
-
         $data = $models->getPendaftar();
-
         include __DIR__ . '/../Views/others/page_pendaftar.php';
     }
 
     public function verified(){
         $models = new pendaftarModel();
-
         $data = $models->getVerified();
-
         include __DIR__ . '/../Views/others/page_verified.php';
+    }
+
+    public function detail(){ 
+        $models = new pendaftarModel();
+        $id = $_GET['id'];
+        $detailData = $models->getDetail($id);
+        echo json_encode($detailData);
     }
 
     public function toggleVerified() {
