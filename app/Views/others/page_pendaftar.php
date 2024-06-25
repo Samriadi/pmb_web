@@ -373,8 +373,16 @@
                             if (originalContainer && originalContent) {
                                 originalContainer.innerHTML = originalContent;
                                 restoreFormValues(); 
-
+                               
+};
                                 initEventListeners();
+
+                                location.reload();
+                                window.onload = function() {
+                                
+                                window.scrollTo(0, savedState.scrollPosition);
+                                document.getElementById(savedState.selectedTab).click(); 
+
                             }
                         }
 
