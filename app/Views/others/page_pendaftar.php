@@ -91,12 +91,134 @@
                                             <td><?= $dt->jenjang ?></td>
                                             <td><?= $dt->periode ?></td>
                                             <td><?= $dt->keterangan ?></td>
-                                            <td><a class="btn btn-info" href="#" onclick="detail(<?= $dt->member_id; ?>)"><i class="fas fa-info-circle"></i></a>
+                                            <td><a class="btn btn-info" href="#" onclick="detail(<?= $dt->member_id; ?>)"  data-toggle="modal" data-target="#detailModal"><i class="fas fa-info-circle"></i></a>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detailModalLabel">Detail Pengguna</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Tempatkan konten detail di sini -->
+                            <div class="container-xl px-4 mt-4">
+                                        <div class="row">
+                                            <div class="col-xl-4">
+                                                <!-- Profile picture card-->
+                                                <div class="card mb-4 mb-xl-0">
+                                                    <div class="card-header">Profile Picture</div>
+                                                    <div class="card-body text-center">
+                                                        <!-- Profile picture image-->
+                                                        <img class="img-account-profile rounded mb-2" src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250" alt="">
+                                                        <!-- Profile picture help block-->
+                                                        <!-- Profile picture upload button-->
+                                                    </div>
+                                                    <div id="pdf-viewer" style="width: 100%; height: 400px;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-8">
+                                                <!-- Account details card-->
+                                                <div class="card mb-4">
+                                                    <div class="card-header">Profile Details</div>
+                                                    <div class="card-body">
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label class="small mb-1" for="">Nama Lengkap</label>
+                                                                <input class="form-control" type="text" id="NamaLengkap">
+                                                            </div>
+                                                            <!-- Form Row-->
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1" for="">Username</label>
+                                                                    <input class="form-control" type="text" id="UserName">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1" for="">Nomor WA</label>
+                                                                    <input class="form-control" type="text" id="WANumber">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1" for="">Asal Sekolah</label>
+                                                                    <input class="form-control" type="text" id="NamaAsalSekolah">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1" for="">Asal Kampus</label>
+                                                                    <input class="form-control" type="text" id="AsalKampus">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="small mb-1" for="">Asal Provinsi</label>
+                                                                <input class="form-control" type="text" id="AsalProvinsi">
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1" for="">Tahun Lulus</label>
+                                                                    <input class="form-control" type=text" id="TahunLulus">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1" for="">NIS</label>
+                                                                    <input class="form-control" type="text" id="NIS">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1" for="">Jenis</label>
+                                                                    <input class="form-control" type=text" id="jenis">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1" for="">Kategori</label>
+                                                                    <input class="form-control" type="text" id="Kategori">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1" for="">Jenjang</label>
+                                                                    <input class="form-control" type=text" id="Jenjang">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1" for="">Periode</label>
+                                                                    <input class="form-control" type="text" id="Periode">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-4">
+                                                                    <label class="small mb-1" for="">Pilihan Pertama</label>
+                                                                    <input class="form-control" type="text" id="Prodi1">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label class="small mb-1" for="">Pilihan Kedua</label>
+                                                                    <input class="form-control" type="text" id="Prodi2">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label class="small mb-1" for="">Pilihan Ketiga</label>
+                                                                    <input class="form-control" type="text" id="Prodi3">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="small mb-1" for="">Keterangan</label>
+                                                                <input class="form-control" type="text" id="Keterangan">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                          </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                         </div>
                     </div>
                 </div>
@@ -207,114 +329,6 @@
                             });
                         }
 
-                        function detail(id) {
-                            var container = document.querySelector('.container-fluid');
-
-                            if (!container) {
-                                console.error('Container element not found.');
-                                return;
-                            }
-
-                            if (!originalContent) {
-                                originalContent = container.innerHTML;
-                                originalContainer = container;
-                                saveFormValues();
-                            }
-
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('GET', '/admin/pendaftar/detail?id=' + id, true);
-                            xhr.onreadystatechange = function() {
-                                if (xhr.readyState == 4 && xhr.status == 200) {
-                                    var response = JSON.parse(xhr.responseText.trim());
-                                    container.innerHTML = `
-                                    <div class="card shadow mb-4">
-                                        <div class="card-header py-3">
-                                            <h5 class="m-0 font-weight-bold text-primary">Detail Pendaftar</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <label>Nama Lengkap</label>
-                                                <input type="text" class="form-control" value="${response.NamaLengkap}" disabled>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label>Wa Number</label>
-                                                    <input class="form-control" value="${response.WANumber}" disabled>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Email</label>
-                                                    <input class="form-control" value="${response.Email}" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label>Nama Asal Sekolah</label>
-                                                    <input class="form-control" value="${response.NamaAsalSekolah}" disabled>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Tahun Lulus</label>
-                                                    <input class="form-control" value="${response.TahunLulus}" disabled>
-                                                </div>
-                                            </div>
-                                             <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label>Asal Kampus</label>
-                                                    <input class="form-control" value="${response.AsalKampus}" disabled>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Asal Provinsi</label>
-                                                    <input class="form-control" value="${response.AsalProvinsi}" disabled>
-                                                </div>
-                                            </div>
-                                             <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label>Jenjang</label>
-                                                    <input class="form-control" value="${response.Jenjang}" disabled>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Periode</label>
-                                                    <input class="form-control" value="${response.Periode}" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label>Jenis</label>
-                                                    <input class="form-control" value="${response.jenis}" disabled>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Kategori</label>
-                                                    <input class="form-control" value="${response.kategori}" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-4">
-                                                    <label>Prodi 1</label>
-                                                    <input type="text" class="form-control" value="${response.Prodi1}" disabled>
-                                                </div>
-                                                <div class="form-group col-md-4">
-                                                    <label>Prodi 2</label>
-                                                    <input type="text" class="form-control" value="${response.Prodi2}" disabled>
-                                                </div>
-                                                <div class="form-group col-md-4">
-                                                    <label>Prodi 3</label>
-                                                    <input type="text" class="form-control" value="${response.Prodi3}" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Keterangan</label>
-                                                <input type="text" class="form-control" value="${response.Keterangan}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer">
-                                            <button onclick="goBack()" class="btn btn-secondary">Kembali</button>
-                                        </div>
-                                    </div>
-                                `;
-                                }
-                            };
-                            xhr.send();
-                        }
-
                         function populateFilterValue(column) {
                             var filterValueSelect = document.getElementById('filterValue');
                             filterValueSelect.innerHTML = '';
@@ -369,48 +383,9 @@
                             updateSubtitle();
                         }
 
-                        function goBack() {
-                            if (originalContainer && originalContent) {
-                                originalContainer.innerHTML = originalContent;
-                                restoreFormValues(); 
-                               
-};
-                                initEventListeners();
-
-                                location.reload();
-                                window.onload = function() {
-                                
-                                window.scrollTo(0, savedState.scrollPosition);
-                                document.getElementById(savedState.selectedTab).click(); 
-
-                            }
-                        }
-
-                        function restoreFormValues() {
-
-                            if (formValues.filterColumn) {
-                                document.getElementById('filterColumn').value = formValues.filterColumn;
-                                populateFilterValue(formValues.filterColumn); 
-                            }
-                            if (formValues.filterValue) {
-                                document.getElementById('filterValue').value = formValues.filterValue;
-                            }
-                        }
-
-                        function saveFormValues() {
-                            formValues.filterColumn = document.getElementById('filterColumn').value;
-                            formValues.filterValue = document.getElementById('filterValue').value;
-
-                        }
-
                         function initEventListeners() {
-
-                            
-
                             var filterColumn = document.getElementById('filterColumn');
                             var filterButton = document.getElementById('filterButton');
-
-
                             if (filterColumn) {
                                 filterColumn.addEventListener('change', function() {
                                     var selectedColumn = this.value;
@@ -419,7 +394,6 @@
                             } else {
                                 console.error('filterColumn element not found');
                             }
-
                             if (filterButton) {
                                 filterButton.addEventListener('click', function() {
                                    
@@ -440,6 +414,41 @@
                                 console.error('filterButton element not found');
                             }
                         }
+
+                        function detail(id) {
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('GET', '/admin/pendaftar/detail?id=' + id, true);
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+
+                                    var response = JSON.parse(xhr.responseText.trim());
+
+                                    document.getElementById('NamaLengkap').value = response.NamaLengkap;
+                                    document.getElementById('UserName').value = response.UserName;
+                                    document.getElementById('WANumber').value = response.WANumber;
+                                    document.getElementById('NamaAsalSekolah').value = response.NamaAsalSekolah;
+                                    document.getElementById('AsalKampus').value = response.AsalKampus;
+                                    document.getElementById('AsalProvinsi').value = response.AsalProvinsi;
+                                    document.getElementById('TahunLulus').value = response.TahunLulus;
+                                    document.getElementById('NIS').value = response.NIS;
+                                    document.getElementById('jenis').value = response.jenis;
+                                    document.getElementById('Kategori').value = response.kategori;
+                                    document.getElementById('Jenjang').value = response.Jenjang;
+                                    document.getElementById('Periode').value = response.Periode;
+                                    document.getElementById('Prodi1').value = response.Prodi1;
+                                    document.getElementById('Prodi2').value = response.Prodi2;
+                                    document.getElementById('Prodi3').value = response.Prodi3;
+                                    document.getElementById('Keterangan').value = response.Keterangan;
+
+                                    var detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
+                                    detailModal.show();
+                                }
+                            };
+                            xhr.send();
+                        }
+
+
+
 
                     </script>
             </body>

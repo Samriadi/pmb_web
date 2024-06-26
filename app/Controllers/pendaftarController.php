@@ -16,12 +16,23 @@ class pendaftarController
         include __DIR__ . '/../Views/others/page_verified.php';
     }
 
-    public function detail(){ 
-        $models = new pendaftarModel();
-        $id = $_GET['id'];
-        $detailData = $models->getDetail($id);
-        echo json_encode($detailData);
+    public function detail() { 
+        // Example of how to get the id from GET parameters
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $models = new pendaftarModel();
+            $detailData = $models->getDetail($id);
+    
+            // Encode data as JSON
+            header('Content-Type: application/json');
+            echo json_encode($detailData);
+        } else {
+            // Handle case where id parameter is missing
+            echo json_encode(['error' => 'ID parameter is missing.']);
+        }
     }
+    
+    
 
     public function toggleVerified() {
         $data = json_decode(file_get_contents('php://input'), true);
