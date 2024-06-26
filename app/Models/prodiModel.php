@@ -6,8 +6,21 @@ class prodiModel
     public function getProdi()
     {
         $db = Database::getInstance();
-        $query = "SELECT varoption.*, Fakultas.var_value AS NamaFakultas FROM varoption LEFT JOIN (SELECT * FROM varoption WHERE var_name='Fakultas') AS Fakultas 
-		ON varoption.parent = Fakultas.recid WHERE varoption.var_name='Prodi'";
+        $query = "SELECT 
+                        varoption.*, 
+                        Fakultas.var_value AS NamaFakultas,
+                        Jenjang.var_others AS Biaya,
+                        Jenjang.catatan AS Catatan
+                    FROM 
+                        varoption 
+                    LEFT JOIN 
+                        (SELECT * FROM varoption WHERE var_name='Fakultas') AS Fakultas 
+                        ON varoption.parent = Fakultas.recid
+                    LEFT JOIN 
+                        (SELECT * FROM varoption WHERE var_name='Jenjang') AS Jenjang 
+                        ON varoption.var_others = Jenjang.var_value
+                    WHERE 
+                        varoption.var_name='Prodi';";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);

@@ -40,6 +40,7 @@
                                         <th>Program Studi</th>
                                         <th>Jenjang</th>
                                         <th>Fakultas</th>
+                                        <th>Biaya</th>
                                         <th style="width: 100px;">Action</th>
                                     </tr>
                                 </thead>
@@ -53,6 +54,7 @@
                                             <td><?= $dt->var_value ?></td>
                                             <td><?= $dt->var_others ?></td>
                                             <td><?= $dt->NamaFakultas ?></td>
+                                            <td><?= "Rp" . number_format($dt->Biaya, 0, ',', '.') ." | ". $dt->Catatan?></td>
 
 
                                             <td><a class="btn btn-info" href="#" onclick="edit(<?= $dt->recid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
