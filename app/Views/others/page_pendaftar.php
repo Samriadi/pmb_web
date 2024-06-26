@@ -47,20 +47,7 @@
                                 </div>
                             </div>
                         </form>
-                        <form id="filterSpesificForn" method="GET" action="">
-                            <div class="row g-3 align-items-center mb-3">
-                                <div class="col-auto">
-                                    <label for="filterSpesific" class="col-form-label">Get :</label>
-                                </div>
-                                <div class="col-auto">
-                                    <input type="text" class="form-control" id="filterSpesific" name="filterSpesific" placeholder="Kolom=Nilai">
-                                    </input>
-                                </div>
-                                <div class="col-auto">
-                                    <button class="btn btn-primary" type="button" id="filterSpesificButton"><i class=" fas fa-search"></i></button>
-                                </div>
-                            </div>
-                        </form>
+                       
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -415,15 +402,13 @@
                                     var response = JSON.parse(xhr.responseText.trim());
                                     console.log("🚀 ~ detail ~ response:", response)
 
-                                    // Construct the file path using the filename from the response
                                     var photoFileName = response.photo;
-                                    var photoFilePath = 'public/uploads/photo/'; // Replace with your actual file path
+                                    var photoFilePath = 'public/uploads/photo/';
 
                                     var photoUrl = photoFilePath + photoFileName;
 
                                     var fileExtension = photoFileName.split('.').pop().toLowerCase();
 
-                                    // Display the photo in the appropriate frame or container
                                     var photoFileFrame = document.getElementById('photoFileFrame');
                                     var imageContainer = document.getElementById('imageContainer');
 
@@ -442,10 +427,9 @@
                                     else {
                                         photoFileFrame.style.display = 'none';
                                         imageContainer.style.display = 'block';
-                                        document.getElementById('imageFrame').src = ''; // Clear image source if necessary
+                                        document.getElementById('imageFrame').src = ''; 
                                     }
 
-                                    // Populate other data fields from the response
                                     document.getElementById('NamaLengkap').value = response.NamaLengkap;
                                     document.getElementById('UserName').value = response.UserName;
                                     document.getElementById('WANumber').value = response.WANumber;
@@ -463,7 +447,6 @@
                                     document.getElementById('Prodi3').value = response.Prodi3;
                                     document.getElementById('Keterangan').value = response.Keterangan;
 
-                                    // Show the modal
                                     var detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
                                     detailModal.show();
                                 }
