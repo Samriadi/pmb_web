@@ -108,7 +108,6 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="detailModalLabel">Detail Pengguna</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <!-- Tempatkan konten detail di sini -->
@@ -119,12 +118,11 @@
                                                 <div class="card mb-4 mb-xl-0">
                                                     <div class="card-header">Profile Picture</div>
                                                     <div class="card-body text-center">
-                                                        <!-- Profile picture image-->
-                                                        <img class="img-account-profile rounded mb-2" src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250" alt="">
-                                                        <!-- Profile picture help block-->
-                                                        <!-- Profile picture upload button-->
-                                                    </div>
-                                                    <div id="pdf-viewer" style="width: 100%; height: 400px;"></div>
+                                                        <div id="imageContainer" style="display:none;">
+                                                            <img id="imageFrame" src="" width="100%" height="auto">
+                                                        </div>
+                                                        <iframe id="photoFileFrame" src="" width="100%" height="400px"></iframe>
+                                                        </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-8">
@@ -420,9 +418,40 @@
                             xhr.open('GET', '/admin/pendaftar/detail?id=' + id, true);
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState == 4 && xhr.status == 200) {
-
                                     var response = JSON.parse(xhr.responseText.trim());
+                                    console.log("🚀 ~ detail ~ response:", response)
 
+                                    // Construct the file path using the filename from the response
+                                    var photoFileName = response.photo;
+                                    var photoFilePath = 'public/uploads/photo/'; // Replace with your actual file path
+
+                                    var photoUrl = photoFilePath + photoFileName;
+
+                                    var fileExtension = photoFileName.split('.').pop().toLowerCase();
+
+                                    // Display the photo in the appropriate frame or container
+                                    var photoFileFrame = document.getElementById('photoFileFrame');
+                                    var imageContainer = document.getElementById('imageContainer');
+
+                                    if (photoFileName) {
+                                        if(fileExtension == 'pdf') {
+                                        photoFileFrame.src = photoUrl;
+                                        imageContainer.style.display = 'none';
+                                        photoFileFrame.style.display = 'block';
+                                        }
+                                        else {
+                                        imageFrame.src = photoUrl;
+                                        imageContainer.style.display = 'block';
+                                        photoFileFrame.style.display = 'none';
+                                        }
+                                    }
+                                    else {
+                                        photoFileFrame.style.display = 'none';
+                                        imageContainer.style.display = 'block';
+                                        document.getElementById('imageFrame').src = ''; // Clear image source if necessary
+                                    }
+
+                                    // Populate other data fields from the response
                                     document.getElementById('NamaLengkap').value = response.NamaLengkap;
                                     document.getElementById('UserName').value = response.UserName;
                                     document.getElementById('WANumber').value = response.WANumber;
@@ -440,12 +469,15 @@
                                     document.getElementById('Prodi3').value = response.Prodi3;
                                     document.getElementById('Keterangan').value = response.Keterangan;
 
+                                    // Show the modal
                                     var detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
                                     detailModal.show();
                                 }
                             };
                             xhr.send();
                         }
+
+
 
 
 
