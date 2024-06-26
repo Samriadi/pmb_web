@@ -22,15 +22,14 @@ class ujianController
             $file = $_FILES['file']['tmp_name'];
             $handle = fopen($file, "r");
             $response = [];
-            $isFirstRow = true;
     
             while (($data = fgetcsv($handle, 1000, ";")) !== false) {
-                if ($isFirstRow) {
-                    $isFirstRow = false;
-                    continue;
+                $data = array_map('trim', $data);
+                if (empty(array_filter($data))) {
+                    continue; 
                 }
-                $x = count($data);
-                if (count($data) >= $x) {
+                $count = count($data);
+                if (count($data) >= $count) {
                     $no_ujian = trim($data[0]);
                     $nama = trim($data[1]);
                     $kelulusan = trim($data[2]);

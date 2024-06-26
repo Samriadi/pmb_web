@@ -106,9 +106,6 @@
             <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="detailModalLabel">Detail Pengguna</h5>
-                        </div>
                         <div class="modal-body">
                             <!-- Tempatkan konten detail di sini -->
                             <div class="container-xl px-4 mt-4">
@@ -118,8 +115,8 @@
                                                 <div class="card mb-4 mb-xl-0">
                                                     <div class="card-header">Profile Picture</div>
                                                     <div class="card-body text-center">
-                                                        <div id="imageContainer" style="display:none;">
-                                                            <img id="imageFrame" src="" width="100%" height="auto">
+                                                        <div id="imageContainer">
+                                                            <img id="imageFrame" src="" class="rounded" width="100%" height="auto">
                                                         </div>
                                                         <iframe id="photoFileFrame" src="" width="100%" height="400px"></iframe>
                                                         </div>
@@ -215,9 +212,6 @@
                                     </div>
                                 </div>
                           </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        </div>
                     </div>
                 </div>
             </div>
