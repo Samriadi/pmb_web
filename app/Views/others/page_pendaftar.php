@@ -245,6 +245,38 @@
                       
 
                         }
+
+                         function initEventListeners() {
+                            var filterColumn = document.getElementById('filterColumn');
+                            var filterButton = document.getElementById('filterButton');
+                            if (filterColumn) {
+                                filterColumn.addEventListener('change', function() {
+                                    var selectedColumn = this.value;
+                                    populateFilterValue(selectedColumn);
+                                });
+                            } else {
+                                console.error('filterColumn element not found');
+                            }
+                            if (filterButton) {
+                                filterButton.addEventListener('click', function() {
+                                   
+                                    
+                                    if (typeof table !== 'undefined' && table !== null) {
+                                        if (typeof table.draw === 'function') {
+                                            table.draw();
+                                            console.log('Table redraw called');
+                                        } else {
+                                            console.error('table.draw is not a function');
+                                        }
+                                    } else {
+                                        console.error('table is not defined');
+                                    }
+                                    addSubtitle();
+                                });
+                            } else {
+                                console.error('filterButton element not found');
+                            }
+                        }
                     
                         const populateFilterColumns = () => {
                             var filterColumnSelect = document.getElementById('filterColumn');
@@ -328,37 +360,7 @@
                             updateSubtitle();
                         }
 
-                        function initEventListeners() {
-                            var filterColumn = document.getElementById('filterColumn');
-                            var filterButton = document.getElementById('filterButton');
-                            if (filterColumn) {
-                                filterColumn.addEventListener('change', function() {
-                                    var selectedColumn = this.value;
-                                    populateFilterValue(selectedColumn);
-                                });
-                            } else {
-                                console.error('filterColumn element not found');
-                            }
-                            if (filterButton) {
-                                filterButton.addEventListener('click', function() {
-                                   
-                                    
-                                    if (typeof table !== 'undefined' && table !== null) {
-                                        if (typeof table.draw === 'function') {
-                                            table.draw();
-                                            console.log('Table redraw called');
-                                        } else {
-                                            console.error('table.draw is not a function');
-                                        }
-                                    } else {
-                                        console.error('table is not defined');
-                                    }
-                                    addSubtitle();
-                                });
-                            } else {
-                                console.error('filterButton element not found');
-                            }
-                        }
+                       
 
                         function detail(id) {
                             var xhr = new XMLHttpRequest();
