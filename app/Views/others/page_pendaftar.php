@@ -47,42 +47,11 @@
                                 </div>
                             </div>
                         </form>
-                       
+                        <input type="text" id="dynamicSearch" placeholder="Cari...">
+
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama Lengkap</th>
-                                        <th>Pilihan Pertama</th>
-                                        <th>Pilihan Kedua</th>
-                                        <th>Pilihan Ketiga</th>
-                                        <th>Jenjang</th>
-                                        <th>Periode</th>
-                                        <th>Keterangan</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($data as $dt) :
-                                    ?>
-                                        <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $dt->NamaLengkap ?></td>
-                                            <td><?= $dt->PilihanPertama ?></td>
-                                            <td><?= $dt->PilihanKedua ?></td>
-                                            <td><?= $dt->PilihanKetiga ?></td>
-                                            <td><?= $dt->jenjang ?></td>
-                                            <td><?= $dt->periode ?></td>
-                                            <td><?= $dt->keterangan ?></td>
-                                            <td><a class="btn btn-info" href="#" onclick="detail(<?= $dt->member_id; ?>)"  data-toggle="modal" data-target="#detailModal"><i class="fas fa-info-circle"></i></a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach ?>
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -106,7 +75,7 @@
                                                             <img id="imageFrame" src="" class="rounded" width="100%" height="auto">
                                                         </div>
                                                         <iframe id="photoFileFrame" src="" width="100%" height="400px"></iframe>
-                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-8">
@@ -211,6 +180,7 @@
 
                 <script>
                     var data = <?php echo json_encode($data); ?>;
+                    console.log("🚀 ~ data:", data)
 
                     var originalContent;
                     var originalContainer;
@@ -225,7 +195,7 @@
 
                     function setValueFilter() {
                             populateFilterColumns();
-                            populateFilterValue(document.getElementById('filterColumn').value);
+                            populateFilterValue(populateFilterColumns());
 
                             if ($.fn.DataTable.isDataTable('#dataTable')) {
                                 $('#dataTable').DataTable().destroy();
@@ -236,19 +206,20 @@
                                 columns: [
                                     {
                                         data: null,
+                                        title: 'No',
                                         render: function(data, type, row, meta) {
                                             return meta.row + 1;
                                         }
                                     },
-                                    { data: 'NamaLengkap' },
-                                    { data: 'PilihanPertama' },
-                                    { data: 'PilihanKedua' },
-                                    { data: 'PilihanKetiga' },
-                                    { data: 'jenjang' },
-                                    { data: 'periode' },
-                                    { data: 'keterangan' },
+                                    { data: 'NamaLengkap', title: 'Nama Lengkap' },
+                                    { data: 'PilihanPertama', title: 'Pilihan Pertama' },
+                                    { data: 'PilihanKedua', title: 'Pilihan Kedua' },
+                                    { data: 'PilihanKetiga', title: 'Pilihan Ketiga' },
+                                    { data: 'jenjang', title: 'Jenjang' },
+                                    { data: 'periode', title: 'Periode' },
                                     {
                                         data: null,
+                                        title: 'Aksi',
                                         render: function(data, type, row) {
                                             return '<a class="btn btn-info" href="#" onclick="detail(' + data.member_id + ')"><i class="fas fa-info-circle"></i></a>';
                                         }
@@ -256,6 +227,7 @@
                                 ],
                                 "bDestroy": true
                             });
+
 
                             $.fn.dataTable.ext.search.pop();
 
@@ -270,9 +242,12 @@
                                 var columnValue = table.row(dataIndex).data()[selectedColumn];
                                 return columnValue == selectedValue;
                             });
+
+                      
+
                         }
                     
-                        function populateFilterColumns() {
+                        const populateFilterColumns = () => {
                             var filterColumnSelect = document.getElementById('filterColumn');
                             filterColumnSelect.innerHTML = '';
 
@@ -281,32 +256,24 @@
                             allOption.text = 'All';
                             filterColumnSelect.appendChild(allOption);
 
-                            function pickProperties(data, properties) {
-                                return data.map(function(obj) {
-                                    var result = {};
-                                    properties.forEach(function(key) {
-                                        if (obj.hasOwnProperty(key)) {
-                                            result[key] = obj[key];
-                                        }
-                                    });
-                                    return result;
-                                });
-                            }
+                            const pickProperties = (data, properties) =>
+                                data.map(obj =>
+                                    properties.reduce((result, key) =>
+                                        (obj.hasOwnProperty(key) ? { ...result, [key]: obj[key] } : result), {})
+                                );
 
-                            var pickedProperties = pickProperties(data, ['periode', 'jenjang', 'kelulusan']);
+                            var pickedProperties = pickProperties(data, ['periode', 'jenjang', 'kelulusan', 'jenis', 'kategori', 'Keterangan']);
                             var columns = Object.keys(pickedProperties[0]);
 
-                            columns.forEach(function(column) {
+                            columns.forEach(column => {
                                 var option = document.createElement('option');
                                 option.value = column;
-                                if (column === 'kelulusan') {
-                                    option.text = 'Status';
-                                } else {
-                                    option.text = column.charAt(0).toUpperCase() + column.slice(1);
-                                }
+                                option.text = column === 'kelulusan' ? 'Status' : column.charAt(0).toUpperCase() + column.slice(1);
                                 filterColumnSelect.appendChild(option);
                             });
-                        }
+
+                            return filterColumnSelect.value;
+                        };
 
                         function populateFilterValue(column) {
                             var filterValueSelect = document.getElementById('filterValue');
@@ -354,7 +321,7 @@
                                 const selectedColumnText = filterColumnSelect.options[filterColumnSelect.selectedIndex].text;
                                 const selectedValueText = filterValueSelect.options[filterValueSelect.selectedIndex].text;
                                 if (selectedColumnText != 'All')
-                                    filterSubtitle.textContent = `${selectedColumnText}  ${selectedValueText}`;
+                                    filterSubtitle.textContent = `${selectedValueText}`;
                                 else
                                     filterSubtitle.textContent = ``;
                             }
@@ -400,15 +367,10 @@
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState == 4 && xhr.status == 200) {
                                     var response = JSON.parse(xhr.responseText.trim());
-                                    console.log("🚀 ~ detail ~ response:", response)
-
                                     var photoFileName = response.photo;
                                     var photoFilePath = 'public/uploads/photo/';
-
                                     var photoUrl = photoFilePath + photoFileName;
-
                                     var fileExtension = photoFileName.split('.').pop().toLowerCase();
-
                                     var photoFileFrame = document.getElementById('photoFileFrame');
                                     var imageContainer = document.getElementById('imageContainer');
 
@@ -429,7 +391,7 @@
                                         imageContainer.style.display = 'block';
                                         document.getElementById('imageFrame').src = ''; 
                                     }
-
+                                    
                                     document.getElementById('NamaLengkap').value = response.NamaLengkap;
                                     document.getElementById('UserName').value = response.UserName;
                                     document.getElementById('WANumber').value = response.WANumber;
@@ -453,12 +415,6 @@
                             };
                             xhr.send();
                         }
-
-
-
-
-
-
                     </script>
             </body>
         </html> 

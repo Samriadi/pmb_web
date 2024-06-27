@@ -17,17 +17,14 @@ class pendaftarController
     }
 
     public function detail() { 
-        // Example of how to get the id from GET parameters
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $models = new pendaftarModel();
             $detailData = $models->getDetail($id);
     
-            // Encode data as JSON
             header('Content-Type: application/json');
             echo json_encode($detailData);
         } else {
-            // Handle case where id parameter is missing
             echo json_encode(['error' => 'ID parameter is missing.']);
         }
     }
@@ -60,4 +57,17 @@ class pendaftarController
         header('Content-Type: application/json');
         echo json_encode(['success' => $updateSuccess, 'verified' => $newStatus]);
     }
+
+    public function search(){
+        $search = $_GET['search'];
+        $model = new pendaftarModel();
+
+           
+        $data = $model->search($search);
+
+        header('Content-Type: application/json');
+        echo json_encode($data);
+           
+    }
+    
 }

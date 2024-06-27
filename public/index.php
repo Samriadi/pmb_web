@@ -92,6 +92,7 @@ $router->add('/panduan', 'mainController', 'showHelp');
 //pendaftar
 $router->add('/pendaftar', 'pendaftarController', 'index');
 $router->add('/pendaftar/detail', 'pendaftarController', 'detail');
+$router->add('/pendaftar/search', 'pendaftarController', 'search');
 $router->add('/verified', 'pendaftarController', 'verified');
 $router->add('/verified/action', 'pendaftarController', 'toggleVerified');
 $router->add('/testcard', 'mainController', 'testcard');

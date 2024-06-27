@@ -7,8 +7,10 @@ class pendaftarModel
     {
         $db = Database::getInstance();
         $query = "SELECT 
+                        a.*,
                         a.ID, 
                         a.NamaLengkap,
+                        b.*,
                         b.id,
                         COALESCE(d1.var_value, '') AS PilihanPertama,
                         COALESCE(d2.var_value, '') AS PilihanKedua,
@@ -16,6 +18,7 @@ class pendaftarModel
                         b.member_id,
                         b.jenjang,
                         b.kelulusan,
+                        c.*,
                         c.recid,
                         c.periode,
                         c.keterangan,
@@ -127,5 +130,11 @@ class pendaftarModel
         $stmt = $db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+    public function search($search){
+        $db = Database::getInstance();
+
+        $query = "SELECT * FROM table_name WHERE column_name LIKE '%$search%'";
+
     }
 }
