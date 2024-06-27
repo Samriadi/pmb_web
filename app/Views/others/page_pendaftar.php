@@ -47,7 +47,6 @@
                                 </div>
                             </div>
                         </form>
-                        <input type="text" id="dynamicSearch" placeholder="Cari...">
 
                         </div>
                         <div class="table-responsive">
