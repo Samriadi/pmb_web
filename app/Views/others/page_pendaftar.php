@@ -84,80 +84,80 @@
                                                     <div class="card-body">
                                                         <form>
                                                             <div class="mb-3">
-                                                                <label class="small mb-1" for="">Nama Lengkap</label>
+                                                                <label class="small mb-1">Nama Lengkap</label>
                                                                 <input class="form-control" type="text" id="NamaLengkap">
                                                             </div>
                                                             <!-- Form Row-->
                                                             <div class="row gx-3 mb-3">
                                                                 <div class="col-md-6">
-                                                                    <label class="small mb-1" for="">Username</label>
+                                                                    <label class="small mb-1">Username</label>
                                                                     <input class="form-control" type="text" id="UserName">
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label class="small mb-1" for="">Nomor WA</label>
+                                                                    <label class="small mb-1">Nomor WA</label>
                                                                     <input class="form-control" type="text" id="WANumber">
                                                                 </div>
                                                             </div>
                                                             <div class="row gx-3 mb-3">
                                                                 <div class="col-md-6">
-                                                                    <label class="small mb-1" for="">Asal Sekolah</label>
+                                                                    <label class="small mb-1">Asal Sekolah</label>
                                                                     <input class="form-control" type="text" id="NamaAsalSekolah">
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label class="small mb-1" for="">Asal Kampus</label>
+                                                                    <label class="small mb-1">Asal Kampus</label>
                                                                     <input class="form-control" type="text" id="AsalKampus">
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label class="small mb-1" for="">Asal Provinsi</label>
+                                                                <label class="small mb-1">Asal Provinsi</label>
                                                                 <input class="form-control" type="text" id="AsalProvinsi">
                                                             </div>
                                                             <div class="row gx-3 mb-3">
                                                                 <div class="col-md-6">
-                                                                    <label class="small mb-1" for="">Tahun Lulus</label>
+                                                                    <label class="small mb-1">Tahun Lulus</label>
                                                                     <input class="form-control" type=text" id="TahunLulus">
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label class="small mb-1" for="">NIS</label>
+                                                                    <label class="small mb-1">NIS</label>
                                                                     <input class="form-control" type="text" id="NIS">
                                                                 </div>
                                                             </div>
                                                             <div class="row gx-3 mb-3">
                                                                 <div class="col-md-6">
-                                                                    <label class="small mb-1" for="">Jenis</label>
+                                                                    <label class="small mb-1">Jenis</label>
                                                                     <input class="form-control" type=text" id="jenis">
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label class="small mb-1" for="">Kategori</label>
+                                                                    <label class="small mb-1">Kategori</label>
                                                                     <input class="form-control" type="text" id="Kategori">
                                                                 </div>
                                                             </div>
                                                             <div class="row gx-3 mb-3">
                                                                 <div class="col-md-6">
-                                                                    <label class="small mb-1" for="">Jenjang</label>
+                                                                    <label class="small mb-1">Jenjang</label>
                                                                     <input class="form-control" type=text" id="Jenjang">
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label class="small mb-1" for="">Periode</label>
+                                                                    <label class="small mb-1">Periode</label>
                                                                     <input class="form-control" type="text" id="Periode">
                                                                 </div>
                                                             </div>
                                                             <div class="row gx-3 mb-3">
                                                                 <div class="col-md-4">
-                                                                    <label class="small mb-1" for="">Pilihan Pertama</label>
+                                                                    <label class="small mb-1">Pilihan Pertama</label>
                                                                     <input class="form-control" type="text" id="Prodi1">
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <label class="small mb-1" for="">Pilihan Kedua</label>
+                                                                    <label class="small mb-1">Pilihan Kedua</label>
                                                                     <input class="form-control" type="text" id="Prodi2">
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <label class="small mb-1" for="">Pilihan Ketiga</label>
+                                                                    <label class="small mb-1">Pilihan Ketiga</label>
                                                                     <input class="form-control" type="text" id="Prodi3">
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label class="small mb-1" for="">Keterangan</label>
+                                                                <label class="small mb-1">Keterangan</label>
                                                                 <input class="form-control" type="text" id="Keterangan">
                                                             </div>
                                                         </form>
@@ -318,12 +318,12 @@
                             } else if (column === 'kelulusan') {
                                 var uniqueValues = [...new Set(data.map(item => item[column]))];
                                 uniqueValues.forEach(function(value) {
-                                    if (value === 'Lulus') {
+                                    if (value === 'Yes') {
                                         var option = document.createElement('option');
                                         option.value = value;
                                         option.text = value;
                                         filterValueSelect.appendChild(option);
-                                    } else if (value !== 'Lulus' && value !== null) {
+                                    } else  {
                                         var option = document.createElement('option');
                                         option.value = '';
                                         option.text = 'All';
@@ -392,23 +392,32 @@
                                         imageContainer.style.display = 'block';
                                         document.getElementById('imageFrame').src = ''; 
                                     }
+
+                                    function setElementValue(id, value) {
+                                        const element = document.getElementById(id);
+                                        if (element) {
+                                            element.value = value || '-';
+                                        } else {
+                                            console.error(`Element with ID '${id}' not found`);
+                                        }
+                                    }
                                     
-                                    document.getElementById('NamaLengkap').value = response.NamaLengkap;
-                                    document.getElementById('UserName').value = response.UserName;
-                                    document.getElementById('WANumber').value = response.WANumber;
-                                    document.getElementById('NamaAsalSekolah').value = response.NamaAsalSekolah;
-                                    document.getElementById('AsalKampus').value = response.AsalKampus;
-                                    document.getElementById('AsalProvinsi').value = response.AsalProvinsi;
-                                    document.getElementById('TahunLulus').value = response.TahunLulus;
-                                    document.getElementById('NIS').value = response.NIS;
-                                    document.getElementById('jenis').value = response.jenis;
-                                    document.getElementById('Kategori').value = response.kategori;
-                                    document.getElementById('Jenjang').value = response.Jenjang;
-                                    document.getElementById('Periode').value = response.Periode;
-                                    document.getElementById('Prodi1').value = response.Prodi1;
-                                    document.getElementById('Prodi2').value = response.Prodi2;
-                                    document.getElementById('Prodi3').value = response.Prodi3;
-                                    document.getElementById('Keterangan').value = response.Keterangan;
+                                    setElementValue('NamaLengkap', response.NamaLengkap);
+                                    setElementValue('UserName', response.UserName);
+                                    setElementValue('WANumber', response.WANumber);
+                                    setElementValue('NamaAsalSekolah', response.NamaAsalSekolah);
+                                    setElementValue('AsalKampus', response.AsalKampus);
+                                    setElementValue('AsalProvinsi', response.AsalProvinsi);
+                                    setElementValue('TahunLulus', response.TahunLulus);
+                                    setElementValue('NIS', response.NIS);
+                                    setElementValue('jenis', response.jenis);
+                                    setElementValue('Kategori', response.kategori);
+                                    setElementValue('Jenjang', response.Jenjang);
+                                    setElementValue('Periode', response.Periode);
+                                    setElementValue('Prodi1', response.Prodi1);
+                                    setElementValue('Prodi2', response.Prodi2);
+                                    setElementValue('Prodi3', response.Prodi3);
+                                    setElementValue('Keterangan', response.Keterangan);
 
                                     var detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
                                     detailModal.show();
