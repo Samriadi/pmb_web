@@ -179,7 +179,6 @@
 
                 <script>
                     var data = <?php echo json_encode($data); ?>;
-                    console.log("🚀 ~ data:", data)
 
                     var originalContent;
                     var originalContainer;
@@ -293,7 +292,7 @@
                                         (obj.hasOwnProperty(key) ? { ...result, [key]: obj[key] } : result), {})
                                 );
 
-                            var pickedProperties = pickProperties(data, ['periode', 'jenjang', 'kelulusan', 'jenis', 'kategori', 'Keterangan']);
+                            var pickedProperties = pickProperties(data, ['periode', 'jenjang', 'kelulusan']);
                             var columns = Object.keys(pickedProperties[0]);
 
                             columns.forEach(column => {
