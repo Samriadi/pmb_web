@@ -68,7 +68,17 @@
                  <a class="collapse-item" href="/admin/ujian">Ujian</a>
                  <a class="collapse-item" href="/admin/pendaftar">Pendaftar</a>
                  <a class="collapse-item" href="/admin/verified">Verified</a>
-                 <a class="collapse-item" href="/admin/testcard">Kartu Ujian</a>
+                    <?php
+                    function isMobileDevice() {
+                        return preg_match("/(android|blackberry|iphone|ipod|iemobile|opera mini)/i", $_SERVER['HTTP_USER_AGENT']);
+                    }
+                    if (isMobileDevice()) { 
+                        ?>
+                        <a class="collapse-item" href="/admin/testcard?page=mobile">Kartu Ujian</a>
+                    <?php } else { ?>
+                        <a class="collapse-item" href="/admin/testcard?page=web">Kartu Ujian</a>
+                    <?php } ?>
+
              </div>
          </div>
      </li>

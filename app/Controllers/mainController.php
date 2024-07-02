@@ -102,6 +102,13 @@ class mainController
 
     public function testcard()
     {
-        include __DIR__ . '/../Views/others/page_kartuUjian.php';
+        $page = isset($_GET['page']) ? $_GET['page'] : null;
+
+        if($page === 'web') {
+            include __DIR__ . '/../Views/others/page_testCard.php';
+        }
+        else if($page === 'mobile') {
+            include __DIR__. '/../Views/others/page_mobileTestCard.php';
+        }
     }
 }

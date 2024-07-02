@@ -109,6 +109,8 @@ class pendaftarModel
                         a.*,
                         b.*,
                         c.*,
+                        e.*,
+                        f.*,
                         COALESCE(d1.var_value, '') AS Prodi1,
                         COALESCE(d2.var_value, '') AS Prodi2,
                         COALESCE(d3.var_value, '') AS Prodi3
@@ -124,6 +126,10 @@ class pendaftarModel
                         varoption d2 ON d2.recid = a.PilihanKedua
                     LEFT JOIN 
                         varoption d3 ON d3.recid = a.PilihanKetiga
+                    LEFT JOIN
+                    	edu_ortu e ON e.maba_id = a.member_id
+                    LEFT JOIN
+                    	pmb_pembayaran f ON f.member_id = a.member_id
                     WHERE 
                         a.member_id = ?;
                     ";
