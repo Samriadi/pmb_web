@@ -45,6 +45,10 @@
                                 <div class="col-auto">
                                     <button class="btn btn-primary" type="button" id="filterButton"><i class=" fas fa-search"></i></button>
                                 </div>
+
+                                <div class="col-auto">
+                                    <button class="btn btn-primary" type="button" id="regSubmit">Submit</i></button>
+                                </div>
                             </div>
                         </form>
 
@@ -68,7 +72,7 @@
                                             <div class="col-xl-4">
                                                 <!-- Profile picture card-->
                                                 <div class="card mb-4 mb-xl-0">
-                                                    <div class="card-header">Profile Picture</div>
+                                                    <div class="card-header">Foto</div>
                                                     <div class="card-body text-center">
                                                         <div id="imageContainer">
                                                             <img id="imageFrame" src="" class="rounded" width="100%" height="auto">
@@ -76,11 +80,31 @@
                                                         <iframe id="photoFileFrame" src="" width="100%" height="400px"></iframe>
                                                     </div>
                                                 </div>
+                                                <br/>
+                                                <div class="card mb-4 mb-xl-0">
+                                                    <div class="card-header">Bukti Bayar</div>
+                                                    <div class="card-body text-center">
+                                                        <div id="buktiBayarContainer">
+                                                            <img id="buktiBayarFrame" src="" class="rounded" width="100%" height="auto">
+                                                        </div>
+                                                        <iframe id="buktiBayarFileFrame" src="" width="100%" height="400px"></iframe>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div class="card mb-4 mb-xl-0">
+                                                    <div class="card-header">Bukti Registrasi</div>
+                                                    <div class="card-body text-center">
+                                                        <div id="buktiRegisContainer">
+                                                            <img id="buktiRegisFrame" src="" class="rounded" width="100%" height="auto">
+                                                        </div>
+                                                        <iframe id="buktiRegisFileFrame" src="" width="100%" height="400px"></iframe>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-xl-8">
                                                 <!-- Account details card-->
                                                 <div class="card mb-4">
-                                                    <div class="card-header">Profile Details</div>
+                                                    <div class="card-header">Data Pribadi</div>
                                                     <div class="card-body">
                                                         <form>
                                                             <div class="mb-3">
@@ -163,7 +187,133 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                                        </div>
+
+                                                <!-- Data Orang Tua-->
+                                                <div class="card mb-4">
+                                                    <div class="card-header">Data Orang Tua</div>
+                                                    <div class="card-body">
+                                                    <form>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Nama Ayah</label>
+                                                                    <input class="form-control" type="text" id="nama_ayah">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Nama Ibu</label>
+                                                                    <input class="form-control" type="text" id="nama_ibu">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Tempat Lahir Ayah</label>
+                                                                    <input class="form-control" type="text" id="t4lahir_ayah">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Tempat Lahir Ibu</label>
+                                                                    <input class="form-control" type="text" id="t4lahir_ibu">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Tanggal Lahir Ayah</label>
+                                                                    <input class="form-control" type="text" id="tglahir_ayah">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Tanggal Lahir Ibu</label>
+                                                                    <input class="form-control" type="text" id="tglahir_ibu">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Pendidikan Ayah</label>
+                                                                    <input class="form-control" type="text" id="pend_ayah">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Pendidikan Ibu</label>
+                                                                    <input class="form-control" type="text" id="pend_ibu">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Agama Ayah</label>
+                                                                    <input class="form-control" type="text" id="agama_ayah">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Agama Ibu</label>
+                                                                    <input class="form-control" type="text" id="agama_ibu">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Kontak Ayah</label>
+                                                                    <input class="form-control" type="text" id="phone_ayah">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Kontak Ibu</label>
+                                                                    <input class="form-control" type="text" id="phone_ibu">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Pekerjaan Ayah</label>
+                                                                    <input class="form-control" type="text" id="job_ayah">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Pekerjaan Ibu</label>
+                                                                    <input class="form-control" type="text" id="job_ibu">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Pendapatan Ayah</label>
+                                                                    <input class="form-control" type="text" id="salary_ayah">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Pendapatan Ibu</label>
+                                                                    <input class="form-control" type="text" id="salary_ibu">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gx-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Alamat Ayah</label>
+                                                                    <textarea class="form-control" id="alamat_ayah"></textarea>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="small mb-1">Alamat Ibu</label>
+                                                                    <textarea class="form-control" id="alamat_ibu"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                             </div>
+
+                                             <div class="col-12">
+                                                <div class="card mb-4 mb-xl-0">
+                                                    <div class="card-header">Berkas</div>
+                                                    <div class="card-body text-center">
+                                                        <div id="docuContainer">
+                                                            <img id="docuFrame" src="" class="rounded" width="100%" height="auto">
+                                                        </div>
+                                                        <iframe id="docuFileFrame" src="" width="100%" height="600px"></iframe>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="card mb-4 mb-xl-0">
+                                                    <div class="card-header">Berkas Registrasi</div>
+                                                    <div class="card-body text-center">
+                                                        <div id="docuRegisContainer">
+                                                            <img id="docuRegisFrame" src="" class="rounded" width="100%" height="auto">
+                                                        </div>
+                                                        <iframe id="docuRegisFileFrame" src="" width="100%" height="600px"></iframe>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            </div>
+
                                     </div>
                                 </div>
                           </div>
@@ -176,7 +326,11 @@
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
                 <?php include '../app/Views/others/layouts/footer.php'; ?>
-
+                <script>
+                    document.getElementById("regSubmit").addEventListener("click", function() {
+                        this.disabled = true;
+                    });
+                </script>
                 <script>
                     var data = <?php echo json_encode($data); ?>;
 
@@ -367,56 +521,86 @@
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState == 4 && xhr.status == 200) {
                                     var response = JSON.parse(xhr.responseText.trim());
-                                    var photoFileName = response.photo;
-                                    var photoFilePath = 'public/uploads/photo/';
-                                    var photoUrl = photoFilePath + photoFileName;
-                                    var fileExtension = photoFileName.split('.').pop().toLowerCase();
-                                    var photoFileFrame = document.getElementById('photoFileFrame');
-                                    var imageContainer = document.getElementById('imageContainer');
+                                    console.log("🚀 ~ detail ~ response:", response.maba_id)
 
-                                    if (photoFileName) {
-                                        if(fileExtension == 'pdf') {
-                                        photoFileFrame.src = photoUrl;
-                                        imageContainer.style.display = 'none';
-                                        photoFileFrame.style.display = 'block';
+                                    
+
+                                    const properties = [
+                                        'NamaLengkap', 'UserName', 'WANumber', 'NamaAsalSekolah', 'AsalKampus',
+                                        'AsalProvinsi', 'TahunLulus', 'NIS', 'jenis', 'Kategori', 'Jenjang',
+                                        'Periode', 'Prodi1', 'Prodi2', 'Prodi3', 'Keterangan'
+                                    ];
+
+                                    const propertiesOrtu = [
+                                        'nama', 't4lahir', 'tglahir', 'pend', 'agama', 'phone', 'job', 'salary', 'alamat'
+                                    ]
+
+                                    const setElementValue = (id, value) => {
+                                        const element = document.getElementById(id);
+                                        element ? element.value = value || '-' : console.error(`Element with ID '${id}' not found`);
+                                    }
+
+                                    const setAllElementOrtu = (value) => {
+                                        setElementValue(`nama_${value}`, response[`nama_${value}`]);
+                                        setElementValue(`t4lahir_${value}`, response[`t4lahir_${value}`]);
+                                        setElementValue(`tglahir_${value}`, response[`tglahir_${value}`]);
+                                        setElementValue(`pend_${value}`, response[`pend_${value}`]);
+                                        setElementValue(`agama_${value}`, response[`agama_${value}`]);
+                                        setElementValue(`phone_${value}`, response[`phone_${value}`]);
+                                        setElementValue(`job_${value}`, response[`job_${value}`]);
+                                        setElementValue(`salary_${value}`, response[`salary_${value}`]);
+                                        setElementValue(`alamat_${value}`, response[`alamat_${value}`]);
+                                    }
+
+                                    const setAllElement = (data) => {
+                                        Object.keys(response).forEach(prop => {
+                                            if (data.includes(prop)) {
+                                                setElementValue(prop, response[prop]);
+                                            }
+                                        });
+                                    }  
+
+                                    const setElementFile = (response, path, container, imageFrame, fileFrame) => {
+                                        var FileName = response;
+                                        var FilePath = path;
+                                        var Container = document.getElementById(container);
+                                        var ImageFrame = document.getElementById(imageFrame);
+                                        var FileFrame = document.getElementById(fileFrame);
+
+                                        var Url = FilePath + FileName;
+                                        var FileExtension = FileName?.split('.').pop().toLowerCase() || '';
+
+                                        if (FileName) {
+                                            if(FileExtension == 'pdf') {
+                                            FileFrame.src = Url;
+                                            Container.style.display = 'none';
+                                            FileFrame.style.display = 'block';
+                                            }
+                                            else {
+                                            ImageFrame.src = Url;
+                                            Container.style.display = 'block';
+                                            FileFrame.style.display = 'none';
+                                            }
                                         }
                                         else {
-                                        imageFrame.src = photoUrl;
-                                        imageContainer.style.display = 'block';
-                                        photoFileFrame.style.display = 'none';
+                                            FileFrame.style.display = 'none';
+                                            Container.style.display = 'block';
+                                            ImageFrame.src = ''; 
                                         }
-                                    }
-                                    else {
-                                        photoFileFrame.style.display = 'none';
-                                        imageContainer.style.display = 'block';
-                                        document.getElementById('imageFrame').src = ''; 
                                     }
 
-                                    function setElementValue(id, value) {
-                                        const element = document.getElementById(id);
-                                        if (element) {
-                                            element.value = value || '-';
-                                        } else {
-                                            console.error(`Element with ID '${id}' not found`);
-                                        }
-                                    }
-                                    
-                                    setElementValue('NamaLengkap', response.NamaLengkap);
-                                    setElementValue('UserName', response.UserName);
-                                    setElementValue('WANumber', response.WANumber);
-                                    setElementValue('NamaAsalSekolah', response.NamaAsalSekolah);
-                                    setElementValue('AsalKampus', response.AsalKampus);
-                                    setElementValue('AsalProvinsi', response.AsalProvinsi);
-                                    setElementValue('TahunLulus', response.TahunLulus);
-                                    setElementValue('NIS', response.NIS);
-                                    setElementValue('jenis', response.jenis);
-                                    setElementValue('Kategori', response.kategori);
-                                    setElementValue('Jenjang', response.Jenjang);
-                                    setElementValue('Periode', response.Periode);
-                                    setElementValue('Prodi1', response.Prodi1);
-                                    setElementValue('Prodi2', response.Prodi2);
-                                    setElementValue('Prodi3', response.Prodi3);
-                                    setElementValue('Keterangan', response.Keterangan);
+                                    //data pribadi
+                                    setAllElement(properties);
+                                    //data orang tua
+                                    setAllElementOrtu('ayah');
+                                    setAllElementOrtu('ibu');
+                                    //data dokumen
+                                    setElementFile(response.photo, 'public/uploads/photo/', 'imageContainer', 'imageFrame', 'photoFileFrame');
+                                    setElementFile(response.bukti_transfer, 'public/uploads/payment/', 'buktiBayarContainer', 'buktiBayarFrame', 'buktiBayarFileFrame');
+                                    setElementFile(response.bukti_regis, 'public/uploads/payment/', 'buktiRegisContainer', 'buktiRegisFrame', 'buktiRegisFileFrame');
+                                    setElementFile(response.berkas, 'public/uploads/docu/', 'docuContainer', 'docuFrame', 'docuFileFrame');
+                                    setElementFile(response.berkas_regis, 'public/uploads/docu/', 'docuRegisContainer', 'docuRegisFrame', 'docuRegisFileFrame');
+
 
                                     var detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
                                     detailModal.show();
