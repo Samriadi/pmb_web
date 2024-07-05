@@ -18,15 +18,16 @@
             <div class="container-fluid">
                 <!-- Button trigger modal -->
                 <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h5 class="m-0 font-weight-bold text-primary">DATA VERIFIED</h5>
-                    <h6 id="filterSubtitle" class="m-0 font-weight-bold text-primary"></h6>
-                </div>
+                    <div class="card-header py-3">
+                        <h5 class="m-0 font-weight-bold text-primary">DATA VERIFIED</h5>
+                        <h6 id="filterSubtitle" class="m-0 font-weight-bold text-primary"></h6>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
+                                        <th>Check</th>
                                         <th>Verified</th>
                                         <th>Nama Lengkap</th>
                                         <th>File</th>
@@ -50,8 +51,16 @@
                                         $isVerified = $dt->verified === "Verified";
                                         $buttonClass = $isVerified ? 'btn-success' : 'btn-danger';
                                         $buttonText = $isVerified ? 'Verified' : 'Unverified';
+                                        $checkboxId = $dt->member_id;
                                     ?>
                                         <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" id="<?= $checkboxId ?>" name="checkboxes[]" value="<?= $dt->member_id ?>">
+                                                    <label class="form-check-label" for="<?= $checkboxId ?>"></label>
+                                                </div>
+                                            </td>
+
                                             <td>
                                                 <button class="btn btn-sm <?= $buttonClass ?>" onclick="toggleVerified(<?= $dt->id ?>)">
                                                     <?= $buttonText ?>
@@ -59,15 +68,15 @@
                                             </td>
                                             <td><?= $dt->NamaLengkap ?></td>
                                             <td>
-                                            <?php if($dt->berkas) { ?>
-                                                <a href="#" data-toggle="modal" data-target="#docuFileModal" data-file="<?= $dt->berkas ?>">Dokumen</a>
-                                            <?php } ?>
-                                            <?php if($dt->photo) { ?>
-                                                <a href="#" data-toggle="modal" data-target="#photoFileModal" data-file="<?= $dt->photo ?>">Photo</a>
-                                            <?php } ?>
-                                            <?php if($dt->bukti_transfer) { ?>
-                                                <a href="#" data-toggle="modal" data-target="#buktiFileModal" data-file="<?= $dt->bukti_transfer ?>">Bukti Transfer</a>
-                                            <?php } ?>
+                                                <?php if ($dt->berkas) { ?>
+                                                    <a href="#" data-toggle="modal" data-target="#docuFileModal" data-file="<?= $dt->berkas ?>">Dokumen</a>
+                                                <?php } ?>
+                                                <?php if ($dt->photo) { ?>
+                                                    <a href="#" data-toggle="modal" data-target="#photoFileModal" data-file="<?= $dt->photo ?>">Photo</a>
+                                                <?php } ?>
+                                                <?php if ($dt->bukti_transfer) { ?>
+                                                    <a href="#" data-toggle="modal" data-target="#buktiFileModal" data-file="<?= $dt->bukti_transfer ?>">Bukti Transfer</a>
+                                                <?php } ?>
                                             </td>
                                             <td><?= $dt->invoice_id ?></td>
                                             <td>Rp. <?= number_format($dt->jumlah_tagihan, 0, ',', '.') ?></td>
@@ -82,13 +91,16 @@
                                                 <a href="https://wa.me/<?= '62' . substr($dt->WANumber, 1) ?>" target="_blank"><?= $dt->WANumber ?></a>
                                             </td>
                                             <td><?= $dt->jenis ?></td>
-                                          
+
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>
-                            </table>
 
-                           <!-- Modal -->
+                            </table>
+                            <button id="verifySelected" class="btn btn-primary" style="margin-bottom: 10px;">Verifikasi</button>
+
+
+                            <!-- Modal -->
                             <div class="modal fade" id="docuFileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -167,9 +179,9 @@
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
                 <script>
-                    $(document).ready(function(){
+                    $(document).ready(function() {
                         function setupModal(modalId, filePath, iframeId) {
-                            $(modalId).on('show.bs.modal', function (event) {
+                            $(modalId).on('show.bs.modal', function(event) {
                                 var button = $(event.relatedTarget); // Button that triggered the modal
                                 var fileName = button.data('file'); // Extract info from data-* attributes
                                 var fileUrl = filePath + fileName;
@@ -189,7 +201,7 @@
                                 }
                             });
 
-                            $(modalId).on('hidden.bs.modal', function () {
+                            $(modalId).on('hidden.bs.modal', function() {
                                 var modal = $(this);
                                 modal.find('.modal-body #imageFrame').attr('src', '');
                                 modal.find('.modal-body #' + iframeId).attr('src', '');
@@ -216,41 +228,77 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 fetch('/admin/verified/action', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({ id: id })
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        const button = document.querySelector(`button[onclick="toggleVerified(${id})"]`);
-                                        button.textContent = data.verified === 'Verified' ? 'Verified' : 'Unverified';
-                                        button.className = 'btn btn-sm ' + (data.verified === 'Verified' ? 'btn-success' : 'btn-danger');
-                                        Swal.fire({
-                                            title: 'Updated!',
-                                            text: 'The verification status has been updated.',
-                                            icon: 'success',
-                                            timer: 1000, //
-                                            showConfirmButton: false 
-                                        });
-                                        setTimeout(() => {
-                                            window.location.reload();
-                                        }, 1000);
-                                    } else {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({
+                                            id: id
+                                        })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            const button = document.querySelector(`button[onclick="toggleVerified(${id})"]`);
+                                            button.textContent = data.verified === 'Verified' ? 'Verified' : 'Unverified';
+                                            button.className = 'btn btn-sm ' + (data.verified === 'Verified' ? 'btn-success' : 'btn-danger');
+                                            Swal.fire({
+                                                title: 'Updated!',
+                                                text: 'The verification status has been updated.',
+                                                icon: 'success',
+                                                timer: 1000, //
+                                                showConfirmButton: false
+                                            });
+                                            setTimeout(() => {
+                                                window.location.reload();
+                                            }, 1000);
+                                        } else {
+                                            Swal.fire('Error', 'Failed to update verification status.', 'error');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
                                         Swal.fire('Error', 'Failed to update verification status.', 'error');
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                    Swal.fire('Error', 'Failed to update verification status.', 'error');
-                                });
+                                    });
                             }
                         });
                     }
                 </script>
 
+                <script>
+                    document.getElementById('verifySelected').addEventListener('click', function(event) {
+                        event.preventDefault();
+
+                        const checkboxes = document.querySelectorAll('input[name="checkboxes[]"]:checked');
+                        const ids = Array.from(checkboxes).map(checkbox => checkbox.value);
+
+                        console.log(ids);
+                        if (ids.length > 0) {
+                            fetch('/admin/verified/selected', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        ids
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(data);
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('Terjadi kesalahan pada server.');
+                                });
+                        } else {
+                            alert('Tidak ada data yang dipilih.');
+                        }
+                    });
+                </script>
+
+
                 <?php include '../app/Views/others/layouts/footer.php'; ?>
-            </body>
-        </html> 
+                </body>
+
+                </html>

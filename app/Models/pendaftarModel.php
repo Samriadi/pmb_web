@@ -1,7 +1,7 @@
 <?php
 class pendaftarModel
 {
-    
+
 
     public function getPendaftar()
     {
@@ -46,6 +46,7 @@ class pendaftarModel
         $db = Database::getInstance();
         $query = "SELECT 
                         a.id,
+                        a.member_id,
                         a.pay_status,
                         a.verified,
                         a.no_ujian,
@@ -83,7 +84,8 @@ class pendaftarModel
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function getVerificationStatus($id) {
+    public function getVerificationStatus($id)
+    {
         $db = Database::getInstance();
 
         $query = "SELECT verified FROM pmb_tagihan WHERE id = ?";
@@ -92,15 +94,49 @@ class pendaftarModel
         return $stmt->fetchColumn();
     }
 
-    public function updateVerificationStatus($id, $status, $no_ujian, $pay_status) {
-        $db = Database::getInstance();
+    public function updateVerificationStatus($id, $status, $no_ujian, $pay_status)
+    {
+        try {
+            $db = Database::getInstance();
 
-       
+            $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE id = ?";
+            $stmt = $db->prepare($query);
+            $result = $stmt->execute([$status, $no_ujian, $pay_status, $id]);
 
-        $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE id = ?";
-        $stmt = $db->prepare($query);
-        return $stmt->execute([$status, $no_ujian, $pay_status, $id]);
+            if ($result) {
+                return true;
+            } else {
+                throw new Exception("Failed to update record with id: $id");
+            }
+        } catch (PDOException $e) {
+            error_log("Database error: " . $e->getMessage());
+            return false;
+        } catch (Exception $e) {
+            error_log("Error: " . $e->getMessage());
+            return false;
+        }
     }
+
+
+    public function updateMultipleVerificationStatuses($data)
+    {
+        $db = Database::getInstance();
+        try {
+            foreach ($data as $item) {
+                $id = $item['id'];
+                $status = $item['status'];
+                $no_ujian = $item['no_ujian'];
+                $pay_status = $item['pay_status'];
+
+                $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE id = ?";
+                $stmt = $db->prepare($query);
+                return $stmt->execute([$status, $no_ujian, $pay_status, $id]);
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
 
     public function getDetail($id)
     {
@@ -137,10 +173,10 @@ class pendaftarModel
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
-    public function search($search){
+    public function search($search)
+    {
         $db = Database::getInstance();
 
         $query = "SELECT * FROM table_name WHERE column_name LIKE '%$search%'";
-
     }
 }

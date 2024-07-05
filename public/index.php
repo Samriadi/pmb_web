@@ -95,6 +95,8 @@ $router->add('/pendaftar/detail', 'pendaftarController', 'detail');
 $router->add('/pendaftar/search', 'pendaftarController', 'search');
 $router->add('/verified', 'pendaftarController', 'verified');
 $router->add('/verified/action', 'pendaftarController', 'toggleVerified');
+$router->add('/verified/selected', 'pendaftarController', 'verifySelected');
+
 $router->add('/testcard', 'mainController', 'testcard');
 
 //log activity
