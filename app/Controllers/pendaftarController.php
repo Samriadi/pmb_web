@@ -17,23 +17,27 @@ class pendaftarController
         include __DIR__ . '/../Views/others/page_verified.php';
     }
 
+    public function tagihan()
+    {
+        $models = new pendaftarModel();
+        $data = $models->getTagihan();
+        include __DIR__ . '/../Views/others/page_tagihan.php';
+    }
+
     // Misalnya, di Controller Anda
     public function verifySelected()
     {
         $input = json_decode(file_get_contents('php://input'), true);
         $ids = $input['ids'] ?? [];
-
+        $response = [];
 
         if (!empty($ids)) {
             error_log("IDs received: " . implode(", ", $ids));
-            $response = [];
+            $model = new pendaftarModel();
+
             foreach ($ids as $id) {
-                $model = new pendaftarModel();
-
-                $currentStatus = $model->getVerificationStatus($id);
-
+                $currentStatus = $model->getMultipleVerificationStatus($id);
                 $prefix_noUjian = date("m");
-
                 $newStatus = ($currentStatus === "Verified") ? "Unverified" : "Verified";
 
                 if ($newStatus === "Verified") {
@@ -51,17 +55,20 @@ class pendaftarController
                     'id' => $id
                 ];
 
-                $updateSuccess = $model->updateVerificationStatus($id, $newStatus, $no_ujian, $pay_status);
+                $updateSuccess = $model->updateMultipleVerificationStatuses($data);
 
                 if (!$updateSuccess) {
-                    $response[] = ['success' => false, 'message' => 'Failed to update verification status.'];
+                    $response[] = ['success' => false, 'id' => $id, 'message' => 'Failed to update verification status.'];
                 } else {
-                    $response[] = ['success' => $updateSuccess, 'updated' => $data];
+                    $response[] = ['success' => true, 'id' => $id, 'updated' => $data];
                 }
             }
-            header('Content-Type: application/json');
-            echo json_encode($response);
+        } else {
+            $response[] = ['success' => false, 'message' => 'No IDs provided.'];
         }
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
 
 

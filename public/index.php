@@ -93,11 +93,16 @@ $router->add('/panduan', 'mainController', 'showHelp');
 $router->add('/pendaftar', 'pendaftarController', 'index');
 $router->add('/pendaftar/detail', 'pendaftarController', 'detail');
 $router->add('/pendaftar/search', 'pendaftarController', 'search');
+
+//verified
 $router->add('/verified', 'pendaftarController', 'verified');
 $router->add('/verified/action', 'pendaftarController', 'toggleVerified');
 $router->add('/verified/selected', 'pendaftarController', 'verifySelected');
 
-$router->add('/testcard', 'mainController', 'testcard');
+//tagihan
+$router->add('/tagihan', 'pendaftarController', 'tagihan');
+
+
 
 //log activity
 $router->add('/logs', 'mainController', 'logs');

@@ -84,11 +84,41 @@ class pendaftarModel
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function getTagihan()
+    {
+        $db = Database::getInstance();
+        $query = "SELECT 
+                        a.member_id,
+                        a.pay_status,
+                        a.verified,
+                        a.no_ujian,
+                        b.ID,
+                        b.NamaLengkap
+                    FROM 
+                        pmb_tagihan a
+                    LEFT JOIN 
+                        pmb_mahasiswa b ON b.ID = a.member_id;
+                    ";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function getVerificationStatus($id)
     {
         $db = Database::getInstance();
 
         $query = "SELECT verified FROM pmb_tagihan WHERE id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$id]);
+        return $stmt->fetchColumn();
+    }
+
+    public function getMultipleVerificationStatus($id)
+    {
+        $db = Database::getInstance();
+
+        $query = "SELECT verified FROM pmb_tagihan WHERE member_id = ?";
         $stmt = $db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetchColumn();
@@ -119,21 +149,15 @@ class pendaftarModel
 
 
     public function updateMultipleVerificationStatuses($data)
-    {
-        $db = Database::getInstance();
-        try {
-            foreach ($data as $item) {
-                $id = $item['id'];
-                $status = $item['status'];
-                $no_ujian = $item['no_ujian'];
-                $pay_status = $item['pay_status'];
-
-                $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE id = ?";
+    { {
+            $db = Database::getInstance();
+            try {
+                $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE member_id = ?";
                 $stmt = $db->prepare($query);
-                return $stmt->execute([$status, $no_ujian, $pay_status, $id]);
+                return $stmt->execute([$data['verified'], $data['no_ujian'], $data['pay_status'], $data['id']]);
+            } catch (Exception $e) {
+                return false;
             }
-        } catch (Exception $e) {
-            return false;
         }
     }
 
