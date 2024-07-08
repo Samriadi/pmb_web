@@ -9,18 +9,18 @@ class pendaftarModel
         $query = "SELECT 
                         a.*,
                         a.ID, 
-                        a.NamaLengkap,
+                        a.NamaLengkap AS 'Nama Lengkap',
                         b.*,
                         b.id,
-                        COALESCE(d1.var_value, '') AS PilihanPertama,
-                        COALESCE(d2.var_value, '') AS PilihanKedua,
-                        COALESCE(d3.var_value, '') AS PilihanKetiga,
+                        COALESCE(d1.var_value, '') AS 'Pilihan Pertama',
+                        COALESCE(d2.var_value, '') AS 'Pilihan Kedua',
+                        COALESCE(d3.var_value, '') AS 'Pilihan Ketiga',
                         b.member_id,
                         b.jenjang,
                         b.kelulusan,
                         c.*,
                         c.recid,
-                        c.periode,
+                        c.periode AS 'Periode',
                         c.keterangan,
                         c.status
                     FROM 
@@ -149,15 +149,14 @@ class pendaftarModel
 
 
     public function updateMultipleVerificationStatuses($data)
-    { {
-            $db = Database::getInstance();
-            try {
-                $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE member_id = ?";
-                $stmt = $db->prepare($query);
-                return $stmt->execute([$data['verified'], $data['no_ujian'], $data['pay_status'], $data['id']]);
-            } catch (Exception $e) {
-                return false;
-            }
+    {
+        $db = Database::getInstance();
+        try {
+            $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE member_id = ?";
+            $stmt = $db->prepare($query);
+            return $stmt->execute([$data['verified'], $data['no_ujian'], $data['pay_status'], $data['id']]);
+        } catch (Exception $e) {
+            return false;
         }
     }
 

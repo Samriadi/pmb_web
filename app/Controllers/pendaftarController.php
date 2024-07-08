@@ -24,7 +24,6 @@ class pendaftarController
         include __DIR__ . '/../Views/others/page_tagihan.php';
     }
 
-    // Misalnya, di Controller Anda
     public function verifySelected()
     {
         $input = json_decode(file_get_contents('php://input'), true);
