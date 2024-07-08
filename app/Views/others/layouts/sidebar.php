@@ -69,6 +69,7 @@
                  <a class="collapse-item" href="/admin/pendaftar">Pendaftar</a>
                  <a class="collapse-item" href="/admin/verified">Verified</a>
                  <a class="collapse-item" href="/admin/tagihan">Tagihan</a>
+                 <a class="collapse-item" href="/admin/csv">Download Data</a>
                  <?php
                     function isMobileDevice()
                     {
@@ -76,9 +77,9 @@
                     }
                     if (isMobileDevice()) {
                     ?>
-                     <a class="collapse-item" href="/admin/testcard?page=mobile">Kartu Ujian</a>
+                     <!-- <a class="collapse-item" href="/admin/testcard?page=mobile">Kartu Ujian</a> -->
                  <?php } else { ?>
-                     <a class="collapse-item" href="/admin/testcard?page=web">Kartu Ujian</a>
+                     <!-- <a class="collapse-item" href="/admin/testcard?page=web">Kartu Ujian</a> -->
                  <?php } ?>
 
              </div>
