@@ -15,7 +15,7 @@ require_once __DIR__ . '/../app/Controllers/userController.php';
 require_once __DIR__ . '/../app/Controllers/pendaftarController.php';
 
 
-
+require_once __DIR__ . '/../app/models/ujianModel.php';
 require_once __DIR__ . '/../app/Models/pendaftarModel.php';
 
 $router = new Router();
@@ -101,6 +101,10 @@ $router->add('/verified/selected', 'pendaftarController', 'verifySelected');
 
 //tagihan
 $router->add('/tagihan', 'pendaftarController', 'tagihan');
+
+$router->add('/csv', 'csvController', 'index');
+$router->add('/csv/donwload', 'csvController', 'download');
+
 
 
 
