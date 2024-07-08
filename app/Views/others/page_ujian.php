@@ -32,8 +32,8 @@
                                 </button>
 
                                 <form method="post" action="/admin/ujian/download">
-                                    <button style="margin-bottom: 10px;" type="submit" class="btn btn-primary"">
-                                <i class=" fas fa-download"></i>
+                                    <button style="margin-bottom: 10px;" type="submit" class="btn btn-primary">
+                                        <i class=" fas fa-download"></i>
                                     </button>
                                 </form>
                             </div>
