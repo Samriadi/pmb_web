@@ -27,7 +27,6 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Check</th>
                                         <th>Verified</th>
                                         <th>Nama Lengkap</th>
                                         <th>File</th>
@@ -54,13 +53,6 @@
                                         $checkboxId = $dt->member_id;
                                     ?>
                                         <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" id="<?= $checkboxId ?>" name="checkboxes[]" value="<?= $dt->member_id ?>">
-                                                    <label class="form-check-label" for="<?= $checkboxId ?>"></label>
-                                                </div>
-                                            </td>
-
                                             <td>
                                                 <button class="btn btn-sm <?= $buttonClass ?>" onclick="toggleVerified(<?= $dt->id ?>)">
                                                     <?= $buttonText ?>
@@ -97,7 +89,6 @@
                                 </tbody>
 
                             </table>
-                            <button id="verifySelected" class="btn btn-primary" style="margin-bottom: 10px;">Verifikasi</button>
 
 
                             <!-- Modal -->
