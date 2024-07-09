@@ -1,6 +1,4 @@
 <?php
-
-
 class userModel
 {
     public function getUser()
