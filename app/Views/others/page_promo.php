@@ -166,11 +166,6 @@
                         });
                         var promo = $('#promo').val();
 
-                        console.log("pro_periode:", periode);
-                        console.log("pro_gelombang:", gelombang);
-                        console.log("pro_prodi:", prodiSelected);
-                        console.log("pro_value:", promo);
-
                         $.ajax({
                             url: '/admin/promo/save',
                             method: 'POST',
@@ -183,7 +178,6 @@
                             }),
                             success: function(response) {
                                 console.log('Response from server:', response);
-                                // Tambahkan SweetAlert di sini
                                 Swal.fire({
                                     title: 'Success!',
                                     text: 'Data berhasil ditambahkan.',

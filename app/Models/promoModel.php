@@ -38,9 +38,6 @@ class promoModel
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $count_data = $result['count_data'];
 
-        echo " Isi dari count_data: " . $count_data;
-
-
         if ($count_data > 0) {
             $stmt = $db->prepare("UPDATE pmb_promo 
                       SET pro_value = ? 
@@ -48,8 +45,8 @@ class promoModel
                         AND pro_gelombang = ? 
                         AND pro_name = ? 
                         AND pro_prodi = ?");
-$stmt->execute([$promo, $periode, $gelombang, $name, $prodi]);
-return "Data updated successfully.";
+            $stmt->execute([$promo, $periode, $gelombang, $name, $prodi]);
+            return "Data updated successfully.";
         }
         else{
             $stmt = $db->prepare("INSERT INTO pmb_promo (pro_periode, pro_gelombang, pro_prodi, pro_name, pro_value) VALUES (?, ?, ?, ?, ?)");
