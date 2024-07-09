@@ -70,6 +70,7 @@
                  <a class="collapse-item" href="/admin/verified">Verified</a>
                  <a class="collapse-item" href="/admin/tagihan">Tagihan</a>
                  <a class="collapse-item" href="/admin/csv">Download Data</a>
+                 <a class="collapse-item" href="/admin/promo">Promo</a>
                  <?php
                     function isMobileDevice()
                     {
