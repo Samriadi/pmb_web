@@ -89,15 +89,20 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="row mb-4">
                             <div class="col">
                                 <label for="promo" class="form-label">Promo</label>
                                 <input type="number" class="form-control" id="promo" name="promo" placeholder="Input Promo">
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-between mt-2">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                        <div class="row mb-3">
+                            <div class="col-auto me-0">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                            <div class="col-auto">
+                                <button id="removeChecked" type="button" class="btn btn-secondary">Remove</button>
+                            </div>
                         </div>
                     </form>
 
@@ -143,58 +148,63 @@
                     });
                 });
 
+                $(document).ready(function() {
+                    $('#removeChecked').click(function() {
+                        $('.form-check-input').prop('checked', false);
+                    });
+                });
 
                 $(document).ready(function() {
-    $('#formPromo').submit(function(event) {
-        event.preventDefault(); 
-        var periode = $('#periode').val();
-        var gelombang = $('#gelombang').val();
+                    $('#formPromo').submit(function(event) {
+                        event.preventDefault(); 
+                        var periode = $('#periode').val();
+                        var gelombang = $('#gelombang').val();
 
-        var prodiSelected = [];
-        $('input[name="prodi[]"]:checked').each(function() {
-            prodiSelected.push($(this).val());
-        });
-        var promo = $('#promo').val();
+                        var prodiSelected = [];
+                        $('input[name="prodi[]"]:checked').each(function() {
+                            prodiSelected.push($(this).val());
+                        });
+                        var promo = $('#promo').val();
 
-        console.log("pro_periode:", periode);
-        console.log("pro_gelombang:", gelombang);
-        console.log("pro_prodi:", prodiSelected);
-        console.log("pro_value:", promo);
+                        console.log("pro_periode:", periode);
+                        console.log("pro_gelombang:", gelombang);
+                        console.log("pro_prodi:", prodiSelected);
+                        console.log("pro_value:", promo);
 
-        $.ajax({
-            url: '/admin/promo/save',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                periode: periode,
-                gelombang: gelombang,
-                prodiSelected: prodiSelected,
-                promo: promo,
-            }),
-            success: function(response) {
-                console.log('Response from server:', response);
-                // Tambahkan SweetAlert di sini
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Data berhasil ditambahkan.',
-                    icon: 'success',
-                    timer: 2000, 
-                    showConfirmButton: false
+                        $.ajax({
+                            url: '/admin/promo/save',
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                periode: periode,
+                                gelombang: gelombang,
+                                prodiSelected: prodiSelected,
+                                promo: promo,
+                            }),
+                            success: function(response) {
+                                console.log('Response from server:', response);
+                                // Tambahkan SweetAlert di sini
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: 'Data berhasil ditambahkan.',
+                                    icon: 'success',
+                                    timer: 2000, 
+                                    showConfirmButton: false
+                                });
+                            },
+                            error: function(error) {
+                                console.error('Error:', error);
+                                // Tambahkan SweetAlert untuk error jika diperlukan
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: 'Data gagal ditambahkan',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        });
+                    });
                 });
-            },
-            error: function(error) {
-                console.error('Error:', error);
-                // Tambahkan SweetAlert untuk error jika diperlukan
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Data gagal ditambahkan',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-        });
-    });
-});
 
             </script>
 
