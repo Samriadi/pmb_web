@@ -6,6 +6,7 @@ class promoController
         $models = new promoModel();
 		$periodes = $models->getPeriode();
 		$fakultass = $models->getFakultas();
+		$promo = $models->getPromo();
 
 		include __DIR__ . '/../Views/others/page_promo.php';
 	}

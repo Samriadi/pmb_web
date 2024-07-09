@@ -98,13 +98,50 @@
 
                         <div class="row mb-3">
                             <div class="col-auto me-0">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                            <div class="col-auto">
-                                <button id="removeChecked" type="button" class="btn btn-secondary">Remove</button>
+                                <div class="btn-group" role="group">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="button" id="removeChecked" class="btn btn-secondary">Delete</button>
+                                </div>
                             </div>
                         </div>
                     </form>
+
+                    </div>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">DATA PROMO</h6>
+                    </div>
+                    <div class="card-body">
+
+                    <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Pro_Periode</th>
+                                        <th>Pro_Gelombang</th>
+                                        <th>Pro_Prodi</th>
+                                        <th>Pro_Name</th>
+                                        <th>Pro_Value</th>
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $no = 1;
+                                    foreach ($promo as $dt) :
+                                    ?>
+                                        <tr>
+                                            <td><?= $dt['pro_periode'] ?></td>
+                                            <td><?= $dt['pro_gelombang'] ?></td>
+                                            <td><?= $dt['JenjangProdi'].' - '.$dt['NamaProdi'] ?></td>
+                                            <td><?= $dt['pro_name'] ?></td>
+                                            <td><?= $dt['pro_value'].'%' ?></td>
+                                        </tr>
+                                    <?php endforeach ?>
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                 </div>

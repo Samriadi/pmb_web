@@ -1,6 +1,17 @@
 <?php
 class promoModel
 {
+
+    public function getPromo(){
+        $db = Database::getInstance();
+        $query = "SELECT pmb_promo.*, Prodi.var_value AS NamaProdi, Prodi.var_others AS JenjangProdi
+                    FROM pmb_promo
+                    LEFT JOIN varoption AS Prodi ON Prodi.recid = pmb_promo.pro_prodi AND Prodi.var_name = 'Prodi'"
+                ;
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function getPeriode()
     {
         $db = Database::getInstance();

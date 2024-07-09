@@ -109,27 +109,27 @@
                                                 <form>
                                                     <div class="mb-3">
                                                         <label class="small mb-1">Nama Lengkap</label>
-                                                        <input class="form-control" type="text" id="NamaLengkap">
+                                                        <input class="form-control" type="text" id="NamaLengkap" disabled>
                                                     </div>
                                                     <!-- Form Row-->
                                                     <div class="row gx-3 mb-3">
                                                         <div class="col-md-6">
                                                             <label class="small mb-1">Username</label>
-                                                            <input class="form-control" type="text" id="UserName">
+                                                            <input class="form-control" type="text" id="UserName" disabled>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label class="small mb-1">Nomor WA</label>
-                                                            <input class="form-control" type="text" id="WANumber">
+                                                            <input class="form-control" type="text" id="WANumber" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="row gx-3 mb-3">
                                                         <div class="col-md-6">
                                                             <label class="small mb-1">Asal Sekolah</label>
-                                                            <input class="form-control" type="text" id="NamaAsalSekolah">
+                                                            <input class="form-control" type="text" id="NamaAsalSekolah" disabled>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label class="small mb-1">Asal Kampus</label>
-                                                            <input class="form-control" type="text" id="AsalKampus">
+                                                            <input class="form-control" type="text" id="AsalKampus" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
