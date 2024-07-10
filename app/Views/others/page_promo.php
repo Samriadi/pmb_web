@@ -225,8 +225,7 @@
                             },
                             error: function(error) {
                                 console.error('Error:', error);
-                                // Tambahkan SweetAlert untuk error jika diperlukan
-                                Swal.fire({
+                                    Swal.fire({
                                     title: 'Error!',
                                     text: 'Data gagal ditambahkan',
                                     icon: 'error',
