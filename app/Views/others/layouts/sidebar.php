@@ -71,6 +71,7 @@
                  <a class="collapse-item" href="/admin/tagihan">Tagihan</a>
                  <a class="collapse-item" href="/admin/csv">Download Data</a>
                  <a class="collapse-item" href="/admin/promo">Promo</a>
+                 <a class="collapse-item" href="/admin/test-pendaftar">Jadwal Test Pendaftar</a>
                  <?php
                     function isMobileDevice()
                     {
