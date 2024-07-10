@@ -18,6 +18,7 @@ require_once __DIR__ . '/../app/Controllers/pendaftarController.php';
 require_once __DIR__ . '/../app/models/ujianModel.php';
 require_once __DIR__ . '/../app/models/promoModel.php';
 require_once __DIR__ . '/../app/Models/pendaftarModel.php';
+require_once __DIR__ . '/../app/Models/testPendaftarModel.php';
 
 $router = new Router();
 
@@ -109,6 +110,9 @@ $router->add('/csv/donwload', 'csvController', 'download');
 
 $router->add('/promo', 'promoController', 'index');
 $router->add('/promo/save', 'promoController', 'save');
+
+$router->add('/test-pendaftar', 'testPendaftarController', 'index');
+$router->add('/test-pendaftar/add', 'testPendaftarController', 'add');
 
 
 //log activity
