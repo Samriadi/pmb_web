@@ -54,5 +54,22 @@ class testPendaftarController
 			echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 		}
 	}
+
+    public function drop()
+    {
+        $models = new testPendaftarModel();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = $_POST['checkedValues'];
+
+            foreach ($data as $item) {
+                $models->dropTestPendaftar($item);
+            }
+
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }   
+    
    
 }
