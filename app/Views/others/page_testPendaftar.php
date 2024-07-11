@@ -85,20 +85,25 @@
                         <th>Selesai</th>
                         <th>Lokasi</th>
                         <th>Pendaftar</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    $no = 1;
-                    foreach ($mergedDataTestPendaftar as $dt) :
+                    foreach ($JadwalTestPendaftar as $dt) :
                     ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($dt->test_tanggal); ?></td>
-                            <td><?php echo htmlspecialchars($dt->test_mulai); ?></td>
+                            <td><?php echo date('d-M-Y', strtotime($dt->test_tanggal)); ?></td>
+                            <td><?php echo date('H:i', strtotime($dt->test_mulai)); ?></td>
                             <td><?php echo htmlspecialchars($dt->test_selesai); ?></td>
                             <td><?php echo htmlspecialchars($dt->test_lokasi); ?></td>
-                            <td><?php echo implode(', ', $dt->test_memberid); ?></td>
-
+                            <td><?php echo htmlspecialchars($dt->DetailPendaftar); ?></td>
+                            <td>
+                            <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="<?= $checkboxId ?>" name="checkboxJadwal[]" value="<?= $dt->test_memberid ?>">
+                            <label class="form-check-label" for="<?= $checkboxId ?>"></label>
+                            </div>
+                        </td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
@@ -107,13 +112,55 @@
                     </div>
                 </div>
 
-
+                
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style="max-width: 50%;">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Buat Jadwal Test</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Buat Jadwal</h5>
                                 <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="pendaftar">Pendaftar</label>
+                                    <textarea class="form-control" id="pendaftar" name="pendaftar" rows="1"></textarea>
+                                    <input type="hidden" name="member_id" id="member_id"></input>
+                                </div>
+                                <div class="form-group">
+                                    <label for="test_tanggal">Tanggal Tes</label>
+                                    <input type="date" class="form-control" id="test_tanggal" name="test_tanggal">
+                                </div>
+                                <div class="form-group">
+                                    <label for="test_mulai">Mulai Tes</label>
+                                    <input type="time" class="form-control" id="test_mulai" name="test_mulai">
+                                </div>
+                                <div class="form-group">
+                                    <label for="test_selesai">Selesai Tes</label>
+                                    <input type="time" class="form-control" id="test_selesai" name="test_selesai">
+                                </div>
+                                <div class="form-group">
+                                    <label for="test_lokasi">Lokasi Tes</label>
+                                    <textarea class="form-control" id="test_lokasi" name="test_lokasi"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="save">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style="max-width: 50%;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Buat Jadwal Test</h5>
+                                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal">
                                 </button>
                             </div>
                             <div class="modal-body">
@@ -151,7 +198,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
             </div>
@@ -159,22 +206,19 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    
+
             </body>
 
 
             <?php include '../app/Views/others/layouts/footer.php'; ?>
 
             <script>
-
-            var pendaftar =<?php echo json_encode($JadwalTestPendaftar); ?>;
-            console.log("🚀 ~ pendaftar:", pendaftar)
-
             
                 document.getElementById('addTest').addEventListener('click', function(event) {
                     event.preventDefault();
 
                     const data = <?php echo json_encode($PendaftarVerified); ?>;
-                    console.log("🚀 ~ document.getElementById ~ data:", data)
                     const checkboxes = document.querySelectorAll('input[name="checkboxes[]"]:checked');
                     const checked = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));   
 
@@ -300,17 +344,27 @@
             </script>
 
             <script>
-                const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-                const appendAlert = (message, type) => {
-                const wrapper = document.createElement('div')
-                wrapper.innerHTML = [
-                    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-                    `   <div>${message}</div>`,
-                    '</div>'
-                ].join('')
+                let checkedValues = [];
 
-                alertPlaceholder.append(wrapper)
-                }
+                const checkboxes = document.querySelectorAll('input[name="checkboxJadwal[]"]');
+
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        if (this.checked) {
+                            const value = parseInt(this.value);
+                            checkedValues.push(value);
+                            console.log("Array checkedValues saat ini:", checkedValues);
+
+                        } else {
+                            const index = checkedValues.indexOf(parseInt(this.value));
+                            if (index !== -1) {
+                                checkedValues.splice(index, 1);
+                            }
+                            console.log("Array checkedValues saat ini:", checkedValues);
+                        }
+                    });
+                });
+
             </script>
 
             <script>
