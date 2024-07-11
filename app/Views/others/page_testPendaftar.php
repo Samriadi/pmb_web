@@ -22,54 +22,50 @@
                         <h6 class="m-0 font-weight-bold text-primary">PENDAFTAR TERVERIFIKASI</h6>
                     </div>
                     <div class="card-body">
-                    <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th>Check</th>
-                        <th>Nama Lengkap</th>
-                        <th>Nomor Ujian</th>
-                        <th>Jenis</th>
-                        <th>Jenjang</th>
-                        <th>Prodi 1</th>
-                        <th>Prodi 2</th>
-                        <th>Prodi 3</th>
-                        <th>Periode</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    $no = 1;
-                    foreach ($PendaftarVerified as $dt) :
-                        $isVerified = $dt->verified === "Verified";
-                        $checkboxId = $dt->member_id;
-                    ?>
-                        <tr>
-                        <td>
-                            <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="<?= $checkboxId ?>" name="checkboxes[]" value="<?= $dt->member_id ?>">
-                            <label class="form-check-label" for="<?= $checkboxId ?>"></label>
-                            </div>
-                        </td>
-                        <td><?= $dt->NamaLengkap ?></td>
-                        <td><?= $dt->no_ujian ?></td>
-                        <td><?= $dt->jenis ?></td>
-                        <td><?= $dt->jenjang ?></td>
-                        <td><?= $dt->Prodi1 ?></td>
-                        <td><?= $dt->Prodi2 ?></td>
-                        <td><?= $dt->Prodi3 ?></td>
-                        <td><?= $dt->Periode ?></td>
-                        </tr>
-                    <?php endforeach ?>
-                    </tbody>
-
-                  </table>
-                  <button id="addTest" data-bs-target="#exampleModal" data-bs-toggle="modal" class="btn btn-primary mt-3" style="margin-bottom: 10px;">BUAT JADWAL TES</button>
-
-                        </div>
-
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Check</th>
+                                    <th>Nama Lengkap</th>
+                                    <th>Nomor Ujian</th>
+                                    <th>Jenis</th>
+                                    <th>Jenjang</th>
+                                    <th>Prodi 1</th>
+                                    <th>Prodi 2</th>
+                                    <th>Prodi 3</th>
+                                    <th>Periode</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                foreach ($PendaftarVerified as $dt) :
+                                    $isVerified = $dt->verified === "Verified";
+                                    $checkboxId = $dt->member_id;?>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="<?= $checkboxId ?>" name="checkboxes[]" value="<?= $dt->member_id ?>">
+                                            <label class="form-check-label" for="<?= $checkboxId ?>"></label>
+                                            </div>
+                                        </td>
+                                        <td><?= $dt->NamaLengkap ?></td>
+                                        <td><?= $dt->no_ujian ?></td>
+                                        <td><?= $dt->jenis ?></td>
+                                        <td><?= $dt->jenjang ?></td>
+                                        <td><?= $dt->Prodi1 ?></td>
+                                        <td><?= $dt->Prodi2 ?></td>
+                                        <td><?= $dt->Prodi3 ?></td>
+                                        <td><?= $dt->Periode ?></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                            </table>
+                        <a id="addTest" data-bs-target="#exampleModal" data-bs-toggle="modal" class="btn btn-success btn-icon-split mb-3 mt-3"><span class="icon text-white-50"><i class="fas fa-plus-circle"></i> </span><span class="text">JADWAL TES</span></a></a>
                     </div>
                 </div>
+            </div>
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -80,35 +76,38 @@
                     <table class="table table-bordered" id="dataTablePendaftar" width="100%" cellspacing="0">
                     <thead>
                     <tr>
+                        <th>Action</th>
                         <th>Tanggal</th>
                         <th>Mulai</th>
                         <th>Selesai</th>
                         <th>Lokasi</th>
                         <th>Pendaftar</th>
-                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
                     foreach ($JadwalTestPendaftar as $dt) :
+                        $checkboxIdTest = $dt->test_memberid;?>
+
                     ?>
                         <tr>
+                            <td>
+                                <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="<?= $checkboxIdTest ?>" name="checkboxJadwal[]" value="<?= $dt->test_memberid ?>">
+                                <label class="form-check-label" for="<?= $checkboxIdTest ?>"></label>
+                                </div>
+                            </td>
                             <td><?php echo date('d-M-Y', strtotime($dt->test_tanggal)); ?></td>
                             <td><?php echo date('H:i', strtotime($dt->test_mulai)); ?></td>
                             <td><?php echo htmlspecialchars($dt->test_selesai); ?></td>
                             <td><?php echo htmlspecialchars($dt->test_lokasi); ?></td>
                             <td><?php echo htmlspecialchars($dt->DetailPendaftar); ?></td>
-                            <td>
-                            <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="<?= $checkboxId ?>" name="checkboxJadwal[]" value="<?= $dt->test_memberid ?>">
-                            <label class="form-check-label" for="<?= $checkboxId ?>"></label>
-                            </div>
-                        </td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
                   </table>
-                        </div>
+                  <a id="dropJadwal" class="btn btn-primary btn-icon-split mb-3 mt-3"><span class="icon text-white-50"><i class="fas fa-minus-circle"></i> </span><span class="text">DROP</span></a></a>
+                    </div>
                     </div>
                 </div>
 
@@ -148,7 +147,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="save">Save changes</button>
+                                <button type="button" class="btn btn-primary" id="save">Save</button>
                             </div>
                         </div>
                     </div>
@@ -232,17 +231,11 @@
 
                     document.getElementById('member_id').value = checked;
                     
-                    if (checked.length > 0) {
-                        document.getElementById('pendaftar').value = selectedData;
+                    document.getElementById('pendaftar').value = selectedData;
 
-                        var numRows = Math.min(selectedData.split('\n').length, 10);
+                    var numRows = Math.min(selectedData.split('\n').length, 10);
                         
-                        document.getElementById('pendaftar').rows = numRows;
-                    } else {
-                        appendAlert('Tidak ada pendaftar yang dipilih', 'danger');
-                    }
-
-
+                    document.getElementById('pendaftar').rows = numRows;
 
                     var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
                     exampleModal.show();
@@ -347,7 +340,6 @@
                 let checkedValues = [];
 
                 const checkboxes = document.querySelectorAll('input[name="checkboxJadwal[]"]');
-
                 checkboxes.forEach(checkbox => {
                     checkbox.addEventListener('change', function() {
                         if (this.checked) {
@@ -355,7 +347,9 @@
                             checkedValues.push(value);
                             console.log("Array checkedValues saat ini:", checkedValues);
 
-                        } else {
+                        } 
+                        else 
+                        {
                             const index = checkedValues.indexOf(parseInt(this.value));
                             if (index !== -1) {
                                 checkedValues.splice(index, 1);
@@ -365,6 +359,55 @@
                     });
                 });
 
+                $(document).ready(function() {
+                $('#dropJadwal').on('click', function() {
+                    if (checkedValues.length === 0) {
+                        Swal.fire({
+                            title: 'Peringatan!',
+                            text: 'Tidak ada data yang dipilih untuk dihapus.',
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Apakah Anda yakin?',
+                            text: "Data yang dipilih akan dihapus dan tidak bisa dikembalikan!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Ya, hapus!',
+                            cancelButtonText: 'Tidak, batalkan'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: '/admin/test-pendaftar/drop', 
+                                    type: 'POST', 
+                                    data: { checkedValues: checkedValues }, 
+                                    success: function(response) {
+                                        console.log('Success:', response);
+                                        Swal.fire({
+                                            title: 'Success!',
+                                            text: 'Data berhasil dihapus.',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            window.location.reload();
+                                        });
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.log('Error:', error);
+                                        Swal.fire({
+                                            title: 'Error!',
+                                            text: 'Terjadi kesalahan saat mencoba menghapus data.',
+                                            icon: 'error',
+                                            confirmButtonText: 'OK'
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
             </script>
 
             <script>

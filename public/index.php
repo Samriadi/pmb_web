@@ -113,6 +113,7 @@ $router->add('/promo/save', 'promoController', 'save');
 
 $router->add('/test-pendaftar', 'testPendaftarController', 'index');
 $router->add('/test-pendaftar/add', 'testPendaftarController', 'add');
+$router->add('/test-pendaftar/drop', 'testPendaftarController', 'drop');
 
 
 //log activity
