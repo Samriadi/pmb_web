@@ -80,11 +80,23 @@ class testPendaftarModel
                 LEFT JOIN 
                     pmb_tagihan t ON j.test_memberid = t.member_id
                 LEFT JOIN 
-                    pmb_mahasiswa m ON j.test_memberid = m.ID;
-";
+                    pmb_mahasiswa m ON j.test_memberid = m.ID";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function dropTestPendaftar($a)
+	{
+        $db = Database::getInstance();
+        $query = "DELETE FROM pmb_jadualtes WHERE test_memberid = ?";
+
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->execute([$a]);
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+	}
 
 }
