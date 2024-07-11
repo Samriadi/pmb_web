@@ -72,7 +72,16 @@ class testPendaftarModel
 
     public function getTestPendaftar(){
         $db = Database::getInstance();
-        $query = "SELECT * FROM pmb_jadualtes";
+        $query = "SELECT 
+                    j.*, 
+                    CONCAT(t.no_ujian, ' - ', m.NamaLengkap) AS DetailPendaftar
+                FROM 
+                    pmb_jadualtes j
+                LEFT JOIN 
+                    pmb_tagihan t ON j.test_memberid = t.member_id
+                LEFT JOIN 
+                    pmb_mahasiswa m ON j.test_memberid = m.ID;
+";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
