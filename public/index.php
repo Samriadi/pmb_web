@@ -19,6 +19,7 @@ require_once __DIR__ . '/../app/models/ujianModel.php';
 require_once __DIR__ . '/../app/models/promoModel.php';
 require_once __DIR__ . '/../app/Models/pendaftarModel.php';
 require_once __DIR__ . '/../app/Models/testPendaftarModel.php';
+require_once __DIR__ . '/../app/Models/pembayaranModel.php';
 
 $router = new Router();
 
@@ -115,6 +116,8 @@ $router->add('/promo/delete', 'promoController', 'delete');
 $router->add('/test-pendaftar', 'testPendaftarController', 'index');
 $router->add('/test-pendaftar/add', 'testPendaftarController', 'add');
 $router->add('/test-pendaftar/drop', 'testPendaftarController', 'drop');
+
+$router->add('/pembayaran', 'pembayaranController', 'index');
 
 
 //log activity
