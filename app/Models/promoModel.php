@@ -66,6 +66,13 @@ class promoModel
         }
         
     }
+
+    public function deletePromo($res){
+        $db = Database::getInstance();
+        $stmt = $db->prepare("DELETE FROM pmb_promo WHERE pro_prodi = ? ");
+        $stmt->execute([$res]);
+        return "Data deleted successfully.";
+    }
     
 
 
