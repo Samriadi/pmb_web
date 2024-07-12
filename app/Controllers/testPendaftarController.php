@@ -7,28 +7,7 @@ class testPendaftarController
 		$PendaftarVerified = $models->getPendaftarTerverifikasi();
 		$JadwalTestPendaftar = $models->getTestPendaftar();
 
-        // $result = [];
-
-        // foreach ($JadwalTestPendaftar as $entry) {
-        //     $key = $entry->test_tanggal . $entry->test_lokasi . $entry->test_mulai . $entry->test_selesai;
-
-        //     if (!isset($result[$key])) {
-        //         $result[$key] = (object)[
-        //             'recid' => [],
-        //             'test_lokasi' => $entry->test_lokasi,
-        //             'test_memberid' => [],
-        //             'test_mulai' => $entry->test_mulai,
-        //             'test_selesai' => $entry->test_selesai,
-        //             'test_tanggal' => $entry->test_tanggal
-        //         ];
-        //     }
-
-        //     $result[$key]->recid[] = $entry->recid;
-        //     $result[$key]->test_memberid[] = $entry->test_memberid;
-        // }
-
-        // $mergedDataTestPendaftar = array_values($result);
-
+      
 		include __DIR__ . '/../Views/others/page_testPendaftar.php';
 	}
 
