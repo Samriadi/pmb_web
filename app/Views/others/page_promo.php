@@ -187,7 +187,62 @@
 
                 $(document).ready(function() {
                     $('#removeChecked').click(function() {
-                        $('.form-check-input').prop('checked', false);
+                        let checkedValues = [];
+                        $('.form-check-input:checked').each(function() {
+                            checkedValues.push($(this).val());
+                        });
+                        console.log('Checked values:', checkedValues);
+                        if (checkedValues.length === 0) {
+                            Swal.fire({
+                                title: 'Warning!',
+                                text: 'Tidak ada data yang dipilih.',
+                                icon: 'warning',
+                                confirmButtonText: 'OK'
+                            });
+                            return;
+                        }
+
+                        Swal.fire({
+                            title: 'Yakin ingin hapus data?',
+                            text: "Data yang dihapus tidak dapat dikembalikan!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, hapus!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: '/admin/promo/delete',
+                                    method: 'POST',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify({
+                                        checkedValues : checkedValues
+                                    }),
+                                    success: function(response) {
+                                        console.log('Response from server:', response);
+                                        Swal.fire({
+                                            title: 'Success!',
+                                            text: 'Data berhasil dihapus.',
+                                            icon: 'success',
+                                            timer: 800, 
+                                            showConfirmButton: false
+                                        }).then((result) => {
+                                                window.location.reload();
+                                            });
+                                    },
+                                    error: function(error) {
+                                        console.error('Error:', error);
+                                            Swal.fire({
+                                            title: 'Error!',
+                                            text: 'Data gagal diproses',
+                                            icon: 'error',
+                                            confirmButtonText: 'OK'
+                                        });
+                                    }
+                                });
+                            };
+                        });
                     });
                 });
 
@@ -219,9 +274,11 @@
                                     title: 'Success!',
                                     text: 'Data berhasil ditambahkan.',
                                     icon: 'success',
-                                    timer: 2000, 
+                                    timer: 800, 
                                     showConfirmButton: false
-                                });
+                                }).then((result) => {
+                                        window.location.reload();
+                                    });
                             },
                             error: function(error) {
                                 console.error('Error:', error);
