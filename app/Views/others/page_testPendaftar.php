@@ -89,7 +89,6 @@
                     foreach ($JadwalTestPendaftar as $dt) :
                         $checkboxIdTest = $dt->test_memberid;?>
 
-                    ?>
                         <tr>
                             <td>
                                 <div class="form-check">
@@ -152,54 +151,6 @@
                         </div>
                     </div>
                 </div>
-
-
-                <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style="max-width: 50%;">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Buat Jadwal Test</h5>
-                                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal">
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                <div id="liveAlertPlaceholder"></div>
-                                        <div class="input-group mb-4">
-                                        <span class="input-group-text">Pendaftar</span>
-                                        <textarea class="form-control" id="pendaftar" name="pendaftar" rows="1"></textarea>
-                                        <input type="hidden" name="member_id" id="member_id"></input>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group mb-4">
-                                    <span class="input-group-text">Tanggal</span>
-                                    <input type="date" class="form-control" id="test_tanggal" name="test_tanggal">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group mb-4">
-                                        <span class="input-group-text">Waktu Mulai dan Selesai</span>
-                                        <input type="time" class="form-control" id="test_mulai" name="test_mulai">
-                                        <input type="time" class="form-control" id="test_selesai" name="test_selesai">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group mb-4">
-                                        <span class="input-group-text">Lokasi</span>
-                                        <textarea class="form-control" id="test_lokasi" name="test_lokasi"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="save">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
-
             </div>
             <!-- Option 1: Bootstrap Bundle with Popper -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -431,6 +382,14 @@
                         $(this).closest('tr').removeClass('table-info');
                     }
                 });
+            });
+
+            document.getElementById('exampleModal').addEventListener('hidden.bs.modal', function () {
+                document.querySelectorAll('.modal-backdrop').forEach(function(backdrop) {
+                    backdrop.parentNode.removeChild(backdrop);
+                });
+                document.body.classList.remove('modal-open');
+                document.body.style.paddingRight = '';
             });
              </script>
 
