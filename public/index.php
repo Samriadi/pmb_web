@@ -110,6 +110,7 @@ $router->add('/csv/donwload', 'csvController', 'download');
 
 $router->add('/promo', 'promoController', 'index');
 $router->add('/promo/save', 'promoController', 'save');
+$router->add('/promo/delete', 'promoController', 'delete');
 
 $router->add('/test-pendaftar', 'testPendaftarController', 'index');
 $router->add('/test-pendaftar/add', 'testPendaftarController', 'add');
