@@ -19,7 +19,7 @@ class promoController
         if ($input) {
             $periode = $input['periode'];
             $gelombang = $input['gelombang'];
-            $prodis = $input['prodiSelected']; // Adjust this according to your JSON structure
+            $prodis = $input['prodiSelected']; 
             $promo = $input['promo'];
             $name = 'diskon';
         
@@ -33,9 +33,30 @@ class promoController
             http_response_code(200); // OK
             echo json_encode(array("message" => "Data berhasil disimpan."));
         } else {
-            // Respons jika bukan metode POST
-            http_response_code(405); // Method Not Allowed
+            http_response_code(405); 
             echo json_encode(array("message" => "Metode yang diperbolehkan hanya POST."));
+        }
+    }
+
+    public function delete(){
+
+        $inputJSON = file_get_contents('php://input');
+        $input = json_decode($inputJSON, true); 
+
+        if ($input) {
+            $checkedValues = $input['checkedValues'];
+        
+            $models = new promoModel();
+
+            foreach ($checkedValues as $xx) {
+                $models->deletePromo($xx);
+               
+            }
+        
+            http_response_code(200); 
+            echo json_encode(array("message" => "Data berhasil dihapus."));
+        } else {
+            http_response_code(405); 
         }
     }
 
