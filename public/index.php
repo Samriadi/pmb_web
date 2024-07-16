@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['usr_name'] = 'meisya';
+// $_SESSION['usr_name'] = 'admin';
 
 date_default_timezone_set('Asia/Makassar');
 
@@ -113,6 +113,7 @@ $router->add('/promo', 'promoController', 'index');
 $router->add('/promo/save', 'promoController', 'save');
 $router->add('/promo/delete', 'promoController', 'delete');
 
+$router->add('/pendaftar-verified', 'testPendaftarController', 'pendaftarVerified');
 $router->add('/test-pendaftar', 'testPendaftarController', 'index');
 $router->add('/test-pendaftar/add', 'testPendaftarController', 'add');
 $router->add('/test-pendaftar/drop', 'testPendaftarController', 'drop');

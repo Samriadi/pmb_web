@@ -71,6 +71,7 @@
                  <a class="collapse-item" href="/admin/tagihan">Tagihan</a>
                  <a class="collapse-item" href="/admin/csv">Download Data</a>
                  <a class="collapse-item" href="/admin/promo">Promo</a>
+                 <a class="collapse-item" href="/admin/pendaftar-verified">Pendaftar Terverifikasi</a>
                  <a class="collapse-item" href="/admin/test-pendaftar">Jadwal Test Pendaftar</a>
                  <a class="collapse-item" href="/admin/pembayaran">Pembayaran</a>
                  <?php

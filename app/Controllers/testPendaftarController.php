@@ -11,6 +11,15 @@ class testPendaftarController
 		include __DIR__ . '/../Views/others/page_testPendaftar.php';
 	}
 
+    public function pendaftarVerified()
+	{
+        $models = new testPendaftarModel();
+		$PendaftarVerified = $models->getPendaftarTerverifikasi();
+
+      
+		include __DIR__ . '/../Views/others/page_pendaftarVerified.php';
+	}
+
     public function add()
 	{
 		$models = new testPendaftarModel();
