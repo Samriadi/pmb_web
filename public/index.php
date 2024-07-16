@@ -126,6 +126,9 @@ $router->add('/pembayaran/add-nim', 'pembayaranController', 'generateNim');
 $router->add('/logs', 'mainController', 'logs');
 
 
+$router->add('/login', 'mainController', 'login');
+
+
 
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
 
