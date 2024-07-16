@@ -1,4 +1,7 @@
-<?php include '../app/Views/others/layouts/header.php'; ?>
+<?php
+// session_destroy();
+
+include '../app/Views/others/layouts/header.php'; ?>
 
 
 <!-- Page Wrapper -->
@@ -115,3 +118,8 @@
         <!-- End of Main Content -->
 
         <?php include '../app/Views/others/layouts/footer.php'; ?>
+
+        <script>
+            var sessionData = <?php echo json_encode($_SESSION); ?>;
+            console.log("Session Data:", sessionData);
+        </script>

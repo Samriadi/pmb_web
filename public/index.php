@@ -1,6 +1,5 @@
 <?php
 session_start();
-// $_SESSION['usr_name'] = 'admin';
 
 date_default_timezone_set('Asia/Makassar');
 

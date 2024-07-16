@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -124,6 +125,7 @@
         success: function(response) {
           let responseObject = JSON.parse(response);
 
+          console.log(responseObject);
           if (responseObject.success === true) {
             Swal.fire({
               title: 'Login Berhasil',

@@ -11,6 +11,7 @@ class loginModel
       ':username' => $username,
       ':userpass' => $userpass,
     ]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
   }
 }

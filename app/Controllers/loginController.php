@@ -20,8 +20,12 @@ class loginController
 
     $data = $models->authLogin($username, $userpass);
 
+
     if ($data) {
-      echo json_encode(['success' => true]);
+      $_SESSION['userlevel'] = $data[0]['userlevel'];
+
+
+      echo json_encode(['success' => true, 'data' => $data]);
     } else {
       echo json_encode(['success' => false]);
     }
