@@ -26,7 +26,11 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Check</th>
+                                    <th>
+                                    <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" name="checkAll">
+                                            </div>
+                                    </th>
                                     <th>Nama Lengkap</th>
                                     <th>Nomor Ujian</th>
                                     <th>Jenis</th>
@@ -375,14 +379,31 @@
             });
 
             $(document).ready(function() {
-                $('input[type="checkbox"]').change(function() {
+                $('input[type="checkbox"]:not([name="checkAll"])').change(function() {
                     if($(this).is(':checked')) {
                         $(this).closest('tr').addClass('table-info');
                     } else {
                         $(this).closest('tr').removeClass('table-info');
                     }
                 });
+
+                $('input[name="checkAll"]').change(function() {
+                    var isChecked = $(this).is(':checked');
+                    $('input[name="checkboxes[]"]').prop('checked', isChecked).change();
+                });
+
+                $('input[name="checkboxes[]"]').change(function() {
+                    if ($(this).is(':checked')) {
+                        $(this).closest('tr').addClass('table-info');
+                    } else {
+                        $(this).closest('tr').removeClass('table-info');
+                    }
+
+                    var allChecked = $('input[name="checkboxes[]"]').length === $('input[name="checkboxes[]"]:checked').length;
+                    $('input[name="checkAll"]').prop('checked', allChecked);
+                });
             });
+
 
             document.getElementById('exampleModal').addEventListener('hidden.bs.modal', function () {
                 document.querySelectorAll('.modal-backdrop').forEach(function(backdrop) {
