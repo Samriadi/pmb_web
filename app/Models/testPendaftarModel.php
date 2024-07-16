@@ -1,22 +1,6 @@
 <?php
 class testPendaftarModel
 {
-    // public function getPendaftarTerverifikasi()
-    // {
-    //     $db = Database::getInstance();
-    //     $query = "SELECT a.*, b.NamaLengkap 
-    //                 FROM pmb_tagihan a 
-    //                 LEFT JOIN pmb_mahasiswa b ON b.ID = a.member_id 
-    //                 WHERE a.verified = 'Verified' 
-    //                 AND NOT EXISTS (
-    //                     SELECT 1
-    //                     FROM pmb_jadualtes j
-    //                     WHERE j.test_memberid = a.member_id
-    //             )";
-    //     $stmt = $db->prepare($query);
-    //     $stmt->execute();
-    //     return $stmt->fetchAll(PDO::FETCH_OBJ);
-    // }
 
     public function getPendaftarTerverifikasi()
     {
