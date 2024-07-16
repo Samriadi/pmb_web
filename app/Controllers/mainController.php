@@ -14,12 +14,7 @@ class mainController
         $periode = $models->getCountPeriod();
         include __DIR__ . '/../Views/others/page_dashboard.php';
     }
-    public function login()
-    {
-        $models = new mainModel();
-
-        include __DIR__ . '/../Views/others/page_login.php';
-    }
+   
     public function logs()
     {
 

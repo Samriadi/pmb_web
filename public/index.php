@@ -13,6 +13,7 @@ require_once __DIR__ . '/../app/Controllers/varOptionController.php';
 require_once __DIR__ . '/../app/Controllers/eduPeriodeController.php';
 require_once __DIR__ . '/../app/Controllers/userController.php';
 require_once __DIR__ . '/../app/Controllers/pendaftarController.php';
+require_once __DIR__ . '/../app/Controllers/loginController.php';
 
 
 require_once __DIR__ . '/../app/models/ujianModel.php';
@@ -20,6 +21,7 @@ require_once __DIR__ . '/../app/models/promoModel.php';
 require_once __DIR__ . '/../app/Models/pendaftarModel.php';
 require_once __DIR__ . '/../app/Models/testPendaftarModel.php';
 require_once __DIR__ . '/../app/Models/pembayaranModel.php';
+require_once __DIR__ . '/../app/Models/loginModel.php';
 
 $router = new Router();
 
@@ -126,7 +128,8 @@ $router->add('/pembayaran/add-nim', 'pembayaranController', 'generateNim');
 $router->add('/logs', 'mainController', 'logs');
 
 
-$router->add('/login', 'mainController', 'login');
+$router->add('/login', 'loginController', 'login');
+$router->add('/login/authLogin', 'loginController', 'authLogin');
 
 
 

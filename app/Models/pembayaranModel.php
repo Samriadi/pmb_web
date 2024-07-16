@@ -16,11 +16,14 @@ class pembayaranModel
                     CASE 
                         WHEN n.member_id IS NULL THEN 0 
                         ELSE 1 
-                    END AS isHaveNim
+                    END AS isHaveNim,
+                    m.NamaLengkap
                 FROM 
                     pmb_pembayaran p
                 LEFT JOIN 
                     pmb_nim n ON p.member_id = n.member_id
+                LEFT JOIN
+                	pmb_mahasiswa m ON m.ID = p.member_id
                 WHERE 
                     n.member_id IS NULL;
                 ";
@@ -39,7 +42,7 @@ class pembayaranModel
         }
     }
     public function getCountNIM($prodi_id, $kategori)
-     {
+    {
         $db = Database::getInstance();
 
         $query = "SELECT COUNT(*) FROM pmb_nim WHERE prodi_id = :prodi_id AND kategori = :kategori";
@@ -49,5 +52,4 @@ class pembayaranModel
         $stmt->execute();
         return $stmt->fetchColumn();
     }
-    
 }

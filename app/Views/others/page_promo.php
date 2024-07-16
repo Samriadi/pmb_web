@@ -23,88 +23,88 @@
                     </div>
                     <div class="card-body">
 
-                    <form id="formPromo">
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="periode" class="form-label">Periode</label>
-                                <select class="form-select" id="periode" name="periode">
-                                    <option selected>Pilih Periode</option>
-                                    <?php
-                                    $seenPeriodes = array(); 
+                        <form id="formPromo">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="periode" class="form-label">Periode</label>
+                                    <select class="form-select" id="periode" name="periode">
+                                        <option selected>Pilih Periode</option>
+                                        <?php
+                                        $seenPeriodes = array();
 
-                                    foreach ($periodes as $periode) {
-                                        if (!in_array($periode['Periode'], $seenPeriodes)) { 
-                                            $seenPeriodes[] = $periode['Periode']; 
-                                            ?>
-                                            <option value="<?= $periode['Periode'] ?>"><?= $periode['Periode'] ?></option>
-                                            <?php
+                                        foreach ($periodes as $periode) {
+                                            if (!in_array($periode['Periode'], $seenPeriodes)) {
+                                                $seenPeriodes[] = $periode['Periode'];
+                                        ?>
+                                                <option value="<?= $periode['Periode'] ?>"><?= $periode['Periode'] ?></option>
+                                        <?php
+                                            }
                                         }
-                                    }
-                                    ?>
-                                </select>
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="gelombang" class="form-label">Gelombang</label>
+                                    <select class="form-select" id="gelombang" name="gelombang">
+                                        <option selected>Pilih Gelombang</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col">
-                                <label for="gelombang" class="form-label">Gelombang</label>
-                                <select class="form-select" id="gelombang" name="gelombang">
-                                    <option selected>Pilih Gelombang</option>
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="fakultas" class="form-label">Fakultas</label>
-                                <select class="form-select" id="fakultas" name="fakultas">
-                                    <option selected>Pilih Fakultas</option>
-                                    <?php
-                                    $seenFakultas = array(); 
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="fakultas" class="form-label">Fakultas</label>
+                                    <select class="form-select" id="fakultas" name="fakultas">
+                                        <option selected>Pilih Fakultas</option>
+                                        <?php
+                                        $seenFakultas = array();
 
-                                    foreach ($fakultass as $fakultas) {
-                                        if (!in_array($fakultas['fakultas'], $seenFakultas)) { 
-                                            $seenFakultas[] = $fakultas['fakultas']; 
-                                            ?>
-                                            <option value="<?= $fakultas['id_fakultas'] ?>"><?= $fakultas['fakultas'] ?></option>
-                                            <?php
+                                        foreach ($fakultass as $fakultas) {
+                                            if (!in_array($fakultas['fakultas'], $seenFakultas)) {
+                                                $seenFakultas[] = $fakultas['fakultas'];
+                                        ?>
+                                                <option value="<?= $fakultas['id_fakultas'] ?>"><?= $fakultas['fakultas'] ?></option>
+                                        <?php
+                                            }
                                         }
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <label for="prodi" class="form-label">Prodi</label>
-                                <div id="prodi">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" disabled>
-                                        <label class="form-check-label" for="defaultCheck1">
-                                            Pilih Prodi
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" disabled>
-                                        <label class="form-check-label" for="defaultCheck2">
-                                            Pilih Prodi
-                                        </label>
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="prodi" class="form-label">Prodi</label>
+                                    <div id="prodi">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" disabled>
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Pilih Prodi
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" disabled>
+                                            <label class="form-check-label" for="defaultCheck2">
+                                                Pilih Prodi
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row mb-4">
-                            <div class="col">
-                                <label for="promo" class="form-label">Promo</label>
-                                <input type="number" class="form-control" id="promo" name="promo" placeholder="Input Promo">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-auto me-0">
-                                <div class="btn-group" role="group">
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                    <button type="button" id="removeChecked" class="btn btn-secondary">Delete</button>
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label for="promo" class="form-label">Promo</label>
+                                    <input type="number" class="form-control" id="promo" name="promo" placeholder="Input Promo">
                                 </div>
                             </div>
-                        </div>
-                    </form>
+
+                            <div class="row mb-3">
+                                <div class="col-auto me-0">
+                                    <div class="btn-group" role="group">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <button type="button" id="removeChecked" class="btn btn-secondary">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
 
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                     </div>
                     <div class="card-body">
 
-                    <div class="table-responsive">
+                        <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
@@ -124,7 +124,7 @@
                                         <th>Pro_Prodi</th>
                                         <th>Pro_Name</th>
                                         <th>Pro_Value</th>
-                                        </tr>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     <?php
@@ -134,9 +134,9 @@
                                         <tr>
                                             <td><?= $dt['pro_periode'] ?></td>
                                             <td><?= $dt['pro_gelombang'] ?></td>
-                                            <td><?= $dt['JenjangProdi'].' - '.$dt['NamaProdi'] ?></td>
+                                            <td><?= $dt['JenjangProdi'] . ' - ' . $dt['NamaProdi'] ?></td>
                                             <td><?= $dt['pro_name'] ?></td>
-                                            <td><?= $dt['pro_value'].'%' ?></td>
+                                            <td><?= $dt['pro_value'] . '%' ?></td>
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>
@@ -217,7 +217,7 @@
                                     method: 'POST',
                                     contentType: 'application/json',
                                     data: JSON.stringify({
-                                        checkedValues : checkedValues
+                                        checkedValues: checkedValues
                                     }),
                                     success: function(response) {
                                         console.log('Response from server:', response);
@@ -225,15 +225,15 @@
                                             title: 'Success!',
                                             text: 'Data berhasil dihapus.',
                                             icon: 'success',
-                                            timer: 800, 
+                                            timer: 800,
                                             showConfirmButton: false
                                         }).then((result) => {
-                                                window.location.reload();
-                                            });
+                                            window.location.reload();
+                                        });
                                     },
                                     error: function(error) {
                                         console.error('Error:', error);
-                                            Swal.fire({
+                                        Swal.fire({
                                             title: 'Error!',
                                             text: 'Data gagal diproses',
                                             icon: 'error',
@@ -248,7 +248,7 @@
 
                 $(document).ready(function() {
                     $('#formPromo').submit(function(event) {
-                        event.preventDefault(); 
+                        event.preventDefault();
                         var periode = $('#periode').val();
                         var gelombang = $('#gelombang').val();
 
@@ -274,15 +274,15 @@
                                     title: 'Success!',
                                     text: 'Data berhasil ditambahkan.',
                                     icon: 'success',
-                                    timer: 800, 
+                                    timer: 800,
                                     showConfirmButton: false
                                 }).then((result) => {
-                                        window.location.reload();
-                                    });
+                                    window.location.reload();
+                                });
                             },
                             error: function(error) {
                                 console.error('Error:', error);
-                                    Swal.fire({
+                                Swal.fire({
                                     title: 'Error!',
                                     text: 'Data gagal ditambahkan',
                                     icon: 'error',
@@ -292,6 +292,4 @@
                         });
                     });
                 });
-
             </script>
-
