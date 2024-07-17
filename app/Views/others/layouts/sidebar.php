@@ -29,7 +29,9 @@
          </a>
          <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <a class="collapse-item" href="/admin/user">User</a>
+                 <?php if (is_superadmin()) : ?>
+                     <a class="collapse-item" href="/admin/user">User</a>
+                 <?php endif; ?>
                  <a class="collapse-item" href="/admin/var">Var Option</a>
                  <a class="collapse-item" href="/admin/test">Edu Test</a>
                  <a class="collapse-item" href="/admin/periode">Edu Periode</a>
@@ -39,7 +41,7 @@
 
 
      <!-- Nav Item - Settings Collapse Menu -->
-     <li class="nav-item" id="navSettings">
+     <li class="nav-item" id="navProfile">
          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings" aria-expanded="true" aria-controls="collapseSettings">
              <i class="fas fa-fw fa-cog"></i>
              <span>Settings</span>
@@ -105,8 +107,17 @@
          </div>
      </li>
 
-
-
+     <li class="nav-item" id="navProfile">
+         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLogout" aria-expanded="true" aria-controls="collapseLogout">
+             <i class="fas fa-fw fa-cog"></i>
+             <span>Auth</span>
+         </a>
+         <div id="collapseLogout" class="collapse" aria-labelledby="headingLogout" data-parent="#accordionSidebar">
+             <div class="bg-white py-2 collapse-inner rounded">
+                 <a class="collapse-item" name="logoutButton" id="logoutButton">Logout</a>
+             </div>
+         </div>
+     </li>
 
 
 
@@ -135,6 +146,55 @@
                  link.closest('.nav-item').querySelector('.nav-link').classList.remove('collapsed');
                  link.closest('.nav-item').querySelector('.nav-link').setAttribute('aria-expanded', 'true');
              }
+         });
+     });
+ </script>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ <script>
+     $(document).ready(function() {
+         $('#logoutButton').on('click', function() {
+             Swal.fire({
+                 title: 'Are you sure?',
+                 text: "You won't be able to revert this!",
+                 icon: 'warning',
+                 showCancelButton: true,
+                 confirmButtonColor: '#3085d6',
+                 cancelButtonColor: '#d33',
+                 confirmButtonText: 'Yes, logout!'
+             }).then((result) => {
+                 if (result.isConfirmed) {
+                     $.ajax({
+                         url: '/admin/logout',
+                         type: 'POST',
+                         success: function(response) {
+                             if (response.status === 'success') {
+                                 Swal.fire({
+                                     title: 'Success!',
+                                     text: 'You have been logged out.',
+                                     icon: 'success',
+                                     timer: 800,
+                                     showConfirmButton: false
+                                 }).then((result) => {
+                                     window.location.href = '/admin';
+                                 });
+                             } else {
+                                 Swal.fire(
+                                     'Error!',
+                                     'There was a problem logging you out.',
+                                     'error'
+                                 );
+                             }
+                         },
+                         error: function() {
+                             Swal.fire(
+                                 'Error!',
+                                 'There was a problem logging you out.',
+                                 'error'
+                             );
+                         }
+                     });
+                 }
+             });
          });
      });
  </script>
