@@ -24,52 +24,52 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>
-                                    <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" name="checkAll">
-                                            </div>
-                                    </th>
-                                    <th>Nama Lengkap</th>
-                                    <th>Nomor Ujian</th>
-                                    <th>Jenis</th>
-                                    <th>Jenjang</th>
-                                    <th>Prodi 1</th>
-                                    <th>Prodi 2</th>
-                                    <th>Prodi 3</th>
-                                    <th>Periode</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $no = 1;
-                                foreach ($PendaftarVerified as $dt) :
-                                    $isVerified = $dt->verified === "Verified";
-                                    $checkboxId = $dt->member_id;?>
+                                <thead>
                                     <tr>
-                                        <td>
+                                        <th>
                                             <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="<?= $checkboxId ?>" name="checkboxes[]" value="<?= $dt->member_id ?>">
-                                            <label class="form-check-label" for="<?= $checkboxId ?>"></label>
+                                                <input type="checkbox" class="form-check-input" name="checkAll">
                                             </div>
-                                        </td>
-                                        <td><?= $dt->NamaLengkap ?></td>
-                                        <td><?= $dt->no_ujian ?></td>
-                                        <td><?= $dt->jenis ?></td>
-                                        <td><?= $dt->jenjang ?></td>
-                                        <td><?= $dt->Prodi1 ?></td>
-                                        <td><?= $dt->Prodi2 ?></td>
-                                        <td><?= $dt->Prodi3 ?></td>
-                                        <td><?= $dt->Periode ?></td>
+                                        </th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Nomor Ujian</th>
+                                        <th>Jenis</th>
+                                        <th>Jenjang</th>
+                                        <th>Prodi 1</th>
+                                        <th>Prodi 2</th>
+                                        <th>Prodi 3</th>
+                                        <th>Periode</th>
                                     </tr>
-                                <?php endforeach ?>
-                            </tbody>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $no = 1;
+                                    foreach ($PendaftarVerified as $dt) :
+                                        $isVerified = $dt->verified === "Verified";
+                                        $checkboxId = $dt->tagihan_id; ?>
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" id="<?= $checkboxId ?>" name="checkboxes[]" value="<?= $dt->tagihan_id ?>">
+                                                    <label class="form-check-label" for="<?= $checkboxId ?>"></label>
+                                                </div>
+                                            </td>
+                                            <td><?= $dt->NamaLengkap ?></td>
+                                            <td><?= $dt->no_ujian ?></td>
+                                            <td><?= $dt->jenis ?></td>
+                                            <td><?= $dt->jenjang ?></td>
+                                            <td><?= $dt->Prodi1 ?></td>
+                                            <td><?= $dt->Prodi2 ?></td>
+                                            <td><?= $dt->Prodi3 ?></td>
+                                            <td><?= $dt->Periode ?></td>
+                                        </tr>
+                                    <?php endforeach ?>
+                                </tbody>
                             </table>
-                        <a id="addTest" data-bs-target="#exampleModal" data-bs-toggle="modal" class="btn btn-success btn-icon-split mb-3 mt-3"><span class="icon text-white-50"><i class="fas fa-plus-circle"></i> </span><span class="text">JADWAL TES</span></a></a>
+                            <a id="addTest" data-bs-target="#exampleModal" data-bs-toggle="modal" class="btn btn-success btn-icon-split mb-3 mt-3"><span class="icon text-white-50"><i class="fas fa-plus-circle"></i> </span><span class="text">JADWAL TES</span></a></a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style="max-width: 50%;">
@@ -85,7 +85,7 @@
                                 <div class="form-group">
                                     <label for="pendaftar">Pendaftar</label>
                                     <textarea class="form-control" id="pendaftar" name="pendaftar" rows="1"></textarea>
-                                    <input type="hidden" name="member_id" id="member_id"></input>
+                                    <input type="hidden" name="tagihan_id" id="tagihan_id"></input>
                                 </div>
                                 <div class="form-group">
                                     <label for="test_tanggal">Tanggal Tes</label>
@@ -116,7 +116,7 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    
+
 
             </body>
 
@@ -124,37 +124,38 @@
             <?php include '../app/Views/others/layouts/footer.php'; ?>
 
             <script>
-            
                 document.getElementById('addTest').addEventListener('click', function(event) {
                     event.preventDefault();
 
                     const data = <?php echo json_encode($PendaftarVerified); ?>;
-                    const checkboxes = document.querySelectorAll('input[name="checkboxes[]"]:checked');
-                    const checked = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));   
 
-                    const filterData = checked.map(member_id => {
-                        const found = data.find(d => parseInt(d.member_id) === member_id); 
+
+                    const checkboxes = document.querySelectorAll('input[name="checkboxes[]"]:checked');
+                    const checked = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));
+
+                    const filterData = checked.map(tagihan_id => {
+                        const found = data.find(d => parseInt(d.tagihan_id) === tagihan_id);
                         return found;
                     });
 
                     const formatData = filterData.map((item, index) => `${index + 1}. ${item.no_ujian} - ${item.NamaLengkap}`);
                     const selectedData = formatData.join('\n');
 
-                    document.getElementById('member_id').value = checked;
-                    
+                    document.getElementById('tagihan_id').value = checked;
+
                     document.getElementById('pendaftar').value = selectedData;
 
                     var numRows = Math.min(selectedData.split('\n').length, 10);
-                        
+
                     document.getElementById('pendaftar').rows = numRows;
 
                     var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
                     exampleModal.show();
-                    
+
                 })
 
                 document.getElementById('save').addEventListener('click', function() {
-                    var member_ids_raw = document.getElementById('member_id').value.trim();
+                    var member_ids_raw = document.getElementById('tagihan_id').value.trim();
                     var member_ids = member_ids_raw ? member_ids_raw.split(',') : null;
 
                     var test_tanggal = document.getElementById('test_tanggal').value;
@@ -175,7 +176,7 @@
 
                                 var response = JSON.parse(xhr.responseText);
                                 console.log("🚀 ~ document.getElementById ~ response:", response)
-                                if (response.status='success') {
+                                if (response.status = 'success') {
                                     var modal = document.getElementById('exampleModal');
                                     var modalInstance = bootstrap.Modal.getInstance(modal);
 
@@ -213,7 +214,7 @@
                         }
                     };
 
-                    if (member_ids===null) {
+                    if (member_ids === null) {
                         Swal.fire({
                             title: 'Error!',
                             text: 'Pastikan telah memilih pendaftar',
@@ -221,16 +222,15 @@
                             confirmButtonText: 'OK',
                             showCancelButton: false
                         });
-                    }
-                    else if (test_tanggal && test_mulai && test_selesai && test_lokasi) {
+                    } else if (test_tanggal && test_mulai && test_selesai && test_lokasi) {
                         var data = '';
-                        member_ids.forEach(function(member_id) {
-                            data += "member_id[]=" + encodeURIComponent(member_id) + "&";
+                        member_ids.forEach(function(tagihan_id) {
+                            data += "tagihan_id[]=" + encodeURIComponent(tagihan_id) + "&";
                         });
                         data += "test_tanggal=" + encodeURIComponent(test_tanggal) +
-                                "&test_mulai=" + encodeURIComponent(test_mulai) +
-                                "&test_selesai=" + encodeURIComponent(test_selesai) +
-                                "&test_lokasi=" + encodeURIComponent(test_lokasi);
+                            "&test_mulai=" + encodeURIComponent(test_mulai) +
+                            "&test_selesai=" + encodeURIComponent(test_selesai) +
+                            "&test_lokasi=" + encodeURIComponent(test_lokasi);
 
                         xhr.send(data);
                     } else {
@@ -248,47 +248,49 @@
             </script>
 
             <script>
-            $('#dataTable').DataTable({
-                language: {
-                    emptyTable: "No data available in table"
-                }
-            });
-
-            $(document).ready(function() {
-                $('input[type="checkbox"]:not([name="checkAll"])').change(function() {
-                    if($(this).is(':checked')) {
-                        $(this).closest('tr').addClass('table-info');
-                    } else {
-                        $(this).closest('tr').removeClass('table-info');
+                $('#dataTable').DataTable({
+                    language: {
+                        emptyTable: "No data available in table"
                     }
                 });
 
-                $('input[name="checkAll"]').change(function() {
-                    var isChecked = $(this).is(':checked');
-                    $('input[name="checkboxes[]"]').prop('checked', isChecked).change();
+                $(document).ready(function() {
+                    $('input[type="checkbox"]:not([name="checkAll"])').change(function() {
+                        if ($(this).is(':checked')) {
+                            $(this).closest('tr').addClass('table-info');
+                        } else {
+                            $(this).closest('tr').removeClass('table-info');
+                        }
+                    });
+
+                    $('input[name="checkAll"]').change(function() {
+                        var isChecked = $(this).is(':checked');
+                        $('input[name="checkboxes[]"]').prop('checked', isChecked).change();
+                    });
+
+                    $('input[name="checkboxes[]"]').change(function() {
+                        if ($(this).is(':checked')) {
+                            $(this).closest('tr').addClass('table-info');
+                        } else {
+                            $(this).closest('tr').removeClass('table-info');
+                        }
+
+                        var allChecked = $('input[name="checkboxes[]"]').length === $('input[name="checkboxes[]"]:checked').length;
+                        $('input[name="checkAll"]').prop('checked', allChecked);
+                    });
+
+                    const data = <?php echo json_encode($PendaftarVerified); ?>;
+
+                    console.log(data);
+
                 });
 
-                $('input[name="checkboxes[]"]').change(function() {
-                    if ($(this).is(':checked')) {
-                        $(this).closest('tr').addClass('table-info');
-                    } else {
-                        $(this).closest('tr').removeClass('table-info');
-                    }
 
-                    var allChecked = $('input[name="checkboxes[]"]').length === $('input[name="checkboxes[]"]:checked').length;
-                    $('input[name="checkAll"]').prop('checked', allChecked);
+                document.getElementById('exampleModal').addEventListener('hidden.bs.modal', function() {
+                    document.querySelectorAll('.modal-backdrop').forEach(function(backdrop) {
+                        backdrop.parentNode.removeChild(backdrop);
+                    });
+                    document.body.classList.remove('modal-open');
+                    document.body.style.paddingRight = '';
                 });
-            });
-
-
-            document.getElementById('exampleModal').addEventListener('hidden.bs.modal', function () {
-                document.querySelectorAll('.modal-backdrop').forEach(function(backdrop) {
-                    backdrop.parentNode.removeChild(backdrop);
-                });
-                document.body.classList.remove('modal-open');
-                document.body.style.paddingRight = '';
-            });
-             </script>
-
-       
-
+            </script>

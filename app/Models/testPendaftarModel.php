@@ -6,7 +6,7 @@ class testPendaftarModel
     {
         $db = Database::getInstance();
         $query = "SELECT 
-                        a.id,
+                        a.id AS tagihan_id,
                         a.verified,
                         a.member_id,
                         a.no_ujian,
@@ -40,7 +40,7 @@ class testPendaftarModel
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function addTestPendaftar($member_id, $test_tanggal, $test_mulai, $test_selesai, $test_lokasi)
+    public function addTestPendaftar($tagihan_id, $test_tanggal, $test_mulai, $test_selesai, $test_lokasi)
     {
         $db = Database::getInstance();
 
@@ -48,30 +48,23 @@ class testPendaftarModel
 
         try {
             $stmt = $db->prepare($query);
-            $stmt->execute([$test_tanggal, $test_mulai, $test_selesai, $test_lokasi, $member_id]);
+            $stmt->execute([$test_tanggal, $test_mulai, $test_selesai, $test_lokasi, $tagihan_id]);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
 
-    public function getTestPendaftar(){
+    public function getTestPendaftar()
+    {
         $db = Database::getInstance();
-        $query = "SELECT 
-                    j.*, 
-                    CONCAT(t.no_ujian, ' - ', m.NamaLengkap) AS DetailPendaftar
-                FROM 
-                    pmb_jadualtes j
-                LEFT JOIN 
-                    pmb_tagihan t ON j.test_memberid = t.member_id
-                LEFT JOIN 
-                    pmb_mahasiswa m ON j.test_memberid = m.ID";
+        $query = "SELECT j.*, CONCAT(t.no_ujian, ' - ', m.NamaLengkap) AS DetailPendaftar FROM pmb_jadualtes j LEFT JOIN pmb_tagihan t ON j.test_memberid = t.id LEFT JOIN pmb_mahasiswa m ON t.member_id = m.ID";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function dropTestPendaftar($a)
-	{
+    {
         $db = Database::getInstance();
         $query = "DELETE FROM pmb_jadualtes WHERE test_memberid = ?";
 
@@ -81,6 +74,5 @@ class testPendaftarModel
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-	}
-
+    }
 }
