@@ -7,6 +7,11 @@ class loginController
     include __DIR__ . '/../Views/others/page_login.php';
   }
 
+  public function logout()
+  {
+    include __DIR__ . '/../Views/others/page_logout.php';
+  }
+
   public function authLogin()
   {
 
@@ -22,9 +27,8 @@ class loginController
 
 
     if ($data) {
-      $_SESSION['userlevel'] = $data[0]['userlevel'];
-
-
+      $_SESSION['level_loged'] = $data[0]['userlevel'];
+      $_SESSION['user_loged'] = $data[0]['username'];
       echo json_encode(['success' => true, 'data' => $data]);
     } else {
       echo json_encode(['success' => false]);
