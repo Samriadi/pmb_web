@@ -1,5 +1,6 @@
 <?php
-// session_destroy();
+
+check_login_session();
 
 include '../app/Views/others/layouts/header.php'; ?>
 
@@ -118,8 +119,3 @@ include '../app/Views/others/layouts/header.php'; ?>
         <!-- End of Main Content -->
 
         <?php include '../app/Views/others/layouts/footer.php'; ?>
-
-        <script>
-            var sessionData = <?php echo json_encode($_SESSION); ?>;
-            console.log("Session Data:", sessionData);
-        </script>
