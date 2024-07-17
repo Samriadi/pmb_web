@@ -63,17 +63,18 @@
          </a>
          <div id="collapseAuth" class="collapse" aria-labelledby="headingAuth" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <a class="collapse-item" href="/admin/fakultas">Fakultas</a>
-                 <a class="collapse-item" href="/admin/prodi">Prodi</a>
-                 <a class="collapse-item" href="/admin/ujian">Ujian</a>
-                 <a class="collapse-item" href="/admin/pendaftar">Pendaftar</a>
-                 <a class="collapse-item" href="/admin/verified">Verified</a>
-                 <a class="collapse-item" href="/admin/tagihan">Tagihan</a>
-                 <a class="collapse-item" href="/admin/csv">Download Data</a>
-                 <a class="collapse-item" href="/admin/promo">Promo</a>
-                 <a class="collapse-item" href="/admin/pendaftar-verified">Pendaftar Terverifikasi</a>
-                 <a class="collapse-item" href="/admin/test-pendaftar">Jadwal Test Pendaftar</a>
-                 <a class="collapse-item" href="/admin/pembayaran">Pembayaran</a>
+                 <a class="collapse-item" href="/admin/fakultas">Data Fakultas</a>
+                 <a class="collapse-item" href="/admin/prodi">Data Prodi</a>
+                 <a class="collapse-item" href="/admin/ujian">Data Kelulusan</a>
+                 <a class="collapse-item" href="/admin/pendaftar">Data Pendaftar</a>
+                 <a class="collapse-item" href="/admin/verified">Data Verified</a>
+                 <a class="collapse-item" href="/admin/tagihan">Data Tagihan</a>
+                 <a class="collapse-item" href="/admin/csv">Data Download</a>
+                 <a class="collapse-item" href="/admin/promo">Data Promo</a>
+                 <a class="collapse-item" href="/admin/pendaftar-verified">Data Terverifikasi</a>
+                 <a class="collapse-item" href="/admin/test-pendaftar">Data Jadwal Tes</a>
+                 <a class="collapse-item" href="/admin/pembayaran">Data Pembayaran</a>
+                 <a class="collapse-item" href="/admin/nim">Data NIM</a>
                  <?php
                     function isMobileDevice()
                     {
