@@ -34,7 +34,7 @@ class testPendaftarModel
                     AND NOT EXISTS (
                         SELECT 1
                         FROM pmb_jadualtes e
-                        WHERE e.test_memberid = a.member_id)";
+                        WHERE e.test_memberid = a.id)";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
