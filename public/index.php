@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 date_default_timezone_set('Asia/Makassar');
 
 require_once __DIR__ . '/../app/Core/Router.php';
@@ -23,9 +22,10 @@ require_once __DIR__ . '/../app/Models/pembayaranModel.php';
 require_once __DIR__ . '/../app/Models/loginModel.php';
 
 $router = new Router();
-
 $router->add('/', 'mainController', 'dashboard');
-// Definisi rute
+$router->add('/login', 'loginController', 'login');
+$router->add('/login/authLogin', 'loginController', 'authLogin');
+$router->add('/logout', 'loginController', 'logout');
 
 //install
 $router->add('/data', 'installController', 'data');
@@ -127,9 +127,6 @@ $router->add('/nim', 'pembayaranController', 'getNIM');
 //log activity
 $router->add('/logs', 'mainController', 'logs');
 
-
-$router->add('/login', 'loginController', 'login');
-$router->add('/login/authLogin', 'loginController', 'authLogin');
 
 
 
