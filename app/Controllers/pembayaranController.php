@@ -48,9 +48,18 @@ class PembayaranController
         return $datas;
     }
 
-    public function generateNIM(){
+    public function getNIM()
+    {
+        $models = new pembayaranModel();
+        $data = $models->getNIM();
+
+        include __DIR__ . '/../Views/others/page_nim.php';
+    }
+
+    public function generateNIM()
+    {
         $inputJSON = file_get_contents('php://input');
-        $input = json_decode($inputJSON, true); 
+        $input = json_decode($inputJSON, true);
 
         $models = new pembayaranModel();
         $data = $input['filteredData'];
@@ -65,7 +74,7 @@ class PembayaranController
         $dataManajemenReguler = $dataManajemenTransfer = [];
         $dataInformatikaReguler = $dataInformatikaTransfer = [];
         $dataSistemInformasiReguler = $dataSistemInformasiTransfer = [];
-        
+
         foreach ($data as $dt) {
             switch ($dt['prodi_id']) {
                 case "01":
@@ -145,97 +154,97 @@ class PembayaranController
             $NimS1FarmasiRegular = $this->makeNim($dataS1FarmasiReguler);
             $models->saveNIM($NimS1FarmasiRegular);
         }
-        
+
         if (!empty($dataS1FarmasiTransfer)) {
             $NimS1FarmasiTransfer = $this->makeNim($dataS1FarmasiTransfer);
             $models->saveNIM($NimS1FarmasiTransfer);
         }
-        
+
         if (!empty($dataApotekerReguler)) {
             $NimApotekerReguler = $this->makeNim($dataApotekerReguler);
             $models->saveNIM($NimApotekerReguler);
         }
-        
+
         if (!empty($dataApotekerTransfer)) {
             $NimApotekerTransfer = $this->makeNim($dataApotekerTransfer);
             $models->saveNIM($NimApotekerTransfer);
         }
-        
+
         if (!empty($dataD3FarmasiReguler)) {
             $NimD3FarmasiReguler = $this->makeNim($dataD3FarmasiReguler);
             $models->saveNIM($NimD3FarmasiReguler);
         }
-        
+
         if (!empty($dataD3FarmasiTransfer)) {
             $NimD3FarmasiTransfer = $this->makeNim($dataD3FarmasiTransfer);
             $models->saveNIM($NimD3FarmasiTransfer);
         }
-        
+
         if (!empty($dataKebidananReguler)) {
             $NimKebidananReguler = $this->makeNim($dataKebidananReguler);
             $models->saveNIM($NimKebidananReguler);
         }
-        
+
         if (!empty($dataKebidananTransfer)) {
             $NimKebidananTransfer = $this->makeNim($dataKebidananTransfer);
             $models->saveNIM($NimKebidananTransfer);
         }
-        
+
         if (!empty($dataAkuntansiReguler)) {
             $NimAkuntansiReguler = $this->makeNim($dataAkuntansiReguler);
             $models->saveNIM($NimAkuntansiReguler);
         }
-        
+
         if (!empty($dataAkuntansiTransfer)) {
             $NimAkuntansiTransfer = $this->makeNim($dataAkuntansiTransfer);
             $models->saveNIM($NimAkuntansiTransfer);
         }
-        
+
         if (!empty($dataHukumReguler)) {
             $NimHukumReguler = $this->makeNim($dataHukumReguler);
             $models->saveNIM($NimHukumReguler);
         }
-        
+
         if (!empty($dataHukumTransfer)) {
             $NimHukumTransfer = $this->makeNim($dataHukumTransfer);
             $models->saveNIM($NimHukumTransfer);
         }
-        
+
         if (!empty($dataIlmuKomunikasiReguler)) {
             $NimIlmuKomunikasiReguler = $this->makeNim($dataIlmuKomunikasiReguler);
             $models->saveNIM($NimIlmuKomunikasiReguler);
         }
-        
+
         if (!empty($dataIlmuKomunikasiTransfer)) {
             $NimIlmuKomunikasiTransfer = $this->makeNim($dataIlmuKomunikasiTransfer);
             $models->saveNIM($NimIlmuKomunikasiTransfer);
         }
-        
+
         if (!empty($dataManajemenReguler)) {
             $NimManajemenReguler = $this->makeNim($dataManajemenReguler);
             $models->saveNIM($NimManajemenReguler);
         }
-        
+
         if (!empty($dataManajemenTransfer)) {
             $NimManajemenTransfer = $this->makeNim($dataManajemenTransfer);
             $models->saveNIM($NimManajemenTransfer);
         }
-        
+
         if (!empty($dataInformatikaReguler)) {
             $NimInformatikaReguler = $this->makeNim($dataInformatikaReguler);
             $models->saveNIM($NimInformatikaReguler);
         }
-        
+
         if (!empty($dataInformatikaTransfer)) {
             $NimInformatikaTransfer = $this->makeNim($dataInformatikaTransfer);
             $models->saveNIM($NimInformatikaTransfer);
         }
-        
+
         if (!empty($dataSistemInformasiReguler)) {
             $NimSistemInformasiReguler = $this->makeNim($dataSistemInformasiReguler);
             $models->saveNIM($NimSistemInformasiReguler);
         }
-        
+
         if (!empty($dataSistemInformasiTransfer)) {
             $NimSistemInformasiTransfer = $this->makeNim($dataSistemInformasiTransfer);
             $models->saveNIM($NimSistemInformasiTransfer);
