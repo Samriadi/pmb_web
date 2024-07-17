@@ -43,7 +43,7 @@
     <section class="bg-primary p-3 p-md-4 p-xl-5">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-12 col-md-9 col-lg-7 col-xl-6 col-xxl-5 mt-5">
+          <div class="col-12 col-md-9 col-lg-7 col-xl-6 col-xxl-5">
             <div class="card border-0 shadow-sm rounded-4 mt-5">
               <div class="card-body p-3 p-md-4 p-xl-5">
                 <div class="row">
@@ -65,14 +65,6 @@
                       <div class="form-floating mb-3">
                         <input type="password" class="form-control" name="userpass" id="userpass" value="" placeholder="Userpass" required>
                         <label for="userpass" class="form-label">Userpass</label>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" name="remember_me" id="remember_me">
-                        <label class="form-check-label text-secondary" for="remember_me">
-                          Keep me logged in
-                        </label>
                       </div>
                     </div>
                     <div class="col-12">
@@ -124,21 +116,19 @@
         }),
         success: function(response) {
           let responseObject = JSON.parse(response);
-
-          console.log(responseObject);
           if (responseObject.success === true) {
             Swal.fire({
-              title: 'Login Berhasil',
+              title: 'Success!',
+              text: 'You have been logged in',
               icon: 'success',
               timer: 800,
               showConfirmButton: false
             }).then((result) => {
               window.location.href = '/admin';
-              exit;
             });
           } else {
             Swal.fire({
-              title: 'Login Gagal',
+              title: 'Error!',
               text: 'Periksa kembali username dan password anda',
               icon: 'error',
               timer: 800,
