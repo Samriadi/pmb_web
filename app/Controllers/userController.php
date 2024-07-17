@@ -4,10 +4,16 @@ require_once __DIR__ . '/../models/userModel.php';
 
 class userController
 {
+
+	private $models;
+
+	public function __construct()
+	{
+		$this->models = new userModel();
+	}
 	public function index()
 	{
-		$models = new userModel();
-		$data = $models->getUser();
+		$data = $this->models->getUser();
 
 		foreach ($data as $dt) :
 			$userid = $dt->userid;
@@ -19,14 +25,13 @@ class userController
 	}
 	public function add()
 	{
-		$models = new userModel();
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 			$username = $_POST['username'];
 			$userpass = $_POST['userpass'];
 			$userlevel = $_POST['userlevel'];
 
-			$models->addUser($username, $userpass, $userlevel);
+			$this->models->addUser($username, $userpass, $userlevel);
 
 			echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
 		} else {
@@ -39,9 +44,8 @@ class userController
 
 		$id = isset($_GET['userid']) ? $_GET['userid'] : null;
 
-		$models = new userModel();
 
-		$data = $models->getUserById($id);
+		$data = $$this->models->getUserById($id);
 
 		$response = [
 			'userid' => $data->userid,
@@ -56,14 +60,13 @@ class userController
 
 	public function update()
 	{
-		$models = new userModel();
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$userid = $_POST['userid'] ?? '';
 			$username = $_POST['username'] ?? '';
 			$userpass = $_POST['userpass'] ?? '';
 			$userlevel = $_POST['userlevel'] ?? '';
 
-			$models->updateUser($userid, $username, $userpass, $userlevel);
+			$this->models->updateUser($userid, $username, $userpass, $userlevel);
 		} else {
 			echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 		}
@@ -74,7 +77,6 @@ class userController
 
 		$id = isset($_GET['userid']) ? $_GET['userid'] : null;
 
-		$models = new userModel();
 
 		$id = filter_var($id, FILTER_VALIDATE_INT);
 		if ($id === false) {
@@ -82,7 +84,7 @@ class userController
 			return;
 		}
 
-		$models->deleteUser($id);
+		$this->models->deleteUser($id);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 
 		exit();
