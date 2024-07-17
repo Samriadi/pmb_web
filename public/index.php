@@ -121,6 +121,7 @@ $router->add('/test-pendaftar/drop', 'testPendaftarController', 'drop');
 
 $router->add('/pembayaran', 'pembayaranController', 'index');
 $router->add('/pembayaran/add-nim', 'pembayaranController', 'generateNim');
+$router->add('/nim', 'pembayaranController', 'getNIM');
 
 
 //log activity
