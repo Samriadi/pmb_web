@@ -32,6 +32,21 @@ class pembayaranModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getNIM()
+    {
+        $db = Database::getInstance();
+        $query = "SELECT 
+                    a.*,
+                    m.NamaLengkap 
+                    FROM pmb_nim a
+                    LEFT JOIN 
+                    pmb_mahasiswa m ON m.ID = a.member_id
+                ";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function saveNIM($data)
     {
         $db = Database::getInstance();
