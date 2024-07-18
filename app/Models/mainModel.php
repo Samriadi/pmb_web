@@ -3,85 +3,100 @@
 
 class mainModel
 {
+    private $usrapp;
+    private $pmb_test;
+    private $varoption;
+    private $pmb_periode;
+    private $pmb_logs;
+    private $pmb_helps;
+    private $db;
+    public function __construct()
+    {
+        global $usrapp;
+        global $varoption;
+        global $pmb_test;
+        global $pmb_periode;
+        global $pmb_logs;
+        global $pmb_helps;
+
+        $this->usrapp = $usrapp;
+        $this->pmb_test = $pmb_test;
+        $this->pmb_periode = $pmb_periode;
+        $this->varoption = $varoption;
+        $this->pmb_logs = $pmb_logs;
+        $this->pmb_helps = $pmb_helps;
+        $this->db = Database::getInstance();
+    }
     public function getCountTest()
     {
-        $db = Database::getInstance();
-        $query = "SELECT COUNT(*) AS jumlah_data FROM pmb_test;";
-        $stmt = $db->prepare($query);
+        $query = "SELECT COUNT(*) AS jumlah_data FROM $this->pmb_test;";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function getCountVar()
     {
-        $db = Database::getInstance();
-        $query = "SELECT COUNT(*) AS jumlah_data FROM varoption;";
-        $stmt = $db->prepare($query);
+        $query = "SELECT COUNT(*) AS jumlah_data FROM $this->varoption;";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function getCountUser()
     {
-        $db = Database::getInstance();
-        $query = "SELECT COUNT(*) AS jumlah_data FROM usrapp;";
-        $stmt = $db->prepare($query);
+        $query = "SELECT COUNT(*) AS jumlah_data FROM $this->usrapp;";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function getCountPeriod()
     {
-        $db = Database::getInstance();
-        $query = "SELECT COUNT(*) AS jumlah_data FROM pmb_periode";
-        $stmt = $db->prepare($query);
+        $query = "SELECT COUNT(*) AS jumlah_data FROM $this->pmb_periode";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function getLogs()
     {
-        $db = Database::getInstance();
-        $query = "SELECT * FROM pmb_logs";
-        $stmt = $db->prepare($query);
+        $query = "SELECT * FROM $this->pmb_logs";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
     public function getHelp($page)
     {
-        $db = Database::getInstance();
-        $query = "SELECT * FROM pmb_helps WHERE page = ?";
-        $stmt = $db->prepare($query);
+        $query = "SELECT * FROM $this->pmb_helps WHERE page = ?";
+        $stmt = $this->db->prepare($query);
         $stmt->execute([$page]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
     public function saveOrUpdateHelp($recid, $page, $konten)
     {
-        $db = Database::getInstance();
-
-        $checkQuery = "SELECT COUNT(*) FROM pmb_helps WHERE recid = ?";
-        $checkStmt = $db->prepare($checkQuery);
+        $checkQuery = "SELECT COUNT(*) FROM $this->pmb_helps WHERE recid = ?";
+        $checkStmt = $this->db->prepare($checkQuery);
         $checkStmt->execute([$recid]);
         $exists = $checkStmt->fetchColumn();
 
         if ($exists) {
-            $updateQuery = "UPDATE pmb_helps SET konten = ?, page = ? WHERE recid = ?";
-            $updateStmt = $db->prepare($updateQuery);
+            $updateQuery = "UPDATE $this->pmb_helps SET konten = ?, page = ? WHERE recid = ?";
+            $updateStmt = $this->db->prepare($updateQuery);
             $updateStmt->execute([$konten, $page, $recid]);
         } else {
             $insertQuery = "INSERT INTO pmb_helps (page, konten) VALUES (?, ?)";
-            $insertStmt = $db->prepare($insertQuery);
+            $insertStmt = $this->db->prepare($insertQuery);
             $insertStmt->execute([$page, $konten]);
         }
     }
     public function deleteHelp($recid)
     {
-        $db = Database::getInstance();
 
-        $query = "DELETE FROM pmb_helps WHERE recid = ?";
+        $query = "DELETE FROM $this->pmb_helps WHERE recid = ?";
 
         try {
-            $stmt = $db->prepare($query);
+            $stmt = $this->db->prepare($query);
             $stmt->execute([$recid]);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -90,9 +105,8 @@ class mainModel
 
     public function showHelp($page)
     {
-        $db = Database::getInstance();
-        $query = "SELECT konten FROM pmb_helps WHERE page = ?";
-        $stmt = $db->prepare($query);
+        $query = "SELECT konten FROM $this->pmb_helps WHERE page = ?";
+        $stmt = $this->db->prepare($query);
         $stmt->execute([$page]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
