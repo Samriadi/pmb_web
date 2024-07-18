@@ -1,11 +1,33 @@
 <?php
 class pendaftarModel
 {
+    private $pmb_mahasiswa;
+    private $pmb_tagihan;
+    private $pmb_periode;
+    private $pmb_pembayaran;
+    private $varoption;
+    private $edu_ortu;
+    private $db;
+    public function __construct()
+    {
+        global $pmb_mahasiswa;
+        global $pmb_tagihan;
+        global $pmb_periode;
+        global $pmb_pembayaran;
+        global $varoption;
+        global $edu_ortu;
 
+        $this->pmb_mahasiswa = $pmb_mahasiswa;        
+        $this->pmb_tagihan = $pmb_tagihan;
+        $this->pmb_periode = $pmb_periode;
+        $this->pmb_periode = $pmb_pembayaran;
+        $this->varoption = $varoption;
+        $this->edu_ortu = $edu_ortu;
+        $this->db = Database::getInstance();
+    }
 
     public function getPendaftar()
     {
-        $db = Database::getInstance();
         $query = "SELECT 
                         a.*,
                         a.ID, 
@@ -24,26 +46,25 @@ class pendaftarModel
                         c.keterangan,
                         c.status
                     FROM 
-                        pmb_mahasiswa a
+                        $this->pmb_mahasiswa a
                     LEFT JOIN 
-                        pmb_tagihan b ON b.member_id = a.ID
+                        $this->pmb_tagihan b ON b.member_id = a.ID
                     LEFT JOIN 
-                        pmb_periode c ON c.recid = b.periode
+                        $this->pmb_periode c ON c.recid = b.periode
                     LEFT JOIN 
-                        varoption d1 ON d1.recid = b.PilihanPertama
+                        $this->varoption d1 ON d1.recid = b.PilihanPertama
                     LEFT JOIN 
-                        varoption d2 ON d2.recid = b.PilihanKedua
+                        $this->varoption d2 ON d2.recid = b.PilihanKedua
                     LEFT JOIN 
-                        varoption d3 ON d3.recid = b.PilihanKetiga;
+                        $this->varoption d3 ON d3.recid = b.PilihanKetiga;
                     ";
-        $stmt = $db->prepare($query);
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function getVerified()
     {
-        $db = Database::getInstance();
         $query = "SELECT 
                         a.id,
                         a.member_id,
@@ -67,26 +88,25 @@ class pendaftarModel
                         COALESCE(d2.var_value, '') AS Prodi2,
                         COALESCE(d3.var_value, '') AS Prodi3
                     FROM 
-                        pmb_tagihan a
+                        $this->pmb_tagihan a
                     LEFT JOIN 
-                        pmb_mahasiswa b ON b.ID = a.member_id
+                        $this->pmb_mahasiswa b ON b.ID = a.member_id
                     LEFT JOIN 
-                        pmb_periode c ON c.recid = a.periode
+                        $this->pmb_periode c ON c.recid = a.periode
                     LEFT JOIN 
-                        varoption d1 ON d1.recid = a.PilihanPertama
+                        $this->varoption d1 ON d1.recid = a.PilihanPertama
                     LEFT JOIN 
-                        varoption d2 ON d2.recid = a.PilihanKedua
+                        $this->varoption d2 ON d2.recid = a.PilihanKedua
                     LEFT JOIN 
-                        varoption d3 ON d3.recid = a.PilihanKetiga;
+                        $this->varoption d3 ON d3.recid = a.PilihanKetiga;
                     ";
-        $stmt = $db->prepare($query);
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function getTagihan()
     {
-        $db = Database::getInstance();
         $query = "SELECT 
                         a.member_id,
                         a.pay_status,
@@ -95,31 +115,27 @@ class pendaftarModel
                         b.ID,
                         b.NamaLengkap
                     FROM 
-                        pmb_tagihan a
+                        $this->pmb_tagihan a
                     LEFT JOIN 
-                        pmb_mahasiswa b ON b.ID = a.member_id;
+                        $this->pmb_mahasiswa b ON b.ID = a.member_id;
                     ";
-        $stmt = $db->prepare($query);
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function getVerificationStatus($id)
     {
-        $db = Database::getInstance();
-
-        $query = "SELECT verified FROM pmb_tagihan WHERE id = ?";
-        $stmt = $db->prepare($query);
+        $query = "SELECT verified FROM $this->pmb_tagihan WHERE id = ?";
+        $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetchColumn();
     }
 
     public function getMultipleVerificationStatus($id)
     {
-        $db = Database::getInstance();
-
-        $query = "SELECT verified FROM pmb_tagihan WHERE member_id = ?";
-        $stmt = $db->prepare($query);
+        $query = "SELECT verified FROM $this->pmb_tagihan WHERE member_id = ?";
+        $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetchColumn();
     }
@@ -127,10 +143,8 @@ class pendaftarModel
     public function updateVerificationStatus($id, $status, $no_ujian, $pay_status)
     {
         try {
-            $db = Database::getInstance();
-
-            $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE id = ?";
-            $stmt = $db->prepare($query);
+            $query = "UPDATE $this->pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE id = ?";
+            $stmt = $this->db->prepare($query);
             $result = $stmt->execute([$status, $no_ujian, $pay_status, $id]);
 
             if ($result) {
@@ -150,10 +164,9 @@ class pendaftarModel
 
     public function updateMultipleVerificationStatuses($data)
     {
-        $db = Database::getInstance();
         try {
-            $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE member_id = ?";
-            $stmt = $db->prepare($query);
+            $query = "UPDATE $this->pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE member_id = ?";
+            $stmt = $this->db->prepare($query);
             return $stmt->execute([$data['verified'], $data['no_ujian'], $data['pay_status'], $data['id']]);
         } catch (Exception $e) {
             return false;
@@ -163,7 +176,6 @@ class pendaftarModel
 
     public function getDetail($id)
     {
-        $db = Database::getInstance();
         $query = "SELECT 
                         a.*,
                         b.*,
@@ -174,32 +186,27 @@ class pendaftarModel
                         COALESCE(d2.var_value, '') AS Prodi2,
                         COALESCE(d3.var_value, '') AS Prodi3
                     FROM 
-                        pmb_tagihan a
+                        $this->pmb_tagihan a
                     LEFT JOIN 
-                        pmb_mahasiswa b ON b.ID = a.member_id
+                        $this->pmb_mahasiswa b ON b.ID = a.member_id
                     LEFT JOIN 
-                        pmb_periode c ON c.recid = a.periode
+                        $this->pmb_periode c ON c.recid = a.periode
                     LEFT JOIN 
-                        varoption d1 ON d1.recid = a.PilihanPertama
+                        $this->varoption d1 ON d1.recid = a.PilihanPertama
                     LEFT JOIN 
-                        varoption d2 ON d2.recid = a.PilihanKedua
+                        $this->varoption d2 ON d2.recid = a.PilihanKedua
                     LEFT JOIN 
-                        varoption d3 ON d3.recid = a.PilihanKetiga
+                        $this->varoption d3 ON d3.recid = a.PilihanKetiga
                     LEFT JOIN
-                    	edu_ortu e ON e.maba_id = a.member_id
+                    	$this->edu_ortu e ON e.maba_id = a.member_id
                     LEFT JOIN
-                    	pmb_pembayaran f ON f.member_id = a.member_id
+                    	$this->pmb_pembayaran f ON f.member_id = a.member_id
                     WHERE 
                         a.member_id = ?;
                     ";
-        $stmt = $db->prepare($query);
+        $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
-    public function search($search)
-    {
-        $db = Database::getInstance();
-
-        $query = "SELECT * FROM table_name WHERE column_name LIKE '%$search%'";
-    }
+    
 }
