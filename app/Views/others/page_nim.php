@@ -27,6 +27,7 @@
                 <thead>
                   <tr>
                     <th>Nama Lengkap</th>
+                    <th>Prodi</th>
                     <th>Angkatan</th>
                     <th>Jenjang</th>
                     <th>Kategori</th>
@@ -41,6 +42,7 @@
                   ?>
                     <tr>
                       <td><?= $dt['NamaLengkap'] ?></td>
+                      <td><?= $dt['prodi'] ?></td>
                       <td><?= $dt['angkatan'] ?></td>
                       <td><?= $dt['jenjang'] ?></td>
                       <td><?= $dt['kategori'] ?></td>
