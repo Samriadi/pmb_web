@@ -34,7 +34,7 @@ class testPendaftarModel
                     AND NOT EXISTS (
                         SELECT 1
                         FROM pmb_jadualtes e
-                        WHERE e.test_memberid = a.id)";
+                        WHERE e.test_tagihanid = a.id)";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -44,7 +44,7 @@ class testPendaftarModel
     {
         $db = Database::getInstance();
 
-        $query = "INSERT INTO pmb_jadualtes (test_tanggal, test_mulai, test_selesai, test_lokasi, test_memberid) VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO pmb_jadualtes (test_tanggal, test_mulai, test_selesai, test_lokasi, test_tagihanid) VALUES (?, ?, ?, ?, ?)";
 
         try {
             $stmt = $db->prepare($query);
@@ -57,7 +57,7 @@ class testPendaftarModel
     public function getTestPendaftar()
     {
         $db = Database::getInstance();
-        $query = "SELECT j.*, CONCAT(t.no_ujian, ' - ', m.NamaLengkap) AS DetailPendaftar FROM pmb_jadualtes j LEFT JOIN pmb_tagihan t ON j.test_memberid = t.id LEFT JOIN pmb_mahasiswa m ON t.member_id = m.ID";
+        $query = "SELECT j.*, CONCAT(t.no_ujian, ' - ', m.NamaLengkap) AS DetailPendaftar FROM pmb_jadualtes j LEFT JOIN pmb_tagihan t ON j.test_tagihanid = t.id LEFT JOIN pmb_mahasiswa m ON t.member_id = m.ID";
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -66,7 +66,7 @@ class testPendaftarModel
     public function dropTestPendaftar($a)
     {
         $db = Database::getInstance();
-        $query = "DELETE FROM pmb_jadualtes WHERE test_memberid = ?";
+        $query = "DELETE FROM pmb_jadualtes WHERE test_tagihanid = ?";
 
         try {
             $stmt = $db->prepare($query);

@@ -39,12 +39,12 @@
                     <tbody>
                     <?php
                     foreach ($JadwalTestPendaftar as $dt) :
-                        $checkboxIdTest = $dt->test_memberid;?>
+                        $checkboxIdTest = $dt->test_tagihanid;?>
 
                         <tr>
                             <td>
                                 <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="<?= $checkboxIdTest ?>" name="checkboxJadwal[]" value="<?= $dt->test_memberid ?>">
+                                <input type="checkbox" class="form-check-input" id="<?= $checkboxIdTest ?>" name="checkboxJadwal[]" value="<?= $dt->test_tagihanid ?>">
                                 <label class="form-check-label" for="<?= $checkboxIdTest ?>"></label>
                                 </div>
                             </td>
