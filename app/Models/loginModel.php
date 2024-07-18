@@ -2,11 +2,19 @@
 
 class loginModel
 {
+  private $usrapp;
+  private $db;
+  public function __construct()
+    {
+        global $usrapp;
+        $this->usrapp = $usrapp;
+        $this->db = Database::getInstance();
+    }
+
   public function authLogin($username, $userpass)
   {
-    $db = Database::getInstance();
-    $query = "SELECT * FROM usrapp WHERE username = :username AND userpass = :userpass";
-    $stmt = $db->prepare($query);
+    $query = "SELECT * FROM $this->usrapp WHERE username = :username AND userpass = :userpass";
+    $stmt = $this->db->prepare($query);
     $stmt->execute([
       ':username' => $username,
       ':userpass' => $userpass,
