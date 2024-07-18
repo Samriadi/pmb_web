@@ -3,23 +3,28 @@
 
 class varOptiontModel
 {
+    private $varoption;
+    private $db;
+    public function __construct()
+    {
+        global $varoption;
+        $this->varoption = $varoption;
+        $this->db = Database::getInstance();
+    }
     public function getVar()
     {
-        $db = Database::getInstance();
-        $query = "SELECT * FROM varoption";
-        $stmt = $db->prepare($query);
+        $query = "SELECT * FROM $this->varoption";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function addVar($varname, $varvalue, $varothers, $catatan, $parent)
     {
-        $db = Database::getInstance();
-
-        $query = "INSERT INTO varoption (var_name, var_value, var_others, catatan, parent) VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO $this->varoption (var_name, var_value, var_others, catatan, parent) VALUES (?, ?, ?, ?, ?)";
 
         try {
-            $stmt = $db->prepare($query);
+            $stmt = $this->db->prepare($query);
             $stmt->execute([$varname, $varvalue, $varothers, $catatan, $parent]);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -28,12 +33,10 @@ class varOptiontModel
 
     public function deleteVar($recid)
     {
-        $db = Database::getInstance();
-
-        $query = "DELETE FROM varoption WHERE recid = ?";
+        $query = "DELETE FROM $this->varoption WHERE recid = ?";
 
         try {
-            $stmt = $db->prepare($query);
+            $stmt = $this->db->prepare($query);
             $stmt->execute([$recid]);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -42,17 +45,14 @@ class varOptiontModel
 
     public function getVarById($recid)
     {
-        $db = Database::getInstance();
-        $stmt = $db->prepare("SELECT * FROM varoption WHERE recid = ?");
+        $stmt = $this->db->prepare("SELECT * FROM $this->varoption WHERE recid = ?");
         $stmt->execute([$recid]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
     public function updateVar($recid, $varname, $varvalue, $varothers, $catatan, $parent)
     {
-        $db = Database::getInstance();
-
-        $stmt = $db->prepare("UPDATE varoption SET var_name = ?, var_value = ?, var_others = ?, catatan = ?, parent = ? WHERE recid = ?");
+        $stmt = $this->db->prepare("UPDATE $this->varoption SET var_name = ?, var_value = ?, var_others = ?, catatan = ?, parent = ? WHERE recid = ?");
         $stmt->execute([$varname, $varvalue, $varothers, $catatan, $parent, $recid]);
     }
 
@@ -60,9 +60,8 @@ class varOptiontModel
     //menangambil var value by var name untuk opsi select
     public function getVarByName($var_name)
     {
-        $db = Database::getInstance();
-        $query = "SELECT * FROM varoption where var_name=:var_name";
-        $stmt = $db->prepare($query);
+        $query = "SELECT * FROM $this->varoption where var_name=:var_name";
+        $stmt = $this->db->prepare($query);
         $stmt->bindParam(':var_name', $var_name);
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -85,14 +84,12 @@ class varOptiontModel
         var_dump($var_name);
         var_dump($var_value);
         try {
-            $db = Database::getInstance();
 
-            $query = "INSERT INTO varoption (var_name, var_value) VALUES (:var_name, :var_value)";
+            $query = "INSERT INTO $this->varoption (var_name, var_value) VALUES (:var_name, :var_value)";
 
-            $stmt = $db->prepare($query);
+            $stmt = $this->db->prepare($query);
             $stmt->bindParam(':var_name', $var_name);
             $stmt->bindParam(':var_value', $var_value);
-
 
             if ($stmt->execute()) {
                 echo json_encode(["status" => "success", "message" => "Data berhasil disimpan"]);
