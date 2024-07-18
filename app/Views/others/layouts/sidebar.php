@@ -172,7 +172,7 @@
                                      title: 'Success!',
                                      text: 'You have been logged out.',
                                      icon: 'success',
-                                     timer: 800,
+                                     timer: 1000,
                                      showConfirmButton: false
                                  }).then((result) => {
                                      window.location.href = '/admin';

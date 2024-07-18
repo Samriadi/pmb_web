@@ -22,8 +22,9 @@
     justify-content: center;
   }
 
-  .bg-primary {
+  .bg-danger {
     width: 100%;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,10 +38,10 @@
   }
 </style>
 
-<body class="bg-primary">
+<body class="bg-danger">
   <!-- Login 6 - Bootstrap Brain Component -->
   <div class="full-height p-3 p-md-4 p-xl-5 mt-5">
-    <section class="bg-primary p-3 p-md-4 p-xl-5">
+    <section class="bg-danger p-3 p-md-4 p-xl-5">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-12 col-md-9 col-lg-7 col-xl-6 col-xxl-5">
@@ -121,7 +122,7 @@
               title: 'Success!',
               text: 'You have been logged in',
               icon: 'success',
-              timer: 800,
+              timer: 1000,
               showConfirmButton: false
             }).then((result) => {
               window.location.href = '/admin';
@@ -131,7 +132,7 @@
               title: 'Error!',
               text: 'Periksa kembali username dan password anda',
               icon: 'error',
-              timer: 800,
+              timer: 1000,
               showConfirmButton: false
             });
           }
