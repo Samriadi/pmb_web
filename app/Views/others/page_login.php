@@ -31,7 +31,7 @@
 
   .full-height {
     height: 100%;
-    display: flex;
+    width: 90%;
     align-items: center;
     justify-content: center;
   }
@@ -39,12 +39,12 @@
 
 <body class="bg-primary">
   <!-- Login 6 - Bootstrap Brain Component -->
-  <div class="full-height p-3 p-md-4 p-xl-5">
+  <div class="full-height p-3 p-md-4 p-xl-5 mt-5">
     <section class="bg-primary p-3 p-md-4 p-xl-5">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-12 col-md-9 col-lg-7 col-xl-6 col-xxl-5">
-            <div class="card border-0 shadow-sm rounded-4 mt-5">
+            <div class="card border-0 shadow-sm rounded-4">
               <div class="card-body p-3 p-md-4 p-xl-5">
                 <div class="row">
                   <div class="col-12">

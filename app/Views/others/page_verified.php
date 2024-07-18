@@ -171,6 +171,7 @@
 
                 <script>
                     $(document).ready(function() {
+                    
                         function setupModal(modalId, filePath, iframeId) {
                             $(modalId).on('show.bs.modal', function(event) {
                                 var button = $(event.relatedTarget); // Button that triggered the modal
@@ -254,38 +255,6 @@
                             }
                         });
                     }
-                </script>
-
-                <script>
-                    document.getElementById('verifySelected').addEventListener('click', function(event) {
-                        event.preventDefault();
-
-                        const checkboxes = document.querySelectorAll('input[name="checkboxes[]"]:checked');
-                        const ids = Array.from(checkboxes).map(checkbox => checkbox.value);
-
-                        console.log(ids);
-                        if (ids.length > 0) {
-                            fetch('/admin/verified/selected', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({
-                                        ids
-                                    })
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    console.log(data);
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                    alert('Terjadi kesalahan pada server.');
-                                });
-                        } else {
-                            alert('Tidak ada data yang dipilih.');
-                        }
-                    });
                 </script>
 
 
