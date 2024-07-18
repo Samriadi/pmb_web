@@ -1,36 +1,47 @@
 <?php
 
-require_once __DIR__ . '/../Core/Database.php';
 
 class eduTestModel
 {
-    //jadwal test	
+
+    private $varoption;
+    private $pmb_test;
+    private $pmb_periode;
+    private $db;
+
+    public function __construct(){
+        global $varoption;
+        global $pmb_test;
+        global $pmb_periode;
+        $this->varoption = $varoption;
+        $this->pmb_test = $pmb_test;
+        $this->pmb_test = $pmb_periode;
+        $this->db = Database::getInstance();
+    }
     public function getTest()
     {
-        $db = Database::getInstance();
         $query = "SELECT
-                (SELECT if(a.ruang = c.recid,c.var_value,'no') FROM varoption c WHERE c.recid = a.ruang) ruang,
-                (SELECT if(a.jenis_ujin = d.recid,d.var_value,'no') FROM varoption d WHERE d.recid = a.jenis_ujin) ujian,
+                (SELECT if(a.ruang = c.recid,c.var_value,'no') FROM $this->varoption c WHERE c.recid = a.ruang) ruang,
+                (SELECT if(a.jenis_ujin = d.recid,d.var_value,'no') FROM $this->varoption d WHERE d.recid = a.jenis_ujin) ujian,
                 a.id,
                 a.keterangan ket_edu,
                 b.Jenjang,
                 b.Keterangan ket_periode,
                 b.status 
-                FROM pmb_test a 
-                JOIN pmb_periode b ON b.recid = a.gelombang;";
-        $stmt = $db->prepare($query);
+                FROM $this->pmb_test a 
+                JOIN $this->pmb_periode b ON b.recid = a.gelombang;";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function addTest($gelombang, $ruang, $jenis_ujin, $keterangn)
     {
-        $db = Database::getInstance();
 
-        $query = "INSERT INTO pmb_test (gelombang, ruang, jenis_ujin, keterangan) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO $this->pmb_test (gelombang, ruang, jenis_ujin, keterangan) VALUES (?, ?, ?, ?)";
 
         try {
-            $stmt = $db->prepare($query);
+            $stmt = $this->db->prepare($query);
             $stmt->execute([$gelombang, $ruang, $jenis_ujin, $keterangn]);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -40,9 +51,8 @@ class eduTestModel
     //get gelombang
     public function getGelombang()
     {
-        $db = Database::getInstance();
-        $query = "SELECT * FROM pmb_periode WHERE status='Open'";
-        $stmt = $db->prepare($query);
+        $query = "SELECT * FROM $this->pmb_periode WHERE status='Open'";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_OBJ);
 
@@ -59,9 +69,8 @@ class eduTestModel
     //get ruang
     public function getRuang()
     {
-        $db = Database::getInstance();
-        $query = "SELECT * FROM varoption where var_name='Ruang'";
-        $stmt = $db->prepare($query);
+        $query = "SELECT * FROM $this->varoption where var_name='Ruang'";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_OBJ);
 
@@ -78,9 +87,8 @@ class eduTestModel
     //get jenis ujian
     public function getUjian()
     {
-        $db = Database::getInstance();
-        $query = "SELECT * FROM varoption where var_name='Ujian'";
-        $stmt = $db->prepare($query);
+        $query = "SELECT * FROM $this->varoption where var_name='Ujian'";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_OBJ);
 
@@ -96,12 +104,10 @@ class eduTestModel
 
     public function deleteTest($id)
     {
-        $db = Database::getInstance();
-
-        $query = "DELETE FROM pmb_test WHERE id = ?";
+        $query = "DELETE FROM $this->pmb_test WHERE id = ?";
 
         try {
-            $stmt = $db->prepare($query);
+            $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -110,19 +116,14 @@ class eduTestModel
 
     public function getTestById($id)
     {
-        $db = Database::getInstance();
-        $stmt = $db->prepare("SELECT * FROM pmb_test WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT * FROM $this->pmb_test WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function updateTest($id, $gelombang, $ruang, $jenis_ujin, $keterangan)
     {
-        $db = Database::getInstance();
-
-        // Menggunakan prepared statement dengan placeholder ?
-        $stmt = $db->prepare("UPDATE pmb_test SET gelombang = ?, ruang = ?, jenis_ujin = ?, keterangan = ? WHERE id = ?");
-        // Urutan parameter dalam execute harus sesuai dengan urutan placeholder ?
+        $stmt = $this->db->prepare("UPDATE $this->pmb_test SET gelombang = ?, ruang = ?, jenis_ujin = ?, keterangan = ? WHERE id = ?");
         $stmt->execute([$gelombang, $ruang, $jenis_ujin, $keterangan, $id]);
     }
 }
