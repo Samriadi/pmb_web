@@ -2,14 +2,20 @@
 
 class logActivityModel {
 
+    private $pmb_logs;
+    private $db;
+
+    public function __construct() {
+        global $pmb_logs;
+
+        $this->pmb_logs = $pmb_logs;
+        $this->db->Database::getInstance();    }
+
     public function logActivity($usr_name, $datetime, $activity) {
-		$db = Database::getInstance();
-
-
-        $query = "INSERT INTO pmb_logs (usr_name, tanggal, keterangan) VALUES (?, ?, ?)";
+        $query = "INSERT INTO $this->pmb_logs (usr_name, tanggal, keterangan) VALUES (?, ?, ?)";
 
         try {
-            $stmt = $db->prepare($query);
+            $stmt = $this->db->prepare($query);
             $stmt->execute([$usr_name, $datetime, $activity]);
         } 
         catch(PDOException $e) {

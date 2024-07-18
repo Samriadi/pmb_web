@@ -14,3 +14,4 @@ $pmb_promo = "pmb_promo";
 $varoption = "varoption";
 $varinstall = "varinstall";
 $usrapp = "usrapp";
+$edu_ortu = "edu_ortu";
