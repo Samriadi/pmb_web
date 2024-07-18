@@ -1,12 +1,18 @@
 <?php
 class installModel
 {
+    private $varinstall;
+    private $db;
 
+    public function __construct(){
+        global $varinstall;
+        $this->varinstall = $varinstall;
+        $this->db = Database::getInstance();
+    }
     public function getInstall()
     {
-        $db = Database::getInstance();
-        $query = "SELECT * FROM varinstall";
-        $stmt = $db->prepare($query);
+        $query = "SELECT * FROM $this->varinstall";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
@@ -14,11 +20,9 @@ class installModel
     public function save($namaLengkapKampus, $namaSingkat, $jalan, $kota, $provinsi, $negara, $kodeWarnaUtama)
     {
         try {
-            $db = Database::getInstance();
+            $query = "INSERT INTO $this->varinstall (nama_lengkap_kampus, nama_singkat, jalan, kota, provinsi, negara, kode_warna_utama) VALUES (:namaLengkapKampus, :namaSingkat, :jalan, :kota, :provinsi, :negara, :kodeWarnaUtama)";
 
-            $query = "INSERT INTO varinstall (nama_lengkap_kampus, nama_singkat, jalan, kota, provinsi, negara, kode_warna_utama) VALUES (:namaLengkapKampus, :namaSingkat, :jalan, :kota, :provinsi, :negara, :kodeWarnaUtama)";
-
-            $stmt = $db->prepare($query);
+            $stmt = $this->db->prepare($query);
             $stmt->bindParam(':namaLengkapKampus', $namaLengkapKampus);
             $stmt->bindParam(':namaSingkat', $namaSingkat);
             $stmt->bindParam(':jalan', $jalan);
