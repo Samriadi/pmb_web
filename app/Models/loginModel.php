@@ -22,4 +22,15 @@ class loginModel
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
   }
+
+  public function authGoogleLogin($email)
+  {
+    $query = "SELECT * FROM $this->usrapp WHERE useremail = :email";
+    $stmt = $this->db->prepare($query);
+    $stmt->execute([
+      ':email' => $email,
+    ]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+  }
 }

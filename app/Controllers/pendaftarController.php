@@ -114,15 +114,15 @@ class pendaftarController
         echo json_encode(['success' => $updateSuccess, 'verified' => $newStatus]);
     }
 
-    public function search()
-    {
-        $search = $_GET['search'];
-        $model = new pendaftarModel();
+    // public function search()
+    // {
+    //     $search = $_GET['search'];
+    //     $model = new pendaftarModel();
 
 
-        $data = $model->search($search);
+    //     $data = $model->search($search);
 
-        header('Content-Type: application/json');
-        echo json_encode($data);
-    }
+    //     header('Content-Type: application/json');
+    //     echo json_encode($data);
+    // }
 }

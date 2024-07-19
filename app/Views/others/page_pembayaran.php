@@ -83,6 +83,8 @@
                 var data = <?php echo json_encode($data); ?>;
 
                 $(document).ready(function() {
+                 
+
                     $('#generateNIM').click(function() {
 
 
@@ -138,5 +140,31 @@
                             }
                         });
                     });
+
+                    $('input[type="checkbox"]:not([name="checkAll"])').change(function() {
+                        if ($(this).is(':checked')) {
+                            $(this).closest('tr').addClass('table-info');
+                        } else {
+                            $(this).closest('tr').removeClass('table-info');
+                        }
+                    });
+
+                    $('input[name="checkAll"]').change(function() {
+                        var isChecked = $(this).is(':checked');
+                        $('input[name="checkboxes[]"]').prop('checked', isChecked).change();
+                    });
+
+                    $('input[name="checkboxes[]"]').change(function() {
+                        if ($(this).is(':checked')) {
+                            $(this).closest('tr').addClass('table-info');
+                        } else {
+                            $(this).closest('tr').removeClass('table-info');
+                        }
+
+                        var allChecked = $('input[name="checkboxes[]"]').length === $('input[name="checkboxes[]"]:checked').length;
+                        $('input[name="checkAll"]').prop('checked', allChecked);
+                    });
+                    
                 });
             </script>
+         

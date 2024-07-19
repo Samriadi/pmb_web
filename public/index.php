@@ -26,7 +26,9 @@ $router = new Router();
 $router->add('/', 'mainController', 'dashboard');
 $router->add('/login', 'loginController', 'login');
 $router->add('/login/authLogin', 'loginController', 'authLogin');
+$router->add('/login/authGoogleLogin', 'loginController', 'authGoogleLogin');
 $router->add('/logout', 'loginController', 'logout');
+$router->add('/callback', 'loginController', 'googleLoginCallback');
 
 //install
 $router->add('/data', 'installController', 'data');

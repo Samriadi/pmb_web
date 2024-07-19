@@ -34,4 +34,30 @@ class loginController
       echo json_encode(['success' => false]);
     }
   }
+  
+  public function googleLoginCallback(){
+    include __DIR__ . '/../Views/others/page_googleCallback.php';
+  }
+
+  public function authGoogleLogin()
+  {
+
+    $inputJSON = file_get_contents('php://input');
+    $input = json_decode($inputJSON, true);
+
+    $email = $input['email'];
+
+    $models = new loginModel();
+
+    $data = $models->authGoogleLogin($email);
+
+
+    if ($data) {
+      $_SESSION['level_loged'] = $data[0]['userlevel'];
+      $_SESSION['user_loged'] = $data[0]['username'];
+      echo json_encode(['success' => true, 'data' => $data]);
+    } else {
+      echo json_encode(['success' => false]);
+    }
+  }
 }
