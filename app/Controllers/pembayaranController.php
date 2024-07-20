@@ -48,6 +48,78 @@ class PembayaranController
         return $datas;
     }
 
+    private function makeNimFarmasi($datas)
+    {
+        // Pertama, kelompokkan data berdasarkan kategori dan jenjang
+        $kategori_urutan = [
+            'Reguler' => [],
+            'Transfer' => []
+        ];
+
+        foreach ($datas as $data) {
+            if ($data['kategori'] == 'Reguler') {
+                $kategori_urutan['Reguler'][] = $data;
+            } else {
+                $kategori_urutan['Transfer'][] = $data;
+            }
+        }
+
+        // Urutkan nomor urut untuk kategori Reguler dan Transfer
+        $kategori_urutan['Reguler'] = $this->sortAndAssignOrder($kategori_urutan['Reguler']);
+        $kategori_urutan['Transfer'] = $this->sortAndAssignOrder($kategori_urutan['Transfer']);
+
+        // Gabungkan data kembali dan format NIM
+        foreach ($datas as &$data) {
+            $periode = substr($data['periode'], -2);
+            $prodi_id = $data['prodi_id'];
+            $no_urut = str_pad($data['nomor_urut'], 3, '0', STR_PAD_LEFT); // Format nomor urut dengan padding 3 digit
+            $kategori = $data['kategori'];
+            $jenjang = $data['jenjang'];
+
+            // Tentukan format NIM berdasarkan kategori dan jenjang
+            if ($kategori == "Transfer" || $jenjang == "RPL") {
+                $nim = $periode . $prodi_id . "8" . $this->getAdjustedNumber($data, 'Transfer', $kategori_urutan); // Format Transfer
+            } else if ($kategori == "Reguler") {
+                $nim = $periode . $prodi_id . "3" . $this->getAdjustedNumber($data, 'Reguler', $kategori_urutan); // Format Reguler
+            }
+
+            $data['nim'] = $nim;
+        }
+
+        return $datas;
+    }
+
+    // Fungsi untuk mengurutkan dan memberikan nomor urut
+    private function sortAndAssignOrder($datas)
+    {
+        usort($datas, function ($a, $b) {
+            return $a['nomor_urut'] <=> $b['nomor_urut'];
+        });
+
+        foreach ($datas as $index => &$data) {
+            $data['nomor_urut'] = $index + 1;
+        }
+
+        return $datas;
+    }
+
+    // Fungsi untuk mendapatkan nomor urut yang disesuaikan berdasarkan kategori
+    private function getAdjustedNumber($data, $kategori, $kategori_urutan)
+    {
+        $urut_data = array_filter($kategori_urutan[$kategori], function ($d) use ($data) {
+            return $d['prodi_id'] === $data['prodi_id'] && $d['periode'] === $data['periode'];
+        });
+
+        foreach ($urut_data as $urut) {
+            if ($urut['nomor_urut'] === $data['nomor_urut']) {
+                return str_pad($urut['nomor_urut'], 3, '0', STR_PAD_LEFT); // Format nomor urut dengan padding 3 digit
+            }
+        }
+
+        return str_pad($data['nomor_urut'], 3, '0', STR_PAD_LEFT); // Format nomor urut dengan padding 3 digit
+    }
+
+
     public function getNIM()
     {
         $models = new pembayaranModel();
@@ -151,12 +223,12 @@ class PembayaranController
         }
 
         if (!empty($dataS1FarmasiReguler)) {
-            $NimS1FarmasiRegular = $this->makeNim($dataS1FarmasiReguler);
+            $NimS1FarmasiRegular = $this->makeNimFarmasi($dataS1FarmasiReguler);
             $models->saveNIM($NimS1FarmasiRegular);
         }
 
         if (!empty($dataS1FarmasiTransfer)) {
-            $NimS1FarmasiTransfer = $this->makeNim($dataS1FarmasiTransfer);
+            $NimS1FarmasiTransfer = $this->makeNimFarmasi($dataS1FarmasiTransfer);
             $models->saveNIM($NimS1FarmasiTransfer);
         }
 

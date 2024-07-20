@@ -1,7 +1,7 @@
 <?php
 class pembayaranModel
 {
-    
+
     private $pmb_pembayaran;
     private $pmb_nim;
     private $pmb_mahasiswa;
@@ -58,6 +58,7 @@ class pembayaranModel
                     LEFT JOIN 
                     $this->pmb_mahasiswa m ON m.ID = a.member_id
                     LEFT JOIN $this->pmb_pembayaran p ON p.member_id = a.member_id
+                    ORDER BY a.nim ASC;
                 ";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
