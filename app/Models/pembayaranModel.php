@@ -75,11 +75,19 @@ class pembayaranModel
     }
     public function getCountNIM($prodi_id, $kategori)
     {
-        $query = "SELECT COUNT(*) FROM $this->pmb_nim WHERE prodi_id = :prodi_id AND kategori = :kategori";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':prodi_id', $prodi_id, PDO::PARAM_INT);
-        $stmt->bindParam(':kategori', $kategori, PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->fetchColumn();
+        if ($prodi_id == "01") {
+            $query = "SELECT COUNT(*) FROM $this->pmb_nim WHERE prodi_id = :prodi_id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':prodi_id', $prodi_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        } else {
+            $query = "SELECT COUNT(*) FROM $this->pmb_nim WHERE prodi_id = :prodi_id AND kategori = :kategori";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':prodi_id', $prodi_id, PDO::PARAM_INT);
+            $stmt->bindParam(':kategori', $kategori, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
     }
 }

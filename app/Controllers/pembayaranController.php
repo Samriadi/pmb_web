@@ -48,6 +48,40 @@ class PembayaranController
         return $datas;
     }
 
+    private function filterDataProfesi($data, $prodi_id, $kategori)
+    {
+
+        $models = new pembayaranModel();
+        $startKey = $models->getCountNIM($prodi_id, $kategori);
+
+        $filteredData = array_filter($data, function ($item) use ($prodi_id) {
+            return $item['prodi_id'] === $prodi_id;
+        });
+
+        $filteredData = array_values($filteredData);
+
+        foreach ($filteredData as $key => &$item) {
+            $nomor_urut = sprintf('%03d', $startKey + $key + 1);
+            $item['nomor_urut'] = $nomor_urut;
+        }
+
+        return $filteredData;
+    }
+
+    private function makeNimProfesi($datas)
+    {
+        foreach ($datas as &$data) {
+            $periode = substr($data['periode'], -2);
+            $prodi_id = $data['prodi_id'];
+            $no_urut = $data['nomor_urut'];
+            $kategori = $data['kategori'];
+
+            $nim = $periode . $prodi_id . "3" . $no_urut;
+            $data['nim'] = $nim;
+        }
+        return $datas;
+    }
+
     private function makeNimFarmasi($datas)
     {
         // Pertama, kelompokkan data berdasarkan kategori dan jenjang
@@ -151,9 +185,9 @@ class PembayaranController
             switch ($dt['prodi_id']) {
                 case "01":
                     if ($dt['kategori'] == "Reguler") {
-                        $dataApotekerReguler = $this->filterData($data, $dt['prodi_id'], $dt['kategori']);
+                        $dataApotekerReguler = $this->filterDataProfesi($data, $dt['prodi_id'], $dt['kategori']);
                     } elseif ($dt['kategori'] == "Transfer") {
-                        $dataApotekerTransfer = $this->filterData($data, $dt['prodi_id'], $dt['kategori']);
+                        $dataApotekerTransfer = $this->filterDataProfesi($data, $dt['prodi_id'], $dt['kategori']);
                     }
                     break;
                 case "02":
@@ -233,12 +267,12 @@ class PembayaranController
         }
 
         if (!empty($dataApotekerReguler)) {
-            $NimApotekerReguler = $this->makeNim($dataApotekerReguler);
+            $NimApotekerReguler = $this->makeNimProfesi($dataApotekerReguler);
             $models->saveNIM($NimApotekerReguler);
         }
 
         if (!empty($dataApotekerTransfer)) {
-            $NimApotekerTransfer = $this->makeNim($dataApotekerTransfer);
+            $NimApotekerTransfer = $this->makeNimProfesi($dataApotekerTransfer);
             $models->saveNIM($NimApotekerTransfer);
         }
 
