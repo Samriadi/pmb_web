@@ -17,7 +17,7 @@ class pendaftarModel
         global $varoption;
         global $edu_ortu;
 
-        $this->pmb_mahasiswa = $pmb_mahasiswa;        
+        $this->pmb_mahasiswa = $pmb_mahasiswa;
         $this->pmb_tagihan = $pmb_tagihan;
         $this->pmb_periode = $pmb_periode;
         $this->pmb_periode = $pmb_pembayaran;
@@ -46,17 +46,17 @@ class pendaftarModel
                         c.keterangan,
                         c.status
                     FROM 
-                        $this->pmb_mahasiswa a
+                        pmb_mahasiswa a
                     LEFT JOIN 
-                        $this->pmb_tagihan b ON b.member_id = a.ID
+                        pmb_tagihan b ON b.member_id = a.ID
                     LEFT JOIN 
-                        $this->pmb_periode c ON c.recid = b.periode
+                        pmb_periode c ON c.recid = b.periode
                     LEFT JOIN 
-                        $this->varoption d1 ON d1.recid = b.PilihanPertama
+                        varoption d1 ON d1.recid = b.PilihanPertama
                     LEFT JOIN 
-                        $this->varoption d2 ON d2.recid = b.PilihanKedua
+                        varoption d2 ON d2.recid = b.PilihanKedua
                     LEFT JOIN 
-                        $this->varoption d3 ON d3.recid = b.PilihanKetiga;
+                        varoption d3 ON d3.recid = b.PilihanKetiga;
                     ";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -88,17 +88,17 @@ class pendaftarModel
                         COALESCE(d2.var_value, '') AS Prodi2,
                         COALESCE(d3.var_value, '') AS Prodi3
                     FROM 
-                        $this->pmb_tagihan a
+                        pmb_tagihan a
                     LEFT JOIN 
-                        $this->pmb_mahasiswa b ON b.ID = a.member_id
+                        pmb_mahasiswa b ON b.ID = a.member_id
                     LEFT JOIN 
-                        $this->pmb_periode c ON c.recid = a.periode
+                        pmb_periode c ON c.recid = a.periode
                     LEFT JOIN 
-                        $this->varoption d1 ON d1.recid = a.PilihanPertama
+                        varoption d1 ON d1.recid = a.PilihanPertama
                     LEFT JOIN 
-                        $this->varoption d2 ON d2.recid = a.PilihanKedua
+                        varoption d2 ON d2.recid = a.PilihanKedua
                     LEFT JOIN 
-                        $this->varoption d3 ON d3.recid = a.PilihanKetiga;
+                        varoption d3 ON d3.recid = a.PilihanKetiga;
                     ";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -115,9 +115,9 @@ class pendaftarModel
                         b.ID,
                         b.NamaLengkap
                     FROM 
-                        $this->pmb_tagihan a
+                       pmb_tagihan a
                     LEFT JOIN 
-                        $this->pmb_mahasiswa b ON b.ID = a.member_id;
+                       pmb_mahasiswa b ON b.ID = a.member_id;
                     ";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -126,7 +126,7 @@ class pendaftarModel
 
     public function getVerificationStatus($id)
     {
-        $query = "SELECT verified FROM $this->pmb_tagihan WHERE id = ?";
+        $query = "SELECT verified FROM pmb_tagihan WHERE id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetchColumn();
@@ -134,7 +134,7 @@ class pendaftarModel
 
     public function getMultipleVerificationStatus($id)
     {
-        $query = "SELECT verified FROM $this->pmb_tagihan WHERE member_id = ?";
+        $query = "SELECT verified FROM pmb_tagihan WHERE member_id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetchColumn();
@@ -143,7 +143,7 @@ class pendaftarModel
     public function updateVerificationStatus($id, $status, $no_ujian, $pay_status)
     {
         try {
-            $query = "UPDATE $this->pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE id = ?";
+            $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE id = ?";
             $stmt = $this->db->prepare($query);
             $result = $stmt->execute([$status, $no_ujian, $pay_status, $id]);
 
@@ -165,7 +165,7 @@ class pendaftarModel
     public function updateMultipleVerificationStatuses($data)
     {
         try {
-            $query = "UPDATE $this->pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE member_id = ?";
+            $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE member_id = ?";
             $stmt = $this->db->prepare($query);
             return $stmt->execute([$data['verified'], $data['no_ujian'], $data['pay_status'], $data['id']]);
         } catch (Exception $e) {
@@ -186,21 +186,21 @@ class pendaftarModel
                         COALESCE(d2.var_value, '') AS Prodi2,
                         COALESCE(d3.var_value, '') AS Prodi3
                     FROM 
-                        $this->pmb_tagihan a
+                        pmb_tagihan a
                     LEFT JOIN 
-                        $this->pmb_mahasiswa b ON b.ID = a.member_id
+                        pmb_mahasiswa b ON b.ID = a.member_id
                     LEFT JOIN 
-                        $this->pmb_periode c ON c.recid = a.periode
+                        pmb_periode c ON c.recid = a.periode
                     LEFT JOIN 
-                        $this->varoption d1 ON d1.recid = a.PilihanPertama
+                        varoption d1 ON d1.recid = a.PilihanPertama
                     LEFT JOIN 
-                        $this->varoption d2 ON d2.recid = a.PilihanKedua
+                        varoption d2 ON d2.recid = a.PilihanKedua
                     LEFT JOIN 
-                        $this->varoption d3 ON d3.recid = a.PilihanKetiga
+                        varoption d3 ON d3.recid = a.PilihanKetiga
                     LEFT JOIN
-                    	$this->edu_ortu e ON e.maba_id = a.member_id
+                    	edu_ortu e ON e.maba_id = a.member_id
                     LEFT JOIN
-                    	$this->pmb_pembayaran f ON f.member_id = a.member_id
+                    	pmb_pembayaran f ON f.member_id = a.member_id
                     WHERE 
                         a.member_id = ?;
                     ";
@@ -208,5 +208,4 @@ class pendaftarModel
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
-    
 }

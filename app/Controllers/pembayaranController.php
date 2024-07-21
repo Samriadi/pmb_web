@@ -29,92 +29,28 @@ class PembayaranController
         return $filteredData;
     }
 
-    private function makeNim($datas)
+    private function makeNimALL($datas)
     {
+        // Gabungkan data berdasarkan kategori dan jenjang
         foreach ($datas as &$data) {
             $periode = substr($data['periode'], -2);
             $prodi_id = $data['prodi_id'];
-            $no_urut = $data['nomor_urut'];
-            $kategori = $data['kategori'];
-
-            if ($kategori == "Reguler") {
-                $nim = $periode . $prodi_id . "3" . $no_urut;
-            } else if ($kategori == "Transfer") {
-                $nim = $periode . $prodi_id . "8" . $no_urut;
-            }
-
-            $data['nim'] = $nim;
-        }
-        return $datas;
-    }
-
-    private function filterDataProfesi($data, $prodi_id, $kategori)
-    {
-
-        $models = new pembayaranModel();
-        $startKey = $models->getCountNIM($prodi_id, $kategori);
-
-        $filteredData = array_filter($data, function ($item) use ($prodi_id) {
-            return $item['prodi_id'] === $prodi_id;
-        });
-
-        $filteredData = array_values($filteredData);
-
-        foreach ($filteredData as $key => &$item) {
-            $nomor_urut = sprintf('%03d', $startKey + $key + 1);
-            $item['nomor_urut'] = $nomor_urut;
-        }
-
-        return $filteredData;
-    }
-
-    private function makeNimProfesi($datas)
-    {
-        foreach ($datas as &$data) {
-            $periode = substr($data['periode'], -2);
-            $prodi_id = $data['prodi_id'];
-            $no_urut = $data['nomor_urut'];
-            $kategori = $data['kategori'];
-
-            $nim = $periode . $prodi_id . "3" . $no_urut;
-            $data['nim'] = $nim;
-        }
-        return $datas;
-    }
-
-    private function makeNimFarmasi($datas)
-    {
-        // Pertama, kelompokkan data berdasarkan kategori dan jenjang
-        $kategori_urutan = [
-            'Reguler' => [],
-            'Transfer' => []
-        ];
-
-        foreach ($datas as $data) {
-            if ($data['kategori'] == 'Reguler') {
-                $kategori_urutan['Reguler'][] = $data;
-            } else {
-                $kategori_urutan['Transfer'][] = $data;
-            }
-        }
-
-        // Urutkan nomor urut untuk kategori Reguler dan Transfer
-        $kategori_urutan['Reguler'] = $this->sortAndAssignOrder($kategori_urutan['Reguler']);
-        $kategori_urutan['Transfer'] = $this->sortAndAssignOrder($kategori_urutan['Transfer']);
-
-        // Gabungkan data kembali dan format NIM
-        foreach ($datas as &$data) {
-            $periode = substr($data['periode'], -2);
-            $prodi_id = $data['prodi_id'];
-            $no_urut = str_pad($data['nomor_urut'], 3, '0', STR_PAD_LEFT); // Format nomor urut dengan padding 3 digit
-            $kategori = $data['kategori'];
             $jenjang = $data['jenjang'];
+            $kategori = $data['kategori'];
 
             // Tentukan format NIM berdasarkan kategori dan jenjang
-            if ($kategori == "Transfer" || $jenjang == "RPL") {
-                $nim = $periode . $prodi_id . "8" . $this->getAdjustedNumber($data, 'Transfer', $kategori_urutan); // Format Transfer
+            if ($jenjang == "RPL" || $jenjang == "Profesi") {
+                // Handle RPL and Profesi
+                $nim = $periode . $prodi_id . "8"; // Format Transfer
+            } else if ($kategori == "Transfer") {
+                $nim = $periode . $prodi_id . "8"; // Format Transfer
             } else if ($kategori == "Reguler") {
-                $nim = $periode . $prodi_id . "3" . $this->getAdjustedNumber($data, 'Reguler', $kategori_urutan); // Format Reguler
+                // Treat Reguler students normally
+                if ($jenjang == "RPL") {
+                    $nim = $periode . $prodi_id . "8"; // Format Transfer
+                } else {
+                    $nim = $periode . $prodi_id . "3"; // Format Reguler
+                }
             }
 
             $data['nim'] = $nim;
@@ -122,37 +58,6 @@ class PembayaranController
 
         return $datas;
     }
-
-    // Fungsi untuk mengurutkan dan memberikan nomor urut
-    private function sortAndAssignOrder($datas)
-    {
-        usort($datas, function ($a, $b) {
-            return $a['nomor_urut'] <=> $b['nomor_urut'];
-        });
-
-        foreach ($datas as $index => &$data) {
-            $data['nomor_urut'] = $index + 1;
-        }
-
-        return $datas;
-    }
-
-    // Fungsi untuk mendapatkan nomor urut yang disesuaikan berdasarkan kategori
-    private function getAdjustedNumber($data, $kategori, $kategori_urutan)
-    {
-        $urut_data = array_filter($kategori_urutan[$kategori], function ($d) use ($data) {
-            return $d['prodi_id'] === $data['prodi_id'] && $d['periode'] === $data['periode'];
-        });
-
-        foreach ($urut_data as $urut) {
-            if ($urut['nomor_urut'] === $data['nomor_urut']) {
-                return str_pad($urut['nomor_urut'], 3, '0', STR_PAD_LEFT); // Format nomor urut dengan padding 3 digit
-            }
-        }
-
-        return str_pad($data['nomor_urut'], 3, '0', STR_PAD_LEFT); // Format nomor urut dengan padding 3 digit
-    }
-
 
     public function getNIM()
     {
@@ -185,9 +90,9 @@ class PembayaranController
             switch ($dt['prodi_id']) {
                 case "01":
                     if ($dt['kategori'] == "Reguler") {
-                        $dataApotekerReguler = $this->filterDataProfesi($data, $dt['prodi_id'], $dt['kategori']);
+                        $dataApotekerReguler = $this->filterData($data, $dt['prodi_id'], $dt['kategori']);
                     } elseif ($dt['kategori'] == "Transfer") {
-                        $dataApotekerTransfer = $this->filterDataProfesi($data, $dt['prodi_id'], $dt['kategori']);
+                        $dataApotekerTransfer = $this->filterData($data, $dt['prodi_id'], $dt['kategori']);
                     }
                     break;
                 case "02":
@@ -257,102 +162,102 @@ class PembayaranController
         }
 
         if (!empty($dataS1FarmasiReguler)) {
-            $NimS1FarmasiRegular = $this->makeNimFarmasi($dataS1FarmasiReguler);
+            $NimS1FarmasiRegular = $this->makeNimAll($dataS1FarmasiReguler);
             $models->saveNIM($NimS1FarmasiRegular);
         }
 
         if (!empty($dataS1FarmasiTransfer)) {
-            $NimS1FarmasiTransfer = $this->makeNimFarmasi($dataS1FarmasiTransfer);
+            $NimS1FarmasiTransfer = $this->makeNimAll($dataS1FarmasiTransfer);
             $models->saveNIM($NimS1FarmasiTransfer);
         }
 
         if (!empty($dataApotekerReguler)) {
-            $NimApotekerReguler = $this->makeNimProfesi($dataApotekerReguler);
+            $NimApotekerReguler = $this->makeNimAll($dataApotekerReguler);
             $models->saveNIM($NimApotekerReguler);
         }
 
         if (!empty($dataApotekerTransfer)) {
-            $NimApotekerTransfer = $this->makeNimProfesi($dataApotekerTransfer);
+            $NimApotekerTransfer = $this->makeNimAll($dataApotekerTransfer);
             $models->saveNIM($NimApotekerTransfer);
         }
 
         if (!empty($dataD3FarmasiReguler)) {
-            $NimD3FarmasiReguler = $this->makeNim($dataD3FarmasiReguler);
+            $NimD3FarmasiReguler = $this->makeNimAll($dataD3FarmasiReguler);
             $models->saveNIM($NimD3FarmasiReguler);
         }
 
         if (!empty($dataD3FarmasiTransfer)) {
-            $NimD3FarmasiTransfer = $this->makeNim($dataD3FarmasiTransfer);
+            $NimD3FarmasiTransfer = $this->makeNimAll($dataD3FarmasiTransfer);
             $models->saveNIM($NimD3FarmasiTransfer);
         }
 
         if (!empty($dataKebidananReguler)) {
-            $NimKebidananReguler = $this->makeNim($dataKebidananReguler);
+            $NimKebidananReguler = $this->makeNimAll($dataKebidananReguler);
             $models->saveNIM($NimKebidananReguler);
         }
 
         if (!empty($dataKebidananTransfer)) {
-            $NimKebidananTransfer = $this->makeNim($dataKebidananTransfer);
+            $NimKebidananTransfer = $this->makeNimAll($dataKebidananTransfer);
             $models->saveNIM($NimKebidananTransfer);
         }
 
         if (!empty($dataAkuntansiReguler)) {
-            $NimAkuntansiReguler = $this->makeNim($dataAkuntansiReguler);
+            $NimAkuntansiReguler = $this->makeNimAll($dataAkuntansiReguler);
             $models->saveNIM($NimAkuntansiReguler);
         }
 
         if (!empty($dataAkuntansiTransfer)) {
-            $NimAkuntansiTransfer = $this->makeNim($dataAkuntansiTransfer);
+            $NimAkuntansiTransfer = $this->makeNimAll($dataAkuntansiTransfer);
             $models->saveNIM($NimAkuntansiTransfer);
         }
 
         if (!empty($dataHukumReguler)) {
-            $NimHukumReguler = $this->makeNim($dataHukumReguler);
+            $NimHukumReguler = $this->makeNimAll($dataHukumReguler);
             $models->saveNIM($NimHukumReguler);
         }
 
         if (!empty($dataHukumTransfer)) {
-            $NimHukumTransfer = $this->makeNim($dataHukumTransfer);
+            $NimHukumTransfer = $this->makeNimAll($dataHukumTransfer);
             $models->saveNIM($NimHukumTransfer);
         }
 
         if (!empty($dataIlmuKomunikasiReguler)) {
-            $NimIlmuKomunikasiReguler = $this->makeNim($dataIlmuKomunikasiReguler);
+            $NimIlmuKomunikasiReguler = $this->makeNimAll($dataIlmuKomunikasiReguler);
             $models->saveNIM($NimIlmuKomunikasiReguler);
         }
 
         if (!empty($dataIlmuKomunikasiTransfer)) {
-            $NimIlmuKomunikasiTransfer = $this->makeNim($dataIlmuKomunikasiTransfer);
+            $NimIlmuKomunikasiTransfer = $this->makeNimAll($dataIlmuKomunikasiTransfer);
             $models->saveNIM($NimIlmuKomunikasiTransfer);
         }
 
         if (!empty($dataManajemenReguler)) {
-            $NimManajemenReguler = $this->makeNim($dataManajemenReguler);
+            $NimManajemenReguler = $this->makeNimAll($dataManajemenReguler);
             $models->saveNIM($NimManajemenReguler);
         }
 
         if (!empty($dataManajemenTransfer)) {
-            $NimManajemenTransfer = $this->makeNim($dataManajemenTransfer);
+            $NimManajemenTransfer = $this->makeNimAll($dataManajemenTransfer);
             $models->saveNIM($NimManajemenTransfer);
         }
 
         if (!empty($dataInformatikaReguler)) {
-            $NimInformatikaReguler = $this->makeNim($dataInformatikaReguler);
+            $NimInformatikaReguler = $this->makeNimAll($dataInformatikaReguler);
             $models->saveNIM($NimInformatikaReguler);
         }
 
         if (!empty($dataInformatikaTransfer)) {
-            $NimInformatikaTransfer = $this->makeNim($dataInformatikaTransfer);
+            $NimInformatikaTransfer = $this->makeNimAll($dataInformatikaTransfer);
             $models->saveNIM($NimInformatikaTransfer);
         }
 
         if (!empty($dataSistemInformasiReguler)) {
-            $NimSistemInformasiReguler = $this->makeNim($dataSistemInformasiReguler);
+            $NimSistemInformasiReguler = $this->makeNimAll($dataSistemInformasiReguler);
             $models->saveNIM($NimSistemInformasiReguler);
         }
 
         if (!empty($dataSistemInformasiTransfer)) {
-            $NimSistemInformasiTransfer = $this->makeNim($dataSistemInformasiTransfer);
+            $NimSistemInformasiTransfer = $this->makeNimAll($dataSistemInformasiTransfer);
             $models->saveNIM($NimSistemInformasiTransfer);
         }
     }
