@@ -68,32 +68,25 @@ class pembayaranModel
     public function saveNIM($data)
     {
         foreach ($data as $key => $value) {
-            // Ambil kode tahun atau format dasar NIM dari $value
-            $kode = substr($value['nim'], 0, 5); // Misalnya, '24023'
+            $kode = substr($value['nim'], 0, 5);
 
-            // Query untuk mendapatkan NIM terakhir
-            $query = "SELECT MAX(nim) as last_nim FROM $this->pmb_nim WHERE nim LIKE ?"; // '24023%'
+            $query = "SELECT MAX(nim) as last_nim FROM $this->pmb_nim WHERE nim LIKE ?"; 
             $stmt = $this->db->prepare($query);
             $stmt->execute([$kode . '%']);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             $last_nim = $row['last_nim'];
 
-            // Jika tidak ada NIM yang ditemukan, set urutan awal
             if (!$last_nim) {
                 $urutan = 1;
             } else {
-                // Ambil angka urutan terakhir dan tambah 1
                 $urutan = intval(substr($last_nim, -2)) + 1;
             }
 
-            // Format urutan menjadi 2 digit
             $urutan = str_pad($urutan, 3, '0', STR_PAD_LEFT);
 
-            // Buat NIM baru
             $nim_baru = $kode . $urutan;
 
-            // Masukkan data dengan NIM baru
             $query = "INSERT INTO $this->pmb_nim (member_id, angkatan, jenjang, kategori, jenis, prodi_id, nim) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$value['member_id'], $value['periode'], $value['jenjang'], $value['kategori'], $value['jenis'], $value['prodi_id'], $nim_baru]);

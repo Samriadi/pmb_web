@@ -1,4 +1,7 @@
-<?php include '../app/Views/others/layouts/header.php'; ?>
+<?php include '../app/Views/others/layouts/header.php';
+                        check_login_session();
+
+?>
 
 <!-- Page Wrapper -->
 <div id="wrapper">

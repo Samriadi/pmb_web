@@ -39,9 +39,11 @@ class PembayaranController
             $kategori = $data['kategori'];
 
             // Tentukan format NIM berdasarkan kategori dan jenjang
-            if ($jenjang == "RPL" || $jenjang == "Profesi") {
+            if ($jenjang == "RPL") {
                 // Handle RPL and Profesi
                 $nim = $periode . $prodi_id . "8"; // Format Transfer
+            } else if ($jenjang == "Profesi") {
+                $nim = $periode . $prodi_id . "3"; // Format Reguler
             } else if ($kategori == "Transfer") {
                 $nim = $periode . $prodi_id . "8"; // Format Transfer
             } else if ($kategori == "Reguler") {
