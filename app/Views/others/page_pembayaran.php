@@ -62,7 +62,8 @@
                                     <?php endforeach ?>
                                 </tbody>
                             </table>
-                            <a id="generateNIM" class="btn btn-success btn-icon-split mb-3 mt-3"><span class="icon text-white-50"><i class="fas fa-plus-circle"></i> </span><span class="text">NIM</span></a></a>
+                            <button id="generateNIM" class="btn btn-success btn-icon-split mb-3 mt-3"><span class="icon text-white-50"><i class="fas fa-plus-circle"></i> </span><span class="text">NIM</span></button>
+                            <div id="loading" style="display: none;">Memproses...</div>
                         </div>
                     </div>
                 </div>
@@ -83,24 +84,42 @@
                 var data = <?php echo json_encode($data); ?>;
 
                 $(document).ready(function() {
-                 
+
 
                     $('#generateNIM').click(function() {
+                        const checkboxes = document.querySelectorAll('input[name="checkboxes[]"]:checked');
 
+                        if (checkboxes.length === 0) {
+                            Swal.fire({
+                                text: 'Pilih data yang ingin dibuat NIM.',
+                                icon: 'info',
+                                timer: 1000,
+                                showConfirmButton: false
+                            });
+                            return;
+                        }
 
                         Swal.fire({
-                            title: 'Apakah Anda yakin ingin menghasilkan NIM?',
+                            text: 'Konformasi pembuatan NIM, apakah anda yakin?',
                             icon: 'question',
                             showCancelButton: true,
                             confirmButtonText: 'Ya',
                             cancelButtonText: 'Batal'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                // Lakukan operasi atau tampilkan pesan tambahan setelah dikonfirmasi
-                                const checkboxes = document.querySelectorAll('input[name="checkboxes[]"]:checked');
                                 const checked = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));
-
                                 const filteredData = data.filter(item => checked.includes(item.member_id));
+                                $('#generateNIM').prop('disabled', true);
+                                $('#loading').show();
+
+                                const loadingAlert = Swal.fire({
+                                    text: 'Proses pembuatan NIM...',
+                                    icon: 'info',
+                                    showConfirmButton: false,
+                                    didOpen: () => {
+                                        Swal.showLoading();
+                                    }
+                                });
 
                                 $.ajax({
                                     url: '/admin/pembayaran/add-nim',
@@ -110,61 +129,73 @@
                                         filteredData: filteredData
                                     }),
                                     success: function(response) {
+                                        console.log('Success:', response);
+                                        Swal.close();
                                         Swal.fire({
-                                            title: 'Success!',
                                             text: 'NIM berhasil Dibuat.',
                                             icon: 'success',
                                             timer: 800,
                                             showConfirmButton: false
-                                        }).then((result) => {
+                                        }).then(() => {
+                                            $('#saveButton').prop('disabled', false);
+                                            $('#loading').hide();
                                             window.location.reload();
                                         });
                                     },
                                     error: function(error) {
                                         console.error('Error:', error);
+                                        Swal.close();
                                         Swal.fire({
-                                            title: 'Error!',
                                             text: 'NIM gagal Dibuat',
                                             icon: 'error',
-                                            confirmButtonText: 'OK'
+                                            timer: 800,
+                                            showConfirmButton: false
+                                        }).then(() => {
+                                            $('#saveButton').prop('disabled', false);
+                                            $('#loading').hide();
+                                            window.location.reload();
                                         });
                                     }
                                 });
 
 
 
-                                Swal.fire('NIM telah dihasilkan!', '', 'success');
                             } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                // Tindakan jika pengguna membatalkan operasi
-                                Swal.fire('Pembuatan NIM dibatalkan', '', 'info');
+                                Swal.fire({
+                                    text: 'Pembuatan NIM dibatalkan',
+                                    icon: 'info',
+                                    timer: 1000,
+                                    showConfirmButton: false
+                                });
                             }
                         });
                     });
 
-                    $('input[type="checkbox"]:not([name="checkAll"])').change(function() {
-                        if ($(this).is(':checked')) {
-                            $(this).closest('tr').addClass('table-info');
-                        } else {
-                            $(this).closest('tr').removeClass('table-info');
-                        }
-                    });
+                    // $('input[type="checkbox"]:not([name="checkAll"])').change(function() {
+                    //     if ($(this).is(':checked')) {
+                    //         $(this).closest('tr').addClass('table-info');
+                    //     } else {
+                    //         $(this).closest('tr').removeClass('table-info');
+                    //     }
+                    // });
+
+                    // $('input[name="checkboxes[]"]').change(function() {
+                    //     if ($(this).is(':checked')) {
+                    //         $(this).closest('tr').addClass('table-info');
+                    //     } else {
+                    //         $(this).closest('tr').removeClass('table-info');
+                    //     }
+
+                    //     var allChecked = $('input[name="checkboxes[]"]').length === $('input[name="checkboxes[]"]:checked').length;
+                    //     $('input[name="checkAll"]').prop('checked', allChecked);
+                    // });
 
                     $('input[name="checkAll"]').change(function() {
                         var isChecked = $(this).is(':checked');
                         $('input[name="checkboxes[]"]').prop('checked', isChecked).change();
                     });
 
-                    $('input[name="checkboxes[]"]').change(function() {
-                        if ($(this).is(':checked')) {
-                            $(this).closest('tr').addClass('table-info');
-                        } else {
-                            $(this).closest('tr').removeClass('table-info');
-                        }
 
-                        var allChecked = $('input[name="checkboxes[]"]').length === $('input[name="checkboxes[]"]:checked').length;
-                        $('input[name="checkAll"]').prop('checked', allChecked);
-                    });
-                    
+
                 });
             </script>
-         
