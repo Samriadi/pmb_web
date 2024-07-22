@@ -67,31 +67,52 @@ class pembayaranModel
 
     public function saveNIM($data)
     {
+        $response = [];
         foreach ($data as $key => $value) {
-            $kode = substr($value['nim'], 0, 5);
+            try {
+                $kode = substr($value['nim'], 0, 5);
 
-            $query = "SELECT MAX(nim) as last_nim FROM $this->pmb_nim WHERE nim LIKE ?"; 
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([$kode . '%']);
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $query = "SELECT MAX(nim) as last_nim FROM $this->pmb_nim WHERE nim LIKE ?";
+                $stmt = $this->db->prepare($query);
+                $stmt->execute([$kode . '%']);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $last_nim = $row['last_nim'];
+                $last_nim = $row['last_nim'];
 
-            if (!$last_nim) {
-                $urutan = 1;
-            } else {
-                $urutan = intval(substr($last_nim, -2)) + 1;
+                if (!$last_nim) {
+                    $urutan = 1;
+                } else {
+                    $urutan = intval(substr($last_nim, -2)) + 1;
+                }
+
+                $urutan = str_pad($urutan, 3, '0', STR_PAD_LEFT);
+
+                $nim_baru = $kode . $urutan;
+
+                $query = "INSERT INTO $this->pmb_nim (member_id, angkatan, jenjang, kategori, jenis, prodi_id, nim) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $stmt = $this->db->prepare($query);
+                $stmt->execute([$value['member_id'], $value['periode'], $value['jenjang'], $value['kategori'], $value['jenis'], $value['prodi_id'], $nim_baru]);
+
+                // Tambahkan ke response data
+                $response[] = [
+                    'member_id' => $value['member_id'],
+                    'nim' => $nim_baru,
+                    'status' => 'success'
+                ];
+            } catch (Exception $e) {
+                // Tangani jika ada kesalahan dan tambahkan ke response data
+                $response[] = [
+                    'member_id' => $value['member_id'],
+                    'error' => $e->getMessage(),
+                    'status' => 'error'
+                ];
             }
-
-            $urutan = str_pad($urutan, 3, '0', STR_PAD_LEFT);
-
-            $nim_baru = $kode . $urutan;
-
-            $query = "INSERT INTO $this->pmb_nim (member_id, angkatan, jenjang, kategori, jenis, prodi_id, nim) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([$value['member_id'], $value['periode'], $value['jenjang'], $value['kategori'], $value['jenis'], $value['prodi_id'], $nim_baru]);
         }
+
+        // Kembalikan response ke controller
+        return $response;
     }
+
 
 
     public function getCountNIM($prodi_id, $kategori)
