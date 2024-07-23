@@ -68,7 +68,7 @@ class pembayaranModel
     public function saveNIM($data)
     {
         $response = [];
-        foreach ($data as $key => $value) {
+        foreach ($data as $value) {
             try {
                 $kode = substr($value['nim'], 0, 5);
 
@@ -93,14 +93,12 @@ class pembayaranModel
                 $stmt = $this->db->prepare($query);
                 $stmt->execute([$value['member_id'], $value['periode'], $value['jenjang'], $value['kategori'], $value['jenis'], $value['prodi_id'], $nim_baru]);
 
-                // Tambahkan ke response data
                 $response[] = [
                     'member_id' => $value['member_id'],
                     'nim' => $nim_baru,
                     'status' => 'success'
                 ];
             } catch (Exception $e) {
-                // Tangani jika ada kesalahan dan tambahkan ke response data
                 $response[] = [
                     'member_id' => $value['member_id'],
                     'error' => $e->getMessage(),
@@ -109,8 +107,7 @@ class pembayaranModel
             }
         }
 
-        // Kembalikan response ke controller
-        return $response;
+            return $response;
     }
 
 

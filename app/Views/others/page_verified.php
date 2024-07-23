@@ -61,13 +61,13 @@
                                             <td><?= $dt->NamaLengkap ?></td>
                                             <td>
                                                 <?php if ($dt->berkas) { ?>
-                                                    <a href="#" data-toggle="modal" data-target="#docuFileModal" data-file="<?= $dt->berkas ?>">Dokumen</a>
+                                                    <a href="#" data-toggle="modal" data-target="#docuFileModal" data-file="<?= $dt->berkas ?>"><i class="fas fa-file-alt fa-1x"></i></a>
                                                 <?php } ?>
                                                 <?php if ($dt->photo) { ?>
-                                                    <a href="#" data-toggle="modal" data-target="#photoFileModal" data-file="<?= $dt->photo ?>">Photo</a>
+                                                    <a href="#" data-toggle="modal" data-target="#photoFileModal" data-file="<?= $dt->photo ?>"><i class="fas fa-camera fa-1x"></i></a>
                                                 <?php } ?>
                                                 <?php if ($dt->bukti_transfer) { ?>
-                                                    <a href="#" data-toggle="modal" data-target="#buktiFileModal" data-file="<?= $dt->bukti_transfer ?>">Bukti Transfer</a>
+                                                    <a href="#" data-toggle="modal" data-target="#buktiFileModal" data-file="<?= $dt->bukti_transfer ?>"><i class="fas fa-receipt fa-1x"></i></a>
                                                 <?php } ?>
                                             </td>
                                             <td><?= $dt->invoice_id ?></td>

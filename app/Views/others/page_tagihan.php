@@ -39,12 +39,12 @@
                   $no = 1;
                   foreach ($data as $dt) :
                     $isVerified = $dt->verified === "Verified";
-                    $checkboxId = $dt->member_id;
+                    $checkboxId = $dt->id;
                   ?>
                     <tr>
                       <td>
                         <div class="form-check">
-                          <input type="checkbox" class="form-check-input" id="<?= $checkboxId ?>" name="checkboxes[]" value="<?= $dt->member_id ?>">
+                          <input type="checkbox" class="form-check-input" id="<?= $checkboxId ?>" name="checkboxes[]" value="<?= $dt->id ?>">
                           <label class="form-check-label" for="<?= $checkboxId ?>"></label>
                         </div>
                       </td>

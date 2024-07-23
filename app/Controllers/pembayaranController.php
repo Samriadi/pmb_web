@@ -37,27 +37,23 @@ class PembayaranController
 
     private function makeNimALL($datas)
     {
-        // Gabungkan data berdasarkan kategori dan jenjang
         foreach ($datas as &$data) {
             $periode = substr($data['periode'], -2);
             $prodi_id = $data['prodi_id'];
             $jenjang = $data['jenjang'];
             $kategori = $data['kategori'];
 
-            // Tentukan format NIM berdasarkan kategori dan jenjang
             if ($jenjang == "RPL") {
-                // Handle RPL and Profesi
-                $nim = $periode . $prodi_id . "8"; // Format Transfer
+                $nim = $periode . $prodi_id . "8";
             } else if ($jenjang == "Profesi") {
-                $nim = $periode . $prodi_id . "3"; // Format Reguler
+                $nim = $periode . $prodi_id . "3";
             } else if ($kategori == "Transfer") {
-                $nim = $periode . $prodi_id . "8"; // Format Transfer
+                $nim = $periode . $prodi_id . "8";
             } else if ($kategori == "Reguler") {
-                // Treat Reguler students normally
                 if ($jenjang == "RPL") {
-                    $nim = $periode . $prodi_id . "8"; // Format Transfer
+                    $nim = $periode . $prodi_id . "8";
                 } else {
-                    $nim = $periode . $prodi_id . "3"; // Format Reguler
+                    $nim = $periode . $prodi_id . "3";
                 }
             }
 

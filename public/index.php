@@ -103,11 +103,12 @@ $router->add('/pendaftar/search', 'pendaftarController', 'search');
 
 //verified
 $router->add('/verified', 'pendaftarController', 'verified');
-$router->add('/verified/action', 'pendaftarController', 'toggleVerified');
-$router->add('/verified/selected', 'pendaftarController', 'verifySelected');
+$router->add('/verified/action', 'pendaftarController', 'toggleVerified'); 
 
 //tagihan
 $router->add('/tagihan', 'pendaftarController', 'tagihan');
+$router->add('/verified/selected', 'pendaftarController', 'verifySelected'); 
+
 
 $router->add('/csv', 'csvController', 'index');
 $router->add('/csv/donwload', 'csvController', 'download');

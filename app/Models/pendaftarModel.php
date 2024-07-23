@@ -108,6 +108,7 @@ class pendaftarModel
     public function getTagihan()
     {
         $query = "SELECT 
+                        a.id,
                         a.member_id,
                         a.pay_status,
                         a.verified,
@@ -134,7 +135,7 @@ class pendaftarModel
 
     public function getMultipleVerificationStatus($id)
     {
-        $query = "SELECT verified FROM pmb_tagihan WHERE member_id = ?";
+        $query = "SELECT verified FROM pmb_tagihan WHERE id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetchColumn();
@@ -165,7 +166,7 @@ class pendaftarModel
     public function updateMultipleVerificationStatuses($data)
     {
         try {
-            $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE member_id = ?";
+            $query = "UPDATE pmb_tagihan SET verified = ?, no_ujian = ?, pay_status = ? WHERE id = ?";
             $stmt = $this->db->prepare($query);
             return $stmt->execute([$data['verified'], $data['no_ujian'], $data['pay_status'], $data['id']]);
         } catch (Exception $e) {

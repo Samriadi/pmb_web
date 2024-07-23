@@ -70,23 +70,6 @@ class pendaftarController
         echo json_encode($response);
     }
 
-
-    public function detail()
-    {
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $models = new pendaftarModel();
-            $detailData = $models->getDetail($id);
-
-            header('Content-Type: application/json');
-            echo json_encode($detailData);
-        } else {
-            echo json_encode(['error' => 'ID parameter is missing.']);
-        }
-    }
-
-
-
     public function toggleVerified()
     {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -113,4 +96,23 @@ class pendaftarController
         header('Content-Type: application/json');
         echo json_encode(['success' => $updateSuccess, 'verified' => $newStatus]);
     }
+
+
+    public function detail()
+    {
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $models = new pendaftarModel();
+            $detailData = $models->getDetail($id);
+
+            header('Content-Type: application/json');
+            echo json_encode($detailData);
+        } else {
+            echo json_encode(['error' => 'ID parameter is missing.']);
+        }
+    }
+
+
+
+   
 }

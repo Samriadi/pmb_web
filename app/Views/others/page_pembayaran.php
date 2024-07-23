@@ -19,9 +19,11 @@
                 <!-- Button trigger modal -->
                 <div class="card shadow mb-5">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">DATA PEMBAYARAN</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">DATA PENDAFTAR LULUS</h6>
                     </div>
                     <div class="card-body">
+                    <button id="generateNIM" class="btn btn-success btn-icon-split mb-3"><span class="icon text-white-50"><i class="fas fa-plus-circle"></i> </span><span class="text">NIM</span></button>
+                    <div id="loading" class="mb-3" style="display: none;">Memproses...</div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -62,8 +64,7 @@
                                     <?php endforeach ?>
                                 </tbody>
                             </table>
-                            <button id="generateNIM" class="btn btn-success btn-icon-split mb-3 mt-3"><span class="icon text-white-50"><i class="fas fa-plus-circle"></i> </span><span class="text">NIM</span></button>
-                            <div id="loading" style="display: none;">Memproses...</div>
+                          
                         </div>
                     </div>
                 </div>
@@ -92,7 +93,7 @@
                         if (checkboxes.length === 0) {
                             Swal.fire({
                                 text: 'Pilih data yang ingin dibuat NIM.',
-                                icon: 'info',
+                                icon: 'warning',
                                 timer: 1000,
                                 showConfirmButton: false
                             });
@@ -100,7 +101,7 @@
                         }
 
                         Swal.fire({
-                            text: 'Konformasi pembuatan NIM, apakah anda yakin?',
+                            text: 'Konfirmasi pembuatan NIM, apakah anda yakin?',
                             icon: 'question',
                             showCancelButton: true,
                             confirmButtonText: 'Ya',
@@ -130,25 +131,29 @@
                                     }),
                                     success: function(response) {
                                         console.log('Success:', response);
-                                        Swal.close();
-                                        Swal.fire({
-                                            text: 'NIM berhasil Dibuat.',
-                                            icon: 'success',
-                                            timer: 800,
-                                            showConfirmButton: false
-                                        }).then(() => {
-                                            $('#saveButton').prop('disabled', false);
-                                            $('#loading').hide();
-                                            window.location.reload();
-                                        });
+                                        
+                                        setTimeout(function() {
+                                            Swal.close();
+                                            Swal.fire({
+                                                text: 'NIM berhasil Dibuat.',
+                                                icon: 'success',
+                                                timer: 1200,
+                                                showConfirmButton: false
+                                            }).then(() => {
+                                                $('#saveButton').prop('disabled', false);
+                                                $('#loading').hide();
+                                                window.location.reload();
+                                            });
+                                        }, 1500);
                                     },
+
                                     error: function(error) {
                                         console.error('Error:', error);
                                         Swal.close();
                                         Swal.fire({
                                             text: 'NIM gagal Dibuat',
                                             icon: 'error',
-                                            timer: 800,
+                                            timer: 1200,
                                             showConfirmButton: false
                                         }).then(() => {
                                             $('#saveButton').prop('disabled', false);
@@ -164,31 +169,32 @@
                                 Swal.fire({
                                     text: 'Pembuatan NIM dibatalkan',
                                     icon: 'info',
-                                    timer: 1000,
+                                    timer: 1200,
                                     showConfirmButton: false
                                 });
                             }
                         });
                     });
 
-                    // $('input[type="checkbox"]:not([name="checkAll"])').change(function() {
-                    //     if ($(this).is(':checked')) {
-                    //         $(this).closest('tr').addClass('table-info');
-                    //     } else {
-                    //         $(this).closest('tr').removeClass('table-info');
-                    //     }
-                    // });
 
-                    // $('input[name="checkboxes[]"]').change(function() {
-                    //     if ($(this).is(':checked')) {
-                    //         $(this).closest('tr').addClass('table-info');
-                    //     } else {
-                    //         $(this).closest('tr').removeClass('table-info');
-                    //     }
+                    $('#dataTable').on('change', 'input[type="checkbox"]:not([name="checkAll"])', function() {
+                        if ($(this).is(':checked')) {
+                            $(this).closest('tr').addClass('table-info');
+                        } else {
+                            $(this).closest('tr').removeClass('table-info');
+                        }
+                    });
 
-                    //     var allChecked = $('input[name="checkboxes[]"]').length === $('input[name="checkboxes[]"]:checked').length;
-                    //     $('input[name="checkAll"]').prop('checked', allChecked);
-                    // });
+                    $('#dataTable').on('change', 'input[name="checkboxes[]"]', function() {
+                        if ($(this).is(':checked')) {
+                            $(this).closest('tr').addClass('table-info');
+                        } else {
+                            $(this).closest('tr').removeClass('table-info');
+                        }
+
+                        var allChecked = $('input[name="checkboxes[]"]').length === $('input[name="checkboxes[]"]:checked').length;
+                        $('input[name="checkAll"]').prop('checked', allChecked);
+                    });
 
                     $('input[name="checkAll"]').change(function() {
                         var isChecked = $(this).is(':checked');
