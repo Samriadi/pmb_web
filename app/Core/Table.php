@@ -10,6 +10,7 @@ $pmb_helps = "pmb_helps";
 $pmb_logs = "pmb_logs";
 $pmb_pembayaran = "pmb_pembayaran";
 $pmb_promo = "pmb_promo";
+$pmb_kelulusan = "pmb_kelulusan";
 
 $varoption = "varoption";
 $varinstall = "varinstall";
