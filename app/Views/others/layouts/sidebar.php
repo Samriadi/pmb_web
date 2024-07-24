@@ -107,6 +107,18 @@
          </div>
      </li>
 
+     <li class="nav-item" id="navPmb">
+         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePmb" aria-expanded="true" aria-controls="collapsePmb">
+             <i class="fas fa-fw fa-folder"></i>
+             <span>PMB</span>
+         </a>
+         <div id="collapsePmb" class="collapse" aria-labelledby="headingPmb" data-parent="#accordionSidebar">
+             <div class="bg-white py-2 collapse-inner rounded">
+                 <a class="collapse-item" href="/admin/kelulusan">Konfirmasi Kelulusan</a>
+             </div>
+         </div>
+     </li>
+
      <li class="nav-item" id="navProfile">
          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLogout" aria-expanded="true" aria-controls="collapseLogout">
              <i class="fas fa-fw fa-cog"></i>
