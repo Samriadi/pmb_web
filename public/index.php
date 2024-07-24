@@ -12,6 +12,7 @@ require_once __DIR__ . '/../app/Controllers/varOptionController.php';
 require_once __DIR__ . '/../app/Controllers/eduPeriodeController.php';
 require_once __DIR__ . '/../app/Controllers/userController.php';
 require_once __DIR__ . '/../app/Controllers/pendaftarController.php';
+require_once __DIR__ . '/../app/Controllers/kelulusanController.php';
 require_once __DIR__ . '/../app/Controllers/loginController.php';
 
 
@@ -20,6 +21,7 @@ require_once __DIR__ . '/../app/models/promoModel.php';
 require_once __DIR__ . '/../app/Models/pendaftarModel.php';
 require_once __DIR__ . '/../app/Models/testPendaftarModel.php';
 require_once __DIR__ . '/../app/Models/pembayaranModel.php';
+require_once __DIR__ . '/../app/Models/kelulusanModel.php';
 require_once __DIR__ . '/../app/Models/loginModel.php';
 
 $router = new Router();
@@ -103,11 +105,16 @@ $router->add('/pendaftar/search', 'pendaftarController', 'search');
 
 //verified
 $router->add('/verified', 'pendaftarController', 'verified');
-$router->add('/verified/action', 'pendaftarController', 'toggleVerified'); 
+$router->add('/verified/action', 'pendaftarController', 'toggleVerified');
+
+//kelulusan
+$router->add('/kelulusan', 'kelulusanController', 'kelulusan');
+$router->add('/kelulusan/prodi', 'kelulusanController', 'getProdi');
+$router->add('/kelulusan/add', 'kelulusanController', 'addKelulusan');
 
 //tagihan
 $router->add('/tagihan', 'pendaftarController', 'tagihan');
-$router->add('/verified/selected', 'pendaftarController', 'verifySelected'); 
+$router->add('/verified/selected', 'pendaftarController', 'verifySelected');
 
 
 $router->add('/csv', 'csvController', 'index');
