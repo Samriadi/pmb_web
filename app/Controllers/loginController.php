@@ -27,15 +27,16 @@ class loginController
 
 
     if ($data) {
-      $_SESSION['level_loged'] = $data[0]['userlevel'];
-      $_SESSION['user_loged'] = $data[0]['username'];
+      $_SESSION['level_loged'] = $data['userlevel'];
+      $_SESSION['user_loged'] = $data['username'];
       echo json_encode(['success' => true, 'data' => $data]);
     } else {
       echo json_encode(['success' => false]);
     }
   }
-  
-  public function googleLoginCallback(){
+
+  public function googleLoginCallback()
+  {
     include __DIR__ . '/../Views/others/page_googleCallback.php';
   }
 
