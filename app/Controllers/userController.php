@@ -31,6 +31,8 @@ class userController
 			$userpass = $_POST['userpass'];
 			$userlevel = $_POST['userlevel'];
 
+			$userpass = $this->getPassword($userpass);
+
 			$this->models->addUser($username, $userpass, $userlevel);
 
 			echo json_encode(['status' => 'success', 'message' => 'New Record Added']);
@@ -39,13 +41,26 @@ class userController
 		}
 	}
 
+	private function getPassword($data)
+	{
+		$x = base64_encode($data);
+
+		return crypt($x, $this->encKey());
+	}
+
+	private function encKey()
+	{
+		return '$2y$10$' . bin2hex(random_bytes(11));
+	}
+
+
 	public function edit()
 	{
 
 		$id = isset($_GET['userid']) ? $_GET['userid'] : null;
 
 
-		$data = $$this->models->getUserById($id);
+		$data = $this->models->getUserById($id);
 
 		$response = [
 			'userid' => $data->userid,
