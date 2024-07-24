@@ -2,15 +2,16 @@
 class PembayaranController
 {
     private $response = [];
+    private $models;
 
     public function __construct()
     {
         $this->response = []; // Reset response
+        $this->models = new pembayaranModel();
     }
     public function index()
     {
-        $models = new pembayaranModel();
-        $data = $models->getPembayaran();
+        $data = $this->models->getPembayaran();
 
         include __DIR__ . '/../Views/others/page_pembayaran.php';
     }
