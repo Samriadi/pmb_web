@@ -111,6 +111,7 @@ $router->add('/verified/action', 'pendaftarController', 'toggleVerified');
 $router->add('/kelulusan', 'kelulusanController', 'kelulusan');
 $router->add('/kelulusan/prodi', 'kelulusanController', 'getProdi');
 $router->add('/kelulusan/add', 'kelulusanController', 'addKelulusan');
+$router->add('/info-kelulusan', 'kelulusanController', 'showKelulusan');
 
 //tagihan
 $router->add('/tagihan', 'pendaftarController', 'tagihan');
@@ -133,6 +134,10 @@ $router->add('/test-pendaftar/drop', 'testPendaftarController', 'drop');
 $router->add('/pembayaran', 'pembayaranController', 'index');
 $router->add('/pembayaran/add-nim', 'pembayaranController', 'generateNim');
 $router->add('/nim', 'pembayaranController', 'getNIM');
+
+$router->add('/header', 'mainController', 'header');
+
+
 
 
 //log activity
