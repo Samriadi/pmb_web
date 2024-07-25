@@ -30,6 +30,14 @@ class kelulusanModel
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
+
+  public function showKelulusan()
+  {
+    $query = "SELECT a.id, a.no_ujian, a.member_id, a.kelulusan, b.ID, b.NamaLengkap, c.prodi_lulus FROM $this->pmb_tagihan a JOIN $this->pmb_mahasiswa b ON a.member_id = b.ID JOIN $this->pmb_kelulusan c ON a.id = c.id_tagihan WHERE a.kelulusan ='Yes'";
+    $stmt = $this->db->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
   public function getProdiByNoUjian($id)
   {
     $query = "SELECT 
