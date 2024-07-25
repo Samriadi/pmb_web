@@ -13,7 +13,12 @@ class kelulusanController
   public function kelulusan()
   {
     $data = $this->kelulusanModel->getKeteranganTes();
-    include __DIR__ . '/../Views/others/page_kelulusan.php';
+    include __DIR__ . '/../Views/others/page_konfirmasiKelulusan.php';
+  }
+  public function showKelulusan()
+  {
+    $data = $this->kelulusanModel->showKelulusan();
+    include __DIR__ . '/../Views/others/page_informasiKelulusan.php';
   }
   public function getProdi()
   {
