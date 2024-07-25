@@ -14,7 +14,7 @@ class mainController
         $periode = $models->getCountPeriod();
         include __DIR__ . '/../Views/others/page_dashboard.php';
     }
-   
+
     public function logs()
     {
 
@@ -105,11 +105,15 @@ class mainController
     {
         $page = isset($_GET['page']) ? $_GET['page'] : null;
 
-        if($page === 'web') {
+        if ($page === 'web') {
             include __DIR__ . '/../Views/others/page_testCard.php';
+        } else if ($page === 'mobile') {
+            include __DIR__ . '/../Views/others/page_mobileTestCard.php';
         }
-        else if($page === 'mobile') {
-            include __DIR__. '/../Views/others/page_mobileTestCard.php';
-        }
+    }
+
+    public function header()
+    {
+        include __DIR__ . '/../Views/others/page_header.php';
     }
 }
