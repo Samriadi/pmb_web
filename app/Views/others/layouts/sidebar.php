@@ -115,6 +115,7 @@
          <div id="collapsePmb" class="collapse" aria-labelledby="headingPmb" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
                  <a class="collapse-item" href="/admin/kelulusan">Konfirmasi Kelulusan</a>
+                 <a class="collapse-item" href="/admin/info-kelulusan">Informasi Kelulusan</a>
              </div>
          </div>
      </li>
