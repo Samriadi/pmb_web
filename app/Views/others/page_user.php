@@ -24,12 +24,12 @@
                         <h6 class="m-0 font-weight-bold text-primary">DATA USER</h6>
                     </div>
                     <div class="card-body">
-                        
-                            <a class="btn btn-primary btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50">
-                                    <i class="fas fa-plus"></i>
-                                </span>
-                                <span class="text">Add Data</span></a>
-                    
+
+                        <a class="btn btn-primary btn-icon-split" href="#" onclick="add()" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 15px;"><span class="icon text-white-50">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                            <span class="text">Add Data</span></a>
+
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -37,7 +37,7 @@
                                         <th>No</th>
                                         <th>User Name</th>
                                         <th>User Level</th>
-                                        <th style="width: 100px;">Action</th>
+                                        <th style="width: 200px;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,19 +49,29 @@
                                             <td><?= $no++ ?></td>
                                             <td><?= $dt->username ?></td>
                                             <td><?= $dt->userlevel ?></td>
-                                            <td><a class="btn btn-secondary" href="#" onclick="edit(<?= $dt->userid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-info-circle"></i></a>
-                                                <a class="btn btn-third" href="/admin/user/delete?userid=<?= $dt->userid; ?>" onclick="return confirm('yakin ingin hapus data?')"><i class="fas fa-trash"></i></a>
+                                            <td>
+                                                <a class="btn btn-danger reset-password" href="#" data-user-id="<?= $dt->userid; ?>" data-user-name="<?= $dt->username; ?>">
+                                                    <i class="fas fa-sync"></i>
+                                                </a>
+                                                <a class="btn btn-secondary" href="#" onclick="edit(<?= $dt->userid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal">
+                                                    <i class="fas fa-info-circle"></i>
+                                                </a>
+                                                <a class="btn btn-third" href="/admin/user/delete?userid=<?= $dt->userid; ?>" onclick="return confirm('yakin ingin hapus data?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
                 </div>
                 <!-- Option 1: Bootstrap Bundle with Popper -->
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
                 </body>
 
@@ -119,10 +129,6 @@
                                 <div class="form-group">
                                     <label for="editUsername">Username</label>
                                     <input type="text" class="form-control" id="editUsername" name="username" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="editUserpass">User Pass</label>
-                                    <input type="text" class="form-control" id="editUserpass" name="userpass" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="editUserlevel">User Level</label>
@@ -272,5 +278,54 @@
                     var modalElement = document.getElementById('editModal');
                     modalElement.addEventListener('hidden.bs.modal', function() {
                         window.location.reload();
+                    });
+                </script>
+
+                <script>
+                    $(document).ready(function() {
+                        $('#dataTable').on('click', '.reset-password', function(e) {
+                            e.preventDefault();
+
+                            var userId = $(this).data('user-id');
+                            var username = $(this).data('user-name');
+
+                            Swal.fire({
+                                text: 'Apakah anda yakin ingin mengatur ulang kata sandi?',
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonText: 'Ya',
+                                cancelButtonText: 'Batal'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        url: '/admin/user/reset',
+                                        type: 'POST',
+                                        data: {
+                                            reset_password: true,
+                                            userid: userId,
+                                            username: username,
+                                        },
+                                        success: function(response) {
+                                            var data = JSON.parse(response);
+                                            Swal.fire({
+                                                text: data.message,
+                                                icon: 'success',
+                                                showConfirmButton: true
+                                            }).then(() => {
+                                                window.location.reload();
+                                            });
+                                        },
+                                        error: function(xhr, status, error) {
+                                            Swal.fire({
+                                                text: 'error : ' + error,
+                                                icon: 'error',
+                                                timer: 1200,
+                                                showConfirmButton: false
+                                            })
+                                        }
+                                    });
+                                }
+                            });
+                        });
                     });
                 </script>
