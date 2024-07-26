@@ -55,4 +55,15 @@ class userModel
             echo "Error: " . $e->getMessage();
         }
     }
+
+    public function reset_password($user_id, $hashed_password)
+    {
+        $stmt = $this->db->prepare("UPDATE $this->usrapp SET userpass = ? WHERE userid = ?");
+        $req = $stmt->execute([$hashed_password, $user_id]);
+        if ($req) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
