@@ -104,4 +104,24 @@ class userController
 
 		exit();
 	}
+
+	public function reset()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password']) && isset($_POST['userid'])) {
+			$userid = intval($_POST['userid']);
+			$username = $_POST['username'];
+
+			$random_string = substr(str_shuffle('abcdefghjkmnpqrstuvwxyz123456789'), 0, 3);
+			$default_password =	$username . '#' . $random_string;
+			// $default_password =	'123456';
+			$hashed_password = $this->getPassword($default_password);
+			$req = $this->models->reset_password($userid, $hashed_password);
+
+			if ($req == true) {
+				echo json_encode(['status' => 'success', 'message' => 'Password baru : ' . $default_password]);
+			} else {
+				echo json_encode(['status' => 'error', 'message' => 'Failed to reset password.']);
+			}
+		}
+	}
 }
