@@ -46,6 +46,7 @@ $router->add('/user/save', 'userController', 'save');
 $router->add('/user/edit', 'userController', 'edit');
 $router->add('/user/update', 'userController', 'update');
 $router->add('/user/delete', 'userController', 'delete');
+$router->add('/user/reset', 'userController', 'reset');
 
 //edu test
 $router->add('/test', 'eduTestController', 'index');
@@ -117,28 +118,28 @@ $router->add('/info-kelulusan', 'kelulusanController', 'showKelulusan');
 $router->add('/tagihan', 'pendaftarController', 'tagihan');
 $router->add('/verified/selected', 'pendaftarController', 'verifySelected');
 
-
+//csv
 $router->add('/csv', 'csvController', 'index');
 $router->add('/csv/donwload', 'csvController', 'download');
 
-
+//promo
 $router->add('/promo', 'promoController', 'index');
 $router->add('/promo/save', 'promoController', 'save');
 $router->add('/promo/delete', 'promoController', 'delete');
 
+//test
 $router->add('/pendaftar-verified', 'testPendaftarController', 'pendaftarVerified');
 $router->add('/test-pendaftar', 'testPendaftarController', 'index');
 $router->add('/test-pendaftar/add', 'testPendaftarController', 'add');
 $router->add('/test-pendaftar/drop', 'testPendaftarController', 'drop');
 
+//pembayaran
 $router->add('/pembayaran', 'pembayaranController', 'index');
 $router->add('/pembayaran/add-nim', 'pembayaranController', 'generateNim');
 $router->add('/nim', 'pembayaranController', 'getNIM');
 
+//header
 $router->add('/header', 'mainController', 'header');
-
-
-
 
 //log activity
 $router->add('/logs', 'mainController', 'logs');
