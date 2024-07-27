@@ -110,15 +110,22 @@ class userController
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password']) && isset($_POST['userid'])) {
 			$userid = intval($_POST['userid']);
 			$username = $_POST['username'];
+			$fullname = $_POST['fullname'];
 
-			$random_string = substr(str_shuffle('abcdefghjkmnpqrstuvwxyz123456789'), 0, 3);
-			$default_password =	$username . '#' . $random_string;
-			// $default_password =	'123456';
+			$first_letter = substr($fullname, 0, 1);
+			$last_three_letters = substr($fullname, -3);
+			$last_two_digits = substr(strval($userid), -2);
+
+			$default_password = $first_letter . $last_three_letters . $last_two_digits;
+
 			$hashed_password = $this->getPassword($default_password);
 			$req = $this->models->reset_password($userid, $hashed_password);
 
 			if ($req == true) {
-				echo json_encode(['status' => 'success', 'message' => 'Password baru : ' . $default_password]);
+				echo json_encode([
+					'status' => 'success',
+					'message' => 'Fullname : ' . $fullname . "<br>" . 'Username : ' . $username . "<br>" . 'New Userpass : ' . $default_password
+				]);
 			} else {
 				echo json_encode(['status' => 'error', 'message' => 'Failed to reset password.']);
 			}
