@@ -35,6 +35,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Full Name</th>
                                         <th>User Name</th>
                                         <th>User Level</th>
                                         <th style="width: 200px;">Action</th>
@@ -47,10 +48,11 @@
                                     ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
+                                            <td><?= $dt->full_name ?></td>
                                             <td><?= $dt->username ?></td>
                                             <td><?= $dt->userlevel ?></td>
                                             <td>
-                                                <a class="btn btn-danger reset-password" href="#" data-user-id="<?= $dt->userid; ?>" data-user-name="<?= $dt->username; ?>">
+                                                <a class="btn btn-danger reset-password" href="#" data-user-id="<?= $dt->userid; ?>" data-user-name="<?= $dt->username; ?>" data-full-name="<?= $dt->full_name; ?>">
                                                     <i class="fas fa-sync"></i>
                                                 </a>
                                                 <a class="btn btn-secondary" href="#" onclick="edit(<?= $dt->userid; ?>)" data-bs-toggle="modal" data-bs-target="#editModal">
@@ -288,6 +290,7 @@
 
                             var userId = $(this).data('user-id');
                             var username = $(this).data('user-name');
+                            var fullname = $(this).data('full-name');
 
                             Swal.fire({
                                 text: 'Apakah anda yakin ingin mengatur ulang kata sandi?',
@@ -304,11 +307,12 @@
                                             reset_password: true,
                                             userid: userId,
                                             username: username,
+                                            fullname: fullname,
                                         },
                                         success: function(response) {
                                             var data = JSON.parse(response);
                                             Swal.fire({
-                                                text: data.message,
+                                                html: data.message,
                                                 icon: 'success',
                                                 showConfirmButton: true
                                             }).then(() => {
