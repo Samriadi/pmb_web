@@ -7,6 +7,7 @@ class kelulusanModel
   private $pmb_mahasiswa;
   private $pmb_pembayaran;
   private $pmb_kelulusan;
+  private $pmb_periode;
   private $varoption;
   private $db;
   public function __construct()
@@ -15,11 +16,13 @@ class kelulusanModel
     global $pmb_mahasiswa;
     global $pmb_pembayaran;
     global $pmb_kelulusan;
+    global $pmb_periode;
     global $varoption;
     $this->pmb_tagihan = $pmb_tagihan;
     $this->pmb_mahasiswa = $pmb_mahasiswa;
     $this->pmb_pembayaran = $pmb_pembayaran;
     $this->pmb_kelulusan = $pmb_kelulusan;
+    $this->pmb_periode = $pmb_periode;
     $this->varoption = $varoption;
     $this->db = Database::getInstance();
   }
@@ -80,10 +83,36 @@ class kelulusanModel
       $stmt = $this->db->prepare("UPDATE $this->pmb_tagihan SET kelulusan = ? WHERE id = ?");
       $result = $stmt->execute(["Yes", $idTagihan]);
       if ($result) {
-        $stmt = $this->db->prepare("SELECT * FROM $this->pmb_tagihan WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT a.*, COALESCE(c1.var_value, '') AS 'Pilihan Pertama', COALESCE(c2.var_value, '') AS 'Pilihan Kedua', COALESCE(c3.var_value, '') AS 'Pilihan Ketiga', b.Periode as periode_tagihan FROM $this->pmb_tagihan a JOIN $this->pmb_periode b ON b.recid = a.periode JOIN $this->varoption c1 ON c1.recid = a.PilihanPertama JOIN varoption c2 ON c2.recid = a.PilihanKedua JOIN varoption c3 ON c3.recid = a.PilihanKetiga WHERE a.id = ?");
         $stmt->execute([$idTagihan]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($data) {
+
+          if ($prodiLulus == "Profesi Apoteker") {
+            $kodeProdi = '01';
+          } elseif ($prodiLulus == "Farmasi") {
+            if ($data['jenjang'] == 'S1') {
+              $kodeProdi = '02';
+            } elseif ($data['jenjang'] == 'D3') {
+              $kodeProdi = '03';
+            }
+          } elseif ($prodiLulus == "Kebidanan") {
+            $kodeProdi = '04';
+          } elseif ($prodiLulus == "Akuntansi") {
+            $kodeProdi = '05';
+          } elseif ($prodiLulus == "Hukum") {
+            $kodeProdi = '06';
+          } elseif ($prodiLulus == "Ilmu Komunikasi") {
+            $kodeProdi = '07';
+          } elseif ($prodiLulus == "Manajemen") {
+            $kodeProdi = '08';
+          } elseif ($prodiLulus == "Informatika") {
+            $kodeProdi = '09';
+          } elseif ($prodiLulus == "Sistem Informasi") {
+            $kodeProdi = '10';
+          }
+
+
           $stmt = $this->db->prepare("INSERT INTO $this->pmb_pembayaran (member_id, no_ujian, va_number, trans_date, tagihan, pay_status, verified, invoice_id, catatan, bukti_transfer, prodi, proses, bukti_regis, berkas_regis, promo, periode, jenis, kategori, jenjang, prodi_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
           $result = $stmt->execute([
             $data['member_id'],
@@ -96,16 +125,16 @@ class kelulusanModel
             $data['invoice_id'] ?? NULL,
             $data['catatan'] ?? NULL,
             $data['bukti_transfer'] ?? NULL,
-            $data['prodi'] ?? NULL,
+            $prodiLulus,
             $data['proses'] ?? NULL,
             $data['bukti_regis'] ?? NULL,
             $data['berkas_regis'] ?? NULL,
             $data['promo'] ?? NULL,
-            $data['periode'] ?? NULL,
+            $data['periode_tagihan'] ?? NULL,
             $data['jenis'] ?? NULL,
             $data['kategori'] ?? NULL,
             $data['jenjang'] ?? NULL,
-            $data['prodi_id'] ?? NULL
+            $kodeProdi
           ]);
           if ($result) {
             return [
