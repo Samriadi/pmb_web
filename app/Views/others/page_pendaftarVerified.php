@@ -39,6 +39,7 @@
                                         <th>Prodi 2</th>
                                         <th>Prodi 3</th>
                                         <th>Periode</th>
+                                        <th>Keterangan Tes</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -62,6 +63,18 @@
                                             <td><?= $dt->Prodi2 ?></td>
                                             <td><?= $dt->Prodi3 ?></td>
                                             <td><?= $dt->Periode ?></td>
+                                            <td>
+                                                <?php
+                                                if ($dt->test_scheduled == 1) {
+                                                    echo '<a href="/admin/test-pendaftar" class="badge bg-success">' . htmlspecialchars($dt->test_tanggal) . '</a>';
+                                                } else {
+                                                    echo '<span class="badge bg-danger">Belum Terjadwal</span>';
+                                                }
+                                                ?>
+
+
+                                            </td>
+
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>
@@ -279,9 +292,9 @@
                         $('input[name="checkAll"]').prop('checked', allChecked);
                     });
 
-                    const data = <?php echo json_encode($PendaftarVerified); ?>;
+                    // const data = <?php echo json_encode($PendaftarVerified); ?>;
 
-                    console.log(data);
+                    // console.log(data);
 
                 });
 
