@@ -286,11 +286,14 @@
                 });
 
 
+
                 document.getElementById('exampleModal').addEventListener('hidden.bs.modal', function() {
                     document.querySelectorAll('.modal-backdrop').forEach(function(backdrop) {
                         backdrop.parentNode.removeChild(backdrop);
                     });
                     document.body.classList.remove('modal-open');
                     document.body.style.paddingRight = '';
+
+                    location.reload();
                 });
             </script>
