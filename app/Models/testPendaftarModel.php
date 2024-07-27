@@ -24,35 +24,46 @@ class testPendaftarModel
     public function getPendaftarTerverifikasi()
     {
         $query = "SELECT 
-                        a.id AS tagihan_id,
-                        a.verified,
-                        a.member_id,
-                        a.no_ujian,
-                        a.jenis,
-                        a.jenjang,
-                        b.ID,
-                        b.NamaLengkap,
-                        c.Periode,
-                        COALESCE(d1.var_value, '') AS Prodi1,
-                        COALESCE(d2.var_value, '') AS Prodi2,
-                        COALESCE(d3.var_value, '') AS Prodi3
-                    FROM 
-                        $this->pmb_tagihan a
-                    LEFT JOIN 
-                        $this->pmb_mahasiswa b ON b.ID = a.member_id
-                    LEFT JOIN 
-                        $this->pmb_periode c ON c.recid = a.periode
-                    LEFT JOIN 
-                        $this->varoption d1 ON d1.recid = a.PilihanPertama
-                    LEFT JOIN 
-                        $this->varoption d2 ON d2.recid = a.PilihanKedua
-                    LEFT JOIN 
-                        $this->varoption d3 ON d3.recid = a.PilihanKetiga
-                    WHERE a.verified = 'Verified'   
-                    AND NOT EXISTS (
-                        SELECT 1
-                        FROM $this->pmb_jadualtes e
-                        WHERE e.test_tagihanid = a.id)";
+                    a.id AS tagihan_id,
+                    a.verified,
+                    a.member_id,
+                    a.no_ujian,
+                    a.jenis,
+                    a.jenjang,
+                    b.ID,
+                    b.NamaLengkap,
+                    c.Periode,
+                    COALESCE(d1.var_value, '') AS Prodi1,
+                    COALESCE(d2.var_value, '') AS Prodi2,
+                    COALESCE(d3.var_value, '') AS Prodi3,
+                    CASE 
+                        WHEN COUNT(e.test_tagihanid) > 0 THEN 1
+                        ELSE 0
+                    END AS test_scheduled,
+                    CONCAT(
+                        DATE_FORMAT(COALESCE(MIN(e.test_tanggal), ''), '%d-%m-%Y'), 
+                        ' - ', 
+                        DATE_FORMAT(COALESCE(MAX(e.test_tanggal), ''), '%d-%m-%Y')
+                    ) AS test_tanggal
+                FROM 
+                    pmb_tagihan a
+                LEFT JOIN 
+                    pmb_mahasiswa b ON b.ID = a.member_id
+                LEFT JOIN 
+                    pmb_periode c ON c.recid = a.periode
+                LEFT JOIN 
+                    varoption d1 ON d1.recid = a.PilihanPertama
+                LEFT JOIN 
+                    varoption d2 ON d2.recid = a.PilihanKedua
+                LEFT JOIN 
+                    varoption d3 ON d3.recid = a.PilihanKetiga
+                LEFT JOIN 
+                    pmb_jadualtes e ON e.test_tagihanid = a.id
+                WHERE 
+                    a.verified = 'Verified'
+                GROUP BY
+                    a.id, a.verified, a.member_id, a.no_ujian, a.jenis, a.jenjang,
+                    b.ID, b.NamaLengkap, c.Periode, d1.var_value, d2.var_value, d3.var_value;";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
