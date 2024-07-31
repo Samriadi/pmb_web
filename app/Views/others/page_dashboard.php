@@ -2,7 +2,7 @@
 
 check_login_session();
 
-include '../app/Views/others/layouts/header.php'; ?>
+include '../app/Views/others/layouts/header.php'; ?>        
 
 
 <!-- Page Wrapper -->

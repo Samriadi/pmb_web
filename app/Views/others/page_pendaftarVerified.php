@@ -179,12 +179,16 @@
                     test_selesai = test_selesai ? test_selesai : 'Sampai selesai';
 
 
+
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', '/admin/test-pendaftar/add', true);
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState == 4) {
                             if (xhr.status == 200) {
+                                disableElement('addTest');
+                                disableElement('save');
+                                
                                 console.log(xhr.responseText);
 
                                 var response = JSON.parse(xhr.responseText);
@@ -192,6 +196,8 @@
                                 if (response.status = 'success') {
                                     var modal = document.getElementById('exampleModal');
                                     var modalInstance = bootstrap.Modal.getInstance(modal);
+
+
 
                                     Swal.fire({
                                         title: 'Success!',
@@ -202,6 +208,8 @@
                                     }).then((result) => {
                                         if (modalInstance) {
                                             modalInstance.hide();
+                                            enableElement('addTest');
+                                            enableElement('save');
                                             window.location.reload();
                                         }
                                     });
@@ -292,10 +300,9 @@
                         $('input[name="checkAll"]').prop('checked', allChecked);
                     });
 
-                    // const data = <?php echo json_encode($PendaftarVerified); ?>;
 
-                    // console.log(data);
-
+                    checkElementStatusOnLoad('addTest');
+                    checkElementStatusOnLoad('save');
                 });
 
 
