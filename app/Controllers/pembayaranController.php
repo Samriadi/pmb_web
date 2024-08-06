@@ -4,36 +4,35 @@ class PembayaranController
     private $response = [];
     private $models;
 
+    private $data;
+
     public function __construct()
     {
         $this->response = []; // Reset response
         $this->models = new pembayaranModel();
+
+        $this->data = $this->models->getPembayaran();
     }
     public function index()
     {
-        $data = $this->models->getPembayaran();
+        $this->data;
 
         include __DIR__ . '/../Views/others/page_pembayaran.php';
     }
 
-    private function filterData($data, $prodi_id, $kategori)
+    public function fetchData()
     {
+        $checked = isset($_POST['checked']) ? $_POST['checked'] : null;
 
-        $models = new pembayaranModel();
-        $startKey = $models->getCountNIM($prodi_id, $kategori);
-
-        $filteredData = array_filter($data, function ($item) use ($prodi_id, $kategori) {
-            return $item['prodi_id'] === $prodi_id && $item['kategori'] === $kategori;
+        $filteredData = array_filter($this->data, function ($item) use ($checked) {
+            return in_array($item['member_id'], $checked);
         });
 
-        $filteredData = array_values($filteredData);
-
-        foreach ($filteredData as $key => &$item) {
-            $nomor_urut = sprintf('%03d', $startKey + $key + 1);
-            $item['nomor_urut'] = $nomor_urut;
-        }
-
-        return $filteredData;
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => $filteredData !== null,
+            'data' => $filteredData
+        ]);
     }
 
     private function makeNimALL($datas)

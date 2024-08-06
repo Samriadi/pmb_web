@@ -22,8 +22,8 @@
                         <h6 class="m-0 font-weight-bold text-primary">DATA PENDAFTAR LULUS</h6>
                     </div>
                     <div class="card-body">
-                    <button id="generateNIM" class="btn btn-success btn-icon-split mb-3"><span class="icon text-white-50"><i class="fas fa-plus-circle"></i> </span><span class="text">NIM</span></button>
-                    <div id="loading" class="mb-3" style="display: none;">Memproses...</div>
+                        <button id="generateNIM" class="btn btn-success btn-icon-split mb-3"><span class="icon text-white-50"><i class="fas fa-plus-circle"></i> </span><span class="text">NIM</span></button>
+                        <div id="loading" class="mb-3" style="display: none;">Memproses...</div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -44,7 +44,7 @@
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($data as $dt) :
+                                    foreach ($this->data as $dt) :
                                         $isHaveNim = $dt['isHaveNim'] === 1;
                                         $checkboxId = $dt['member_id']; ?>
                                         <tr>
@@ -64,7 +64,7 @@
                                     <?php endforeach ?>
                                 </tbody>
                             </table>
-                          
+
                         </div>
                     </div>
                 </div>
@@ -82,8 +82,6 @@
             <?php include '../app/Views/others/layouts/footer.php'; ?>
 
             <script>
-                var data = <?php echo json_encode($data); ?>;
-
                 $(document).ready(function() {
 
 
@@ -109,61 +107,71 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 const checked = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));
-                                const filteredData = data.filter(item => checked.includes(item.member_id));
-                                $('#generateNIM').prop('disabled', true);
-                                $('#loading').show();
-
-                                const loadingAlert = Swal.fire({
-                                    text: 'Proses pembuatan NIM...',
-                                    icon: 'info',
-                                    showConfirmButton: false,
-                                    didOpen: () => {
-                                        Swal.showLoading();
-                                    }
-                                });
 
                                 $.ajax({
-                                    url: '/admin/pembayaran/add-nim',
-                                    method: 'POST',
-                                    contentType: 'application/json',
-                                    data: JSON.stringify({
-                                        filteredData: filteredData
-                                    }),
-                                    success: function(response) {
-                                        console.log('Success:', response);
-                                        
-                                        setTimeout(function() {
-                                            Swal.close();
-                                            Swal.fire({
-                                                text: 'NIM berhasil Dibuat.',
-                                                icon: 'success',
-                                                timer: 1200,
-                                                showConfirmButton: false
-                                            }).then(() => {
-                                                $('#saveButton').prop('disabled', false);
-                                                $('#loading').hide();
-                                                window.location.reload();
-                                            });
-                                        }, 1500);
+                                    url: '/admin/pembayaran/fetch',
+                                    type: 'POST',
+                                    data: {
+                                        checked: checked
                                     },
+                                    dataType: 'json',
+                                    success: function(response) {
+                                        const filteredData = response.data;
 
-                                    error: function(error) {
-                                        console.error('Error:', error);
-                                        Swal.close();
-                                        Swal.fire({
-                                            text: 'NIM gagal Dibuat',
-                                            icon: 'error',
-                                            timer: 1200,
-                                            showConfirmButton: false
-                                        }).then(() => {
-                                            $('#saveButton').prop('disabled', false);
-                                            $('#loading').hide();
-                                            window.location.reload();
+                                        $('#generateNIM').prop('disabled', true);
+                                        $('#loading').show();
+
+                                        const loadingAlert = Swal.fire({
+                                            text: 'Proses pembuatan NIM...',
+                                            icon: 'info',
+                                            showConfirmButton: false,
+                                            didOpen: () => {
+                                                Swal.showLoading();
+                                            }
                                         });
+
+                                        $.ajax({
+                                            url: '/admin/pembayaran/add-nim',
+                                            method: 'POST',
+                                            contentType: 'application/json',
+                                            data: JSON.stringify({
+                                                filteredData: filteredData
+                                            }),
+                                            success: function(response) {
+                                                setTimeout(function() {
+                                                    Swal.close();
+                                                    Swal.fire({
+                                                        text: 'NIM berhasil Dibuat.',
+                                                        icon: 'success',
+                                                        timer: 800,
+                                                        showConfirmButton: false
+                                                    }).then(() => {
+                                                        $('#saveButton').prop('disabled', false);
+                                                        $('#loading').hide();
+                                                        window.location.reload();
+                                                    });
+                                                }, 1200);
+                                            },
+
+                                            error: function(error) {
+                                                console.error('Error:', error);
+                                                Swal.close();
+                                                Swal.fire({
+                                                    text: 'NIM gagal Dibuat',
+                                                    icon: 'error',
+                                                    timer: 1200,
+                                                    showConfirmButton: false
+                                                }).then(() => {
+                                                    $('#saveButton').prop('disabled', false);
+                                                    $('#loading').hide();
+                                                    window.location.reload();
+                                                });
+                                            }
+                                        });
+
                                     }
+
                                 });
-
-
 
                             } else if (result.dismiss === Swal.DismissReason.cancel) {
                                 Swal.fire({

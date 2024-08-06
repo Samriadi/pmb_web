@@ -2,7 +2,7 @@
 session_start();
 date_default_timezone_set('Asia/Makassar');
 
-require_once __DIR__ . '/../app/Core/Router.php';   
+require_once __DIR__ . '/../app/Core/Router.php';
 require_once __DIR__ . '/../app/Helpers/Function.php';
 require_once __DIR__ . '/../app/Core/Database.php';
 require_once __DIR__ . '/../app/Core/Table.php';
@@ -135,6 +135,7 @@ $router->add('/test-pendaftar/drop', 'testPendaftarController', 'drop');
 
 //pembayaran
 $router->add('/pembayaran', 'pembayaranController', 'index');
+$router->add('/pembayaran/fetch', 'pembayaranController', 'fetchData');
 $router->add('/pembayaran/add-nim', 'pembayaranController', 'generateNim');
 $router->add('/nim', 'pembayaranController', 'getNIM');
 
@@ -150,4 +151,3 @@ $router->add('/logs', 'mainController', 'logs');
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
 
 $router->dispatch($url);
-?>
