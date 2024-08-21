@@ -3,7 +3,6 @@ class PembayaranController
 {
     private $response = [];
     private $models;
-
     private $data;
 
     public function __construct()
