@@ -46,7 +46,6 @@ class kelulusanController
         $prodiLulus = $dt['prodiLulus'];
       }
     }
-
     $response = $this->kelulusanModel->addKelulusan($idTagihan, $prodiLulus);
     header('Content-Type: application/json');
     echo json_encode($response);
