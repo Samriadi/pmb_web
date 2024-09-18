@@ -40,7 +40,8 @@
               </button>
 
             </div>
-            <div class="table-responsive">
+
+            <div class="table-responsive"  id="tableResponsiveA">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 </thead>
@@ -48,6 +49,16 @@
                 </tbody>
               </table>
             </div>
+
+            <div class="table-responsive"  id="tableResponsiveB">
+              <table class="table table-bordered" id="dataTableB" width="100%" cellspacing="0">
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+
           </div>
         </div>
       </div>
@@ -65,6 +76,26 @@
       document.addEventListener('DOMContentLoaded', function() {
         initEventListeners();
       });
+
+      $(document).ready(function() {
+        $('#filterColumn').on('change', function() {
+          var selectedValue = $(this).val();
+
+          console.log(selectedValue)
+
+          if (selectedValue === 'pendaftar' || selectedValue === 'ujian') {
+            $('#tableResponsiveA').show();
+            $('#tableResponsiveB').hide();
+          } else if (selectedValue === 'lulus') {
+            $('#tableResponsiveA').hide();
+            $('#tableResponsiveB').show();
+          }
+        });
+
+        // Trigger change event on page load to display the correct table initially
+        $('#filterColumn').trigger('change');
+      });
+
     </script>
 
 
@@ -76,7 +107,6 @@
 
       function setPesertaPMBDataTable() {
         data = <?php echo json_encode($dataPesertaPMB); ?>;
-        console.log(data);
         columnsToDownload = data.map(item => ({
           'NIK': item['nik'],
           'User Login': item['UserName'],
@@ -101,7 +131,6 @@
 
         const valuesToMatch = ['nik','UserName','Nama Lengkap', 'nomor_va', 'catatan', 'tagihan', 'Pilihan Pertama', 'Pilihan Kedua', 'Pilihan Ketiga', 'jenjang', 'Periode'];
 
-        console.log(valuesToMatch);
 
         let columns = [];
 
@@ -161,7 +190,6 @@
 
         const valuesToMatch = ['nik','UserName','Nama Lengkap', 'nomor_va', 'catatan', 'tagihan', 'Pilihan Pertama', 'Pilihan Kedua', 'Pilihan Ketiga', 'jenjang', 'Periode'];
 
-        console.log(valuesToMatch);
 
         let columns = [];
 
@@ -204,13 +232,11 @@
           'Va Number': item['va_number'],
           'Catatan Bank': item['catatan'],
           'Jumlah Tagihan': item['tagihan'],
-          'Pilihan Lulus': item['Pilihan Pertama'],
-          'Pilihan Kedua': item['Pilihan Kedua'],
-          'Pilihan Ketiga': item['Pilihan Ketiga'],
+          'Pilihan Lulus': item['prodi_lulus'],
           'Jenjang': item['jenjang'],
           'Periode': item['Periode'],
         }));
-        nameFileXlsx = 'pesertaUjian.xlsx';
+        nameFileXlsx = 'pesertaLulus.xlsx';
 
         const keys = [];
 
@@ -219,14 +245,12 @@
         });
 
 
-        const valuesToMatch = ['nik','UserName','Nama Lengkap', 'nomor_va', 'catatan', 'tagihan', 'Pilihan Lulus', 'Pilihan Kedua', 'Pilihan Ketiga', 'jenjang', 'Periode'];
-
-        console.log(valuesToMatch);
+        const valuesToMatch = ['nik','UserName','Nama Lengkap', 'nomor_va', 'catatan', 'tagihan', 'prodi_lulus','jenjang', 'Periode'];
 
         let columns = [];
 
-        if ($.fn.DataTable.isDataTable('#dataTable')) {
-          $('#dataTable').DataTable().destroy();
+        if ($.fn.DataTable.isDataTable('#dataTableB')) {
+          $('#dataTableB').DataTable().destroy();
         }
 
         columns.push({
@@ -247,7 +271,7 @@
         });
 
         if (data.length > 0) {
-          $('#dataTable').DataTable({
+          $('#dataTableB').DataTable({
             data: data,
             columns: columns,
             destroy: true
@@ -285,7 +309,10 @@
         XLSX.writeFile(workbook, nameFileXlsx);
 
       }
+      
     </script>
+
+    
     </body>
 
     </html>
