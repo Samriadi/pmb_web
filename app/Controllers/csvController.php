@@ -4,11 +4,11 @@ class csvController
 {
   public function index()
   {
-    $pendaftar = new pendaftarModel();
-    $ujian = new ujianModel();
+    $models = new pendaftarModel();
 
-    $dataPendaftar = $pendaftar->getPendaftar();
-    $dataUjian = $ujian->getUjian();
+    $dataPesertaPMB = $models->getPesertaPMB();
+    $dataPesertaUjian = $models->getPesertaUjian();
+    $dataPesertaLulus = $models->getPesertaLulus();
 
     include __DIR__ . '/../Views/others/page_downloadCSV.php';
   }

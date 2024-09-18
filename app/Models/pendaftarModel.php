@@ -44,13 +44,16 @@ class pendaftarModel
                         c.recid,
                         c.periode AS 'Periode',
                         c.keterangan,
-                        c.status
+                        c.status,
+                        e.catatan
                     FROM 
                         pmb_mahasiswa a
                     LEFT JOIN 
                         pmb_tagihan b ON b.member_id = a.ID
                     LEFT JOIN 
                         pmb_periode c ON c.recid = b.periode
+                    LEFT JOIN
+                        pmb_pembayaran e ON e.member_id = a.ID
                     LEFT JOIN 
                         varoption d1 ON d1.recid = b.PilihanPertama
                     LEFT JOIN 
@@ -208,5 +211,122 @@ class pendaftarModel
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+    
+    public function getPesertaPMB()
+    {
+        $query = "SELECT 
+                        a.ID, 
+                        a.nik,
+                        a.UserName,
+                        a.NamaLengkap AS 'Nama Lengkap',
+                        b.id,
+                        COALESCE(d1.var_value, '') AS 'Pilihan Pertama',
+                        COALESCE(d2.var_value, '') AS 'Pilihan Kedua',
+                        COALESCE(d3.var_value, '') AS 'Pilihan Ketiga',
+                        b.member_id,
+                        b.jenjang,
+                        b.nomor_va,
+                        c.recid,
+                        c.periode AS 'Periode',
+                        e.catatan,
+                        e.tagihan
+                    FROM 
+                        pmb_mahasiswa a
+                    LEFT JOIN 
+                        pmb_tagihan b ON b.member_id = a.ID
+                    LEFT JOIN 
+                        pmb_periode c ON c.recid = b.periode
+                    LEFT JOIN
+                        pmb_pembayaran e ON e.member_id = a.ID
+                    LEFT JOIN 
+                        varoption d1 ON d1.recid = b.PilihanPertama
+                    LEFT JOIN 
+                        varoption d2 ON d2.recid = b.PilihanKedua
+                    LEFT JOIN 
+                        varoption d3 ON d3.recid = b.PilihanKetiga;
+                    ";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+    public function getPesertaUjian()
+    {
+        $query = "SELECT 
+                        a.ID, 
+                        a.nik,
+                        a.UserName,
+                        a.NamaLengkap AS 'Nama Lengkap',
+                        b.id,
+                        COALESCE(d1.var_value, '') AS 'Pilihan Pertama',
+                        COALESCE(d2.var_value, '') AS 'Pilihan Kedua',
+                        COALESCE(d3.var_value, '') AS 'Pilihan Ketiga',
+                        b.member_id,
+                        b.jenjang,
+                        b.nomor_va,
+                        c.recid,
+                        c.periode AS 'Periode',
+                        e.catatan,
+                        e.tagihan
+                    FROM 
+                        pmb_mahasiswa a
+                    LEFT JOIN 
+                        pmb_tagihan b ON b.member_id = a.ID
+                    LEFT JOIN 
+                        pmb_periode c ON c.recid = b.periode
+                    LEFT JOIN
+                        pmb_pembayaran e ON e.member_id = a.ID
+                    LEFT JOIN 
+                        varoption d1 ON d1.recid = b.PilihanPertama
+                    LEFT JOIN 
+                        varoption d2 ON d2.recid = b.PilihanKedua
+                    LEFT JOIN 
+                        varoption d3 ON d3.recid = b.PilihanKetiga
+                    INNER JOIN
+                    	pmb_jadualtes f ON f.test_tagihanid = b.id;
+                    ";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+    public function getPesertaLulus()
+    {
+        $query = "SELECT 
+                        a.ID, 
+                        a.nik,
+                        a.UserName,
+                        a.NamaLengkap AS 'Nama Lengkap',
+                        b.id,
+                        COALESCE(d1.var_value, '') AS 'Pilihan Pertama',
+                        COALESCE(d2.var_value, '') AS 'Pilihan Kedua',
+                        COALESCE(d3.var_value, '') AS 'Pilihan Ketiga',
+                        b.member_id,
+                        b.jenjang,
+                        b.nomor_va,
+                        c.recid,
+                        c.periode AS 'Periode',
+                        e.catatan,
+                        e.tagihan,
+                        g.prodi_lulus
+                    FROM 
+                        pmb_mahasiswa a
+                    LEFT JOIN 
+                        pmb_tagihan b ON b.member_id = a.ID
+                    LEFT JOIN 
+                        pmb_periode c ON c.recid = b.periode
+                    LEFT JOIN
+                        pmb_pembayaran e ON e.member_id = a.ID
+                    LEFT JOIN 
+                        varoption d1 ON d1.recid = b.PilihanPertama
+                    LEFT JOIN 
+                        varoption d2 ON d2.recid = b.PilihanKedua
+                    LEFT JOIN 
+                        varoption d3 ON d3.recid = b.PilihanKetiga
+                    INNER JOIN
+                    	pmb_kelulusan g on g.id_tagihan = b.id;
+                    ";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 }

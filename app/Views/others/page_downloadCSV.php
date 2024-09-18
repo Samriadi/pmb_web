@@ -30,6 +30,7 @@
                     <select class="form-control" id="filterColumn" name="filterColumn">
                       <option value="pendaftar" selected>Data Pendaftar</option>
                       <option value="ujian">Data Ujian</option>
+                      <option value="lulus">Data Lulus</option>
                     </select>
                   </div>
                 </div>
@@ -73,17 +74,23 @@
       var columnsToDownload;
       var nameFileXlsx;
 
-      function setPendaftarDataTable() {
-        data = <?php echo json_encode($dataPendaftar); ?>;
+      function setPesertaPMBDataTable() {
+        data = <?php echo json_encode($dataPesertaPMB); ?>;
+        console.log(data);
         columnsToDownload = data.map(item => ({
-          'Nama Lengkap': item['NamaLengkap'],
+          'NIK': item['nik'],
+          'User Login': item['UserName'],
+          'Nama Lengkap': item['Nama Lengkap'],
+          'Nomor VA': item['nomor_va'],
+          'Catatan Bank': item['catatan'],
+          'Jumlah Tagihan': item['tagihan'],
           'Pilihan Pertama': item['Pilihan Pertama'],
           'Pilihan Kedua': item['Pilihan Kedua'],
           'Pilihan Ketiga': item['Pilihan Ketiga'],
           'Jenjang': item['jenjang'],
           'Periode': item['Periode'],
         }));
-        nameFileXlsx = 'data-pendaftar.xlsx';
+        nameFileXlsx = 'pesertaPMB.xlsx';
 
         const keys = [];
 
@@ -92,7 +99,9 @@
         });
 
 
-        const valuesToMatch = ['Nama Lengkap', 'Pilihan Pertama', 'Pilihan Kedua', 'Pilihan Ketiga'];
+        const valuesToMatch = ['nik','UserName','Nama Lengkap', 'nomor_va', 'catatan', 'tagihan', 'Pilihan Pertama', 'Pilihan Kedua', 'Pilihan Ketiga', 'jenjang', 'Periode'];
+
+        console.log(valuesToMatch);
 
         let columns = [];
 
@@ -127,14 +136,21 @@
       }
 
       function setUjianDataTable() {
-        data = <?php echo json_encode($dataUjian); ?>;
+        data = <?php echo json_encode($dataPesertaUjian); ?>;
         columnsToDownload = data.map(item => ({
-          'No Ujian': item['no_ujian'],
-          'Nama Lengkap': item['NamaLengkap'],
-          'Kelulusan': item['kelulusan'],
+          'NIK': item['nik'],
+          'User Login': item['UserName'],
+          'Nama Lengkap': item['Nama Lengkap'],
+          'Va Number': item['va_number'],
+          'Catatan Bank': item['catatan'],
+          'Jumlah Tagihan': item['tagihan'],
+          'Pilihan Pertama': item['Pilihan Pertama'],
+          'Pilihan Kedua': item['Pilihan Kedua'],
+          'Pilihan Ketiga': item['Pilihan Ketiga'],
+          'Jenjang': item['jenjang'],
+          'Periode': item['Periode'],
         }));
-        nameFileXlsx = 'data-ujian.xlsx';
-
+        nameFileXlsx = 'pesertaUjian.xlsx';
 
         const keys = [];
 
@@ -143,7 +159,70 @@
         });
 
 
-        const valuesToMatch = ['no_ujian', 'NamaLengkap', 'member_id', 'kelulusan'];
+        const valuesToMatch = ['nik','UserName','Nama Lengkap', 'nomor_va', 'catatan', 'tagihan', 'Pilihan Pertama', 'Pilihan Kedua', 'Pilihan Ketiga', 'jenjang', 'Periode'];
+
+        console.log(valuesToMatch);
+
+        let columns = [];
+
+        if ($.fn.DataTable.isDataTable('#dataTable')) {
+          $('#dataTable').DataTable().destroy();
+        }
+
+        columns.push({
+          data: null,
+          title: 'No',
+          render: function(data, type, row, meta) {
+            return meta.row + 1;
+          }
+        });
+
+        valuesToMatch.forEach(value => {
+          if (keys.includes(value)) {
+            columns.push({
+              data: value,
+              title: value
+            });
+          }
+        });
+
+        if (data.length > 0) {
+          $('#dataTable').DataTable({
+            data: data,
+            columns: columns,
+            destroy: true
+          });
+        }
+      }
+
+      function setLulusDataTable() {
+        data = <?php echo json_encode($dataPesertaLulus); ?>;
+        columnsToDownload = data.map(item => ({
+          'NIK': item['nik'],
+          'User Login': item['UserName'],
+          'Nama Lengkap': item['Nama Lengkap'],
+          'Va Number': item['va_number'],
+          'Catatan Bank': item['catatan'],
+          'Jumlah Tagihan': item['tagihan'],
+          'Pilihan Lulus': item['Pilihan Pertama'],
+          'Pilihan Kedua': item['Pilihan Kedua'],
+          'Pilihan Ketiga': item['Pilihan Ketiga'],
+          'Jenjang': item['jenjang'],
+          'Periode': item['Periode'],
+        }));
+        nameFileXlsx = 'pesertaUjian.xlsx';
+
+        const keys = [];
+
+        Object.keys(data[0]).forEach(key => {
+          keys.push(key);
+        });
+
+
+        const valuesToMatch = ['nik','UserName','Nama Lengkap', 'nomor_va', 'catatan', 'tagihan', 'Pilihan Lulus', 'Pilihan Kedua', 'Pilihan Ketiga', 'jenjang', 'Periode'];
+
+        console.log(valuesToMatch);
+
         let columns = [];
 
         if ($.fn.DataTable.isDataTable('#dataTable')) {
@@ -180,12 +259,16 @@
         var filterColumn = document.getElementById('filterColumn');
 
         if (filterColumn) {
-          setPendaftarDataTable();
+          setPesertaPMBDataTable();
           filterColumn.addEventListener('change', function() {
             if (filterColumn.value === 'pendaftar') {
-              setPendaftarDataTable();
-            } else if (filterColumn.value === 'ujian') {
+              setPesertaPMBDataTable();
+            } 
+            else if (filterColumn.value === 'ujian') {
               setUjianDataTable();
+            }
+            else if (filterColumn.value === 'lulus') {
+              setLulusDataTable();
             }
           });
         }
@@ -193,8 +276,6 @@
 
 
       function downloadCSV() {
-
-        console.log(columnsToDownload);
 
         let workbook = XLSX.utils.book_new();
         let worksheet = XLSX.utils.json_to_sheet(columnsToDownload);

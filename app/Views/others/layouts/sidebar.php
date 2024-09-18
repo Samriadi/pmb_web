@@ -32,6 +32,8 @@
                  <?php if (is_superadmin()) : ?>
                      <a class="collapse-item" href="/admin/user">User</a>
                  <?php endif; ?>
+                 <!-- <a class="collapse-item" href="/admin/user">User</a> -->
+
                  <a class="collapse-item" href="/admin/var">Var Option</a>
                  <a class="collapse-item" href="/admin/test">Edu Test</a>
                  <a class="collapse-item" href="/admin/periode">Edu Periode</a>
@@ -119,6 +121,7 @@
              </div>
          </div>
      </li>
+     
 
      <li class="nav-item" id="navProfile">
          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLogout" aria-expanded="true" aria-controls="collapseLogout">
