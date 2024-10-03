@@ -31,6 +31,7 @@
                       <option value="pendaftar" selected>Data Pendaftar</option>
                       <option value="ujian">Data Ujian</option>
                       <option value="lulus">Data Lulus</option>
+                      <option value="nim">Data NIM</option>
                     </select>
                   </div>
                 </div>
@@ -86,7 +87,7 @@
           if (selectedValue === 'pendaftar' || selectedValue === 'ujian') {
             $('#tableResponsiveA').show();
             $('#tableResponsiveB').hide();
-          } else if (selectedValue === 'lulus') {
+          } else if (selectedValue === 'lulus' || selectedValue === 'nim') {
             $('#tableResponsiveA').hide();
             $('#tableResponsiveB').show();
           }
@@ -279,6 +280,63 @@
         }
       }
 
+      function setNIMDataTable() {
+        data = <?php echo json_encode($dataPesertaNIM); ?>;
+        console.log(data)
+        columnsToDownload = data.map(item => ({
+          'NIK': item['nik'],
+          'User Login': item['UserName'],
+          'Nama Lengkap': item['Nama Lengkap'],
+          'Va Number': item['va_number'],
+          'Catatan Bank': item['catatan'],
+          'Jumlah Tagihan': item['tagihan'],
+          'Pilihan Lulus': item['prodi_lulus'],
+          'Jenjang': item['jenjang'],
+          'Periode': item['Periode'],
+        }));
+        nameFileXlsx = 'pesertaNIM.xlsx';
+
+        const keys = [];
+
+        Object.keys(data[0]).forEach(key => {
+          keys.push(key);
+        });
+
+
+        const valuesToMatch = ['nik','UserName','Nama Lengkap', 'nomor_va', 'catatan', 'tagihan', 'prodi_lulus','jenjang', 'Periode'];
+
+        let columns = [];
+
+        if ($.fn.DataTable.isDataTable('#dataTableB')) {
+          $('#dataTableB').DataTable().destroy();
+        }
+
+        columns.push({
+          data: null,
+          title: 'No',
+          render: function(data, type, row, meta) {
+            return meta.row + 1;
+          }
+        });
+
+        valuesToMatch.forEach(value => {
+          if (keys.includes(value)) {
+            columns.push({
+              data: value,
+              title: value
+            });
+          }
+        });
+
+        if (data.length > 0) {
+          $('#dataTableB').DataTable({
+            data: data,
+            columns: columns,
+            destroy: true
+          });
+        }
+      }
+
       function initEventListeners() {
         var filterColumn = document.getElementById('filterColumn');
 
@@ -293,6 +351,9 @@
             }
             else if (filterColumn.value === 'lulus') {
               setLulusDataTable();
+            }
+            else if (filterColumn.value === 'nim') {
+              setNIMDataTable();
             }
           });
         }
