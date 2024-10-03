@@ -329,4 +329,40 @@ class pendaftarModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    public function getPesertaNIM()
+    {
+        $query = "SELECT 
+                        a.ID, 
+                        a.nik,
+                        a.UserName,
+                        a.NamaLengkap AS 'Nama Lengkap',
+                        MAX(b.id) AS id,
+                        MAX(b.member_id) AS member_id,
+                        MAX(b.jenjang) AS jenjang,
+                        MAX(b.nomor_va) AS nomor_va,
+                        MAX(c.recid) AS recid,
+                        MAX(c.periode) AS 'Periode',
+                        MAX(e.catatan) AS catatan,
+                        MAX(e.tagihan) AS tagihan,
+                        MAX(g.prodi_lulus) AS prodi_lulus,
+                        MAX(h.nim) AS nim
+                    FROM 
+                        pmb_mahasiswa a
+                    LEFT JOIN 
+                        pmb_tagihan b ON b.member_id = a.ID
+                    LEFT JOIN 
+                        pmb_periode c ON c.recid = b.periode
+                    LEFT JOIN
+                        pmb_pembayaran e ON e.member_id = a.ID
+                    LEFT JOIN
+                        pmb_kelulusan g ON g.id_tagihan = b.id
+                    INNER JOIN 
+                        pmb_nim h ON h.member_id = a.ID
+                    GROUP BY 
+                        a.ID, a.nik, a.UserName, a.NamaLengkap;
+                    ";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }
