@@ -9,6 +9,7 @@ class csvController
     $dataPesertaPMB = $models->getPesertaPMB();
     $dataPesertaUjian = $models->getPesertaUjian();
     $dataPesertaLulus = $models->getPesertaLulus();
+    $dataPesertaNIM = $models->getPesertaNIM();
 
     include __DIR__ . '/../Views/others/page_downloadCSV.php';
   }
