@@ -29,9 +29,9 @@
          </a>
          <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <?php if (is_superadmin()) : ?>
+                 <!-- <?php if (is_superadmin()) : ?> -->
                      <a class="collapse-item" href="/admin/user">User</a>
-                 <?php endif; ?>
+                 <!-- <?php endif; ?> -->
                  <!-- <a class="collapse-item" href="/admin/user">User</a> -->
 
                  <a class="collapse-item" href="/admin/var">Var Option</a>
