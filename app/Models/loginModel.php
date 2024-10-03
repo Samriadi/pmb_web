@@ -3,35 +3,74 @@
 class loginModel
 {
   private $usrapp;
+  private $mhs_mahasiswa;
+  private $mhs_dosen;
+  private $mhs_staff;
   private $db;
   public function __construct()
   {
     global $usrapp;
+    global $mhs_mahasiswa;
+    global $mhs_dosen;
+    global $mhs_staff;
+
     $this->usrapp = $usrapp;
+    $this->mhs_mahasiswa = $mhs_mahasiswa;
+    $this->mhs_dosen = $mhs_dosen;
+    $this->mhs_staff = $mhs_staff;
+
     $this->db = Database::getInstance();
   }
 
   public function authLogin($username, $userpass)
   {
-    $query = "SELECT username, userlevel, userpass FROM $this->usrapp WHERE username = :username";
-    $stmt = $this->db->prepare($query);
-    $stmt->execute([
-      ':username' => $username,
-    ]);
-    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+      $query = "SELECT 'admin' AS user_type, username, userpass, 'pmb-mhs' AS modul, userlevel
+                FROM $this->usrapp
+                WHERE username = :username
 
-    if ($data) {
-      $encodedPassword = base64_encode($userpass);
-      $inputHash = crypt($encodedPassword, $data['userpass']);
+                UNION
 
-      if ($inputHash === $data['userpass']) {
-        return $data = [
-          'username' => $data['username'],
-          'userlevel' => $data['userlevel'],
-        ];
+                SELECT 'dosen' AS user_type, username, userpass, 'mhs' AS modul, NULL AS userlevel
+                FROM $this->mhs_dosen
+                WHERE username = :username
+
+                UNION
+
+                SELECT 'mahasiswa' AS user_type, UserName, UserPass, 'mhs' AS modul, NULL AS userlevel
+                FROM $this->mhs_mahasiswa
+                WHERE username = :username
+
+                UNION
+
+                SELECT 'staff' AS user_type, username, userpass, 'pmb' AS modul, NULL AS userlevel
+                FROM $this->mhs_staff
+                WHERE username = :username";
+  
+      $stmt = $this->db->prepare($query);
+      $stmt->execute([
+          ':username' => $username,
+      ]);
+      $data = $stmt->fetch(PDO::FETCH_ASSOC);
+  
+      if ($data) {
+          // Ensure your password encoding matches your stored password
+          $encodedPassword = base64_encode($userpass); // Adjust this if necessary
+          $inputHash = crypt($encodedPassword, $data['userpass']); // Adjust this if necessary
+  
+          if ($inputHash === $data['userpass']) {
+              return [
+                  'username' => $data['username'],
+                  'userlevel' => $data['userlevel'],
+                  'user_type' => $data['user_type'],
+                  'modul' => $data['modul']
+              ];
+          }
       }
-    }
+  
+      return null; // Return null if authentication fails
   }
+  
+  
 
 
   public function authGoogleLogin($email)

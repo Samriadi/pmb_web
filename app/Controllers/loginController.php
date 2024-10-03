@@ -29,6 +29,8 @@ class loginController
     if ($data) {
       $_SESSION['level_loged'] = $data['userlevel'];
       $_SESSION['user_loged'] = $data['username'];
+      $_SESSION['user_type'] = $data['user_type'];
+      $_SESSION['user_modul'] = $data['modul'];
       echo json_encode(['success' => true, 'data' => $data]);
     } else {
       echo json_encode(['success' => false]);
