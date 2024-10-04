@@ -7,6 +7,7 @@ class loginModel
   private $mhs_dosen;
   private $mhs_staff;
   private $db;
+  
   public function __construct()
   {
     global $usrapp;
@@ -53,9 +54,8 @@ class loginModel
       $data = $stmt->fetch(PDO::FETCH_ASSOC);
   
       if ($data) {
-          // Ensure your password encoding matches your stored password
-          $encodedPassword = base64_encode($userpass); // Adjust this if necessary
-          $inputHash = crypt($encodedPassword, $data['userpass']); // Adjust this if necessary
+          $encodedPassword = base64_encode($userpass); 
+          $inputHash = crypt($encodedPassword, $data['userpass']); 
   
           if ($inputHash === $data['userpass']) {
               return [
@@ -66,12 +66,8 @@ class loginModel
               ];
           }
       }
-  
-      return null; // Return null if authentication fails
+      return null;
   }
-  
-  
-
 
   public function authGoogleLogin($email)
   {
