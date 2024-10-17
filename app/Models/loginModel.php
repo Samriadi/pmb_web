@@ -25,9 +25,17 @@ class loginModel
 
   public function authLogin($username, $userpass)
   {
-      $query = "SELECT 'admin' AS user_type, username, userpass, 'pmb-mhs' AS modul, userlevel
+      $query = "SELECT 'accounts' AS user_type, 
+                      username, 
+                      userpass, 
+                      CASE 
+                          WHEN userlevel = 'admin' THEN 'mhs' 
+                          ELSE 'pmb-mhs' 
+                      END AS modul, 
+                      userlevel
                 FROM $this->usrapp
                 WHERE username = :username
+
 
                 UNION
 
