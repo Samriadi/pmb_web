@@ -1,6 +1,9 @@
 <?php
 session_start();
 date_default_timezone_set('Asia/Makassar');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 require_once __DIR__ . '/../app/Core/Router.php';
 require_once __DIR__ . '/../app/Helpers/Function.php';
@@ -16,12 +19,17 @@ require_once __DIR__ . '/../app/Controllers/kelulusanController.php';
 require_once __DIR__ . '/../app/Controllers/loginController.php';
 
 
-require_once __DIR__ . '/../app/models/ujianModel.php';
-require_once __DIR__ . '/../app/models/promoModel.php';
+require_once __DIR__ . '/../app/Models/mainModel.php';
+require_once __DIR__ . '/../app/Models/ujianModel.php';
+require_once __DIR__ . '/../app/Models/eduTestModel.php';
+require_once __DIR__ . '/../app/Models/eduPeriodeModel.php';
+require_once __DIR__ . '/../app/Models/varOptionModel.php';
+require_once __DIR__ . '/../app/Models/promoModel.php';
 require_once __DIR__ . '/../app/Models/pendaftarModel.php';
 require_once __DIR__ . '/../app/Models/testPendaftarModel.php';
 require_once __DIR__ . '/../app/Models/pembayaranModel.php';
 require_once __DIR__ . '/../app/Models/kelulusanModel.php';
+require_once __DIR__ . '/../app/Models/userModel.php';
 require_once __DIR__ . '/../app/Models/loginModel.php';
 
 $router = new Router();

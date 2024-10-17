@@ -1,6 +1,4 @@
 <?php
-require_once __DIR__ . '/../models/eduPeriodeModel.php';
-require_once __DIR__ . '/../models/varOptionModel.php';
 
 
 class eduPeriodeController
