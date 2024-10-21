@@ -245,5 +245,49 @@ if (isset($_GET['nik'])) {
     @2024 HEWI
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#registrationForm').on('submit', function(e) {
+                e.preventDefault(); // Prevent form submission
+
+                // Gather form data
+                var formData = {
+                    name: $('#name').val(),
+                    choice1: $('#choice1').val(),
+                    choice2: $('#choice2').val(),
+                    choice3: $('#choice3').val(),
+                    registrationType: $('#registrationType').val(),
+                    religion: $('#religion').val(),
+                    nis: $('#nis').val(),
+                    schoolOrigin: $('#schoolOrigin').val(),
+                    graduationYear: $('#graduationYear').val(),
+                    gender: $('#gender').val(),
+                    email: $('#email').val(),
+                    phone: $('#phone').val(),
+                    region: $('#region').val(),
+                    referenceSource: $('#referenceSource').val(),
+                    referralId: $('#referralId').val(),
+                    password: $('#password').val()
+                };
+
+                // Send the data via AJAX
+                $.ajax({
+                    url: 'process_registration.php', 
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        // Handle success
+                        alert('Pendaftaran berhasil: ' + response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        // Handle error
+                        alert('Pendaftaran gagal: ' + textStatus);
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>
