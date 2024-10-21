@@ -148,4 +148,60 @@ class mainController
         include __DIR__ . '/../Views/others/page_insertRegist.php';
     }
     
+    public function saveRegist(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $name = $_POST['name'];
+            $choice1 = $_POST['choice1'];
+            $choice2 = $_POST['choice2'];
+            $choice3 = $_POST['choice3'];
+            $registrationType = $_POST['registrationType'];
+            $religion = $_POST['religion'];
+            $nis = $_POST['nis'];
+            $schoolOrigin = $_POST['schoolOrigin'];
+            $graduationYear = $_POST['graduationYear'];
+            $gender = $_POST['gender'];
+            $email = $_POST['email'];
+            $phone = $_POST['phone'];
+            $region = $_POST['region'];
+            $referenceSource = $_POST['referenceSource'];
+            $referralId = $_POST['referralId'];
+            $password = $_POST['password'];
+
+            if (empty($name) || empty($choice1) || empty($registrationType) || empty($email) || empty($password)) {
+                echo json_encode(['status' => 'error', 'message' => 'Data wajib diisi tidak lengkap.']);
+                exit;
+            }
+
+            try {
+                $query = "INSERT INTO pendaftaran_d3 (NamaLengkap, Agama, NIS, AsalKampus, TahunLulus, jenkel, Email, WANumber, alamat, SumberReferensi, UserPass)
+                          VALUES (:NamaLengkap, :Agama, :NIS, :AsalKampus, :TahunLulus, :jenkel, :Email, :WANumber, :alamat, :SumberReferensi, :UserPass)";
+        
+                // Persiapkan statement
+                $stmt = $pdo->prepare($query);
+        
+                // Bind parameter
+                $stmt->bindParam(':NamaLengkap', $name);
+                $stmt->bindParam(':Agama', $religion);
+                $stmt->bindParam(':NIS', $nis);
+                $stmt->bindParam(':AsalKampus', $schoolOrigin);
+                $stmt->bindParam(':TahunLulus', $graduationYear);
+                $stmt->bindParam(':jenkel', $gender);
+                $stmt->bindParam(':Email', $email);
+                $stmt->bindParam(':WANumber', $phone);
+                $stmt->bindParam(':alamat', $region);
+                $stmt->bindParam(':SumberReferensi', $referenceSource);
+                $stmt->bindParam(':UserPass', $password);
+                  
+                if ($stmt->execute()) {
+                    echo json_encode(['status' => 'success', 'message' => 'Pendaftaran berhasil disimpan.']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Gagal menyimpan data.']);
+                }
+            } catch (PDOException $e) {
+                echo json_encode(['status' => 'error', 'message' => 'Error: ' . $e->getMessage()]);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+        }
+    }
 }
