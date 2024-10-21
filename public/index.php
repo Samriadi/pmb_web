@@ -153,7 +153,9 @@ $router->add('/header', 'mainController', 'header');
 //log activity
 $router->add('/logs', 'mainController', 'logs');
 
-
+$router->add('/pendaftaran', 'MainController', 'indexRegist');
+$router->add('/pendaftaran/add', 'MainController', 'addRegist');
+$router->add('/pendaftaran/insert', 'MainController', 'insertRegist');
 
 
 $url = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
