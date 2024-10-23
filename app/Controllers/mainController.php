@@ -126,7 +126,6 @@ class mainController
 
         $models = new pendaftarModel();
         
-        // Mengecek apakah NIK sudah terdaftar
         $checkNik = $models->getDataRegistUsingNik($nik);
         
         if (!empty($checkNik)) {
@@ -145,54 +144,59 @@ class mainController
 
     public function insertRegist()
     {
+        $models = new varOptiontModel();
+
+        $dataProdi = $models->getVarByName('Prodi');
+
+        error_log("dataProdi: " . print_r($dataProdi, true));
+
         include __DIR__ . '/../Views/others/page_insertRegist.php';
     }
     
     public function saveRegist(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-            $name = $_POST['name'];
-            $choice1 = $_POST['choice1'];
-            $choice2 = $_POST['choice2'];
-            $choice3 = $_POST['choice3'];
-            $registrationType = $_POST['registrationType'];
-            $religion = $_POST['religion'];
-            $nis = $_POST['nis'];
-            $schoolOrigin = $_POST['schoolOrigin'];
-            $graduationYear = $_POST['graduationYear'];
-            $gender = $_POST['gender'];
-            $email = $_POST['email'];
-            $phone = $_POST['phone'];
-            $region = $_POST['region'];
-            $referenceSource = $_POST['referenceSource'];
-            $referralId = $_POST['referralId'];
-            $password = $_POST['password'];
+            $data = json_decode(file_get_contents('php://input'), true);  // Decode JSON
+        
+            $nik = $data['nik'];
+            $name = $data['name'];
+            $choice1 = $data['choice1'];
+            $choice2 = $data['choice2'];
+            $choice3 = $data['choice3'];
+            $registrationType = $data['registrationType'];
+            $religion = $data['religion'];
+            $nis = $data['nis'];
+            $schoolOrigin = $data['schoolOrigin'];
+            $graduationYear = $data['graduationYear'];
+            $gender = $data['gender'];
+            $email = $data['email'];
+            $phone = $data['phone'];
+            $region = $data['region'];
+            $referenceSource = $data['referenceSource'];
+            $referralId = $data['referralId'];
+            $password = $data['password'];
+			$userpass = $this->getPassword($password);
 
-            if (empty($name) || empty($choice1) || empty($registrationType) || empty($email) || empty($password)) {
+
+
+
+            if (empty($name) || empty($choice1) || empty($registrationType) || empty($email) || empty($userpass)) {
                 echo json_encode(['status' => 'error', 'message' => 'Data wajib diisi tidak lengkap.']);
                 exit;
             }
 
             try {
-                $query = "INSERT INTO pendaftaran_d3 (NamaLengkap, Agama, NIS, AsalKampus, TahunLulus, jenkel, Email, WANumber, alamat, SumberReferensi, UserPass)
-                          VALUES (:NamaLengkap, :Agama, :NIS, :AsalKampus, :TahunLulus, :jenkel, :Email, :WANumber, :alamat, :SumberReferensi, :UserPass)";
+                $models = new pendaftarModel();
         
-                // Persiapkan statement
-                $stmt = $pdo->prepare($query);
-        
-                // Bind parameter
-                $stmt->bindParam(':NamaLengkap', $name);
-                $stmt->bindParam(':Agama', $religion);
-                $stmt->bindParam(':NIS', $nis);
-                $stmt->bindParam(':AsalKampus', $schoolOrigin);
-                $stmt->bindParam(':TahunLulus', $graduationYear);
-                $stmt->bindParam(':jenkel', $gender);
-                $stmt->bindParam(':Email', $email);
-                $stmt->bindParam(':WANumber', $phone);
-                $stmt->bindParam(':alamat', $region);
-                $stmt->bindParam(':SumberReferensi', $referenceSource);
-                $stmt->bindParam(':UserPass', $password);
+                $savePendaftaran = $models->saveDataRegist($nik, $name,$religion,$nis,$schoolOrigin,$graduationYear,$gender,$email,$phone,$region,$referenceSource,$userpass);
+
                   
-                if ($stmt->execute()) {
+                header('Content-Type: application/json');
+                
+                if ($savePendaftaran) {
+                    $member_id = $models->getIdRegistUsingNik($nik);
+
+                    $models->saveDataProdiRegist($member_id)
+
                     echo json_encode(['status' => 'success', 'message' => 'Pendaftaran berhasil disimpan.']);
                 } else {
                     echo json_encode(['status' => 'error', 'message' => 'Gagal menyimpan data.']);
@@ -204,4 +208,16 @@ class mainController
             echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
         }
     }
+
+    private function getPassword($data)
+	{
+		$x = base64_encode($data);
+
+		return crypt($x, $this->encKey());
+	}
+
+	private function encKey()
+	{
+		return '$2y$10$' . bin2hex(random_bytes(11));
+	}
 }
