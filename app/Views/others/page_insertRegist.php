@@ -106,7 +106,7 @@ if (isset($_GET['nik'])) {
         <div class="form-container">
             <h3>Pendaftaran D3 - Periode 2025*</h3>
             <p>NIK/KTP : <?= $nik ?></p>
-            <form method="POST" action="">
+            <form method="POST" id="registrationForm" action="">
 
                 <!-- Nama Lengkap -->
                 <div class="form-row">
@@ -117,27 +117,42 @@ if (isset($_GET['nik'])) {
                 </div>
 
                 <!-- Pilihan -->
-
                 <div class="form-row">
-                    <div style="width: 100%;">
-                        <p>Pilihan Pertama:</p>
-                        <input type="text" id="choice1" name="choice1" required>
+                    <div class="form-group" style="width: 100%;">
+                        <label for="choice1">Pilihan Pertama:</label>
+                        <select id="choice1" name="choice1" class="form-control" required>
+                            <option value="">Pilih Prodi</option>
+                            <?php foreach ($dataProdi as $prodi): ?>
+                                <option value="<?= $prodi['recid']; ?>"><?= $prodi['var_value']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="input-group">
-                        <div style="width: 48%;">
-                            <p>Pilihan Kedua:</p>
-                            <input type="text" id="choice2" name="choice2" required>
+                        <div class="form-group" style="width: 48%;">
+                            <label for="choice2">Pilihan Kedua</label>
+                            <select id="choice2" name="choice2" class="form-control">
+                                <option value="">Tidak Ada Pilihan Kedua</option>
+                                <?php foreach ($dataProdi as $prodi): ?>
+                                    <option value="<?= $prodi['recid']; ?>"><?= $prodi['var_value']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
-                        <div style="width: 48%;">
-                            <p>Pilihan Ketiga:</p>
-                            <input type="text" id="choice3" name="choice3" required>
+
+                        <div class="form-group" style="width: 48%;">
+                            <label for="choice3">Pilihan Ketiga</label>
+                            <select id="choice3" name="choice3" class="form-control">
+                                <option value="">Tidak Ada Pilihan Ketiga</option>
+                                <?php foreach ($dataProdi as $prodi): ?>
+                                <option value="<?= $prodi['recid']; ?>"><?= $prodi['var_value']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                     </div>
                 </div>
-              
+                                
 
                 <!-- Jenis Pendaftaran dan Agama -->
                 <div class="form-row">
@@ -146,8 +161,8 @@ if (isset($_GET['nik'])) {
                             <p>Jenis Pendaftaran:</p>
                             <select id="registrationType" name="registrationType" required>
                                 <option value="">Pilih Jenis Pendaftaran</option>
-                                <option value="jalur_1">Jalur 1</option>
-                                <option value="jalur_2">Jalur 2</option>
+                                <option value="Mahasiswa baru">Mahasiswa Baru</option>
+                                <option value="Others">Lainnya</option>
                             </select>
                         </div>
                         <div style="width: 48%;">
@@ -182,8 +197,8 @@ if (isset($_GET['nik'])) {
                             <p>Jenis Kelamin:</p>
                             <select id="gender" name="gender" required>
                                 <option value="">Pilih Jenis Kelamin</option>
-                                <option value="laki_laki">Laki-laki</option>
-                                <option value="perempuan">Perempuan</option>
+                                <option value="pria">Laki-laki</option>
+                                <option value="wanita">Perempuan</option>
                             </select>
                         </div>
                     </div>
@@ -253,6 +268,7 @@ if (isset($_GET['nik'])) {
 
                 // Gather form data
                 var formData = {
+                    nik : <?php echo $nik; ?>,
                     name: $('#name').val(),
                     choice1: $('#choice1').val(),
                     choice2: $('#choice2').val(),
@@ -271,20 +287,27 @@ if (isset($_GET['nik'])) {
                     password: $('#password').val()
                 };
 
-                // Send the data via AJAX
                 $.ajax({
-                    url: 'process_registration.php', 
+                    url: '/admin/pendaftaran/save',
                     type: 'POST',
-                    data: formData,
+                    data: JSON.stringify(formData), // Send form data as JSON
+                    contentType: 'application/json', // Ensure correct content type
                     success: function(response) {
-                        // Handle success
-                        alert('Pendaftaran berhasil: ' + response);
+                        // jQuery should automatically parse JSON response, but check if needed
+                        if (typeof response === 'string') {
+                            response = JSON.parse(response); // Parse if returned as string
+                        }
+
+                        console.log(response); // Check the response structure in console
+
+                        // Display success or error message
+                        alert('Pendaftaran : ' + response.status + ' - ' + response.message);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        // Handle error
-                        alert('Pendaftaran gagal: ' + textStatus);
+                        alert('Pendaftaran : ' + textStatus);
                     }
                 });
+
             });
         });
     </script>

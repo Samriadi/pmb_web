@@ -377,7 +377,18 @@ class pendaftarModel
         error_log("check result: " . print_r($result, true));
 
         return $result;
+    }
 
+    public function getIdRegistUsingNik($x) {
+        $query = "SELECT ID FROM pmb_mahasiswa WHERE nik = :nik";
+        
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([':nik' => $x]);
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        error_log("check result: " . print_r($result, true));
+
+        return $result;
     }
 
     public function addDataRegistUsingNik($x) {
@@ -391,4 +402,33 @@ class pendaftarModel
     
         return $result;
     }
+
+    public function saveDataRegist($nik, $name,$religion,$nis,$schoolOrigin,$graduationYear,$gender,$email,$phone,$region,$referenceSource,$password){
+
+         $query = "INSERT INTO pmb_mahasiswa (nik, NamaLengkap, Agama, NIS, AsalKampus, TahunLulus, jenkel, Email, WANumber, alamat, SumberReferensi, UserPass)
+                          VALUES (:nik, :NamaLengkap, :Agama, :NIS, :AsalKampus, :TahunLulus, :jenkel, :Email, :WANumber, :alamat, :SumberReferensi, :UserPass)";
+
+          $stmt = $this->db->prepare($query);
+
+          $stmt->bindParam(':nik', $nik);
+          $stmt->bindParam(':NamaLengkap', $name);
+                $stmt->bindParam(':Agama', $religion);
+                $stmt->bindParam(':NIS', $nis);
+                $stmt->bindParam(':AsalKampus', $schoolOrigin);
+                $stmt->bindParam(':TahunLulus', $graduationYear);
+                $stmt->bindParam(':jenkel', $gender);
+                $stmt->bindParam(':Email', $email);
+                $stmt->bindParam(':WANumber', $phone);
+                $stmt->bindParam(':alamat', $region);
+                $stmt->bindParam(':SumberReferensi', $referenceSource);
+                $stmt->bindParam(':UserPass', $password);
+
+        $result = $stmt->execute();
+
+        error_log("save result: " . ($result ? "Success" : "Failed"));
+    
+        return $result;
+    }
+
+    
 }
