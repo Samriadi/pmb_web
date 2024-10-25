@@ -5,87 +5,162 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pendaftaran D3</title>
     <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100vh;
+        font-size: 1rem; /* Base font size for scaling */
+    }
+    .header, .footer {
+        background-color: #800020;
+        color: white;
+        padding: 1.25rem;
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    .container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+    }
+    .form-container {
+        background-color: white;
+        padding: 2rem;
+        border: 1px solid #800020;
+        border-radius: 10px;
+        max-width: 600px;
+        width: 100%;
+        text-align: left;
+        font-size: 1rem;
+    }
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    .input-group {
+        display: flex;
+        width: 100%;
+    }
+    p, label {
+        margin: 0 0 0.25rem;
+        font-size: 0.9rem;
+    }
+    input[type="text"], select {
+        width: 85%;
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 4%;
+        font-size: 1rem;
+    }
+    input[type="submit"] {
+        background-color: #5a6268;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 1rem;
+        font-size: 1rem;
+    }
+    input[type="submit"]:hover {
+        background-color: #343a40;
+    }
+    .note, .login-link {
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+    }
+    .login-link a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    /* Untuk layar lebih kecil, seperti smartphone */
+    @media (max-width: 600px) {
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 100vh;
-        }
-        .header, .footer {
-            background-color: #800020;
-            color: white;
-            padding: 20px;
-            font-size: 24px;
-            text-align: center;
-        }
-        .container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .form-container {
-            background-color: white;
-            padding: 30px;
-            border: 1px solid #800020;
-            border-radius: 10px;
-            max-width: 600px;
-            width: 100%;
-            text-align: left;
-        }
-        .form-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        .input-group {
-            display: flex;
-            width: 100%; /* Full width for the input group */
-        }
-        p {
-            margin: 0 0 5px; /* Space between paragraph and input */
-        }
-        input[type="text"], select {
-            width: 85%; /* Each input/select takes up half of the row */
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-right: 4%; /* Space between inputs */
-        }
-        input[type="text"]:last-child, select:last-child {
-            margin-right: 0; /* Remove right margin from the last input */
-        }
-        input[type="submit"] {
-            background-color: #5a6268;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 15px; /* Margin to separate from other inputs */
-        }
-        input[type="submit"]:hover {
-            background-color: #343a40;
-        }
-        .note {
-            font-size: 12px;
-            margin-top: 10px;
-        }
-        .login-link {
             font-size: 14px;
         }
-        .login-link a {
-            color: #007bff;
-            text-decoration: none;
+        .header, .footer {
+            font-size: 20px;
         }
-        .login-link a:hover {
-            text-decoration: underline;
+        .form-container h3 {
+            font-size: 20px;
         }
-    </style>
+        p {
+            font-size: 14px;
+        }
+    }
+
+    /* Untuk layar sedang, seperti tablet */
+    @media (min-width: 601px) and (max-width: 900px) {
+        body {
+            font-size: 15px;
+        }
+        .header, .footer {
+            font-size: 22px;
+        }
+        .form-container h3 {
+            font-size: 22px;
+        }
+        p {
+            font-size: 15px;
+        }
+    }
+
+    /* Untuk layar besar, seperti desktop */
+    @media (min-width: 901px) {
+        body {
+            font-size: 16px;
+        }
+        .header, .footer {
+            font-size: 24px;
+        }
+        .form-container h3 {
+            font-size: 24px;
+        }
+        p {
+            font-size: 16px;
+        }
+    }
+
+    /* Media Queries for smaller devices */
+    @media (max-width: 600px) {
+        body {
+            font-size: 0.9rem;
+        }
+        .header, .footer {
+            font-size: 1.25rem;
+            padding: 1rem;
+        }
+        .form-container {
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+        input[type="text"], select {
+            width: 100%;
+            font-size: 0.9rem;
+        }
+        input[type="submit"] {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
 </head>
 <body>
 
@@ -121,9 +196,9 @@ if (isset($_GET['nik'])) {
                     <div class="form-group" style="width: 100%;">
                         <label for="choice1">Pilihan Pertama:</label>
                         <select id="choice1" name="choice1" class="form-control" required>
-                            <option value="">Pilih Prodi</option>
+                            <option value="0" disabled selected>Pilih Prodi</option>
                             <?php foreach ($dataProdi as $prodi): ?>
-                                <option value="<?= $prodi['recid']; ?>"><?= $prodi['var_value']; ?></option>
+                                <option value="<?= $prodi['recid']; ?>"><?= $prodi['var_others']; ?> - <?= $prodi['var_value']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -134,9 +209,9 @@ if (isset($_GET['nik'])) {
                         <div class="form-group" style="width: 48%;">
                             <label for="choice2">Pilihan Kedua</label>
                             <select id="choice2" name="choice2" class="form-control">
-                                <option value="">Tidak Ada Pilihan Kedua</option>
+                                <option value="0">Tidak Ada Pilihan Kedua</option>
                                 <?php foreach ($dataProdi as $prodi): ?>
-                                    <option value="<?= $prodi['recid']; ?>"><?= $prodi['var_value']; ?></option>
+                                    <option value="<?= $prodi['recid']; ?>"><?= $prodi['var_others']; ?> - <?= $prodi['var_value']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -144,9 +219,9 @@ if (isset($_GET['nik'])) {
                         <div class="form-group" style="width: 48%;">
                             <label for="choice3">Pilihan Ketiga</label>
                             <select id="choice3" name="choice3" class="form-control">
-                                <option value="">Tidak Ada Pilihan Ketiga</option>
+                                <option value="0">Tidak Ada Pilihan Ketiga</option>
                                 <?php foreach ($dataProdi as $prodi): ?>
-                                <option value="<?= $prodi['recid']; ?>"><?= $prodi['var_value']; ?></option>
+                                <option value="<?= $prodi['recid']; ?>"><?= $prodi['var_others']; ?> - <?= $prodi['var_value']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -162,13 +237,23 @@ if (isset($_GET['nik'])) {
                             <select id="registrationType" name="registrationType" required>
                                 <option value="">Pilih Jenis Pendaftaran</option>
                                 <option value="Mahasiswa baru">Mahasiswa Baru</option>
-                                <option value="Others">Lainnya</option>
+                                <option value="Mahasiswa pindahan">Mahasiswa Pindahan</option>
+                                <option value="Mahasiswa transfer">Mahasiswa Transfer</option>
                             </select>
                         </div>
                         <div style="width: 48%;">
-                            <p>Agama:</p>
-                            <input type="text" id="religion" name="religion" required>
+                            <label for="religion">Agama:</label>
+                            <select id="religion" name="religion" required>
+                                <option value="" disabled selected>Pilih Agama</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Kristen">Kristen</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Buddha">Buddha</option>
+                                <option value="Konghucu">Konghucu</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
                         </div>
+
                     </div>
                 </div>
 
@@ -259,57 +344,64 @@ if (isset($_GET['nik'])) {
     <div class="footer">
     @2024 HEWI
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#registrationForm').on('submit', function(e) {
-                e.preventDefault(); // Prevent form submission
+       $(document).ready(function() {
+        $('#registrationForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent form submission
 
-                // Gather form data
-                var formData = {
-                    nik : <?php echo $nik; ?>,
-                    name: $('#name').val(),
-                    choice1: $('#choice1').val(),
-                    choice2: $('#choice2').val(),
-                    choice3: $('#choice3').val(),
-                    registrationType: $('#registrationType').val(),
-                    religion: $('#religion').val(),
-                    nis: $('#nis').val(),
-                    schoolOrigin: $('#schoolOrigin').val(),
-                    graduationYear: $('#graduationYear').val(),
-                    gender: $('#gender').val(),
-                    email: $('#email').val(),
-                    phone: $('#phone').val(),
-                    region: $('#region').val(),
-                    referenceSource: $('#referenceSource').val(),
-                    referralId: $('#referralId').val(),
-                    password: $('#password').val()
-                };
+            // Gather form data
+            var formData = {
+                nik: <?php echo json_encode($nik); ?>, // Use json_encode for safety
+                name: $('#name').val(),
+                choice1: $('#choice1').val(),
+                choice2: $('#choice2').val(),
+                choice3: $('#choice3').val(),
+                registrationType: $('#registrationType').val(),
+                religion: $('#religion').val(),
+                nis: $('#nis').val(),
+                schoolOrigin: $('#schoolOrigin').val(),
+                graduationYear: $('#graduationYear').val(),
+                gender: $('#gender').val(),
+                email: $('#email').val(),
+                phone: $('#phone').val(),
+                region: $('#region').val(),
+                referenceSource: $('#referenceSource').val(),
+                referralId: $('#referralId').val(),
+                password: $('#password').val()
+            };
 
-                $.ajax({
-                    url: '/admin/pendaftaran/save',
-                    type: 'POST',
-                    data: JSON.stringify(formData), // Send form data as JSON
-                    contentType: 'application/json', // Ensure correct content type
-                    success: function(response) {
-                        // jQuery should automatically parse JSON response, but check if needed
-                        if (typeof response === 'string') {
-                            response = JSON.parse(response); // Parse if returned as string
-                        }
-
-                        console.log(response); // Check the response structure in console
-
-                        // Display success or error message
-                        alert('Pendaftaran : ' + response.status + ' - ' + response.message);
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Pendaftaran : ' + textStatus);
+            $.ajax({
+                url: '/admin/pendaftaran/save',
+                type: 'POST',
+                data: JSON.stringify(formData), // Send form data as JSON
+                contentType: 'application/json', // Ensure correct content type
+                success: function(response) {
+                    if (typeof response === 'string') {
+                        response = JSON.parse(response); // Parse if returned as string
                     }
-                });
 
+                    sessionStorage.setItem('formData', JSON.stringify(formData));     
+                    var paramsProdi = new URLSearchParams({
+                        x: formData.choice1,
+                        y: formData.choice2,
+                        z: formData.choice3
+                    });
+                                // Display success or error message
+                    alert('Pendaftaran : ' + response.status + ' - ' + response.message);
+
+                    window.location.href = '/admin/pendaftaran/info?' + paramsProdi.toString();
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Pendaftaran : ' + textStatus);
+                }
             });
         });
+    });
+
     </script>
 
 </body>
