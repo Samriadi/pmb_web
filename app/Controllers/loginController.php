@@ -27,7 +27,6 @@ class loginController
 
 
     if ($data) {
-    error_log("data: " . print_r($data, true));
 
       $_SESSION['level_loged'] = $data['userlevel'];
       $_SESSION['user_loged'] = $data['username'];
