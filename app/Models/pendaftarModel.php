@@ -430,5 +430,21 @@ class pendaftarModel
         return $result;
     }
 
+    public function saveDataProdiRegist($id,$x,$y,$z){
+        $query = "INSERT INTO pmb_tagihan (member_id, PilihanPertama, PilihanKedua, PilihanKetiga) VALUES (:member_id, :PilihanPertama, :PilihanKedua, :PilihanKetiga)";
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':member_id', $id);
+        $stmt->bindParam(':PilihanPertama', $x);
+        $stmt->bindParam(':PilihanKedua', $y);
+        $stmt->bindParam(':PilihanKetiga', $z);
+
+        $result = $stmt->execute();
+
+    
+        return $result;
+    }
+
     
 }
