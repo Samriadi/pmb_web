@@ -50,6 +50,7 @@ class varOptiontModel
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
+
     public function updateVar($recid, $varname, $varvalue, $varothers, $catatan, $parent)
     {
         $stmt = $this->db->prepare("UPDATE $this->varoption SET var_name = ?, var_value = ?, var_others = ?, catatan = ?, parent = ? WHERE recid = ?");
@@ -70,7 +71,28 @@ class varOptiontModel
         foreach ($data as $item) {
             $values[] = [
                 'recid' => $item->recid,
-                'var_value' => $item->var_value
+                'var_value' => $item->var_value,
+            ];
+        }
+        return $values;
+    }
+
+    public function getProdiByJenjang($var_name, $var_others)
+    {
+        $query = "SELECT * FROM $this->varoption where var_name=:var_name AND var_others = :var_others";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':var_name', $var_name);
+        $stmt->bindParam(':var_others', $var_others);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        $values = [];
+        foreach ($data as $item) {
+            $values[] = [
+                'recid' => $item->recid,
+                'var_value' => $item->var_value,
+                'var_others' => $item->var_others
+
             ];
         }
         return $values;
