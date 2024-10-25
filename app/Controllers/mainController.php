@@ -146,9 +146,8 @@ class mainController
     {
         $models = new varOptiontModel();
 
-        $dataProdi = $models->getVarByName('Prodi');
+        $dataProdi = $models->getProdiByJenjang('Prodi', 'D3');
 
-        error_log("dataProdi: " . print_r($dataProdi, true));
 
         include __DIR__ . '/../Views/others/page_insertRegist.php';
     }
@@ -195,7 +194,7 @@ class mainController
                 if ($savePendaftaran) {
                     $member_id = $models->getIdRegistUsingNik($nik);
 
-                    $models->saveDataProdiRegist($member_id)
+                    $models->saveDataProdiRegist($member_id['ID'], $choice1, $choice2, $choice3);
 
                     echo json_encode(['status' => 'success', 'message' => 'Pendaftaran berhasil disimpan.']);
                 } else {
@@ -209,6 +208,33 @@ class mainController
         }
     }
 
+    public function infoRegist() {
+
+        $choice1 = isset($_GET['x']) ? $_GET['x'] : null;
+        $choice2 = isset($_GET['y']) ? $_GET['y'] : null;
+        $choice3 = isset($_GET['z']) ? $_GET['z'] : null;
+
+        $models = new varOptiontModel();
+
+        $dataProdi1 = $models->getVarById($choice1);
+        $dataProdi2 = $models->getVarById($choice2);
+        $dataProdi3 = $models->getVarById($choice3);
+
+        $prodi1 = $dataProdi1->var_value ?? NULL;
+        $prodi2 = $dataProdi2->var_value ?? NULL;
+        $prodi3 = $dataProdi3->var_value ?? NULL;
+
+
+    error_log("data: " . print_r($dataProdi3, true));
+
+
+        include __DIR__ . '/../Views/others/page_infoRegist.php';
+    }
+    
+    
+    
+    
+
     private function getPassword($data)
 	{
 		$x = base64_encode($data);
@@ -220,4 +246,7 @@ class mainController
 	{
 		return '$2y$10$' . bin2hex(random_bytes(11));
 	}
+    
+ 
+    
 }
