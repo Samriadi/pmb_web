@@ -28,7 +28,7 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Nama Lengkap Kampus</th>
+                                        <th>Nama Lengkap Kampuss</th>
                                         <th>Nama Singkat</th>
                                         <th>Jalan</th>
                                         <th>Kota</th>
