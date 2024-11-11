@@ -12,8 +12,11 @@ class pendaftarController
 
     public function verified()
     {
+
+        $status = isset($_GET['status']) ? $_GET['status'] : null;
+
         $models = new pendaftarModel();
-        $data = $models->getVerified();
+        $data = $models->getVerified($status);
         include __DIR__ . '/../Views/others/page_verified.php';
     }
 
