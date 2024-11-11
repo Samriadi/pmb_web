@@ -23,11 +23,24 @@
                         <h6 id="filterSubtitle" class="m-0 font-weight-bold text-primary"></h6>
                     </div>
                     <div class="card-body">
+                    <div class="filter-container mb-3 d-flex align-items-center">
+                        <label for="filterStatus" class="mr-2">Filter</label>
+                        <select id="filterStatus" class="form-control w-25" onchange="applyFilters()">
+                            <option value="">Semua</option>
+                            <option value="Open">Open</option>
+                            <option value="Close">Close</option>
+                        </select>
+                    </div>
+
+
+
+                        <!-- Tabel Data -->
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Verified</th>
+                                        <th>Status Verifikasi</th>  <!-- Status Verifikasi: Verified / Unverified -->
+                                        <th>Status</th> <!-- Status: Open / Close -->
                                         <th>Nama Lengkap</th>
                                         <th>File</th>
                                         <th>Pembayaran</th>
@@ -47,29 +60,27 @@
                                     <?php
                                     $no = 1;
                                     foreach ($data as $dt) :
-                                        $isVerified = $dt->verified === "Verified";
-                                        $buttonClass = $isVerified ? 'btn-success' : 'btn-danger';
-                                        $buttonText = $isVerified ? 'Verified' : 'Unverified';
-                                        $checkboxId = $dt->member_id;
+                                        // Menentukan status verifikasi dan status Open/Close
+                                        $statusVerified = $dt->verified === "Verified" ? 'Verified' : 'Unverified';
+                                        $statusClass = ($dt->status === "Open") ? 'btn-primary' : 'btn-secondary';  // Kolom status Open / Close
                                     ?>
                                         <tr>
+                                            <!-- Status Verifikasi -->
                                             <td>
-                                                <button class="btn btn-sm <?= $buttonClass ?>" onclick="toggleVerified(<?= $dt->id ?>)">
-                                                    <?= $buttonText ?>
+                                                <button class="btn btn-sm <?= $dt->verified === 'Verified' ? 'btn-success' : 'btn-danger' ?>">
+                                                    <?= $statusVerified ?>
                                                 </button>
                                             </td>
-                                            <td><?= $dt->NamaLengkap ?></td>
+                                            
+                                            <!-- Status Open/Close -->
                                             <td>
-                                                <?php if ($dt->berkas) { ?>
-                                                    <a href="#" data-toggle="modal" data-target="#docuFileModal" data-file="<?= $dt->berkas ?>"><i class="fas fa-file-alt fa-1x"></i></a>
-                                                <?php } ?>
-                                                <?php if ($dt->photo) { ?>
-                                                    <a href="#" data-toggle="modal" data-target="#photoFileModal" data-file="<?= $dt->photo ?>"><i class="fas fa-camera fa-1x"></i></a>
-                                                <?php } ?>
-                                                <?php if ($dt->bukti_transfer) { ?>
-                                                    <a href="#" data-toggle="modal" data-target="#buktiFileModal" data-file="<?= $dt->bukti_transfer ?>"><i class="fas fa-receipt fa-1x"></i></a>
-                                                <?php } ?>
+                                                <button class="btn btn-sm <?= $dt->status === 'Open' ? 'btn-primary' : 'btn-secondary' ?>">
+                                                    <?= $dt->status ?>
+                                                </button>
                                             </td>
+                                            
+                                            <td><?= $dt->NamaLengkap ?></td>
+                                            <td> <!-- File columns go here --> </td>
                                             <td><?= $dt->invoice_id ?></td>
                                             <td>Rp. <?= number_format($dt->jumlah_tagihan, 0, ',', '.') ?></td>
                                             <td><?= $dt->nomor_va ?></td>
@@ -79,88 +90,14 @@
                                             <td><?= $dt->Prodi2 ?></td>
                                             <td><?= $dt->Prodi3 ?></td>
                                             <td><?= $dt->jenjang ?></td>
-                                            <td id="WAnumber">
+                                            <td>
                                                 <a href="https://wa.me/<?= '62' . substr($dt->WANumber, 1) ?>" target="_blank"><?= $dt->WANumber ?></a>
                                             </td>
                                             <td><?= $dt->jenis ?></td>
-
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>
-
                             </table>
-
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="docuFileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="fileModalLabel">BERKAS</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div id="imageContainer" style="display:none;">
-                                                <img id="imageFrame" src="" width="100%" height="400px">
-                                            </div>
-                                            <iframe id="docuFileFrame" src="" width="100%" height="400px"></iframe>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="modal fade" id="photoFileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="fileModalLabel">PHOTO</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div id="imageContainer" style="display:none;">
-                                                <img id="imageFrame" src="" width="100%" height="400px">
-                                            </div>
-                                            <iframe id="photoFileFrame" src="" width="100%" height="400px"></iframe>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="modal fade" id="buktiFileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="fileModalLabel">BUKTI TRANSFER</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div id="imageContainer" style="display:none;">
-                                                <img id="imageFrame" src="" width="100%" height="400px">
-                                            </div>
-                                            <iframe id="buktiFileFrame" src="" width="100%" height="400px"></iframe>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
                         </div>
                     </div>
                 </div>
@@ -257,7 +194,29 @@
                     }
                 </script>
 
+                <script>
+                    function applyFilters() {
+                       // Ambil nilai filter yang dipilih
+                        var filterStatus = document.getElementById("filterStatus").value;
 
+                        var url = 'http://localhost/admin/verified?status=' + encodeURIComponent(filterStatus);
+                        window.location.href = url;
+
+                    }
+
+                    function setFilterStatusFromURL() {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const status = urlParams.get('status'); 
+                        if (status) {
+                            document.getElementById("filterStatus").value = status;
+                        }
+                    }
+
+                    window.onload = setFilterStatusFromURL;
+                </script>
+
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                
                 <?php include '../app/Views/others/layouts/footer.php'; ?>
                 </body>
 
