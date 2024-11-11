@@ -66,8 +66,9 @@ class pendaftarModel
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function getVerified()
+    public function getVerified($statusFilter = '')
     {
+        // Membuat query dasar
         $query = "SELECT 
                         a.id,
                         a.member_id,
@@ -87,6 +88,7 @@ class pendaftarModel
                         b.WANumber,
                         b.photo,
                         c.Periode,
+                        c.status,
                         COALESCE(d1.var_value, '') AS Prodi1,
                         COALESCE(d2.var_value, '') AS Prodi2,
                         COALESCE(d3.var_value, '') AS Prodi3
@@ -101,12 +103,26 @@ class pendaftarModel
                     LEFT JOIN 
                         varoption d2 ON d2.recid = a.PilihanKedua
                     LEFT JOIN 
-                        varoption d3 ON d3.recid = a.PilihanKetiga;
-                    ";
+                        varoption d3 ON d3.recid = a.PilihanKetiga";
+        
+        // Jika ada filter status, tambahkan kondisi WHERE
+        if ($statusFilter) {
+            $query .= " WHERE c.status = :status";
+        }
+
+        // Persiapkan dan eksekusi query
         $stmt = $this->db->prepare($query);
+
+        // Bind parameter status jika ada
+        if ($statusFilter) {
+            $stmt->bindParam(':status', $statusFilter, PDO::PARAM_STR);
+        }
+
+        // Eksekusi dan kembalikan hasil
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
 
     public function getTagihan()
     {
