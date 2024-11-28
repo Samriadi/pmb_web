@@ -39,12 +39,6 @@ class loginModel
 
                 UNION
 
-                SELECT 'dosen' AS user_type, username, userpass, 'mhs' AS modul, 'dosen' AS userlevel
-                FROM $this->mhs_dosen
-                WHERE username = :username
-
-                UNION
-
                 SELECT 'mahasiswa' AS user_type, UserName, UserPass, 'mhs' AS modul, NULL AS userlevel
                 FROM $this->mhs_mahasiswa
                 WHERE username = :username
