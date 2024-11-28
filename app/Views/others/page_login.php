@@ -137,7 +137,7 @@ $login_url = $client->createAuthUrl();
                                         </div>
                                     </div>
                                 </form>
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-12">
                                         <p class="mt-4 mb-4">Or continue with</p>
                                         <div class="d-flex gap-3 flex-column">
@@ -149,7 +149,7 @@ $login_url = $client->createAuthUrl();
                                             </a>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
