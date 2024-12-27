@@ -36,9 +36,7 @@ class loginModel
                         userlevel
                   FROM $this->usrapp
                   WHERE username = :username
-
                   UNION
-
                   SELECT 'mahasiswa' AS user_type, UserName, UserPass, 'mhs' AS modul, 'mahasiswa' AS userlevel
                   FROM $this->mhs_mahasiswa
                   WHERE username = :username
