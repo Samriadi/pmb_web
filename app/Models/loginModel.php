@@ -25,7 +25,7 @@ class loginModel
 
   public function authLogin($username, $userpass)
   {
-      $query = "SELECT 'accounts' AS user_type, 
+    $query = "SELECT 'accounts' AS user_type, 
                         username, 
                         userpass, 
                         CASE 
@@ -39,7 +39,7 @@ class loginModel
 
                   UNION
 
-                  SELECT 'mahasiswa' AS user_type, UserName, UserPass, 'mhs' AS modul, NULL AS userlevel
+                  SELECT 'mahasiswa' AS user_type, UserName, UserPass, 'mhs' AS modul, 'mahasiswa' AS userlevel
                   FROM $this->mhs_mahasiswa
                   WHERE username = :username
 
