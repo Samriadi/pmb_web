@@ -29,20 +29,20 @@ class loginModel
                         username, 
                         userpass, 
                         CASE 
-                            WHEN userlevel = 'admin' THEN 'mhs' 
-                            WHEN userlevel = 'supervisor' THEN 'mhs' 
-                            ELSE 'pmb-mhs' 
+                            WHEN userlevel = 'superadmin' THEN 'pmb-mhs'
+                            WHEN userlevel = 'admin' THEN 'mhs'
+                            ELSE 'mhs'
                         END AS modul, 
                         userlevel
                   FROM $this->usrapp
                   WHERE username = :username
+
                   UNION
                   SELECT 'mahasiswa' AS user_type, UserName, UserPass, 'mhs' AS modul, 'mahasiswa' AS userlevel
                   FROM $this->mhs_mahasiswa
                   WHERE username = :username
 
                   UNION
-
                   SELECT 'staff' AS user_type, username, userpass, 'pmb' AS modul, 'staf' AS userlevel
                   FROM $this->mhs_staff
                   WHERE username = :username";
