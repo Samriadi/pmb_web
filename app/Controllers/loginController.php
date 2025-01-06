@@ -25,15 +25,15 @@ class loginController
 
     $data = $models->authLogin($username, $userpass);
 
+
     if ($data) {
+
       $_SESSION['level_loged'] = $data['userlevel'];
       $_SESSION['user_loged'] = $data['username'];
       $_SESSION['user_type'] = $data['user_type'];
       $_SESSION['user_modul'] = $data['modul'];
-      header('Content-Type: application/json');
       echo json_encode(['success' => true, 'data' => $data]);
     } else {
-      header('Content-Type: application/json');
       echo json_encode(['success' => false]);
     }
   }
