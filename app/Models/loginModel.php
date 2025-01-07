@@ -28,11 +28,7 @@ class loginModel
     $query = "SELECT 'accounts' AS user_type, 
                         username, 
                         userpass, 
-                        CASE 
-                            WHEN userlevel = 'superadmin' THEN 'pmb-mhs'
-                            WHEN userlevel = 'admin' THEN 'mhs'
-                            ELSE 'mhs'
-                        END AS modul, 
+						modul, 
                         userlevel
                   FROM $this->usrapp
                   WHERE username = :username
